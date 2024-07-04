@@ -1,0 +1,55 @@
+<div id="facetedSearch" class="facetedSearch sidebarBlock">
+    <div class="selected-facets--desktop">
+        {{> components/faceted-search/selected-facets selected}}
+    </div>
+
+    <a href="#facetedSearch-navList" role="button" class="facetedSearch-toggle toggleLink" data-collapsible>
+        <span style="display: none;" class="facetedSearch-toggle-text">
+            {{#if facets.length '>' 2}}
+            {{lang 'search.faceted.browse-by'}} {{join (pluck facets 'title') ', ' limit=2}} &amp; {{toLowerCase (lang
+            'search.faceted.more')}}
+            {{else}}
+            {{lang 'search.faceted.browse-by'}} {{join (pluck facets 'title') ', ' lastSeparator=' & '}}
+            {{/if}}
+        </span>
+        <span class="filters-toggle"></span>
+        <span class="facetedSearch-toggle-indicator">
+            <span class="toggleLink-text toggleLink-text--on">
+                {{lang 'search.faceted.hide-filters'}}
+
+                <i class="icon" aria-hidden="true">
+                    <svg>
+                        <use href="#icon-keyboard-arrow-up" />
+                    </svg>
+                </i>
+            </span>
+
+            <span class="toggleLink-text toggleLink-text--off">
+                {{lang 'search.faceted.show-filters'}}
+
+                <i class="icon" aria-hidden="true">
+                    <svg>
+                        <use href="#icon-keyboard-arrow-down" />
+                    </svg>
+                </i>
+            </span>
+        </span>
+    </a>
+
+    {{#any facets visible=true}}
+    <div id="facetedSearch-navList" class="facetedSearch-navList">
+        <div class="accordion accordion--navList">
+            <div class="accordion-block selected-facets--mobile">
+                {{> components/faceted-search/selected-facets selected}}
+            </div>
+            {{#each facets}}
+            {{#if visible}}
+            {{{dynamicComponent 'components/faceted-search/facets'}}}
+            {{/if}}
+            {{/each}}
+        </div>
+
+        <div class="blocker" style="display: none;"></div>
+    </div>
+    {{/any}}
+</div>

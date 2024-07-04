@@ -1,0 +1,19 @@
+.tc-image {
+width: auto !important;
+}
+.tc-content-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100%;
+}
+// .three-column-widget {
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: space-between;
+//     margin: 0 auto;
+//     max-width: 1200px;
+//     padding: 0 15px;
+//     width: 100%;
+// }

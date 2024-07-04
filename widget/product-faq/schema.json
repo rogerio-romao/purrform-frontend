@@ -1,0 +1,72 @@
+[
+   {
+      "type": "tab",
+      "label": "Design",
+      "sections": [
+        {
+          "label": "Faq Section",
+          "settings": [            
+            {
+             "type": "imageManager",
+             "id": "faqImage",
+             "label": "Image",                                                
+             "default": {
+               "src": "https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/faq-question.png",
+               "type": "IMAGE_MANAGER"
+           }
+          },
+          {
+           "type": "code",
+           "id": "faqTitle",
+           "label": "Faq Title",
+           "default": "Faq Title"
+        },
+            {
+             "type": "code",
+             "id": "faqalt",
+             "label": "Alt Text",
+             "default": "Question mark"
+            },
+            {
+             "type": "code",
+             "id": "faqButton",
+             "label": "Alt Text",
+             "default": "Fqa Button"
+          }
+          ]
+        }
+      ]
+    },
+   {
+         "type": "array",
+         "label": "Slides",
+         "id": "faqTab",
+         "defaultCount": 3,
+         "entryLabel": "Slide",         
+         "schema": [
+            {
+               "type":"tab",
+               "label":"Content",
+               "sections":[
+                  {
+                     "settings":[
+                        {
+                           "type": "input",
+                           "id": "faqQuestion",
+                           "label": "Question",
+                           "default": "Question"
+                        },
+                         {
+                           "type": "code",
+                           "id": "faqAnswer",
+                           "label": "Answer",
+                           "default": "Answer"
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+   

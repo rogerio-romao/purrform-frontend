@@ -1,0 +1,19 @@
+<div class="section bundle-product-section">
+    <div class="container">
+        <div class="bundle-card grid grid4-columns">
+            {{#each customerReviews}}
+            <div class="card-block">
+                {{#if bundleImageUrl.src}}
+                <img class="lazyload" data-src="{{bundleImageUrl.src}}" alt="{{bundleImageAlt}}">
+                {{/if}}
+
+                <div class="text">
+                    <h3 class="h3">{{productTitle}}</h3>
+                    <p>{{productSummary}}</p>
+                    <a class="button button--primary" href="{{productButtonUrl}}">{{productButton}}</a>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

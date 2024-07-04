@@ -1,0 +1,127 @@
+.products-carousel {
+  .productCarousel {
+    margin: auto;
+
+    .slick-arrow {
+      background-color: transparent;
+
+      &:before {
+        transform: scale(1, 2.5);
+      }
+    }
+
+    .slick-disabled {
+      opacity: 1 !important;
+      &:before {
+        opacity: 1 !important;
+      }
+    }
+
+    .slick-prev {
+      &:before {
+        color: $gold-color;
+        content: "<";
+        background-image: none;
+        /*position: relative;
+    left: 5px;*/
+      }
+    }
+    .slick-next {
+      &:before {
+        color: $gold-color;
+        content: ">";
+        background-image: none;
+      }
+    }
+    .slick-list {
+      .productCarousel-slide {
+        .card {
+          .card-body {
+            grid-template-rows: auto 95px auto;
+            .form-increment {
+              width: 100% !important;
+              max-width: 100% !important;
+              .form-increment {
+                margin: auto;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.similar-by-views {
+  margin-bottom: 4rem;
+  overflow: visible;
+  .productCarousel {
+    margin: auto;
+
+    .slick-arrow {
+      background-color: transparent;
+      @media only screen and (min-width: 1200px) {
+        // background-color: red;
+      }
+      &:before {
+        transform: scale(1, 2.5);
+      }
+    }
+
+    .slick-disabled {
+      opacity: 1 !important;
+      &:before {
+        opacity: 1 !important;
+      }
+    }
+
+    .slick-prev {
+      &:before {
+        color: $gold-color;
+        content: "<";
+        background-image: none;
+        /*position: relative;
+    left: 5px;*/
+      }
+    }
+    .slick-next {
+      &:before {
+        color: $gold-color;
+        content: ">";
+        background-image: none;
+      }
+    }
+    .slick-list {
+      margin-bottom: 2rem;
+      .productCarousel-slide {
+        .card {
+          .card-body {
+            grid-template-rows: auto 95px auto;
+            .add-to-cart{
+              padding: 1rem 0.5rem;
+              @include breakpoint("medium") {
+                padding: 1rem 1.5rem;
+              }
+              }
+            .form-increment {
+              //   display: none;
+              // margin-top: 6px;
+              width: 100% !important;
+              max-width: 100% !important;
+              .form-increment {
+                margin: auto;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .slick-dots {
+    margin-bottom: 10px;
+    li button {
+      border: 1px solid grey;
+    }
+  }
+}

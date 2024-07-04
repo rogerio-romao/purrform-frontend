@@ -1,0 +1,264 @@
+{{#partial "page"}} 
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+{{{region name="page_builder_content__above-toggler"}}}
+
+{{> components/custom/calculator-toggler}}
+{{> components/custom/calculator-toggler-mobile}}
+
+{{{region name="page_builder_content__below-toggler"}}}
+<!--<div class="dry-matter-basis-calculator-page">
+
+  <div class="calculator-heading">
+    <h1>
+      How much protein are you currently feeding your cat?
+    </h1>
+    <p>Use our calculator below to compare how much protein Purrform provides versus other cat foods</p>
+    
+    </div>
+
+  {{> components/custom/calculator-toggler}}
+  {{> components/custom/calculator-toggler-mobile}}
+
+  <div id="dry-matter-container">
+    <div class="dmc1">
+      <h1>Dry Matter Basis Calculator</h1>
+      <p>
+        This calculator will help you find out how much protein your cat is
+        really eating & compare it to the amount in other cat foods. As cats are
+        carnivores, it is vital that they are fed a high protein diet to have a
+        long and healthy life.
+      </p>
+      <p>
+        Dry Matter Basis (DMB or DM) removes the water from the equation. When
+        foods are considered on a dry matter basis, they can be directly
+        compared to one another. In other words, you can compare a canned food
+        with 78% water, to a dry food that contains 11%, or compare two wet
+        foods with different moisture contents. See the example below:
+      </p>
+      <p>
+        At first glance, it appears that dry food has more protein than canned
+        food. However, the canned food on a dry matter basis, contains 45%
+        protein, as opposed to the dry food, which contains only 40% protein,
+        when calculated.
+      </p>
+      <p>
+        The calculator will give you the true content of protein for any of our
+        products once the moisture has been extracted. You will also be able to
+        do some comparisons with commercial wet and dry foods and other raw
+        foods.
+      </p>
+    </div>
+    <div class="dmc2">
+      <h1>
+        Input the <span class="green-col">% of protein</span> and the
+        <span class="green-col">% moisture</span> of the food you want to
+        calculate:
+      </h1>-->
+
+
+      <!--<div class="percent-calculator">
+<p><strong>% Protein</strong></p>
+<p><strong>% Moisture</strong></p>
+
+      </div>-->
+      
+      
+      <!--<div class="percent-calculator">
+        <div>
+          <label for="ingredient"><strong>% Protein</strong></label>
+          <input
+            id="ingredient"
+            style="
+              border-radius: 32px;
+              border: 1px solid #dbdada;
+              padding-left: 10px;
+              color: #000000;
+              font-weight: bold;
+              font-size: 18px;
+              margin-right: 10px;
+
+              height: 3rem;
+            "
+          />
+        </div>
+        <div>
+          <label for="moisture"><strong>% Moisture</strong></label>
+          <input
+            id="moisture"
+            style="
+              border-radius: 32px;
+              border: 1px solid #dbdada;
+              padding-left: 10px;
+              color: #000000;
+              font-weight: bold;
+              font-size: 18px;
+              margin-right: 10px;
+
+              height: 3rem;
+            "
+          />
+        </div>
+        <div>
+          <button
+            id="calcBtn"
+            style="
+              height: 3rem;
+              border-color: #687d6a;
+              border-radius: 40px;
+              background-color: #687d6a;
+              text-align: center;
+            "
+          >
+            <p
+              style="
+                color: #fff;
+                font-size: 18px;
+                font-weight: bold;
+                margin: auto;
+                padding-bottom: 3px;
+              "
+            >
+              Calculate
+            </p>
+          </button>
+        </div>
+      </div>
+
+      <div id="dmb-test">
+        <h3>Dry Matter Basis</h3>
+        <p id="dmb-protein"></p>
+        <p id="dmb-moisure"></p>
+        <p id="dmb-dmb"></p>
+      </div>
+
+      <div id="DMBWindow"></div>
+      <style>
+        @media only screen and (max-width: 640px) {
+          .percent-calculator input,
+          .percent-calculator button {
+            width: 100% !important;
+            margin-bottom: 10px;
+          }
+        }
+      </style>
+      <script>
+        let closeWindow = () => {
+          let DMBWindow = document.getElementById("DMBWindow");
+          DMBWindow.innerHTML = ``;
+        };
+
+        let showCalc = () => {
+          //alert("tester")
+          let calcBtn = document.getElementById("calcBtn");
+          let calcInfo = document.getElementById("dmb-test");
+          //let dmbProtein = document.getElementById('dmb-protein');
+          //let dmbMoisure = document.getElementById('dmb-moisure');
+          //let dmbDmb = document.getElementById('dmb-dmb');
+
+          let ingredientPercent = document.getElementById("ingredient").value;
+          let moisturePercent = document.getElementById("moisture").value;
+          let moisture = 100 - moisturePercent;
+
+          let DMBcalc = ((ingredientPercent / moisture) * 100).toFixed(2);
+
+          calcInfo.style.display = "block";
+
+          document.getElementById("dmb-protein").innerHTML =
+            "% Protein = " + `${ingredientPercent}`;
+          document.getElementById("dmb-moisure").innerHTML =
+            "% Moisture = " + `${moisture}`;
+          document.getElementById("dmb-dmb").innerHTML =
+            "DMB = " + `${DMBcalc}` + "%";
+        };
+
+        /*  let calcPercent = () => {
+           let ingredientPercent = document.getElementById('ingredient').value
+           let moisturePercent = document.getElementById('moisture').value
+           let moisture = (100 - moisturePercent)
+           let calcBtn = document.getElementById('calcBtn')
+             let DMBcalc = (((ingredientPercent / moisture) * 100).toFixed(2))
+           let DMBWindow = document.getElementById('DMBWindow')
+             DMBWindow.innerHTML += `
+           <div onclick='closeWindow()' style='width: 100vw; position: fixed; top: 0; left: 0; height: 100vh; z-index: 98; opacity: 50%; background-color: #000000'></div>
+                 <div class="calculate_popup" style='border: 1px solid #00000000; border-radius: 45px; z-index: 1000; width: 500px; height: 350px; position: fixed; top: calc((100% - 350px) / 2); left: calc((100% - 500px) / 2); background-color: #687D6A;'>
+                   <p style='color: #fff; font-size: 24px; font-weight: bold; position: relative; top: 60px; left: 10.5%;'>
+                       Dry Matter Basis
+                   </p>
+                   <p style='color: #fff; font-size: 24px; font-weight: bold; position: relative; top: 50px; left: 10%;'>
+                         %Protein = ${ingredientPercent}
+                   </p>
+                   <p style='color: #fff; font-size: 24px; font-weight: bold; position: relative; top: 40px; left: 10%;'>
+                         %Moisture = ${moisture}
+                   </p>
+                   <p style='color: #fff; font-size: 24px; font-weight: bold; position: relative; top: 35px; left: 10%;'>
+                         DMB = ${DMBcalc}%
+                   </p>
+                   <div class="calculate_close" onclick='closeWindow()' style='background-color: #00000000; width: 25px; height: 25px; position: relative; right:0;bottom:130px;left:460px;cursor: pointer;'>
+                         <img src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/product_images/uploaded_images/1024px-cross-icon-white-.svg.png' style='width: 100%; height: 100%;'/>
+                   </div>
+                 </div> 
+           `
+           } */
+        //  calcBtn.addEventListener('click', calcPercent)
+        calcBtn.addEventListener("click", showCalc);
+      </script>
+    </div>
+  </div>
+
+<div id="dry-matter-bottom">
+
+  <div class="dry-matter-info-table">
+<div>
+  <h3>Dry Food</h3>
+  <p>Protein = 36%</p>
+  <p> Moisture = 11%</p>
+  <p> 100% (dry and wet) - 11% (wet) = 89% dry</p>
+  <p> (36% Protein / 89%dry) x 100</p>
+  <p><strong>= 40% Protein DMB in dry food</strong></p>
+</div>
+<div>
+  <h3>Canned Food</h3>
+  <p>Protein = 10%</p>
+  <p> Moisture = 78%</p>
+  <p> 100% (dry and wet) - 78% (wet) = 22% dry</p>
+  <p>(10% Protein / 22%dry) x 100</p>
+  <p><strong>= 45% Protein DMB in dry food</strong></p>
+</div>
+<div>
+  <h3>Calculating the Dry Matter Basis</h3>
+ <table>
+  <thead >
+    <tr>
+        <th>Dry Food</th>
+        <th>Canned Food</th>
+       
+    </tr>
+
+    <tr>
+      <td>Protein 36%</td>
+    
+     <td>Protein 10%</td>
+    </tr>
+
+    <tr>
+      
+      <td>Fat 18%</td>
+      <td>Fat 5%</td>
+    </tr>
+
+    <tr>
+    <td>Moisture 11%</td>
+    <td>Moisture 78%</td>
+  </tr>
+
+</thead>
+ </table>
+
+</div>
+</div>
+
+</div>
+
+</div>-->
+ {{/partial}} {{> layout/base}}

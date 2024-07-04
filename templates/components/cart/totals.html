@@ -1,0 +1,214 @@
+
+ <div data-cart-totals class="cart-free-delivery" style="border: none;">
+    <!-- Hidden for now
+    <p>
+        {{#if cart.grand_total.value '<' 600  }}
+      <strong>
+        {{lang 'cart.checkout.spend_more'}}{{subtract 600 cart.grand_total.value}}
+        {{lang 'cart.checkout.free_delivery'}}
+      </strong>
+      {{else}}
+      <strong>Free Shipping!</strong>
+      {{/if}}
+    </p>
+   <p style="background-color: red;"><span style="background-color: blue; width: {{cart.grand_total.value}} %;"></span> </p>-->
+  </div> 
+<br>
+  <div class="mobile-back-button">
+    <a class="button button--secondary" href="/all/">
+      <i class="icon" aria-hidden="true">
+        <svg>
+          <use href="#icon-chevron-left"></use>
+        </svg>
+      </i>
+      {{lang 'cart.checkout.continue_shopping'}}
+    </a>
+  </div>
+
+<ul class="cart-totals">
+    <li class="cart-total">
+        <div class="cart-total-label">
+            <strong>{{lang 'cart.checkout.subtotal'}}:</strong>
+        </div>
+        <div class="cart-total-value">
+            {{#or customer (unless settings.hide_price_from_guests)}}
+                <span>{{cart.sub_total.formatted}}</span>
+            {{else}}
+                {{> components/common/login-for-pricing}}
+            {{/or}}
+        </div>
+    </li>
+    {{#if cart.gift_wrapping_cost.value}}
+        <li class="cart-total">
+            <div class="cart-total-label">
+                <strong>{{lang 'cart.checkout.gift_wrapping'}}:</strong>
+            </div>
+            <div class="cart-total-value">
+                <span>{{cart.gift_wrapping_cost.formatted}}</span>
+            </div>
+        </li>
+    {{/if}}
+    {{#if cart.shipping_handling.show_estimator}}
+        <li class="cart-total cart-total-shipping">
+            <div class="cart-total-label">
+                <strong>{{lang 'cart.checkout.shipping'}}: </strong>
+
+                {{#if shipping_cost}}
+    <div class="cart-total-value">
+        <div class="subtotal shipping-estimate-show">
+            <a href="#" class="shipping-estimate-value">{{shipping_cost.formatted}}</a>
+        </div>
+    </div>
+{{else}}
+    <div class="cart-total-value">
+        <button data-collapsible="add-shipping" class="shipping-estimate-show" aria-labelledby="estimator-add">
+            <span class="shipping-estimate-show__btn-name">{{lang 'cart.shipping_estimator.add_info'}}</span>
+            <span id="estimator-add" class="u-hidden">{{lang 'cart.shipping_estimator.add_info'}}</span>
+            <span id="estimator-close" class="u-hidden">{{lang 'cart.shipping_estimator.cancel'}}</span>
+        </button>
+    </div>
+{{/if}}
+            </div>
+            {{> components/cart/shipping-estimator cart.shipping_handling}}
+        </li>
+    {{/if}}
+    {{#each cart.taxes}}
+        {{#unless included}}
+            <li class="cart-total">
+                <div class="cart-total-label">
+                    <strong>{{name}}:</strong>
+                </div>
+                <div class="cart-total-value">
+                    <span>{{cost.formatted}}</span>
+                </div>
+            </li>
+        {{/unless}}
+    {{/each}}
+    {{#if cart.discount }}
+        <li class="cart-total">
+            <div class="cart-total-label">
+                <strong>{{lang 'cart.discount'}}:</strong>
+            </div>
+            <div class="cart-total-value">
+                {{cart.discount.formatted}}
+            </div>
+        </li>
+    {{/if}}
+    {{#if cart.coupons}}
+        {{#each cart.coupons}}
+            <li class="cart-total">
+                <div class="cart-total-label">
+                    <strong>{{lang 'cart.coupons.code_label' code=code}}</strong>
+                    <div>
+                        <a href="{{remove_url}}">{{lang 'cart.coupons.remove'}}</a>
+                    </div>
+                </div>
+                <div class="cart-total-value">
+                    <span>{{discount.formatted}}</span>
+                </div>
+            </li>
+        {{/each}}
+    {{else}}
+        <li class="cart-total cart-total-coupon">
+            <div class="cart-total-label">
+                <strong>{{lang 'cart.coupon_code'}}:</strong>
+                <button class="coupon-code-add">{{lang 'cart.coupons.add_coupon'}}</button>
+
+                <button class="coupon-code-cancel" style="display: none;">{{lang 'cart.coupons.cancel'}}</button>
+            </div>
+            {{> components/cart/coupon-input}}
+        </li>
+    {{/if}}
+    {{#if settings.gift_certificates_enabled}}
+        {{#each cart.gift_certificates}}
+            <li class="cart-total">
+                <div class="cart-total-label">
+                    <strong>{{lang 'cart.gift_certificates.code_label' code=code}}</strong>
+                    <span>
+                        {{remaining.formatted}} | <a href="{{remove_url}}">{{lang 'cart.gift_certificates.remove'}}</a>
+                    </span>
+                </div>
+                <div class="cart-total-value">
+                    {{used.formatted}}
+                </div>
+            </li>
+        {{/each}}
+        <li class="cart-total cart-total-gift-certificate">
+            <div class="cart-total-label">
+                <strong>{{lang 'cart.gift_certificates.gift_certificate'}}:</strong>
+                
+    <button class="gift-certificate-add">{{lang 'cart.gift_certificates.gift_certificate'}}</button>
+
+    <button class="gift-certificate-cancel" style="display: none;">{{lang 'cart.coupons.cancel'}}</button>
+            </div>
+            {{> components/cart/gift-certificate-input}}
+        </li>
+    {{/if}}
+    <li class="cart-total">
+        <div class="cart-total-label cart-grandTotal-label">
+            <strong>{{lang 'cart.checkout.grand_total'}}:</strong>
+        </div>
+        <div class="cart-total-value cart-total-grandTotal">
+            {{#or customer (unless settings.hide_price_from_guests)}}
+                <span>{{cart.grand_total.formatted}}</span>
+            {{else}}
+                {{> components/common/login-for-pricing}}
+            {{/or}}
+        </div>
+    </li>
+    {{#each cart.taxes}}
+        {{#if included}}
+            <li class="cart-total">
+                <div class="cart-total-label">
+                    <strong>{{concat name (lang 'cart.included_in_total')}}:</strong>
+                </div>
+                <div class="cart-total-value">
+                    <span>{{cost.formatted}}</span>
+                </div>
+            </li>
+        {{/if}}
+    {{/each}}
+    <li class="cart-total datepicker">
+       
+        <p style="font-size:16px; text-align: center;">
+            <i>*If your DPD notification states that your parcel has been delivered and you are unable to locate it, please let us by <strong>4.00pm latest</strong>, on the delivery day.
+            This will enable us to resolve any issues on the day.
+            <br>
+            You will always receive a DPD notification, with photograph, confirming delivery.            
+            <br>
+            Many thanks for your co-operation.
+            <br>
+            <strong>*Please refer to our full T&C</strong>
+        </i><!-- <a style="color: #687D6A;" href="/deliveries/">Click here</a> to view excluded postcodes.--></p>
+        <p style="font-size:16px; text-align: center;"><i>I agree </i><input type="checkbox" name="agree" class="validate-cart"></p>
+    </li>
+</ul>
+
+<style>
+ 
+
+    /* DATE PICKER */
+
+ .ui-datepicker, .ui-datepicker table, .ui-datepicker tr, .ui-datepicker td, .ui-datepicker th {margin: 0;padding: 0;border: none;border-spacing: 0;}
+.ui-datepicker {box-shadow: 0 5px 12px rgb(0 0 0 / 15%);display: none;width: 100%;padding:15px;cursor: default;text-transform: uppercase;font-family: Filson-Soft;font-size: 24px;background: #fff;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;border: solid 1px #bd9b60;}
+.ui-datepicker .ui-datepicker-header {position: relative;border: 1px solid #bd9b60;background:#bd9b60!important;font-size:1.2rem;}
+.ui-datepicker-title {text-align: center;font-family: Filson-Soft;}
+.ui-datepicker-month {position: relative;padding-right: 15px;color:  #fff;font-family: Filson-Soft;}
+/* .ui-datepicker-current-day .ui-state-default {background-color:#687d6a;color: #bd9b60;} */
+.ui-datepicker-year {padding-left: 8px;color:  #fff;font-family: Filson-Soft;}
+.ui-datepicker-month:before {display: block;position: absolute;top: 5px;right: 0;width: 5px;height: 5px;content: '';background: #bd9b60;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+.ui-datepicker-prev, .ui-datepicker-next {position: absolute;top:4px!important;padding: 5px;cursor: pointer;}
+.ui-datepicker-prev {left: 0;padding-left: 0;}
+.ui-datepicker-next {right: 0;padding-right: 0;}
+.ui-state-hover {background:rgba(255,255,255,.1)!important;border:0!important;}
+.ui-datepicker-calendar th {padding-top: 15px;padding-bottom: 10px;text-align: center;font-weight: normal;color: #a8a8a8;font-size:1rem;}
+.ui-datepicker-calendar td {padding: 2px 2px;text-align: center;line-height: 26px;}
+.ui-datepicker-calendar .ui-state-default {display: block;width:100%;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;outline: none;text-decoration: none;color: #000;border: 1px solid transparent;}
+.ui-datepicker-calendar .ui-state-active {border-color:#bd9b60!important;background-color:#bd9b60!important;}
+.ui-datepicker-other-month .ui-state-default {color: #ccc;}
+.ui-datepicker-other-month {opacity: 0!important}
+.ui-datepicker table {margin: 0 auto;}
+.ui-datepicker-week-end .ui-state-default {background-color:#bd9b60!important;border:1px solid #bd9b60!important}
+.ui-widget.ui-widget-content {border:1px solid #fff!important;max-width:340px;-webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {text-align:center;}
+</style>

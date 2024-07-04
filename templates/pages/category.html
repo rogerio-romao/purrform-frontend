@@ -1,0 +1,95 @@
+---
+category:
+    shop_by_price: true
+    products:
+        limit: {{theme_settings.categorypage_products_per_page}}
+---
+{{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+{{#if category.image}}
+    {{> components/common/responsive-img
+        image=category.image
+        fallback_size=theme_settings.zoom_size
+        lazyload=theme_settings.lazyload_mode
+        class="category-header-image"
+    }}
+{{/if}}
+
+<div class="category-description">
+  <div class="d-flex flex-reverse">
+    <div class="col4 d-flex align-justify-end">
+      <img
+        class="lazyload"
+        data-src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/adult-cat.png"
+        alt=""
+      />
+    </div>
+    <div class="col8">
+      {{#unless theme_settings.hide_category_page_heading }}
+      <h1 class="page-heading">{{category.name}}</h1>
+      {{{region name="category_below_header"}}} {{/unless}}
+      <div id="cat-description-box" class="">
+        {{#if category.description}} {{{category.description}}} {{else}}
+        <p>
+          Our adult cat food are for cats above 9 months old and come in a
+          variety of flavours. They contain only premium cuts of human grade
+          meat, minced with bone and offal. The mince is a courser texture then
+          our kitten foods and contain slightly larger pieces of bone, which aid
+          in grinding and cleaning the teeth. The 450g tubs and 70g pouches are
+          complete foods so provide all the protein, nutrients, minerals and
+          amino acids, including taurine that your cat needs on a daily basis.
+          Our 450g tubs are ideal for multi cat households, whereas our 70g
+          pouches are perfect for single cat households and easy to store and
+          serve.
+        </p>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="page">
+    {{#if category.faceted_search_enabled}}
+        <aside class="page-sidebar" id="faceted-search-container">
+            {{> components/category/sidebar}}
+        </aside>
+    {{else if category.subcategories}}
+        <aside class="page-sidebar" id="faceted-search-container">
+            {{> components/category/sidebar}}
+        </aside>
+    {{else if category.shop_by_price}}
+        {{#if theme_settings.shop_by_price_visibility}}
+             <aside class="page-sidebar" id="faceted-search-container">
+                {{> components/category/sidebar}}
+            </aside>
+        {{/if}}
+    {{/if}}
+
+    <div class="page-content" id="product-listing-container">
+        {{> components/category/product-listing}}
+        {{{region name="category_below_content"}}}
+    </div>
+</div>
+
+{{/partial}}
+{{> layout/base}}
+
+<script>
+  const categoryToggle = document.getElementById("category-toggle");
+  const categoryDescript = document.getElementById("cat-description-box");
+  const catToggle = () => {
+    categoryDescript.classList.toggle("open");
+  };
+</script>

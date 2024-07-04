@@ -1,0 +1,91 @@
+  
+<style>      
+        #bundle-product-{{_.id}} {
+            {{#if color}}color: {{color}};{{/if}}
+            {{#if textImageSectionBackground_color}} background: {{textImageSectionBackground_color}};          {{/if}}  
+            {{#if text_align.horizontal}}text-align: {{text_align.horizontal}};{{/if}}
+            {{#if textImageSectionPadding.top.value}}padding-top: {{textImageSectionPadding.top.value}}{{textImageSectionPadding.top.type}};{{/if}}
+            {{#if textImageSectionPadding.right.value}}padding-right: {{textImageSectionPadding.right.value}}{{textImageSectionPadding.right.type}};{{/if}}
+            {{#if textImageSectionPadding.bottom.value}}padding-bottom: {{textImageSectionPadding.bottom.value}}{{textImageSectionPadding.bottom.type}};{{/if}}
+            {{#if textImageSectionPadding.left.value}}padding-left: {{textImageSectionPadding.left.value}}{{textImageSectionPadding.left.type}};            {{/if}}
+        }
+        #product-info-{{_.id}} {
+            display: {{blockDisplay}};
+            flex-direction: {{blockDisplaydirection}};
+            @media only screen and (min-width: 551px) {
+            padding-top: {{contentPadding.top.value}}{{contentPadding.top.type}};
+            padding-right: {{contentPadding.right.value}}{{contentPadding.right.type}};
+            padding-bottom: {{contentPadding.bottom.value}}{{contentPadding.bottom.type}};
+            padding-left: {{contentPadding.left.value}}{{contentPadding.left.type}};        
+            }
+            {{#if contentMargin.top.value}}margin-top: {{contentMargin.top.value}}{{contentMargin.top.type}};{{/if}}
+            margin-right: {{contentMargin.right.value}}{{contentMargin.right.type}};
+            margin-bottom: {{contentMargin.bottom.value}}{{contentMargin.bottom.type}};
+            margin-left: {{contentMargin.left.value}}{{contentMargin.left.type}};            
+            {{#if contentBackground_color}} background: {{contentBackground_color}};      {{/if}}
+            border-top-left-radius: {{contentRadius.top.value}}{{contentRadius.top.type}};        
+            border-top-right-radius: {{contentRadius.right.value}}{{contentRadius.right.type}};        
+            border-bottom-left-radius: {{contentRadius.bottom.value}}{{contentRadius.bottom.type}};        
+            border-bottom-right-radius: {{contentRadius.left.value}}{{contentRadius.left.type}};        
+            
+        }
+        #page-heading-{{_.id}} {
+           color: {{textImageHeadingColor}}; 
+           text-align: {{text_align.horizontal}} !important;
+        }
+        #textBlock-{{_.id}} p, #textBlock-{{_.id}} li {
+            color: {{textImagetextColor}};
+        }
+        .textButton {
+            margin-top: 1rem;
+            display: inline-block;
+        }
+    </style>
+<div class="section {{#if background_Image}} imageBg {{else}} bundle-product-section {{/if}}" id='bundle-product-{{_.id}}'>
+    {{#if background_Image}}
+    {{#if contentimageUrl.src}}
+    <img class="lazyload imageOver" alt="" id="contentImage" data-desktop-src="{{contentimageUrl.src}}" data-mobile-src="{{contentimageUrlmobile.src}}">   
+    <span class="overlay"></span>
+    {{/if}}
+    {{/if}}
+    
+
+    <div class="container {{#if background_Image}}textOver d-flex align-middle{{/if}}">
+        {{#if text_Image}}
+        <div class="product-info {{#if text_Image}}d-flex {{displayPosition}}{{/if}}" id="product-info-{{_.id}}">
+            <div class="col{{blockImage}} image">
+                {{#if contentimageUrl.src}}
+                <img class="lazyload" data-src="{{contentimageUrl.src}}" alt="{{contentimageAlt}}">
+                {{/if}}
+
+            </div>
+            <div class="col{{blockText}}">
+                {{/if}}
+                <div class="text">
+                  
+                    <{{{headingTag}}}  class="page-heading" id="page-heading-{{_.id}}">{{textImageHeading}}</{{{headingTag}}}>
+                    {{#if infoSummary}}
+                    <div class="textBlock" id="textBlock-{{_.id}}">
+                        {{{infoSummary}}}
+                    </div>
+                    {{/if}}
+
+                    {{#if blockButton}}
+                    <div class="textButton">
+                        <a class="button {{buttonOption}}" href="{{blockButtonUrl}}">{{blockButton}}</a>
+                        {{#if blockButton2}}
+                        <a class="button {{buttonOption}}" href="{{blockButtonUrl2}}">{{blockButton2}}</a>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+
+                </div>
+
+                {{#if text_Image}}
+            </div>
+        </div>
+
+
+    </div>
+    {{/if}}
+</div>

@@ -1,0 +1,8 @@
+{{#each product.custom_fields}}
+    {{#or (if name '==' 'MEAL') (if name '==' 'CALORIE') (if name '==' 'QUANTITY') }}
+    <dt class="productView-info-name">{{name}}:</dt>
+    <dd class="productView-info-value">{{{value}}}</dd>
+{{/or}}
+
+{{/each}}
+

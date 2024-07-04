@@ -1,0 +1,20 @@
+{
+  "faqImage": " ",
+  "faqTitle": "Faq Title",
+  "faqalt": "Question mark",
+  "faqButton": "Fqa Button",
+  "faqTab": [
+    {
+      "faqQuestion": "Question",
+      "faqAnswer": "Answer"
+    },
+    {
+      "faqQuestion": "Question",
+      "faqAnswer": "Answer"
+    },
+    {
+      "faqQuestion": "Question",
+      "faqAnswer": "Answer"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+.product-faq {
+ background-color: $nav-hover-text;   
+ padding: 2rem 0;
+ img {
+    margin-bottom: 3rem;
+ }
+ h2 {
+    color: $white;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-size: 24px;
+    @include breakpoint("medium") {
+    font-size: 32px;
+    }
+
+ }
+ .col8 {
+    padding-bottom: 2rem;
+    @include breakpoint("medium") {
+    padding-bottom: 0;
+    }
+ }
+ .col4 {
+    text-align: center;
+    padding-right: .75rem;
+    @include breakpoint("medium") {
+    text-align: left;
+    padding-right: 30px;
+    }
+}
+ .block {
+    .heading {
+        color: $white;
+        cursor: pointer;
+        padding: 1rem 0;
+        font-size: 20px;
+        @include breakpoint("medium") {
+        font-size: 24px;
+        }
+        margin: 0;
+        font-weight: 700;
+        position: relative;
+        border-bottom: 2px solid $secondary-color ;
+        &::after {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            margin-top: -10px;
+            content: '';
+            background: url(../img/plus.svg) center no-repeat;
+            width: 21px;
+            height: 21px;
+            background-size: cover;
+        }
+        &.active {
+            color: $secondary-color;
+            border-color: 2px solid #879D7E;
+            &:after {
+                background: url(../img/minus.svg) center no-repeat;
+                width: 21px;
+                height: 21px;
+            }
+        }
+        
+    }
+    .contents {
+        color: white;
+        padding: 1rem 0;
+        display: none;
+        p {
+            font-size: 18px;
+        }
+    }
+   
+ }
+}

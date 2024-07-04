@@ -1,0 +1,133 @@
+<div id="add-to-cart-wrapper" class="add-to-cart-wrapper" {{#unless product.can_purchase}}style="display: none"{{/unless}}>
+    {{#if product.show_quantity_input}}
+       
+ 
+{{#if customer.customer_group_name '===' 'Trade'}}
+    
+<div class="purchase-control form-field form-field--increments">
+    <div class="form-increment" data-quantity-change>
+        <span onclick="this.parentNode.querySelector('#qty').stepDown()" class="button button--icon">
+            <span class="is-srOnly">{{lang 'products.quantity_decrease' name=product.title}}</span>
+            <span class="icon"> - </span>
+        </span>
+        <input class="form-input form-input--incrementTotal pid_{{product.id}}"
+               id="qty"
+               name="qty[]"
+               type="number"
+               value="{{#filter product.custom_fields 'TRADE_MIN' property='name' }}{{value}}{{else}}1{{/filter}}"
+               data-quantity-min="{{product.min_purchase_quantity}}"
+               data-quantity-max="{{product.max_purchase_quantity}}"
+               onkeydown="return {{#gt product.min_purchase_quantity  '5'}} false {{else}} true {{/gt}}" 
+               min="{{#filter product.custom_fields 'TRADE_MIN' property='name' }}{{value}}{{else}}1{{/filter}}"
+               max="{{#filter product.custom_fields 'TRADE_MAX' property='name' }}{{value}}{{/filter}}"
+               step="{{#filter product.custom_fields 'TRADE_MIN' property='name' }}{{value}}{{else}}1{{/filter}}"
+               pattern="[0-9]*"
+               aria-live="polite">
+       <span onclick="this.parentNode.querySelector('#qty').stepUp()" class="button button--icon"><span class="is-srOnly">{{lang 'products.quantity_increase' name=product.title}}</span>
+       <span class="icon"> + </span></span>
+    </div>
+</div>
+
+{{else if customer.customer_group_name '===' 'Breeder'}}
+   
+<div class="purchase-control form-field form-field--increments">
+    <div class="form-increment" data-quantity-change>
+        <span onclick="this.parentNode.querySelector('#qty').stepDown()" class="button button--icon"> <span class="is-srOnly">{{lang 'products.quantity_decrease' name=product.title}}</span>
+        <span class="icon"> - </span>
+    </span>
+        <input class="form-input form-input--incrementTotal pid_{{product.id}}"
+               id="qty"
+               name="qty[]"
+               type="number"
+               value="{{#filter product.custom_fields 'BREEDER_MIN' property='name' }}{{value}}{{else}}1{{/filter}}"
+               data-quantity-min="{{product.min_purchase_quantity}}"
+               data-quantity-max="{{product.max_purchase_quantity}}"
+               onkeydown="return {{#gt product.min_purchase_quantity  '5'}} false {{else}} true {{/gt}}" 
+               min="{{#filter product.custom_fields 'BREEDER_MIN' property='name' }}{{value}}{{else}}1{{/filter}}"
+               max="{{#if product.max_purchase_quantity}}{{product.max_purchase_quantity}}{{/if}}"
+               step="{{#filter product.custom_fields 'BREEDER_MIN' property='name' }}{{value}}{{else}}1{{/filter}}"
+               pattern="[0-9]*"
+               aria-live="polite">
+       <span onclick="this.parentNode.querySelector('#qty').stepUp()" class="button button--icon"><span class="is-srOnly">{{lang 'products.quantity_increase' name=product.title}}</span>
+       <span class="icon"> + </span></span>
+    </div>
+</div>
+
+{{else}}
+
+<div style="border: 1px solid transparent;" class="purchase-control form-field form-field--increments">
+    <div   class="form-increment" data-quantity-change>
+        <span onclick="this.parentNode.querySelector('#qty').stepDown()" class="button button--icon"> <span class="is-srOnly">{{lang 'products.quantity_decrease' name=product.title}}</span>
+        <span class="icon"> - </span></span>
+        <input class="form-input form-input--incrementTotal pid_{{product.id}} "
+               id="qty"
+               name="qty[]"
+               type="number"
+               value="{{#filter product.custom_fields 'PERSONAL_MIN' property='name' }}{{value}}{{else}}1{{/filter}}"
+               data-quantity-min="{{product.min_purchase_quantity}}"
+               data-quantity-max="{{product.max_purchase_quantity}}"
+               onkeydown="return {{#gt product.min_purchase_quantity  '5'}} false {{else}} true {{/gt}}" 
+               min="{{#filter product.custom_fields 'PERSONAL_MIN' property='name' }}{{value}}{{else}}1{{/filter}}"
+               max="{{#if product.max_purchase_quantity}}{{product.max_purchase_quantity}}{{/if}}"
+               step="{{#filter product.custom_fields 'PERSONAL_MIN' property='name' }}{{value}}{{else}}1{{/filter}}"
+               pattern="[0-9]*"
+               aria-live="polite">
+       <span onclick="this.parentNode.querySelector('#qty').stepUp()" class="button button--icon"> <span class="is-srOnly">{{lang 'products.quantity_increase' name=product.title}}</span>
+       <span class="icon"> + </span></span>
+    </div>
+</div>
+
+{{/if}}
+
+    {{/if}}
+
+
+    {{#or customer (unless settings.hide_price_from_guests)}}
+        <div class="purchase-control add-to-cart-buttons">
+            <div class="form-action">
+                <input
+                        id="form-action-addToCart"
+                        data-wait-message="{{lang 'products.adding_to_cart'}}"
+                        class="button button--primary"
+                        type="submit"
+                        value="{{#if product.pre_order}}{{lang 'products.pre_order'}}{{else}}{{lang 'products.add_to_cart_pdp'}}{{/if}}"
+                >
+                <span class="product-status-message aria-description--hidden">{{lang 'products.adding_to_cart'}} {{lang 'category.add_cart_announcement'}}</span>
+            </div>
+            {{#if this.with_wallet_buttons}}
+                <div class="add-to-cart-wallet-buttons" data-add-to-cart-wallet-buttons>
+                    {{> components/common/wallet-buttons}}
+                </div>
+            {{/if}}
+        </div>
+    {{/or}}
+</div>
+
+
+ 
+ 
+{{#if customer}}
+<!-- <script>
+    $(function(){
+    var pro_id = $('#data-cart-item-id').html();
+    return false;
+    $.ajax({
+        type: 'GET',
+        url:fd_api_url+'/validate_product/?store_hash={{settings.store_hash}}&type=sku_min&group_id={{customer_group_id}}&pid={{product.id}},',
+        async: false,
+        success:function(data){
+           console.log("data"+JSON.stringify(data));
+           $(data.data).each(function(i,val){
+               pid = parseInt(val.id);
+               min_val = parseInt(val.val);
+               $(".pid_"+pid).val(min_val);
+               $(".pid_"+pid).attr('data-quantity-min-error','The minimum purchasable quantity is '+min_val);
+               $(".pid_"+pid).attr('min',min_val);
+               
+               //console.log("labe"+val.label+", val : "+val.val);
+           });
+        }
+    });
+});
+</script> -->
+{{/if}}

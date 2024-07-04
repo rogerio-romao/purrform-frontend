@@ -1,0 +1,368 @@
+[
+  {
+    "type": "tab",
+    "label": "Design",
+    "sections": [
+      {
+        "label": "Section",
+        "settings": [
+          {
+            "type": "input",
+            "id": "textImageSectionBackground_color",
+            "label": "Section Background Color",
+            "default": "#687D6A"
+          },        
+          {
+            "label":"Text & Image",
+            "type":"boolean",
+            "id":"text_Image",
+            "default":true
+         },
+         {
+          "label":"Background Image",
+          "type":"boolean",
+          "id":"background_Image",
+          "default":false
+       },
+         {
+          "type": "select",
+          "id": "blockImage",
+          "label": "Image",
+          "default": "5",
+          "typeMeta": {
+            "selectOptions": [
+              {
+                "label": "2",
+                "value": "2"
+              }, 
+              {
+                "label": "3",
+                "value": "3"
+              },
+              {
+                "label": "4",
+                "value": "4"
+              },
+              {
+                "label": "5",
+                "value": "5"
+              },
+              {
+                "label": "6",
+                "value": "6"
+              },
+              {
+                "label": "7",
+                "value": "7"
+              },
+              {
+                "label": "8",
+                "value": "8"
+              },
+              {
+                "label": "9",
+                "value": "9"
+              },
+              {
+                "label": "10",
+                "value": "10"
+              },
+              {
+                "label": "11",
+                "value": "11"
+              },
+              {
+                "label": "12",
+                "value": "12"
+              }  
+            ]
+          }
+        },   
+        {
+          "type": "select",
+          "id": "blockText",
+          "label": "Text",
+          "default": "7",
+          "typeMeta": {
+            "selectOptions": [
+              {
+                "label": "2",
+                "value": "2"
+              }, 
+              {
+                "label": "3",
+                "value": "3"
+              },
+              {
+                "label": "4",
+                "value": "4"
+              },
+              {
+                "label": "5",
+                "value": "5"
+              },
+              {
+                "label": "6",
+                "value": "6"
+              },
+              {
+                "label": "7",
+                "value": "7"
+              },
+              {
+                "label": "8",
+                "value": "8"
+              },
+              {
+                "label": "9",
+                "value": "9"
+              },
+              {
+                "label": "10",
+                "value": "10"
+              },
+              {
+                "label": "11",
+                "value": "11"
+              },
+              {
+                "label": "12",
+                "value": "12"
+              }  
+            ]
+          }
+        }    
+
+        ]
+      }
+    ]
+  }, 
+  
+  {
+    "type": "tab",
+    "label": "Design",
+    "sections": [
+      {
+        "label": "Content",
+        "settings": [
+          {
+            "type": "input",
+            "id": "contentBackground_color",
+            "label": "Content Background Color",
+            "default": "#687D6A"
+          },
+          {
+            "type": "select",
+            "id": "displayPosition",
+            "label": "Direction",
+            "default": "Row",
+            "typeMeta": {
+              "selectOptions": [
+                {
+                  "label": "Row",
+                  "value": "row"
+                },               
+                {
+                  "label": "Row Reverse",
+                  "value": "flex-reverse"
+                }  
+              ]
+            }
+          },    
+          {
+            "type": "boxModel",
+            "label": "Content Radius (px)",
+            "id": "contentRadius",
+            "default": {
+              "top": {
+                "value": "3",
+                "type": "px"
+              },
+              "right": {
+                "value": "0",
+                "type": "px"
+              },
+              "bottom": {
+                "value": "3",
+                "type": "px"
+              },
+              "left": {
+                "value": "0",
+                "type": "px"
+              }
+            }
+          },      
+          {
+            "type": "boxModel",
+            "label": "Content Padding (rem)",
+            "id": "contentPadding",
+            "default": {
+              "top": {
+                "value": "3",
+                "type": "rem"
+              },
+              "right": {
+                "value": "0",
+                "type": "rem"
+              },
+              "bottom": {
+                "value": "3",
+                "type": "rem"
+              },
+              "left": {
+                "value": "0",
+                "type": "rem"
+              }
+            }
+          },          {
+            "type": "boxModel",
+            "label": "Content Margin (rem)",
+            "id": "contentMargin",
+            "default": {
+              "top": {
+                "value": "3",
+                "type": "rem"
+              },
+              "right": {
+                "value": "0",
+                "type": "rem"
+              },
+              "bottom": {
+                "value": "3",
+                "type": "rem"
+              },
+              "left": {
+                "value": "0",
+                "type": "rem"
+              }
+            }
+          }, 
+          {
+            "type":"imageManager",
+            "id":"contentimageUrl",
+            "label": "Desktop Image",
+            "default":{
+               "src":"https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/bodylanguage-may.jpg?t=1685029639",
+               "type":"IMAGE_MANAGER"
+            }
+         },
+         {
+          "type":"imageManager",
+          "id":"contentimageUrlmobile",
+          "label": "Mobile  Image",
+          "default":{
+             "src":"https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/bodylanguage-may.jpg?t=1685029639",
+             "type":"IMAGE_MANAGER"
+          }
+       },
+          {
+            "type": "input",
+            "id": "contentimageAlt",
+            "label": "Alt",
+            "default": ""
+          },
+          {
+            "type": "input",
+            "id": "textImageHeading",
+            "label": "Heading",
+            "default": "Heading"
+          },
+          {
+            "type": "select",
+            "id": "headingTag",
+            "label": "Heading Tag",
+            "default": "H2",
+            "typeMeta": {
+              "selectOptions": [
+                {
+                  "label": "H2",
+                  "value": "h2"
+                },               
+                {
+                  "label": "H3",
+                  "value": "h3"
+                }  
+              ]
+            }
+          },     
+          {
+            "type": "input",
+            "id": "textImageHeadingColor",
+            "label": "Heading Color",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "input",
+            "id": "textImagetextColor",
+            "label": "Text Color",
+            "default": "#FFFFFF"
+          },                         
+          {
+            "type": "alignment",
+            "label": "Text Alignment",
+            "id": "text_align",
+            "default": {
+              "horizontal": "center",
+              "vertical": "middle"
+            },
+            "typeMeta": {
+              "display": "horizontal"
+            }
+          },       
+          
+          {
+            "type": "code",
+            "id": "infoSummary",
+            "label": "Content",
+            "default": "Summary"
+          },
+          {
+            "type": "input",
+            "id": "blockButton",
+            "label": "Button",
+            "default": "Button"
+          },
+          {
+            "type": "input",
+            "id": "blockButtonUrl",
+            "label": "URL",
+            "default": "#"
+          },
+          {
+            "type": "input",
+            "id": "blockButton2",
+            "label": "Button 2",
+            "default": "Button 2"
+          },
+          {
+            "type": "input",
+            "id": "blockButtonUrl2",
+            "label": "URL",
+            "default": "#2"
+          },
+          {
+            "type": "select",
+            "id": "buttonOption",
+            "label": "Button Option",
+            "default": "button--secondary",
+            "typeMeta": {
+              "selectOptions": [
+                {
+                  "label": "Primary",
+                  "value": "button--primary"
+                },               
+                {
+                  "label": "Secondary",
+                  "value": "button--secondary"
+                }  
+              ]
+            }
+          }     
+        ]
+      }
+    ]
+  }
+  
+  
+
+]

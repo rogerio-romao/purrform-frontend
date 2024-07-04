@@ -1,0 +1,107 @@
+<div class="description-container">
+<ul class="tabs" data-tab>
+  {{#if product.description}}
+  <li class="tab is-active">
+    <a class="tab-title" href="#tab-description"
+      >{{lang 'products.description'}} </a
+    >
+
+    <div class="mobile-description-tab" id="tab-mobile-description">
+      <div class="description-v1" >
+        {{{product.description}}}
+        </div>
+    </div>
+
+  </li>
+  {{/if}} {{#if product.description}}
+  <li class="tab {{#if product.description}} {{else}} is-active{{/if}}">
+    <a class="tab-title" href="#tab-composition">Composition </a>
+
+    <div class="mobile-description-tab" id="tab-mobile-composition">
+      <div class="description-v1"  >
+        {{{product.description}}}
+        </div>
+    </div>
+
+  </li>
+ 
+  {{/if}} {{#if product.description}}
+  <li
+    class="tab {{#if product.description}} {{else if product.composition}} {{else if product.constituents}}is-active{{/if}}"
+  >
+    <a class="tab-title" href="#tab-constituents"
+      >Analytical Constituents</a
+    >
+
+    <div class="mobile-description-tab" id="tab-mobile-constituents">
+      <div class="description-v1"  >
+        {{{product.description}}}
+      </div>
+    </div>
+
+  </li>
+  {{/if}} {{#all product.custom_fields theme_settings.show_custom_fields_tabs}}
+  <li class="tab">
+    <a
+      class="tab-title"
+      href="#tab-{{dashcase (lowercase (sanitize theme_settings.pdp-custom-fields-tab-label))}}"
+    >
+      {{sanitize theme_settings.pdp-custom-fields-tab-label}}
+    </a>
+  </li>
+  {{/all}}
+  
+  <!--{{#all settings.show_product_reviews
+  theme_settings.show_product_reviews product.reviews.total}}
+  <li class="tab">
+    <a class="tab-title productView-reviewTabLink" href="#tab-reviews"
+      >{{lang 'products.reviews.header' total=product.reviews.total}}</a
+    >
+  </li>
+  {{/all}}-->
+</ul>
+
+<div class="tabs-contents tabs-contents-desktop">
+  {{#if product.description}}
+  <div class="tab-content  is-active" id="tab-description">
+
+<div class="description-v1">
+    {{{product.description}}}
+  </div>
+  </div>
+  {{/if}} {{#if product.description}}
+  <div
+    class="tab-content  {{#if product.composition}} is-active {{else }} {{/if}}"
+    id="tab-composition"
+  >
+  <div class="description-v1">
+{{{product.description}}}
+</div>
+  </div>
+  {{/if}} {{#if product.description}}
+  <div
+    class="tab-content  {{#if product.description}} {{else if product.composition}} {{else if product.constituents}}is-active{{/if}}"
+    id="tab-constituents"
+  >
+  <div class="description-v1">
+  {{{product.description}}}
+</div>
+  </div>
+  {{/if}} {{#all product.custom_fields theme_settings.show_custom_fields_tabs}}
+  <div
+    class="tab-content"
+    id="tab-{{dashcase (lowercase (sanitize theme_settings.pdp-custom-fields-tab-label))}}"
+  >
+    <dl class="productView-info">{{> components/products/custom-fields }}</dl>
+  </div>
+  {{/all}} 
+  
+  <!--{{#all settings.show_product_reviews
+  theme_settings.show_product_reviews}}
+  <div class="tab-content" id="tab-reviews">
+    {{> components/products/reviews reviews=product.reviews product=product
+    urls=urls}}
+  </div>
+  {{/all}}-->
+</div>
+</div>

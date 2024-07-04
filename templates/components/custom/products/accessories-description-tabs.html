@@ -1,0 +1,22 @@
+<div class="description-container description-container--accessories">
+ 
+    <ul class="tabs" data-tab>
+        {{#if product.description}}
+        <li class="tab is-active">
+            <a class="tab-title" href="#tab-description">{{lang 'products.description'}} </a>
+            <div class="mobile-description-tab" id="tab-mobile-description">
+                    {{{product.description}}}
+            </div>
+        </li>
+        {{/if}} 
+    </ul>
+    <div class="tabs-contents tabs-contents-desktop">
+        {{#if product.description}}
+        <div class="tab-content  is-active" id="tab-description">
+             <div class="description-v1">
+                {{{product.description}}}
+            </div> 
+        </div>
+        {{/if}} 
+    </div>
+</div>

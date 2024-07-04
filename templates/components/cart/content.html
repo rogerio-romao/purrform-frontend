@@ -1,0 +1,324 @@
+{{assignVar 'blu' 0}}
+{{assignVar "red" 0}}
+{{assignVar "green" 0}}
+{{assignVar "gold" 0}}
+<table class="cart" data-cart-quantity="{{cart.quantity}}">
+    <thead class="cart-header">
+        <tr>
+            <th class="cart-header-item" colspan="2">{{lang 'cart.checkout.item'}}</th>
+            <th class="cart-header-item align-centre">{{lang 'cart.checkout.price'}}</th>
+            <th class="cart-header-item cart-header-quantity align-centre">{{lang 'cart.checkout.quantity'}}</th>
+            <th class="cart-header-item align-centre">{{lang 'cart.checkout.total'}}</th>
+        </tr>
+    </thead>
+    <tbody class="cart-list">
+
+        {{#each cart.items}}
+            <tr class="cart-item" data-item-row>
+                <td class="cart-item-block cart-item-figure">
+                    {{#if type '==' 'GiftCertificate'}}
+                        <img
+                            class="cart-item-fixed-image"
+                            src="{{cdn ../theme_settings.default_image_gift_certificate}}"
+                            alt="{{lang 'cart.gift_certificates.gift_certificate'}}"
+                            title="{{lang 'cart.gift_certificates.gift_certificate'}}" 
+                        >
+                    {{else}}
+                        {{> components/common/responsive-img
+                            image=image
+                            class="cart-item-image"
+                            fallback_size=../theme_settings.productthumb_size
+                            lazyload="lazyload"
+                            default_image=../theme_settings.default_image_product
+                        }}
+                    {{/if}}
+                </td>
+                <td class="cart-item-block cart-item-title">
+                   
+                    <h2 class="cart-item-name">
+                        <a class="cart-item-name__label" href="{{url}}">{{name}}</a>
+                    </h2>
+                    {{#if brand.name}}
+                    <p class="cart-item-brand">{{brand.name}}</p>
+                {{/if}}
+                    <p class="cart-item-mobile">X {{quantity}}</p>
+                    <div  style="display: none;">
+                        {{assignVar 'currentQuant' quantity}}
+                        <!-- Cycle through custom fields, increment value based on quantity-->
+                        {{#each custom_fields}}
+                            
+                            {{#if this.name '===' 'CartRequirement'}}
+                                {{#if this.value '===' 'third_productLine'}}
+                                    {{assignVar "green" 1}}
+                                {{/if}}
+                                {{#if this.value '===' 'first_productLine'}}
+                                    {{#for 1 (getVar "currentQuant")}}
+                                        {{incrementVar 'blu'}}
+                                    {{/for}}
+                                {{/if}}
+                                {{#if this.value '===' 'second_productLine'}}
+                                    {{#for 1 (getVar "currentQuant")}}
+                                        {{incrementVar 'red'}}
+                                    {{/for}}
+                                {{/if}}
+                            {{/if}}
+                        {{/each}}
+                    </div>
+                  
+                    <p class="cart-item-total cart-item-mobile">{{total.formatted}}</p>
+                    {{#if release_date}}
+                        <p>({{release_date}})</p>
+                    {{/if}}
+                    
+                    {{#if options}}
+                        <dl class="definitionList">
+                            {{#each options}}
+                                <dt class="definitionList-key">{{name}}:</dt>
+                                <dd class="definitionList-value">
+                                    {{#if is_file}}
+                                        <a href="/viewfile.php?attributeId={{id}}&cartitem={{../id}}">{{value}}</a>
+                                    {{else}}
+                                        {{> components/common/product-options}}
+                                    {{/if}}
+                                </dd>
+                            {{/each}}
+                        </dl>
+
+                        <a href="#"
+                           data-item-edit="{{id}}"
+                           data-product-id="{{product_id}}"
+                           aria-label="{{lang 'products.change_product_options' name=name}}"
+                        >
+                            {{lang 'common.change'}}
+                        </a>
+                    {{/if}}
+
+                    {{#if type '==' 'GiftCertificate'}}
+                        <a href="{{edit_url}}"
+                           aria-label="{{lang 'cart.gift_certificates.change_gift_certificate' certificate_name=name}}"
+                        >
+                            {{lang 'common.change'}}
+                        </a>
+                    {{/if}}
+                    {{> components/cart/item-giftwrap this}}
+                    {{#if event_date}}
+                        <dl class="cart-item-options">
+                            <dt class="cart-item-option-title">
+                                {{event_date.name}}
+                            </dt>
+
+                            <dd class="cart-item-option-description">
+                                {{event_date.date}}
+                            </dd>
+                        </dl>
+                    {{/if}}
+
+                </td>
+                <td class="cart-item-block cart-item-info cart-item-price-desktop align-centre">
+                    <span class="cart-item-label">{{lang 'cart.checkout.price'}}</span>
+                    {{#or ../customer (unless ../settings.hide_price_from_guests) (if type '==' 'GiftCertificate')}}
+                        <span class="cart-item-value {{#if price_discounted}}price--discounted{{/if}}">{{price.formatted}}</span>
+                        {{#if price_discounted}}
+                            <span class="cart-item-value">{{price_discounted.formatted}}</span>
+                        {{/if}}
+                    {{else}}
+                        {{> components/common/login-for-pricing}}
+                    {{/or}}
+                </td>
+
+                <td class="cart-item-block cart-item-info cart-item-quantity">
+
+                    <label class="form-label cart-item-label" for="qty-{{id}}">{{lang 'products.quantity'}}</label>
+                    {{#or can_modify (if type '==' 'GiftCertificate')}}
+                    <button
+                            class="cart-remove-btn-mobile cart-item-mobile cart-remove"
+                            data-cart-itemid="{{id}}"
+                            data-confirm-delete="{{lang 'cart.confirm_delete'}}"
+                            aria-label="{{lang 'cart.remove_item' name=name}}"
+                    >
+                        <!--<svg><use href="#icon-close"></use></svg>-->
+                        <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.3248 7.4682C16.3248 7.4682 15.7818 14.2032 15.4668 17.0402C15.3168 18.3952 14.4798 19.1892 13.1088 19.2142C10.4998 19.2612 7.88779 19.2642 5.27979 19.2092C3.96079 19.1822 3.13779 18.3782 2.99079 17.0472C2.67379 14.1852 2.13379 7.4682 2.13379 7.4682" stroke="#232524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17.708 4.23969H0.75" stroke="#232524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14.4406 4.23967C13.6556 4.23967 12.9796 3.68467 12.8256 2.91567L12.5826 1.69967C12.4326 1.13867 11.9246 0.750671 11.3456 0.750671H7.11258C6.53358 0.750671 6.02558 1.13867 5.87558 1.69967L5.63258 2.91567C5.47858 3.68467 4.80258 4.23967 4.01758 4.23967" stroke="#232524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            {{lang 'cart.checkout.remove'}}    
+                    </button>
+
+                {{/or}}
+                    <p class="cart-item-mobile"><strong>{{total.formatted}}</strong></p>
+                    <div class="form-increment">
+                        {{#if can_modify}}
+                            <button class="button button--icon"
+                                    data-cart-update
+                                    data-cart-itemid="{{id}}"
+                                    data-action="dec"
+                            >
+                                <span class="is-srOnly">{{lang 'products.quantity_decrease' name=name}}</span>
+                               -
+                            </button>
+                        {{/if}}
+                        <input class="form-input form-input--incrementTotal cart-item-qty-input"
+                               id="qty-{{id}}"
+                               name="qty-{{id}}"
+                               type="tel"
+                               value="{{quantity}}"
+                               data-quantity-min="{{min_purchase_quantity}}"
+                               data-quantity-max="{{max_purchase_quantity}}"
+                               data-quantity-min-error="{{lang 'products.quantity_min' quantity=min_purchase_quantity}}"
+                               data-quantity-max-error="{{lang 'products.quantity_max' quantity=max_purchase_quantity}}"
+                               min="1"
+                               pattern="[0-9]*"
+                               data-cart-itemid="{{id}}"
+                               data-action="manualQtyChange"
+                               aria-label="{{name}}"
+                               aria-live="polite"{{#unless can_modify}} disabled{{/unless}}>
+                        {{#if can_modify}}
+                            <button class="button button--icon"
+                                    data-cart-update
+                                    data-cart-itemid="{{id}}"
+                                    data-action="inc"
+                            >
+                                <span class="is-srOnly">{{lang 'products.quantity_increase' name=name}}</span>
+                               +
+                            </button>
+                        {{/if}}
+                    </div>
+                </td>
+
+                <td class="cart-item-block cart-item-info cart-end-column align-centre">
+                    <span class="cart-item-label">{{lang 'cart.checkout.total'}}</span>
+                    {{#or ../customer (unless ../settings.hide_price_from_guests) (if type '==' 'GiftCertificate')}}
+                        <strong class="cart-item-value {{#if total_discounted}}price--discounted{{/if}}">{{total.formatted}}</strong>
+                        {{#if total_discounted}}
+                            <strong class="cart-item-value">{{total_discounted.formatted}}</strong>
+                        {{/if}}
+                    {{else}}
+                        --
+                    {{/or}}
+                </td>
+                <td class="cart-item-block cart-item-info cart-end-column">
+                    {{#or can_modify (if type '==' 'GiftCertificate')}}
+                    <button
+                    class="cart-remove-btn cart-remove"
+                            data-cart-itemid="{{id}}"
+                            data-confirm-delete="{{lang 'cart.confirm_delete'}}"
+                            aria-label="{{lang 'cart.remove_item' name=name}}"
+                    >
+                        <!--<svg><use href="#icon-close"></use></svg>-->
+                        <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.3248 7.4682C16.3248 7.4682 15.7818 14.2032 15.4668 17.0402C15.3168 18.3952 14.4798 19.1892 13.1088 19.2142C10.4998 19.2612 7.88779 19.2642 5.27979 19.2092C3.96079 19.1822 3.13779 18.3782 2.99079 17.0472C2.67379 14.1852 2.13379 7.4682 2.13379 7.4682" stroke="#232524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17.708 4.23969H0.75" stroke="#232524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14.4406 4.23967C13.6556 4.23967 12.9796 3.68467 12.8256 2.91567L12.5826 1.69967C12.4326 1.13867 11.9246 0.750671 11.3456 0.750671H7.11258C6.53358 0.750671 6.02558 1.13867 5.87558 1.69967L5.63258 2.91567C5.47858 3.68467 4.80258 4.23967 4.01758 4.23967" stroke="#232524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            {{lang 'cart.checkout.remove'}}    
+                    </button>
+                {{/or}}
+                </td>
+            </tr>
+        {{/each}}
+        <div id="target-gold" {{#if customer_group_id '===' 2}}class="breeder"{{/if}}>
+            {{#if (getVar 'green') '===' 0}}
+                {{#if (getVar 'red') '>' 0}}
+                    {{#if (getVar 'red') '>=' 4}}
+                        {{#if customer_group_id '===' 2}}
+                            {{#if (getVar 'blu') '>=' 20}}
+                                {{assignVar "gold" 10}}
+                            {{else}}
+                                {{assignVar "gold" 10}}
+                            {{/if}}
+                        {{else}}
+                            {{#if (getVar 'blu') '>=' 10}}
+                                {{assignVar "gold" 10}}
+                            {{else}}
+                                {{assignVar "gold" 10}}
+                            {{/if}}
+                        {{/if}}
+                    {{else}}
+                        {{#if customer_group_id '===' 2}}
+                            {{#if (getVar 'blu') '>=' 20}}
+                                {{assignVar "gold" 10}}
+                            {{else}}
+                                {{assignVar "gold" 5}}
+                            {{/if}}
+                        {{else}}
+                            {{#if (getVar 'blu') '>=' 10}}
+                                {{assignVar "gold" 10}}
+                            {{else}}
+                                {{assignVar "gold" 5}}
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}
+                {{else}}
+                    {{#if customer_group_id '===' 2}}
+                        {{#if (getVar 'blu') '>=' 20}}
+                            {{assignVar "gold" 10}}
+                        {{else}}
+                            {{#if (getVar 'blu') '>' 0}}
+                                {{assignVar "gold" 5}}
+                            {{else}}
+                                {{assignVar "gold" 0}}
+                            {{/if}}
+                        {{/if}}
+                    {{else}}
+                        {{#if (getVar 'blu') '>=' 10}}
+                            {{assignVar "gold" 10}}
+                        {{else}}
+                            {{#if (getVar 'blu') '>' 0}}
+                                {{assignVar "gold" 5}}
+                            {{else}}
+                                {{assignVar "gold" 0}}
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
+            {{else}}
+                {{assignVar "gold" 0}}
+            {{/if}}
+            {{getVar "gold"}}
+        </div>
+        {{#if (getVar 'blu') '>' 0}}
+            {{#if (getVar 'gold') '==' 5}}
+                {{#if customer_group_id '===' 2}}
+                    {{#if (getVar 'blu') '<' 20}}
+                        <div style="
+                        text-align: center;
+                        background: red;
+                        color: white;
+                        padding: 7px 20px;
+                        border-radius: 8px;
+                        ">Please note that we have a minimum order quantity of 20 frozen items. The only exception to this rule is the trial packs, which can be purchased on their own.
+                        </div> 
+                    {{/if}}
+                {{else}}
+                    {{#if (getVar 'blu') '<' 10}}
+                        <div style="
+                        text-align: center;
+                        background: red;
+                        color: white;
+                        padding: 7px 20px;
+                        border-radius: 8px;
+                        ">Please note that we have a minimum order quantity of 10 frozen items. The only exception to this rule is the trial packs, which can be purchased on their own.
+                        </div> 
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+        {{#if (getVar 'red') '>' 0}}
+            {{#if (getVar 'gold') '==' 5}}
+                {{#if (getVar 'red') '<' 4}}
+                    <div style="
+                    text-align: center;
+                    background: red;
+                    color: white;
+                    padding: 7px 20px;
+                    border-radius: 8px;
+                    ">Please note that we have a minimum order quantity of 4 pouch items. The only exception to this rule is the trial packs, which can be purchased on their own.
+                    </div> 
+                {{/if}}
+            {{/if}}
+        {{/if}}
+
+    </tbody>
+</table>
+

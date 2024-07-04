@@ -1,0 +1,9 @@
+<h2 class="page-heading">{{lang 'products.top' }}</h2>
+{{#if settings.data_tag_enabled}}
+    {{> components/products/carousel products=products list="Most Popular Products"}}
+{{else}}
+    {{> components/products/carousel products=products}}
+{{/if}}
+
+
+ 

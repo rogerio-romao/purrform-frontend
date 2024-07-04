@@ -1,0 +1,715 @@
+.calculator-heading {
+  margin: auto;
+  text-align: center;
+  margin-bottom: 2rem;
+  h1 {
+    font-weight: 700;
+    font-size: 36px;
+    margin-bottom: 1rem;
+    @include breakpoint("medium") {
+      font-size: 48px;
+    }
+  }
+  p {
+    font-size: 18px;
+  }
+}
+
+.calculator-toggler {
+  margin: 0 auto 2rem;
+  width: 100%;
+  justify-content: space-between;
+  display: none;
+
+  p {
+    padding: 12px;
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: 0;
+    a{
+      color: $body-color;
+    }
+  }
+  p.active {
+    border-bottom: 2px solid $headingColor;
+    font-weight: 700;
+  }
+  @include breakpoint("medium") {
+    width: 35%;
+    display: flex;
+  }
+}
+
+.calculator-toggler-mobile {
+  background-color: $light-BgColor;
+  display: block;
+  width: 100vw;
+  position: relative;
+  left: calc(-50vw + 50%);
+  padding: 1rem 0;
+
+  .inner {
+    margin: auto;
+    width: 92%;
+    p {
+      padding: 0.5rem 0.8rem;
+      margin-bottom: 0.2rem;
+      a{
+        color: $body-color;
+      }
+    }
+
+    p#toggler-active {
+      background-color: $white-color;
+      border-radius: 30px;
+      span{
+        float: right;
+        &.open{
+          rotate: 180deg;
+        }
+      }
+    }
+
+    #toggler-dropdown {
+      display: none;
+      &.active {
+        display: block;
+      }
+    }
+  }
+
+  @include breakpoint("medium") {
+    display: none;
+  }
+}
+
+//.rawsome-catculator-page {
+  .rawsome-button--primary {
+    transition: all 0.2s ease;
+    border: 2px solid $headingColor !important;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 20px 0px 0px 141px;
+    text-align: center;
+    display: block;
+    width: 165px;
+    height: 3.5rem;
+    background-color: #687d6a;
+    border-color: black;
+    border-radius: 45px;
+    &:hover {
+      background-color: white !important;
+      color: $headingColor !important;
+      p {
+        color: $headingColor !important;
+      }
+    }
+  }
+
+  .rawsome-button--secondary {
+    background-color: white;
+    font-weight: bold;
+    color: black;
+    border: 2px solid $input-field;
+    transition: all 0.2s ease;
+    border-radius: 45px;
+    text-align: center;
+    width: 165px;
+    height: 3.5rem;
+    display: block;
+
+    &:hover {
+      color: $headingColor;
+    }
+  }
+
+  .cat_weight_cal {
+    margin-top: 35px;
+    display: block;
+    img {
+      width: 80% !important;
+      height: auto !important;
+      margin: auto !important;
+      display: block;
+      @include breakpoint("medium") {
+        width: 100% !important;
+      }
+    }
+    div {
+      justify-content: center;
+      .cat_weight_p {
+        margin: 5rem 0 0.5rem !important;
+        color: black !important;
+        font-weight: 700;
+        text-transform: uppercase;
+        @include breakpoint("medium") {
+          margin: 0 0 0.5rem !important;
+        }
+      }
+      #weight_input {
+        margin: 0.5rem 0 1rem !important;
+        width: 100% !important;
+        border: 2px solid $input-field !important;
+        padding-left: 15px;
+      }
+
+      div {
+        display: flex;
+        justify-content: space-between;
+        grid-gap: 10px;
+        button {
+          margin: 0 !important;
+          width: 50% !important;
+        }
+      }
+    }
+    @include breakpoint("medium") {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: auto;
+      width: 50%;
+    }
+  }
+
+  .cat_spayed {
+    display: block !important;
+    margin-top: 35px;
+    .rawsome-button--secondary {
+      margin: 20px 0px 0px 96px;
+
+      @include breakpoint("medium") {
+        margin: 40px 0px 0px 26px;
+      }
+    }
+
+    @include breakpoint("medium") {
+      display: flex !important;
+      flex-direction: row;
+      align-items: center;
+      //justify-content: center;
+    }
+  }
+
+  .cat_neutered {
+    display: block !important;
+    margin-top: 35px;
+
+    .rawsome-button--primary {
+      margin: 20px auto 0px auto;
+      @include breakpoint("medium") {
+        margin: 20px 0px 0px 141px;
+      }
+    }
+
+    .rawsome-button--secondary {
+      margin: 20px 0px 0px 96px;
+
+      @include breakpoint("medium") {
+        margin: 20px 0px 0px 26px !important;
+      }
+    }
+    @include breakpoint("medium") {
+      display: flex !important;
+      flex-direction: row;
+      align-items: center;
+      //justify-content: center;
+    }
+  }
+
+  .cat_active {
+    display: block !important;
+    img {
+      margin: 0 !important;
+    }
+
+    .rawsome-button--primary {
+      margin: 10px auto 10px;
+
+      @include breakpoint("medium") {
+        margin: 20px 0px 0px 26px;
+      }
+    }
+
+    .rawsome-button--secondary {
+      margin: 10px auto 0 !important;
+
+      @include breakpoint("medium") {
+        margin: 20px 0px 0px 26px !important;
+      }
+    }
+
+    @include breakpoint("medium") {
+      display: flex !important;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .recom_daily_amount_heading {
+    background-color: $headingColor;
+    color: $white-color;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 0;
+    padding: 3.5rem 0 0.5rem;
+    width: 99.4vw;
+    position: relative;
+    left: calc(-50vw + 50%);
+  }
+  .recom_daily_amount {
+    width: 99.4vw;
+    position: relative;
+    left: calc(-50vw + 50%);
+    background-color: $headingColor;
+    padding: 1rem  1rem  3rem;
+    .rda_account_btn_container {
+      margin: 1.5rem auto 0;
+      width: 95%;
+      .rda_account_btn {
+        margin: auto;
+        width: fit-content;
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+
+      @include breakpoint("medium") {
+        width: 30%;
+      }
+    }
+
+    .recom_daily_amount_inner {
+      background-color: $white-color;
+      margin: auto;
+      width: 100%;
+      border-radius: 15px;
+      padding: 18px 10px;
+
+      .rc_reccoms {
+        background-color: $light-BgColor;
+        width: 95%;
+        margin: auto;
+        border-radius: 15px;
+        p {
+          padding: 7px 15px;
+          span {
+            float: right;
+            margin: 0;
+            @include breakpoint("medium") {
+              float: none;
+              margin-left: 70px;
+            }
+          }
+        }
+
+        &:last-of-type {
+          p {
+            span {
+              @include breakpoint("medium") {
+                margin-left: 45px;
+              }
+            }
+          }
+        }
+      }
+
+      .daily_meals {
+        width: 85%;
+        margin: 10px auto;
+
+        @include breakpoint("medium") {
+          width: 89%;
+        }
+      }
+
+      .rawsome-button--secondary {
+        width: 95%;
+        height: 2.5rem;
+        margin: 2rem auto 0;
+        position: relative;
+      }
+
+      @include breakpoint("medium") {
+        width: 30%;
+      }
+    }
+  }
+
+  .button--loading::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    // top: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    border: 6px solid #687d6a;
+    border-top-color: #bd9b60;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+  }
+  .cta--loading {
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  @keyframes button-loading-spinner {
+    from {
+      transform: rotate(0turn);
+    }
+
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+
+   
+  .catculator-row {
+    width: 100%;
+    .catculator-col {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include breakpoint("large") {
+        display: block;
+      }
+    }
+    button {
+      margin-left: 1.5rem;
+      width: 80%;
+      height: 3.5rem;
+      border-color: black;
+      border-radius: 40px;
+      background-color: #687d6a;
+      text-align: center;
+    }
+
+    @include breakpoint("medium") {
+    }
+
+    @include breakpoint("large") {
+      display: flex;
+      flex-direction: row;
+      button {
+        margin-right: 95px;
+        margin-left: 0;
+        width: 150px;
+      }
+    }
+  }
+
+
+  #rawsome-bottom {
+    margin-top: 2rem;
+    background-color: #f3f2f2;
+    width: 100vw;
+    position: relative;
+    left: calc(-50vw + 50%);
+    padding: 3rem 0;
+
+    .rawsome-info-table {
+      display: grid;
+      grid-template-columns: auto;
+      margin: auto;
+      width: 92%;
+      div {
+        text-align: center;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        div {
+          display: block;
+          padding-left: 20px;
+          @include breakpoint("medium") {
+            padding-left: 0px;
+          }
+        }
+
+        img {
+          width: 30%;
+          @include breakpoint("medium") {
+            height: 120px;
+            width: auto;
+          }
+        }
+        h1 {
+          margin: 3rem auto 0.5rem;
+        }
+        p {
+          margin-bottom: 1rem;
+        }
+
+        @include breakpoint("medium") {
+          display: block;
+        }
+      }
+
+      @include breakpoint("medium") {
+        width: 81%;
+        grid-template-columns: auto auto auto;
+      }
+    }
+
+    @include breakpoint("medium") {
+      width: 99.4vw;
+    }
+  }
+//}
+
+#show_RDA {
+  padding: 0;
+  position: static;
+  .modal-header {
+    padding-left: 2.25rem;
+    padding-right: 3.03571rem;
+    border-bottom: none;
+
+    .swal2-close {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      right: 0;
+      -ms-flex-align: center;
+      align-items: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      width: 1.2em;
+      height: 1.2em;
+      padding: 0;
+      overflow: hidden;
+      transition: color 0.1s ease-out;
+      border: none;
+      border-radius: 0;
+      background: 0 0;
+      color: #ccc;
+      font-family: serif;
+      font-size: 2.5em;
+      line-height: 1.2;
+      cursor: pointer;
+    }
+  }
+
+  #rda-title {
+    color: $white-color;
+    text-align: center;
+  }
+
+  #swal2-title {
+    color: $white-color;
+    text-align: center;
+  }
+
+  hr {
+    border: none;
+    margin: 0;
+  }
+
+  .swal2-content {
+    margin: auto;
+    width: 100%;
+    @include breakpoint("medium") {
+      width: 80%;
+    }
+
+    #swal2-content-pouches,
+    #swal2-content_tubs {
+      display: grid !important; //flex !important;
+      /* align-items: center;
+    justify-content: center;
+    flex-direction: row; */
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 13px;
+      // border: 1px solid red;
+
+      @include breakpoint("medium") {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+    }
+
+    .wrapper {
+      padding: 15px 10px;
+      border-radius: 20px;
+      background-color: $white-color;
+      .image_wrap {
+        img {
+          width: auto;
+          height: auto;
+        }
+      }
+      .content_wrap {
+        margin: 0.5rem auto 1rem;
+        p {
+          text-align: center;
+          //height: 35px;
+        }
+      }
+
+      .rawsome-button--primary {
+        margin: 0 auto;
+        width: 100%;
+        font-size: 16px;
+        // padding: 0 50px;
+        @include breakpoint("medium") {
+          font-size: 18px;
+          // width: fit-content;
+        }
+      }
+
+      @include breakpoint("medium") {
+        padding: 20px;
+      }
+    }
+  }
+}
+
+.dry-matter-basis-calculator-page {
+  #dmb-test {
+    display: none;
+    background-color: $headingColor;
+    border-radius: 20px;
+    padding: 30px 30px 20px;
+    margin-top: 20px;
+    h3 {
+      color: white;
+      font-weight: 700;
+      font-size: 24px;
+      margin: 0 0 1rem;
+    }
+    p {
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+      margin-bottom: 1rem;
+    }
+  }
+
+  #dry-matter-container {
+    padding-top: 2rem;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr;
+  }
+
+  #dry-matter-container h1 {
+    color: #687d6a;
+  }
+
+  #dry-matter-container .dmc2 h1 {
+    color: #232524;
+  }
+
+  .green-col {
+    color: #687d6a;
+  }
+
+  .dmc2 {
+    order: -1;
+    border: 1px solid #dcdcdc;
+    border-radius: 40px;
+    -webkit-box-shadow: 1px 1px 8px 2px rgba(220, 220, 220, 1);
+    -moz-box-shadow: 1px 1px 8px 2px rgba(220, 220, 220, 1);
+    box-shadow: 1px 1px 8px 2px rgba(220, 220, 220, 1);
+    padding: 0 20px 20px;
+    @include breakpoint("medium") {
+      padding: 0 30px 20px;
+    }
+
+    .percent-calculator {
+      display: block;
+      div {
+        position: relative;
+        input {
+          margin-top: 0.5rem;
+        }
+        #calcBtn {
+          width: 100%;
+          transition: all 0.2s ease;
+          border: 2px solid $headingColor !important;
+          &:hover {
+            background-color: white !important;
+            p {
+              color: $headingColor !important;
+            }
+          }
+          @include breakpoint("medium") {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+          }
+        }
+        @include breakpoint("medium") {
+          padding: 0 0.7rem 0 0;
+        }
+      }
+      @include breakpoint("medium") {
+        display: grid;
+        max-width: 100%;
+        grid-template-columns: 35% 35% 30%;
+        p {
+          margin-bottom: 0.5rem;
+        }
+        input {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  #dry-matter-bottom {
+    margin-top: 2rem;
+    background-color: #f3f2f2;
+    width: 100vw;
+    position: relative;
+    left: calc(-50vw + 50%);
+    padding: 3rem 0;
+
+    .dry-matter-info-table {
+      display: grid;
+      grid-template-columns: auto;
+      // border: 1px solid red;
+      margin: auto;
+      width: 92%;
+      p {
+        margin-bottom: 1rem;
+      }
+      strong {
+        font-size: 24px;
+      }
+      table {
+        width: 100%;
+        th {
+          font-weight: 700;
+          text-align: left;
+          color: #687d6a;
+          padding: 0.5rem 55px 0.5rem 0;
+        }
+        td {
+          padding: 0.5rem 55px 0.5rem 0;
+          border-bottom: 1px solid #dbdada;
+        }
+      }
+      @include breakpoint("medium") {
+        width: 81%;
+        grid-template-columns: auto auto auto;
+      }
+    }
+
+    @include breakpoint("medium") {
+      width: 99.4vw;
+    }
+  }
+
+  @include breakpoint("medium") {
+    #dry-matter-container {
+      grid-template-columns: 1fr 1fr;
+    }
+    .dmc2 {
+      order: 2;
+    }
+  }
+}

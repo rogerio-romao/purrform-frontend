@@ -1,0 +1,84 @@
+{
+  "textImageSectionBackground_color": "#687D6A",
+  "text_Image": true,
+  "blockImage": "5",
+  "blockText": "7",
+  "contentBackground_color": "#687D6A",
+  "displayPosition": "Row",
+  "contentRadius": {
+    "top": {
+      "value": "3",
+      "type": "px"
+    },
+    "right": {
+      "value": "0",
+      "type": "px"
+    },
+    "bottom": {
+      "value": "3",
+      "type": "px"
+    },
+    "left": {
+      "value": "0",
+      "type": "px"
+    }
+  },
+  "contentPadding": {
+    "top": {
+      "value": "3",
+      "type": "rem"
+    },
+    "right": {
+      "value": "0",
+      "type": "rem"
+    },
+    "bottom": {
+      "value": "3",
+      "type": "rem"
+    },
+    "left": {
+      "value": "0",
+      "type": "rem"
+    }
+  },
+  "contentMargin": {
+    "top": {
+      "value": "3",
+      "type": "rem"
+    },
+    "right": {
+      "value": "0",
+      "type": "rem"
+    },
+    "bottom": {
+      "value": "3",
+      "type": "rem"
+    },
+    "left": {
+      "value": "0",
+      "type": "rem"
+    }
+  },
+  "contentimageUrl": {
+    "src": "https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/bodylanguage-may.jpg?t=1685029639",
+    "type": "IMAGE_MANAGER"
+  },
+  "contentimageUrlmobile": {
+    "src": "https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/bodylanguage-may.jpg?t=1685029639",
+    "type": "IMAGE_MANAGER"
+  },
+  "textImageHeading": "Heading",
+  "headingTag": "H2",
+  "textImageHeadingColor": "#FFFFFF",
+  "textImagetextColor": "#FFFFFF",
+  "text_align": {
+    "horizontal": "center",
+    "vertical": "middle"
+  },
+  "infoSummary": "Summary",
+  "blockButton": "Button",
+  "blockButtonUrl": "#",
+  "blockButton2": "Button 2",
+  "blockButtonUrl2": "#2",
+  "buttonOption": "button--secondary"
+}

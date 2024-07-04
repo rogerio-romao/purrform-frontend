@@ -1,0 +1,32 @@
+<div class="calculator-toggler-mobile">
+  <div class="inner">
+    <p id="toggler-active">
+      {{#if settings.request.absolute_path '===' '/rawsome-catculator/'}}
+      Rawsome Catculator {{else}} Dry Matter Basis Calculator {{/if}}
+      <span id="toggler-dropdown-chevron"
+        ><svg
+          width="12"
+          height="9"
+          viewBox="0 0 12 9"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1.41 0.840027L6 5.42003L10.59 0.840027L12 2.25003L6 8.25003L0 2.25003L1.41 0.840027Z"
+            fill="#5E5E5E"
+          />
+          </svg>
+    </span>
+    </p>
+    <div id="toggler-dropdown">
+      <p class="">
+        <a
+          href="{{#if settings.request.absolute_path '===' '/rawsome-catculator/'}} /dry-matter-basis-calculator/ {{else}} /rawsome-catculator/ {{/if}}  "
+          >{{#if settings.request.absolute_path '==='
+          '/rawsome-catculator/'}}Dry Matter Basis Calculator {{else}}Rawsome
+          Catculator {{/if}}</a
+        >
+      </p>
+    </div>
+  </div>
+</div>

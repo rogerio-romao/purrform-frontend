@@ -1,0 +1,151 @@
+---
+cart: true
+---
+{{inject 'cancelButtonText' (lang 'common.cancel')}} {{#partial "page"}}
+{{inject 'invalidEntryMessage' (lang 'cart.invalid_entry_message')}}
+ 
+ 
+
+<div class="container" style="padding: 0;">
+<div class="page">
+    
+    <main style='color: #687D6A;' class="page-content" data-item-size="{{cart.items.length}}" data-cart data-id="{{cart_id}}" data-customer-grp-id="{{customer_group_id}}">
+        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+        {{> components/cart/page-title}}
+         
+       
+        <div data-cart-status>
+            {{> components/cart/status-messages}}
+        </div>
+      
+        {{#if cart.items.length}}
+        
+            <div class="loadingOverlay"></div>
+
+            <div data-cart-content>
+                {{> components/cart/content}}
+            </div>
+
+        <div data-cart-totals class="cart-totals-container cart-content-padding-right">
+                {{> components/cart/totals}}
+            </div>
+           
+
+            {{#if cart.show_primary_checkout_button}}
+                <div class="cart-actions">
+
+                    <a class="button button--secondary" href="/all/">
+                      <i class="icon" aria-hidden="true">
+                        <svg>
+                          <use href="#icon-chevron-left"></use>
+                        </svg>
+                      </i>
+                      {{lang 'cart.added_to_cart.continue_shopping'}}
+                    </a>
+                    <a
+                        id="do_checkout"
+                        class="button button--primary ui-state-disabled"
+                        href="{{urls.checkout.single_address}}"
+                        title="{{lang 'cart.checkout.title'}}"
+                        data-primary-checkout-now-action
+                    >
+                        {{lang 'cart.checkout.button'}}
+                    </a>
+                    {{#if cart.show_multiple_address_shipping}}
+                        <a class="checkoutMultiple" href="{{urls.checkout.multiple_address}}">
+                            {{lang 'cart.preview.checkout_multiple'}}
+                        </a>
+                    {{/if}}
+                </div>
+            {{else}}
+                <div class="cart-actions">
+                    <a class="button" href="{{urls.home}}" title="{{lang 'cart.continue_shopping'}}">{{lang 'cart.continue_shopping'}}</a>
+                </div>
+            {{/if}}
+
+            {{#if cart.additional_checkout_buttons}}
+                <div class="cart-additionalCheckoutButtons">
+                    {{#each cart.additional_checkout_buttons}}
+                        {{{this}}}
+                    {{/each}}
+                </div>
+            {{/if}}
+        {{else}}
+            <h3>{{lang 'cart.checkout.empty_cart'}}</h3>
+            {{{ remote_api_scripts }}}
+        {{/if}}
+
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+
+        <div class="modal fade" id="redeem_point" tabindex="-1" aria-labelledby="redeem_point" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content swal2-content">
+                    <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex;">
+                      <div class="swal2-icon-content">!</div>
+                    </div>
+                     <h4 style="text-align:center;margin-bottom:5px;" id="swal2-title"></h2>
+                     <button type="button" class="swal2-close" onclick="document.getElementById('redeem_point').style.display='none';">x</button>
+                    <div id="swal2-content" class="swal2-html-container uk-margin-small-bottom" style="display: block;">Enter the points to redeem:</div>
+                    <input type="number" class="uk-input uk-text-center" id="redeem" name="redeem" min="" max="" value="" style="max-width:200px;">
+                </div>
+                <div class="swal2-footer">
+                    <span style="display:none;" id="total_point"></span>
+                  <a onclick="redeem_loyalty()" style="background-color: #BD9B60 !important; border-color: #BD9B60 !important; border-radius: 50px;font-weight: 500;font-size: 16px;" class="button button--primary">Redeem point &nbsp;</a>
+                 <a onclick="document.getElementById('redeem_point').style.display='none';" style="background-color: #FFF !important; border-color: #BD9B60 !important; border-radius: 50px;font-weight: 500;font-size: 16px;color: #BD9B60;" class="button button--primary">Cancel</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="newsletter-box" tabindex="-1" aria-labelledby="redeem_point" style="text-align:center;display: none;box-shadow:0px 0px 39px 9px rgb(0 0 0 / 20%);border-radius:50px" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-header swal2-header" style="background: #687d6a;">
+                    <h2 style="color: #fff;">Claim your free shipping now</h2>
+                    <button type="button" class="swal2-close" onclick="close_nl_box();">x</button>
+                </div>
+                <div class="modal-content swal2-content">
+                    <div class="nl_success_wrapper" style="height: 96px;display:none">
+                        <div class="coupon-message" style="font-size: 18px;padding: 40px 0;"></div>
+                        <input id="nl_continue" class="button button--primary form-prefixPostfix-button--postfix" type="button" value="Continue">
+                    </div>
+                     <div class="newsletter-wrapper" style="margin: 0 auto;width: 100%;padding: 25px;">
+                      <div class="">
+                          <div class="" style="margin-bottom: 25px;">Subscribe to our newsletter to get free shipping! </div>
+                      </div>
+                    
+                      <div class="form-section">
+                        <form class="form" id="nl_form" style="margin: 0 auto;">
+                          <input type="hidden" name="action" value="subscribe">
+                            <input type="hidden" name="nl_first_name" value="bc">
+                            <input type="hidden" name="authenticity_token" value="e0e91a6b4d5210710b76058e35a23605d327844d2838f440cf0501174cda7753">
+                            <input type="hidden" name="check" value="1">
+                          <input class="form-input" id="nl_email" name="nl_email" type="email" value="" placeholder="Your email address" style="border: 1px solid #687d6a;">
+                          <input id="nl_cta" class="button button--primary form-prefixPostfix-button--postfix" type="button" value="Join Now">
+                          
+                        </form>
+                        <p id="response_api" style="text-align: center;font-size:1.1rem;font-weight:400;color:#bd9b60;"></p>
+                      </div>
+                    </div>
+                </div>
+                <div class="swal2-footer" style="margin-bottom:25px;">
+                  <div class="foot_data" style="width: 100%;margin: 0 auto;text-align: center;">
+                    <div class="gdpr-field">
+                        <input type="checkbox" id="gdpr_checkbox" name="gdpr_checkbox" class="gdpr-checkbox">
+                        <span class="wcb-gdpr-message">I agree to the <a href="terms-conditions" target="_blank">Terms &amp; Conditions</a> and <a href="privacy-policy" target="_blank">Privacy Policy</a>.</span>
+                    </div>  
+                    <div class="footer-text">No spam email &amp; you can unsubscribe at anytime. Maximum order £100</div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="display:none" id="gift_wrap" class="coupon-box-small-icon-wrap coupon-box-small-icon-position-bottom-left coupon-box-small-icon-hidden-mobile">
+    <div class="coupon-box-small-icon-container">
+        <span id="gift_close" class="coupon-box-small-icon-close button_close_icons-cancel" title="Do not show again"></span>
+        <span id="gift_box" class="coupon-box-small-icon giftbox-gifbox-with-ribbon-on-top"></span>
+    </div>
+</div>
+{{/partial}}
+{{> layout/base}}

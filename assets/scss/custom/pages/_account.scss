@@ -1,0 +1,388 @@
+.account {
+  .account-body {
+    width: 100%;
+    margin: auto;
+  }
+}
+
+.page-heading--account {
+  color: $headingColor;
+  font-weight: 700;
+  font-size: 36px;
+  text-align: center !important;
+  padding-bottom: 1.5rem;
+  font-family: "Filson Pro";
+  @include breakpoint("medium") {
+    font-size: 48px;
+  }
+}
+
+.navBar--account {
+  .navBar-item {
+    &.is-active {
+      padding: 0 0.4rem;
+      border-bottom: 2px solid $nav-hover-text;
+      a {
+        font-weight: 700;
+      }
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+}
+
+/***B2C orders***/
+
+.account-list--orders {
+  padding-left: 0;
+  width: 100%;
+  .account-listItem {
+    border-bottom: 1px solid #dbdada;
+    padding: 1.5rem 0 0.5rem;
+
+    .account-product-figure {
+      display: none;
+    }
+    .account-product-body {
+      padding-bottom: 0;
+
+      .account-product-title {
+        font-weight: 700;
+        color: $body-color;
+        font-size: 20px;
+        a {
+          color: $body-color;
+        }
+
+        @include breakpoint("medium") {
+          font-size: 24px;
+        }
+      }
+      .account-orderStatus {
+        float: right;
+        position: static;
+        .account-orderStatus-label {
+          color: $body-color;
+          font-size: 12px;
+          font-weight: 700;
+          background-color: $light-BgColor;
+          padding: 8px;
+        }
+      }
+      .account-product-detail {
+        width: fit-content;
+        margin-right: 1.5rem;
+        .account-product-detail-heading {
+          font-size: 16px;
+          color: $body-color;
+        }
+        span {
+          font-weight: 700;
+        }
+        & + .account-product-detail {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.account--order-details {
+  .page-heading {
+    color: $headingColor;
+    font-weight: 700;
+    font-size: 24px;
+    @include breakpoint("medium") {
+      font-size: 32px;
+    }
+  }
+  .back-link {
+    font-size: 18px;
+    a {
+      color: $body-color;
+    }
+  }
+
+  .account-sidebar,
+  .account-content {
+    float: none;
+    position: static;
+  }
+
+  .account-heading {
+    font-size: 18px;
+    font-weight: 700;
+    color: $headingColor;
+    border-color: $gold-color;
+  }
+
+  .account-sidebar {
+    width: 100%;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 30px;
+
+    @include breakpoint("medium") {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .account-sidebar-block {
+      font-size: 16px;
+      & + .account-sidebar-block {
+        margin-top: 0;
+      }
+
+      ul {
+        padding-left: 0;
+      }
+
+      .definitionList-key {
+        color: $body-color;
+        width: 150px;
+
+        &:not(:first-of-type) {
+          margin-top: 0.5rem;
+        }
+      }
+
+      .definitionList-value {
+        &:not(:first-of-type) {
+          margin-top: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .account-content {
+    padding: 0;
+    width: 100%;
+
+    .account-list {
+      padding-left: 0;
+      .account-listItem {
+        border-bottom: 1px solid #dbdada;
+
+        display: flex;
+
+        .account-product-checkItem {
+          left: 0;
+          .form-checkbox {
+            & + .form-label::before {
+              border-radius: 0;
+            }
+          }
+        }
+
+        .account-product-figure {
+          position: static;
+          &::before,
+          &::after {
+            display: none;
+          }
+        }
+
+        .account-product-body {
+          padding-bottom: 0;
+          padding-left: 0rem;
+
+          p {
+            margin: 0.3rem 0;
+          }
+
+          @include breakpoint("medium") {
+            padding-left: 1rem;
+          }
+        }
+      }
+    }
+
+    .account-orderTotal {
+      width: 100%;
+      font-size: 16px;
+      margin-top: 1rem;
+      display: block;
+      @include breakpoint("medium") {
+        width: 40%;
+      }
+
+      dt,
+      dd {
+        color: $body-color;
+        font-weight: 400;
+        font-size: 16px;
+        padding: 0.5rem 0;
+      }
+
+      .account-orderTotal-key {
+        &.key--grand {
+          font-size: 20px;
+          font-weight: 700;
+        }
+      }
+
+      .account-orderTotal-value {
+        &:last-of-type {
+          border-bottom: none;
+        }
+
+        &.value--grand {
+          font-size: 20px;
+          font-weight: 700;
+        }
+      }
+    }
+
+    .order-actions {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .account-reorder-form {
+        margin-left: 0;
+        @include breakpoint("medium") {
+          margin-left: 11rem;
+        }
+      }
+
+      @include breakpoint("medium") {
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+/***Messages***/
+
+.account-list--messages {
+  padding-left: 0;
+
+  .account-listItem {
+    padding: 2.5rem 0;
+
+    @include breakpoint("medium") {
+      padding: 1.5rem 0;
+    }
+    .account-message {
+      .account-orderStatus {
+        font-weight: 700;
+        //  margin-bottom: 0.5rem;
+      }
+      .is-read {
+        color: $body-color;
+      }
+    }
+  }
+}
+
+.form--messages {
+  width: 100%;
+  small {
+    color: #d21d01;
+  }
+  .form-actions {
+    display: flex;
+    .button {
+      margin-top: 0;
+      & + .button {
+        margin-left: 10px;
+      }
+    }
+    @include breakpoint("medium") {
+      text-align: left;
+      display: block;
+    }
+  }
+  @include breakpoint("medium") {
+    width: 50%;
+  }
+}
+
+/***B2C addresses***/
+
+.addressList {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  padding: 0;
+  @include breakpoint("medium") {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .address {
+    margin: auto;
+
+    @include breakpoint("medium") {
+      width: 100%;
+    }
+
+    .panel-body {
+      border-radius: 8px;
+      .address-title {
+        font-size: 20px;
+        font-weight: 700;
+        @include breakpoint("medium") {
+          font-size: 24px;
+        }
+      }
+      .address-details {
+        padding: 0;
+      }
+      .form-actions {
+        display: flex;
+        justify-content: start;
+
+        @include breakpoint("medium") {
+        }
+
+        * {
+          top: 5px;
+        }
+        .button {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  .address--new {
+    .panel {
+      .panel-body {
+        background-color: white;
+        border: 1px solid $nav-hover-text;
+        .address-symbol {
+          color: black;
+          font-size: 23px;
+        }
+        .address-title {
+          font-size: 16px;
+          font-weight: 700;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+/***Edit account***/
+
+.form--edit-account {
+  #FormField_26, #FormField_27, #FormField_28, #FormField_31, #FormField_35 {
+    display: none;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    .button {
+      margin-top: 0.75rem;
+      width: 47%;
+      @include breakpoint("medium") {
+        width: fit-content;
+      }
+    }
+    @include breakpoint("medium") {
+      justify-content: center;
+    }
+  }
+}

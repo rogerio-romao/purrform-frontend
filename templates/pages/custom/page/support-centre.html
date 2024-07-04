@@ -1,0 +1,5 @@
+{{#partial "page"}}
+{{#each pages}} {{#if name '===' 'Support Centre'}} {{#each children}}
+<p><a href="{{url}}">{{name}}</a></p>
+{{/each}} {{/if}} {{/each}} {{/partial}}
+{{> layout/base}}

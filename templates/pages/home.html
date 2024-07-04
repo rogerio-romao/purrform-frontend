@@ -1,0 +1,118 @@
+---
+products:
+    new:
+        limit: {{theme_settings.homepage_new_products_count}}
+    featured:
+        limit: {{theme_settings.homepage_featured_products_count}}
+    top_sellers:
+        limit: {{theme_settings.homepage_top_products_count}}
+carousel: {{theme_settings.homepage_show_carousel}}
+blog:
+    recent_posts:
+        limit: {{theme_settings.homepage_blog_posts_count}}
+---
+
+
+
+{{#partial "hero"}}
+    {{{region name="home_below_menu"}}}
+    <div class="usp-banner d-flex align-middle">
+        <div data-slick='{
+            "dots": false,
+            "autoplay":true,        
+            "infinite": true,
+            "mobileFirst": true,
+            "arrows": false,
+            "slidesToShow": 1,
+            "slidesToScroll": 1,
+            "slide": ".js-product-slide",
+            "prevArrow": "",
+            "nextArrow": "",
+            "responsive": [
+                {
+                    "breakpoint": 800,
+                    "settings": {
+                        "slidesToShow": 4,
+                        "slidesToScroll": 1
+                    }
+                },
+                {
+                    "breakpoint": 550,
+                    "settings": {
+                        "slidesToShow": 2,
+                        "slidesToScroll": 1
+                    }
+                }
+            ]
+        }'>
+            <div class=" js-product-slide"> 
+                <svg >
+                    <use href="#usp-icon"/>
+                </svg>
+                Made with love in the UK
+            </div>
+            <div class=" js-product-slide"> 
+                <svg >
+                    <use href="#usp-icon2"/>
+                </svg>
+                Natural Ingredients & Grain Free
+            </div>
+            <div class=" js-product-slide"> 
+                <svg >
+                    <use href="#usp-icon3"/>
+                </svg>
+                Recommended by Vets
+            </div>
+        </div>
+    </div>
+    <!-- {{#and carousel carousel.slides.length}}
+        {{> components/carousel arrows=theme_settings.homepage_show_carousel_arrows play_pause_button=theme_settings.homepage_show_carousel_play_pause_button}}
+    {{/and}} -->
+    {{{region name="home_below_carousel"}}}
+{{/partial}}
+
+{{#partial "page"}}
+
+    {{#each shipping_messages}}
+        {{> components/common/alert/alert-info message}}
+    {{/each}}
+
+    <div class="trusted-by-section">
+        {{{region name="home_trusted_by"}}}
+        <h2>Trusted by</h2>
+        <img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/trusted-by-logos4.png" alt="">
+        <img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/trusted-by-logos.png" alt="">
+        <img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/trusted-by-logos1.png" alt="">
+
+    </div>
+
+    <div class="main full">
+        {{#if products.featured}}
+            <div class="products-carousel">
+                <div class="container">
+                    {{> components/products/featured products=products.featured columns=theme_settings.homepage_featured_products_column_count}}
+                </div>
+            </div>
+        {{/if}}
+        {{{region name="home_below_featured_products"}}}
+
+        {{#if products.top_sellers}}
+        <div class="products-carousel">
+            <div class="container">
+                {{> components/products/top products=products.top_sellers columns=theme_settings.homepage_top_products_column_count}}
+            </div>
+        </div>
+        {{/if}}
+        {{{region name="home_below_top_products"}}}
+
+        {{#if products.new}}
+        <div class="products-carousel">
+            <div class="container">
+                {{> components/products/new products=products.new columns=theme_settings.homepage_new_products_column_count}}
+            </div>
+        </div>        
+        {{/if}}
+        {{{region name="home_below_new_products"}}}
+    </div>
+{{/partial}}
+{{> layout/base}}

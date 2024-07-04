@@ -1,0 +1,25 @@
+ 
+    
+    <div class="product-faq">
+        <div class="container">
+            <section class="grid">
+                   <div class="d-flex flex-reverse">
+                        
+                       <div class="col8">
+   
+                        {{#each faqTab}} <div class="block"><h3 class="heading">{{faqQuestion}} </h2> <div class="contents"> <p>{{faqAnswer}}</p> </div> </div>    {{/each}} </div>
+                       
+
+                       <div class="col4">
+                         {{#if faqImage '!=' ' ' }}   
+                        <img src="{{faqImage.src}}" alt="{{faqalt}}">
+
+                        {{/if}}
+                        <h2>{{faqTitle}}</h2>  
+                        <a class="button button--secondary" href="{{faqLink}}">{{faqButton}}</a>
+                   </div> 
+                 
+                   </div>
+                   </section>
+        </div>
+    </div>

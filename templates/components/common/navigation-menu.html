@@ -1,0 +1,497 @@
+<nav class="navPages">
+    <div class="navPages-quickSearch">
+        <!--<svg>
+            <use href="#icon-search"></use> 
+        </svg>-->
+        {{> components/common/quick-search name='nav-menu-quick-search'}}
+    </div>
+    <ul class="navPages-list{{#if theme_settings.navigation_design '!==' 'simple'}} navPages-list-depth-max{{/if}}">
+        {{#each categories}}
+            <li class="navPages-item">
+            {{#if ../theme_settings.navigation_design '===' 'simple'}}
+                {{> components/common/navigation-list}}
+            {{/if}}
+            {{#if ../theme_settings.navigation_design '===' 'alternate'}}
+                {{> components/common/navigation-list-alternate}}
+            {{/if}}
+            </li>
+        {{/each}}
+        <li class="navPages-item navPages-item--support">
+            <a class="navPages-action has-subMenu" href="#" data-collapsible="navPages-support"
+                aria-controls="navPages-support" aria-expanded="false"
+                aria-label="{{lang 'common.currency' code=currency_selector.active_currency_code}}">
+                Knowledge & Service
+                <i class="icon navPages-action-moreIcon" aria-hidden="true">
+                    <svg>
+                        <use href="#icon-chevron-down" />
+                    </svg>
+                </i>
+            </a>
+            <div class="navPage-subMenu" id="navPages-support" aria-hidden="true" tabindex="-1">
+                <ul class="navPage-subMenu-list">
+                    
+                    {{#each pages}} 
+                        {{#if name '===' 'About Raw'}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                                <strong>{{name}}</strong>
+                            </a>
+                        </li>
+                        {{/if}}
+                    {{/each}}
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="/blog/" aria-label="blog">
+                            <strong>Support Centre</strong>
+                        </a>
+                    </li>
+                    {{#each pages}} 
+                        {{#if name '===' 'Stockists'}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                                <strong>{{name}}</strong>
+                            </a>
+                        </li>
+                        {{/if}}
+                    {{/each}}
+                    {{#each pages}} 
+                        {{#if name '===' 'Breeders'}}
+                            <li class="navPage-subMenu-item">
+                                <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                                    <strong>{{name}}</strong>
+                                </a>
+                            </li>
+                        {{/if}}
+                    {{/each}}
+                    {{#each pages}} 
+                        {{#if name '===' 'About Us'}}
+                            <li class="navPage-subMenu-item">
+                                <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                                    <strong>{{name}}</strong>
+                                </a>
+                            </li>
+                        {{/if}}
+                    {{/each}}
+                    {{#each pages}} 
+                        {{#if name '===' 'Resources'}}
+                            <li class="navPage-subMenu-item">
+                                <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                                    <strong>{{name}}</strong>
+                                </a>
+                            </li>
+                        {{/if}}
+                    {{/each}}
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="/rawsome-catculator/" aria-label="{{name}}">
+                            <strong>Calculators</strong>
+                        </a>
+                    </li>
+                    {{#each pages}} 
+                        {{#if name '===' 'Trade'}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                                <strong>{{name}}</strong>
+                            </a>
+                        </li>
+                        {{/if}}
+                    {{/each}}
+                    {{#each pages}}
+                    {{#if name '===' 'Our Story'}}
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                            <strong>{{name}}</strong>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{/each}}
+                    {{#each pages}}
+                        {{#if name '===' 'FAQs'}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                                <strong>{{name}}</strong>
+                            </a>
+                        </li>
+                        {{/if}}
+                    {{/each}}
+                    {{#each pages}}
+                        {{#if name '===' 'Traceability'}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                                <strong>{{name}}</strong>
+                            </a>
+                        </li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        </li>
+        {{#unless theme_settings.hide_content_navigation}}
+            {{#each pages}}
+                 <li class="navPages-item navPages-item-page">
+                     <a class="navPages-action{{#if name '==' ../page.title}} activePage{{/if}}"
+                        href="{{url}}"
+                        aria-label="{{name}}"
+                     >
+                         {{name}}
+                     </a>
+                 </li>
+             {{/each}}
+        {{/unless}}
+    </ul>
+
+    <ul class="navPages-list navPages-list--user navPages-list--fullwidth">
+        <li class="navPages-item">
+            
+            <a class="navPages-action has-subMenu"
+            href="#"
+            data-collapsible="navPages-knowledge"
+            aria-controls="navPages-knowledge"
+            aria-expanded="false"
+            aria-label="{{lang 'common.currency' code=currency_selector.active_currency_code}}"
+         >
+        Knowledge & Service 
+         </a>
+         <div class="navPage-subMenu" id="navPages-knowledge" aria-hidden="true" tabindex="-1">
+             <ul class="navPage-subMenu-list">
+                 <!--<li class="navPage-subMenu-item">
+                     <a class="navPage-subMenu-action navPages-action"
+                        href="{{{switch_url}}}"
+                        aria-label="{{name}}"
+                     >
+                        <strong>Strong</strong>
+                     </a>
+                 </li>-->
+                 <li class="navPage-subMenu-item">
+                    <a class="navPage-subMenu-action navPages-action"
+                       href="/blog/"
+                       aria-label="blog"            
+                     >
+                 <strong>Support Centre</strong>
+                     </a>
+                 </li>
+                 {{#each pages}}
+                 {{#if name '===' 'Resources'}}
+                 <li class="navPage-subMenu-item">
+                    <a class="navPage-subMenu-action navPages-action"
+                       href="{{url}}"
+                       aria-label="{{name}}"            
+                     >
+                 <strong>{{name}}</strong>
+                     </a>
+                 </li>
+                {{else if name '===' 'Breeders'}}
+                 <li class="navPage-subMenu-item">
+                    <a class="navPage-subMenu-action navPages-action"
+                       href="{{url}}"
+                       aria-label="{{name}}"            
+                     >
+                 <strong>{{name}}</strong>
+                     </a>
+                 </li>
+                 {{else if name '===' 'FAQs'}}
+                 <li class="navPage-subMenu-item">
+                 <a class="navPage-subMenu-action navPages-action"
+                    href="{{url}}"
+                    aria-label="{{name}}"            
+                  >
+              <strong>{{name}}</strong>
+                  </a>
+              </li>                 
+                  {{else if name '===' 'About Us'}}
+                 <li class="navPage-subMenu-item">
+                    <a class="navPage-subMenu-action navPages-action"
+                       href="{{url}}"
+                       aria-label="{{name}}"            
+                     >
+                 <strong>{{name}}</strong>
+                     </a>
+                 </li>
+                 {{else if name '===' 'About Raw'}}
+                 <li class="navPage-subMenu-item">
+                    <a class="navPage-subMenu-action navPages-action"
+                       href="{{url}}"
+                       aria-label="{{name}}"            
+                     >
+                 <strong>{{name}}</strong>
+                     </a>
+                 </li>
+                     {{else if name '===' 'Trade'}}
+                 <li class="navPage-subMenu-item">
+                    <a class="navPage-subMenu-action navPages-action"
+                       href="{{url}}"
+                       aria-label="{{name}}"            
+                     >
+                 <strong>{{name}}</strong>
+                     </a>
+                 </li>
+                  {{!--{{else if name '===' 'Our Story'}}
+                 <li class="navPage-subMenu-item">
+                    <a class="navPage-subMenu-action navPages-action"
+                       href="{{url}}"
+                       aria-label="{{name}}"            
+                     >
+                 <strong>{{name}}</strong>
+                     </a>
+                 </li> --}}
+                   {{else if name '===' 'Stockists'}}
+                 <li class="navPage-subMenu-item">
+                    <a class="navPage-subMenu-action navPages-action"
+                       href="{{url}}"
+                       aria-label="{{name}}"            
+                     >
+                 <strong>{{name}}</strong>
+                     </a>
+                 </li>
+                 {{/if}}
+                 {{/each}}
+                 <li class="navPage-subMenu-item">
+                    <a class="navPage-subMenu-action navPages-action"
+                       href="/rawsome-catculator/"
+                       aria-label="calculators"            
+                     >
+                 <strong>Calculators</strong>
+                     </a>
+                 </li>
+             </ul>
+         </div>
+
+        </li>
+
+        {{#if customer}}
+        <li class="navPages-item navPages-item--account">
+            <a class="navPages-action has-subMenu"
+               href="{{urls.account.index}}"
+               data-collapsible="navPages-account"
+               aria-label="{{lang 'common.account'}}"
+            >
+                {{lang 'common.account'}}
+               <!-- <i class="icon navPages-action-moreIcon" aria-hidden="true">
+                    <svg><use href="#icon-chevron-down" /></svg>
+                </i> -->
+            </a>
+            <div class="navPage-subMenu" id="navPages-account" aria-hidden="true" tabindex="-1">
+                <ul class="navPage-subMenu-list">
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action"
+                           href="{{urls.account.orders.all}}"
+                           aria-label="{{lang 'account.nav.orders'}}"
+                        >
+                            {{lang 'account.nav.orders'}}
+                        </a>
+                    </li>
+                    {{#if settings.returns_enabled}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action"
+                               href="{{urls.account.returns}}"
+                               aria-label="{{lang 'account.nav.returns'}}"
+                            >
+                                {{lang 'account.nav.returns'}}
+                            </a>
+                        </li>
+                    {{/if}}
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action"
+                           href="{{urls.account.inbox}}"
+                           aria-label="{{lang 'account.mobile_nav.messages'}}"
+                        >
+                            {{lang 'account.mobile_nav.messages'}}
+                        </a>
+                    </li>
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action"
+                           href="{{urls.account.addresses}}"
+                           aria-label="{{lang 'account.nav.addresses'}}"
+                        >
+                            {{lang 'account.nav.addresses'}}
+                        </a>
+                    </li>
+                    {{#if settings.show_payment_methods}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action"
+                               href="{{urls.account.payment_methods.all}}"
+                               aria-label="{{lang 'account.nav.payment_methods'}}"
+                            >
+                                {{lang 'account.nav.payment_methods'}}
+                            </a>
+                        </li>
+                    {{/if}}
+
+                    {{#if settings.show_wishlist}}
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action"
+                           href="{{urls.account.wishlists.all}}"
+                           aria-label="{{lang 'account.mobile_nav.wishlists'}}"
+                        >
+                            {{lang 'account.mobile_nav.wishlists'}}
+                        </a>
+                    </li>
+                    {{/if}}
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action"
+                           href="{{urls.account.recent_items}}"
+                           aria-label="{{lang 'account.nav.recently_viewed'}}"
+                        >
+                            {{lang 'account.nav.recently_viewed'}}
+                        </a>
+                    </li>
+                 
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action"
+                           href="{{urls.account.details}}"
+                           aria-label="{{lang 'account.nav.settings'}}"
+                        >
+                            {{lang 'account.nav.settings'}}
+                        </a>
+                    </li>
+
+
+
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action"
+                           href="{{urls.auth.logout}}"
+                           aria-label="{{lang 'common.logout'}}"
+                        >
+                            {{lang 'common.logout'}}
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+        <!--<li class="navPages-item navPages-item---logout">
+            <a class="navPages-action"
+               href="{{urls.auth.logout}}"
+               aria-label="{{lang 'common.logout'}}"
+            >
+                {{lang 'common.logout'}}
+            </a>
+        </li> -->
+    {{else}}
+        <li class="navPages-item navUser-item--account" style="background-color: #546153;">
+            <a class="navUser-action"
+                   href="{{urls.auth.login}}"
+                   aria-label="{{lang 'common.login'}}"
+                >
+                    {{lang 'common.login'}}
+                </a>
+                {{#if settings.account_creation_enabled}}
+                    <span class="navUser-or">{{lang 'common.sap'}}</span>
+                    <a class="navUser-action"
+                       href="{{urls.auth.create_account}}"
+                       aria-label="{{lang 'common.sign_up'}}"
+                    >
+                        {{lang 'common.sign_up'}}
+                    </a>
+            {{/if}}
+        </li>
+    {{/if}}
+
+    </ul>
+
+
+    <ul class="navPages-list navPages-list--user">
+        
+      
+
+        {{#if currency_selector.currencies.length '>' 1}}
+            <li class="navPages-item">
+                <a class="navPages-action has-subMenu"
+                   href="#"
+                   data-collapsible="navPages-currency"
+                   aria-controls="navPages-currency"
+                   aria-expanded="false"
+                   aria-label="{{lang 'common.currency' code=currency_selector.active_currency_code}}"
+                >
+                    {{lang 'common.currency' code=currency_selector.active_currency_code}}
+                    <i class="icon navPages-action-moreIcon" aria-hidden="true">
+                        <svg>
+                            <use href="#icon-chevron-down"></use>
+                        </svg>
+                    </i>
+                </a>
+                <div class="navPage-subMenu" id="navPages-currency" aria-hidden="true" tabindex="-1">
+                    <ul class="navPage-subMenu-list">
+                        {{#each currency_selector.currencies}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action"
+                               href="{{{switch_url}}}"
+                               aria-label="{{name}}"
+                               data-currency-code="{{{code}}}"
+                               {{#if cart_currency_switch_url.length '>' 0 }}
+                               data-cart-currency-switch-url="{{{cart_currency_switch_url}}}"
+                               {{/if}}
+                               data-warning="{{lang 'common.currency_switch_promotion'}}"
+                            >
+                                {{#if is_active}}
+                                    <strong>{{name}}</strong>
+                                {{else}}
+                                    {{name}}
+                                {{/if}}
+                            </a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </li>
+        {{/if}}
+        {{!--{{#if settings.gift_certificates_enabled}}
+            <li class="navPages-item navPages-list--gift-certificates">
+                <a class="navPages-action"
+                   href="{{urls.gift_certificate.purchase}}"
+                   aria-label="{{lang 'common.gift_cert'}}"
+                >
+                    {{lang 'common.gift_cert'}}
+                </a>
+            </li>
+        {{/if}}--}}
+        {{#if customer.store_credit.value '>' 0}}
+            <li class="navPages-item">
+                <a class="navPages-action navPages-action--storeCredit">
+                    {{lang 'common.store_credit_overview' credit=customer.store_credit.formatted}}
+                </a>
+            </li>
+        {{/if}}
+        {{#if theme_settings.product_list_display_mode '==' 'list'}}
+            <li class="navPages-item">
+                <a class="navPages-action navPages-action--compare"
+                   href="{{urls.compare}}"
+                   data-compare-nav
+                   aria-label="{{lang 'common.compare'}}"
+                >
+                    {{lang 'common.compare'}}
+                    <span class="countPill countPill--positive countPill--alt"></span>
+                </a>
+            </li>
+        {{/if}}
+   
+        <li class="navPages-item navUser-item--contact"><span>{{lang 'common.need_help'}}</span> <a class="navUser-action" href="/contact-us/">{{lang 'common.contact'}}</a></li>
+        {{#if theme_settings.social_icon_placement_top}}
+            <li class="navPages-item">
+                {{> components/common/social-links}}
+            </li>
+        {{/if}}
+    </ul>
+</nav>
+
+<script>
+    jQuery(document).ready(function () {
+        $('.navPages-item').click(function (e) { //Click on the navpage links
+            if(!$(this).hasClass("activated")){
+            $('#dropdown-overlay').addClass('active');
+            $('.header').addClass('overlay-active');
+           } else {
+            $('#dropdown-overlay').removeClass('active');
+            $('.header').removeClass('overlay-active');
+           }
+            $(".navPages-list .navPages-item").not($(this)).removeClass('activated');
+           $(this).toggleClass('activated');
+        });
+
+
+        $('#dropdown-overlay, .header, .navPage-subMenu').click(function () {
+            $('#dropdown-overlay').removeClass('active');
+            $('.header').removeClass('overlay-active');
+            $(".navPages-list .navPages-item").removeClass('activated');
+        });
+
+    });
+</script>

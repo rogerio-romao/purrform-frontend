@@ -1,0 +1,27 @@
+node_modules/
+.stencil
+.DS_Store
+assets/css-artifacts
+assets/js/bundle.js
+assets/dist
+vendor/bundle
+.bundle
+*.js.map
+*.zip
+.idea/
+.vscode
+debug.log
+secrets.stencil.json
+
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+# Dump file
+*.stackdump
+# Folder config file
+[Dd]esktop.ini
+config.stencil.json
+secrets.stencil.json
+widget/node_modules

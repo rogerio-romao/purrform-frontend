@@ -1,0 +1,160 @@
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+<h1 class="page-heading page-heading--account">Rewards</h1>
+{{> components/account/navigation account_page='messages'}}
+
+<div class="account account--fixed">
+    <div class="account-body">
+        <section class="account-content">
+            <div class="reward-section">
+                <h2>Loyalty points</h2>
+                <p>Purchase goods to earn points for discounts!</p>
+                <p id="loyalty-points-balance">No balance found.</p>
+            </div>
+            {{#if customer_group_id '===' 10}}
+            <div class="reward-section">
+                <h2>Birthday gift</h2>
+                <p>Register up to 4 cats to receive  a 10% discount voucher when it's their birthday! The purrfect gift!
+                </p>
+                <div class="reward-form">
+                    <div>
+                        <label class="form-label" for="reward-cat-name">Name</label>
+                        <input type="text" id="reward-cat-name">
+                    </div>
+                    <div>
+                        <label class="form-label" for="reward-cat-sex">Sex</label>
+                        <select name="sex" id="reward-cat-sex">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" for="reward-cat-breed">Breed</label>
+                        <input type="text" id="reward-cat-breed">
+                    </div>
+                    <div>
+                        <label class="form-label" for="reward-cat-birthday">Birthday</label>
+                        <input type="text" id="reward-cat-birthday" placeholder="DD/MM/YYYY" maxlength="10">
+                    </div>
+                    <button class="button button--primary">Add Cat</button>
+                </div>
+                <div class="list-of-cats">
+                    <div class="cat">
+                        <div class="cat-header">Cat #1</div>
+                        <div class="cat-detail">Name: Josh</div>
+                        <div class="cat-detail">Age: 12</div>
+                        <div class="cat-detail">Birthday: 10th of June, 1997</div>
+                    </div>
+                    <div class="cat">
+                        <div class="cat-header">Cat #2</div>
+                        <div class="cat-detail">Name: Bella</div>
+                        <div class="cat-detail">Age: 8</div>
+                        <div class="cat-detail">Birthday: 22nd of August, 2015</div>
+                    </div>
+                    <div class="cat">
+                        <div class="cat-header">Cat #3</div>
+                        <div class="cat-detail">Name: Whiskers</div>
+                        <div class="cat-detail">Age: 4</div>
+                        <div class="cat-detail">Birthday: 14th of March, 2019</div>
+                    </div>
+                    <div class="cat disabled">
+                        <div class="cat-header">Cat #4</div>
+                        <!-- <div class="cat-detail">Name: --</div>
+                        <div class="cat-detail">Age: -</div>
+                        <div class="cat-detail">Birthday: ----</div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="reward-section">
+                <h2>Refer a friend</h2>
+                <p>Refer a friend and both of you will receive a 5% discount code.</p>
+                <label class="form-label" for="reward-friend-refer-email">Email Address</label>
+                <input type="text" id="reward-friend-refer-email">
+                <button class="button button--primary">Submit</button>
+            </div>
+            {{/if}}
+            {{#if customer_group_id '===' 10}}
+            <div class="reward-section">
+                <h2>Breeder referral</h2>
+                <p>Send a 10% discount code to your customers and when 5 customers redeem their codes, you will receive
+                    a 5% discount code as a reward.</p>
+                <label class="form-label" for="reward-breeder-refer-email">Email Address</label>
+                <input type="text" id="reward-breeder-refer-email">
+                <button class="button button--primary">Submit</button>
+            </div>
+            {{/if}}
+        </section>
+        <section class="account-footer">
+            <span>Terms and conditions apply, full T&Cs can be found at <br /> <a
+                    href="https://www.purrform.co.uk/terms-conditions/">https://www.purrform.co.uk/terms-conditions/</a>
+            </span>
+        </section>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const dateInput = document.getElementById('reward-cat-birthday');
+
+        dateInput.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove all non-digit characters
+            if (value.length > 8) {
+                value = value.slice(0, 8); // Limit input to 8 digits
+            }
+
+            // Insert slashes
+            if (value.length >= 5) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4) + '/' + value.slice(4, 8);
+            } else if (value.length >= 3) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            } else if (value.length >= 1) {
+                value = value.slice(0, 2);
+            }
+
+            e.target.value = value;
+        });
+    });
+</script>
+<script>
+    // Append the usePointsDiv to the target element
+    function fetchLoyalty() {
+        return fetch('/graphql', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+            },
+            body: JSON.stringify({
+                query: `
+                query loyaltyQuery{
+                    customer {
+                        attributes {
+                            attribute(entityId: 1) {
+                                value
+                                name
+                            }
+                        }
+                    }
+                }
+            `
+            }),
+        })
+            .then(res => res.json())
+            .then(json => {
+                const attribute = json.data.customer.attributes.attribute;
+                const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
+
+                const pointsBalanceElement = document.getElementById('loyalty-points-balance');
+                pointsBalanceElement.textContent = `Current Balance: ${points}`;
+            })
+            .catch(error => {
+                const pointsBalanceElement = document.getElementById('loyalty-points-balance');
+                pointsBalanceElement.textContent = 'Current Balance: 0';
+            });
+    }
+    fetchLoyalty()
+    document.addEventListener('DOMContentLoaded', fetchLoyalty())
+</script>
+{{/partial}}
+{{> layout/base}}

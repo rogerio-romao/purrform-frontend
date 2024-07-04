@@ -1,0 +1,49 @@
+<div class="description-container">
+    <ul class="tabs" data-tab>
+        {{#if product.description}}
+        <li class="tab is-active">
+            <a class="tab-title" href="#tab-description">{{lang 'products.description'}} </a>
+            <div class="mobile-description-tab" id="tab-mobile-description">
+            </div>
+        </li>
+        {{/if}} {{#if product.description}}
+        <li class="tab {{#if product.description}} {{else}} is-active{{/if}}">
+            <a class="tab-title" href="#tab-supplements-composition">Composition & <br> Nutritional Additives</a>
+            <div class="mobile-description-tab" id="tab-mobile-supplements-composition">
+            </div>
+        </li>
+        {{/if}} {{#if product.description}}
+        <li
+            class="tab {{#if product.description}} {{else if product.composition}} {{else if product.constituents}}is-active{{/if}}">
+            <a class="tab-title" href="#tab-supplements-constituents">Analytical Constituents</a>
+            <div class="mobile-description-tab" id="tab-mobile-supplements-constituents">
+            </div>
+        </li>
+        {{/if}}
+        <li
+            class="tab {{#if product.description}} {{else if product.composition}} {{else if product.constituents}}is-active{{/if}}">
+            <a class="tab-title" href="#tab-supplements-instructions">Instructions for use</a>
+            <div class="mobile-description-tab" id="tab-mobile-supplements-instructions">
+            </div>
+        </li>
+    </ul>
+    <div class="tabs-contents tabs-contents-desktop">
+        {{#if product.description}}
+        <div class="tab-content  is-active" id="tab-description">
+        </div>
+        {{/if}} {{#if product.description}}
+        <div class="tab-content  {{#if product.composition}} is-active {{else}} {{/if}}"
+            id="tab-supplements-composition">
+        </div>
+        {{/if}} {{#if product.description}}
+        <div class="tab-content  {{#if product.description}} {{else if product.composition}} {{else if product.constituents}}is-active{{/if}}"
+            id="tab-supplements-constituents">
+        </div>
+        {{/if}}
+        {{#if product.description}}
+        <div class="tab-content  {{#if product.description}} {{else if product.composition}} {{else if product.constituents}} {{else if product.instructions}}is-active{{/if}}"
+            id="tab-supplements-instructions">
+        </div>
+        {{/if}}
+    </div>
+</div>

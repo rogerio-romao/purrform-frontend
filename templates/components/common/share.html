@@ -1,0 +1,116 @@
+{{#if settings.add_this.buttons}}
+    {{assignVar 'encodedUrl' (encodeURI url)}}
+    {{assignVar 'encodedTitle' (encodeURI head.title)}}
+    <div>
+        <ul class="socialLinks">
+            {{#each settings.add_this.buttons}}
+                <li class="socialLinks-item socialLinks-item--{{service}}">
+                    {{#if service '===' 'facebook'}}
+                    <a class="socialLinks__link icon icon--{{service}}"
+                       title="{{{capitalize service}}}"
+                       href="https://facebook.com/sharer/sharer.php?u={{getVar 'encodedUrl'}}"
+                       target="_blank"
+                       rel="noopener"
+                       {{{annotation}}}
+                    >
+                        <span class="aria-description--hidden">{{{capitalize service}}}</span>
+                        <!--<svg>
+                            <use href="#icon-facebook"/>
+                        </svg>-->
+
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_2814_48294)">
+                            <path d="M28 14C28 6.26719 21.7328 0 14 0C6.26719 0 0 6.26719 0 14C0 20.9891 5.11875 26.7805 11.8125 27.8305V18.0469H8.25781V14H11.8125V10.9156C11.8125 7.40742 13.9016 5.46875 17.1008 5.46875C18.632 5.46875 20.2344 5.74219 20.2344 5.74219V9.1875H18.468C16.7289 9.1875 16.1875 10.2676 16.1875 11.375V14H20.0703L19.4496 18.0469H16.1875V27.8305C22.8813 26.7805 28 20.9891 28 14Z" fill="#687D6A"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_2814_48294">
+                            <rect width="28" height="28" fill="white"/>
+                            </clipPath>
+                            </defs>
+                            </svg>
+                            
+
+                    </a>
+                    {{else if service '===' 'email'}}
+                    <a class="socialLinks__link icon icon--{{service}}"
+                       title="{{{capitalize service}}}"
+                       href="mailto:?subject={{getVar 'encodedTitle'}}&amp;body={{getVar 'encodedUrl'}}"
+                       target="_self"
+                       rel="noopener"
+                       {{{annotation}}}
+                    >
+                        <span class="aria-description--hidden">{{{capitalize service}}}</span>
+                        <svg>
+                            <use href="#icon-envelope"/>
+                        </svg>
+                    </a>
+                    {{else if service '===' 'print'}}
+                    <a class="socialLinks__link icon icon--{{service}}"
+                       title="{{{capitalize service}}}"
+                       onclick="window.print();return false;"
+                       {{{annotation}}}
+                    >
+                        <span class="aria-description--hidden">{{{capitalize service}}}</span>
+                        <svg>
+                            <use href="#icon-print"/>
+                        </svg>
+                    </a>
+                    {{else if service '===' 'twitter'}}
+                    <a class="socialLinks__link icon icon--{{service}}"
+                       href="https://twitter.com/intent/tweet/?text={{getVar 'encodedTitle'}}&amp;url={{getVar 'encodedUrl'}}"
+                       target="_blank"
+                       rel="noopener"
+                       title="{{{capitalize service}}}"
+                       {{{annotation}}}
+                    >
+                        <span class="aria-description--hidden">{{{capitalize service}}}</span>
+                        <!--<svg>
+                            <use href="#icon-twitter"/>
+                        </svg>-->
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28C21.732 28 28 21.732 28 14C28 6.26801 21.732 0 14 0ZM13.6101 11.8638L13.5807 11.3794C13.4926 10.1238 14.2662 8.97699 15.4903 8.5321C15.9407 8.37392 16.7046 8.35415 17.204 8.49256C17.3999 8.55188 17.772 8.7496 18.0364 8.92756L18.5162 9.25381L19.045 9.08574C19.3388 8.99676 19.7305 8.84847 19.9068 8.7496C20.0733 8.66063 20.2202 8.61119 20.2202 8.64085C20.2202 8.80892 19.8578 9.38233 19.5543 9.69869C19.143 10.1436 19.2605 10.1831 20.0929 9.88653C20.5923 9.71847 20.6021 9.71847 20.5041 9.90631C20.4454 10.0052 20.1418 10.3512 19.8187 10.6676C19.2703 11.2113 19.2409 11.2706 19.2409 11.7254C19.2409 12.4273 18.9079 13.8905 18.575 14.6913C17.958 16.194 16.636 17.7462 15.314 18.5272C13.4534 19.6246 10.9758 19.9014 8.88999 19.2588C8.19471 19.0413 7 18.4877 7 18.3888C7 18.3591 7.36233 18.3196 7.803 18.3097C8.72352 18.2899 9.64403 18.0329 10.4274 17.5781L10.9563 17.2618L10.3491 17.0541C9.48735 16.7576 8.71372 16.0754 8.51787 15.4328C8.45911 15.2252 8.4787 15.2153 9.02709 15.2153L9.59507 15.2054L9.11522 14.978C8.54725 14.6913 8.02823 14.2069 7.77362 13.7126C7.58756 13.3566 7.35254 12.457 7.42109 12.3878C7.44067 12.3581 7.64632 12.4174 7.88134 12.4965C8.55704 12.7437 8.64517 12.6844 8.25347 12.2691C7.51901 11.5178 7.29378 10.4006 7.64632 9.34278L7.81279 8.86824L8.45911 9.51085C9.78113 10.806 11.3382 11.5771 13.1204 11.8045L13.6101 11.8638Z" fill="#687D6A"/>
+                            </svg>
+                            
+                    </a>
+                    {{else if service '===' 'linkedin'}}
+                    <a class="socialLinks__link icon icon--{{service}}"
+                       title="{{{capitalize service}}}"
+                       href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{getVar 'encodedUrl'}}&amp;title={{getVar 'encodedTitle'}}&amp;summary={{getVar 'encodedTitle'}}&amp;source={{getVar 'encodedUrl'}}"
+                       target="_blank"
+                       rel="noopener"
+                       {{{annotation}}}
+                    >
+                        <span class="aria-description--hidden">{{{capitalize service}}}</span>
+                        <svg>
+                            <use href="#icon-linkedin"/>
+                        </svg>
+                    </a>
+                    {{else if service '===' 'pinterest'}}
+                    <a class="socialLinks__link icon icon--{{service}}"
+                       title="{{{capitalize service}}}"
+                       href="https://pinterest.com/pin/create/button/?url={{getVar 'encodedUrl'}}&amp;media={{getImageSrcset ../product.main_image (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}&amp;description={{getVar 'encodedTitle'}}"
+                       target="_blank"
+                       rel="noopener"
+                       {{{annotation}}}
+                    >
+                        <span class="aria-description--hidden">{{{capitalize service}}}</span>
+                        <svg>
+                            <use href="#icon-pinterest"/>
+                        </svg>
+                    </a>
+                    {{/if}}
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
+{{#if settings.facebook_like_button.enabled}}
+   <iframe
+        class="facebook{{#if settings.facebook_like_button.verb '===' 'recommend'}}Recommend{{else}}Like{{/if}}Btn"
+        style="border:none; overflow:hidden; margin: 0; padding: 0; position:absolute"
+        src="https://www.facebook.com/plugins/like.php?href={{settings.facebook_like_button.href}}&amp;layout=button_count{{#if settings.facebook_like_button.verb '===' 'recommend'}}&amp;action=recommend{{/if}}&amp;colorscheme=light&amp;height=20"
+        scrolling="no"
+        frameborder="0"
+        allowTransparency="true">
+    </iframe>   
+{{/if}}

@@ -1,0 +1,279 @@
+{{#if banners.bottom}} {{#if settings.data_tag_enabled}}
+<div class="banners" data-banner-location="bottom">
+  {{#each (limit banners.bottom_metadata 1)}}
+  <div
+    class="banner"
+    data-event-type="promotion"
+    data-entity-id="{{this.id}}"
+    data-name="{{this.banner-name}}"
+    data-position="{{this.location}}"
+    data-name="{{this.banner-name}}"
+  >
+    <div data-event-type="promotion-click">{{{this.content}}}</div>
+  </div>
+  {{/each}}
+</div>
+{{else}}
+<div class="banners" data-banner-location="bottom">
+  <div class="banner">{{{limit banners.bottom 1}}}</div>
+</div>
+{{/if}} {{/if}}
+<footer class="footer" role="contentinfo">
+  <h2 class="footer-title-sr-only">{{lang 'footer.title'}}</h2>
+  <div class="container main-container">
+    <section class="footer-info d-flex align-top flex-wrap">
+      <article
+        class="footer-info-col footer-pages d-flex"
+        data-section-type="footer-webPages"
+      >
+        {{!--
+        <h3 class="footer-info-heading">{{lang 'footer.navigate'}}</h3>
+        --}}
+        <ul class="footer-info-list d-flex flex-wrap align-top">
+			{{#each pages}} 
+				{{#if name '===' 'Contact Us'}}
+					<li >
+						<a href="{{url}}">{{name}}</a>
+					</li>
+				{{/if}}
+			{{/each}}
+			
+			{{#each pages}} 
+				{{#if name '===' 'Deliveries'}}
+					<li >
+						<a href="{{url}}">{{name}}</a>
+					</li>
+				{{/if}}
+			{{/each}}
+			<li class="sitemap">
+				<a href="{{urls.sitemap}}">{{lang 'sitemap.page_title'}}</a>
+			  </li>     
+			  {{#each pages}} 
+			  {{#if name '===' 'Returns'}}
+				  <li >
+					  <a href="{{url}}">{{name}}</a>
+				  </li>
+			  {{/if}}
+		  	{{/each}}
+			{{#each pages}} 
+				{{#if name '===' 'Disclaimer'}}
+					<li >
+						<a href="{{url}}">{{name}}</a>
+					</li>
+				{{/if}}
+			{{/each}}
+			{{#each pages}} 
+				{{#if name '===' 'Product Recall'}}
+					<li >
+						<a href="{{url}}">{{name}}</a>
+					</li>
+				{{/if}}
+			{{/each}}
+                 
+          
+
+          {{#if settings.address}}
+          <li class="col3-mobile ">
+            <h3 class="footer-info-heading">{{lang 'footer.customer_service'}}</h3>
+            </li>
+
+<li class="col3-mobile">
+  <address>
+{{{lang 'footer.tel'}}}
+</address>
+</li>
+
+            <li class="col3-mobile mobile-footer-address">
+   
+
+
+              <address>{{{lang 'footer.address'}}}</address>
+            </li>
+
+
+
+            {{#if settings.phone_number}}
+            <li class="col3-mobile">
+              <span
+              >{{lang 'footer.call_us' phone_number=settings.phone_number}}</span
+            >
+            </li>
+            {{/if}}
+
+            {{/if}}
+
+        
+            <!--<article class="footer-info-col col3 col3-mobile" data-section-type="storeInfo">
+              <h3 class="footer-info-heading">{{lang 'footer.customer_service'}}</h3>
+              {{!--
+              <address>{{nl2br settings.address}}</address>
+              --}}
+              <address>{{{lang 'footer.address'}}}</address>
+              {{#if settings.phone_number}}
+              <span
+                >{{lang 'footer.call_us' phone_number=settings.phone_number}}</span
+              >
+              {{/if}}
+            </article> -->
+           
+
+         
+
+        </ul>
+        <!--<ul class="footer-info-list d-flex flex-wrap align-top">
+                    <li>
+                        <a href="{{urls.sitemap}}">{{lang 'sitemap.page_title'}}</a>
+                    </li>
+                    <li>tester</li>
+                </ul> 
+
+                <h3 class="footer-info-heading">{{lang 'footer.customer_service'}}</h3>
+                {{!--<address>{{nl2br settings.address}}</address>--}}
+                <address>{{{lang 'footer.address'}}}</address>
+                {{#if settings.phone_number}}
+                    <strong>{{lang 'footer.call_us' phone_number=settings.phone_number}}</strong>
+                {{/if}}-->
+      </article>
+      {{!--
+      <article
+        class="footer-info-col footer-info-col--small"
+        data-section-type="footer-categories"
+      >
+        <h3 class="footer-info-heading">{{lang 'footer.categories'}}</h3>
+        <ul class="footer-info-list">
+          {{#each categories}}
+          <li>
+            <a href="{{url}}">{{name}}</a>
+          </li>
+          {{/each}}
+        </ul>
+      </article>
+      --}} {{#and theme_settings.shop_by_brand_show_footer
+      shop_by_brand.length}}
+      <article
+        class="footer-info-col footer-info-col--small"
+        data-section-type="footer-brands"
+      >
+        <h3 class="footer-info-heading">{{lang 'footer.brands'}}</h3>
+        <ul class="footer-info-list">
+          {{#each shop_by_brand}}
+          <li>
+            <a href="{{url}}">{{name}}</a>
+          </li>
+          {{/each}}
+          <li><a href="{{urls.brands}}">{{lang 'common.view_all'}}</a></li>
+
+
+
+        </ul>
+      </article>
+      {{/and}} {{#if settings.address}}
+      <article class="footer-info-col col3 col3-desktop" data-section-type="storeInfo">
+        <h3 class="footer-info-heading"><strong>{{lang 'footer.customer_service'}}</strong></h3>
+        {{!--
+        <address>{{nl2br settings.address}}</address>
+        --}}
+        <address>{{{lang 'footer.address'}}}</address>
+        {{#if settings.phone_number}}
+        <span
+          >{{lang 'footer.call_us' phone_number=settings.phone_number}}</span
+        >
+        {{/if}}
+      </article>
+      {{/if}}
+
+      <article
+        class="footer-info-col newsletterSubscription"
+        data-section-type="newsletterSubscription"
+      >
+        {{#if settings.show_newsletter_box}} {{>
+        components/common/subscription-form}} {{/if}} {{#if
+        theme_settings.social_icon_placement_bottom '!==' 'bottom_none'}}
+        <!-- <article class="footer-info-col
+                    footer-info-col--social
+                    footer-info-col--{{#if theme_settings.social_icon_placement_bottom '===' 'bottom_left'}}left{{else}}right{{/if}}"
+                    data-section-type="footer-webPages">
+ 
+               
+                </article>-->
+        {{> components/common/social-links}} {{/if}}
+      </article>
+    </section>
+  </div>
+  <div class="footer-bottom">
+    <div class="container grid grid3-columns">
+      {{#if theme_settings.show_powered_by}}
+      <div class="footer-copyright">
+        <p class="powered-by">
+          {{lang 'footer.powered_by'}}
+          <a
+            href="https://www.bigcommerce.com?utm_source=merchant&amp;utm_medium=poweredbyBC"
+            rel="nofollow"
+            >BigCommerce</a
+          >
+        </p>
+      </div>
+      {{/if}} {{#if theme_settings.show_copyright_footer}}
+      <div class="footer-copyright">
+        <p class="powered-by">
+          &copy; {{moment format="YYYY"}} {{settings.store_name}} Registered
+          Company No.7757152 England & Wales
+        </p>
+      </div>
+      {{/if}}
+
+      <ul>
+        <li><a href="/terms-conditions/">Terms & Conditions</a></li>
+        <li><a href="/terms-of-use/">Terms of Use</a></li>
+        <li><a href="/privacy-policy/">Privacy Policy</a></li>
+      </ul>
+
+      {{> components/common/payment-icons}} {{{region
+      name="ssl_site_seal--global"}}}
+    </div>
+  </div>
+</footer>
+<script>
+  $('.quick-add-to-cart .purchase-control.add-to-cart-buttons .button').click(function(e){
+        e.preventDefault();
+        var form = $(this).parents('form');
+        var card = $(this).parents('.card-button');
+        var product_id = $(this).parents('form').find('input[name="product_id"]').val();
+        var quantity = $(this).parents('form').find('.form-input--incrementTotal').val()
+        
+        $.ajax({
+        type: 'POST',
+        //url:'/cart.php?action=add&product_id='+product_id+'&qty='+quantity+'&ajaxsubmit=1',
+        url: '/remote/v1/cart/add',
+        async: false,
+        data: {'action':'add','product_id': product_id,'qty': quantity},
+        success:function(response){
+          //console.log(response);
+          $.ajax({
+            type: 'GET',
+            url:'/api/storefront/cart-summary',
+            async: false,
+            success:function(res){
+              //console.log(res);
+              var c_qty = res.total_quantity;
+              $('.countPill.cart-quantity').text(c_qty);
+            }
+          });
+          
+          form.find('.quick-add-to-cart').hide();
+          card.find('.product-status-message').removeClass('aria-description--hidden');
+          setTimeout(
+            function() 
+            {
+              card.find('.product-status-message').addClass('aria-description--hidden');
+            }, 5000);
+        }
+      });
+    });
+</script>
+<!--Used to display the rawsome-catculator modal-->
+<!--<div id="show_RDA" class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto;display:none">
+  <div id="productWindow123"></div>
+</div> -->
+
+

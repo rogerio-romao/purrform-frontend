@@ -1,0 +1,27 @@
+<span class="stars-container" role="img"
+    {{#if rating_target}}
+      aria-label="{{lang 'products.reviews.rating_aria_label' rating_target=rating_target current_rating=rating max_rating=5}}"
+    {{else}}
+      aria-label="{{lang 'products.reviews.rating_aria_label' rating_target='Product' current_rating=rating max_rating=5}}"
+    {{/if}}
+>
+    {{#for 1 5}}
+        {{#if ../this.rating '>=' $index}}
+            <span class="icon icon--ratingFull">
+                {{!--<svg>
+                    <use href="#icon-star" />
+                </svg> --}}
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.8623 13.2189C10.7519 13.2189 10.6415 13.1932 10.5408 13.1404L6.99979 11.2904L3.45882 13.1404C3.2241 13.2626 2.94077 13.2411 2.72896 13.0855C2.51507 12.93 2.40882 12.6668 2.45327 12.4064L3.12827 8.49803L0.267155 5.73066C0.0761827 5.54664 0.00812713 5.27025 0.0893771 5.01816C0.169933 4.76608 0.387988 4.58275 0.649794 4.54455L4.60882 3.96955L6.37757 0.409831C6.61229 -0.0623915 7.38729 -0.0623915 7.62202 0.409831L9.39077 3.96955L13.3498 4.54455C13.6116 4.58275 13.8297 4.76608 13.9102 5.01816C13.9915 5.27025 13.9234 5.54664 13.7324 5.73066L10.8713 8.49803L11.5463 12.4064C11.5908 12.6668 11.4845 12.93 11.2706 13.0855C11.1505 13.1744 11.0067 13.2189 10.8623 13.2189Z" fill="#BD9B60"/>
+                    </svg>
+                    
+            </span>
+        {{else}}
+            <span class="icon icon--ratingEmpty">
+                <svg>
+                    <use href="#icon-star" />
+                </svg>
+            </span>
+        {{/if}}
+    {{/for}}
+</span>

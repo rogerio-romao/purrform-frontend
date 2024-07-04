@@ -1,0 +1,14 @@
+.pagination-list {
+  text-align: center;
+  .pagination-item--current {
+    border: none;
+    a {
+      color: #232524;
+      font-weight: 700;
+    }
+  }
+
+  @include breakpoint("medium") {
+    text-align: right;
+  }
+}

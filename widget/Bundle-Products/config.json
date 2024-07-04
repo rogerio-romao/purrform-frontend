@@ -1,0 +1,65 @@
+{
+  "heading_visiblity": true,
+  "sectionHeading": "Customer Reviews",
+  "va_visiblity": true,
+  "viewAllReviews": "View All Reviews",
+  "viewAllReviewsUrl": "/",
+  "color": "#FFFFFF",
+  "background_color": "#3C1F8C",
+  "font_size": {
+    "value": 24,
+    "type": "px"
+  },
+  "font_weight": "500",
+  "text_align": {
+    "horizontal": "center",
+    "vertical": "middle"
+  },
+  "margin": {
+    "top": {
+      "value": "0",
+      "type": "px"
+    },
+    "right": {
+      "value": "0",
+      "type": "px"
+    },
+    "bottom": {
+      "value": "0",
+      "type": "px"
+    },
+    "left": {
+      "value": "0",
+      "type": "px"
+    }
+  },
+  "padding": {
+    "top": {
+      "value": "8",
+      "type": "px"
+    },
+    "right": {
+      "value": "24",
+      "type": "px"
+    },
+    "bottom": {
+      "value": "8",
+      "type": "px"
+    },
+    "left": {
+      "value": "24",
+      "type": "px"
+    }
+  },
+  "customerReviews": [
+    {
+      "productTitle": "Heading",
+      "bundleImageUrl": {
+        "src": "https://cdn11.bigcommerce.com/s-n0i50vy/images/stencil/1280x1280/products/109/361/kinfolkessentialissue_1024x1024__22507.1456436715.jpg?c=2&imbypass=on",
+        "type": "IMAGE_MANAGER"
+      },
+      "productButton": "Order Now",
+      "productButtonUrl": "#"
+    }
+  ]
+}

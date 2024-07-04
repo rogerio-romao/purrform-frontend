@@ -1,0 +1,255 @@
+<article class="card
+    {{#if alternate}} card--alternate{{/if}}" data-test="card-{{id}}" {{#if settings.data_tag_enabled}}
+    data-event-type="{{event}}" data-entity-id="{{id}}" data-position="{{position}}" data-name="{{name}}"
+    data-product-category="
+        {{#each category}}
+            {{#if @last}}
+                {{this}}
+            {{else}}
+                {{this}},
+            {{/if}}
+        {{/each}}" data-product-brand="{{brand.name}}" data-product-price="
+        {{#or customer (unless settings.hide_price_from_guests)}}
+            {{#if price.with_tax}}
+                {{price.with_tax.value}}
+            {{else}}
+                {{price.without_tax.value}}
+            {{/if}}
+        {{else}}
+            {{lang 'common.login_for_pricing'}}
+        {{/or}}" {{/if}}>
+    <figure class="card-figure">
+        {{#if stock_level '===' 0}}
+        {{#if show_cart_action}}
+        {{#if theme_settings.pdp_sold_out_label '===' ''}}
+        {{> components/products/product-badge
+        badge-type='sold-out'
+        badge_view=theme_settings.product_sold_out_badges
+        badge_label=(lang "page_builder.pdp_sold_out_label")
+        }}
+        {{else}}
+        {{> components/products/product-badge
+        badge-type='sold-out'
+        badge_view=theme_settings.product_sold_out_badges
+        badge_label=theme_settings.pdp_sold_out_label
+        }}
+        {{/if}}
+        {{/if}}
+        {{else if has_options '===' false}}
+        {{#and (if stock_level '===' null) show_cart_action}}
+        {{#and (unless add_to_cart_url) (unless pre_order)}}
+        {{#if theme_settings.pdp_sold_out_label '===' ''}}
+        {{> components/products/product-badge
+        badge-type='sold-out'
+        badge_view=theme_settings.product_sold_out_badges
+        badge_label=(lang "page_builder.pdp_sold_out_label")
+        }}
+        {{else}}
+        {{> components/products/product-badge
+        badge-type='sold-out'
+        badge_view=theme_settings.product_sold_out_badges
+        badge_label=theme_settings.pdp_sold_out_label
+        }}
+        {{/if}}
+        {{/and}}
+        {{/and}}
+        {{else}}
+        {{#or price.sale_price_with_tax.value price.sale_price_without_tax.value}}
+        {{#if theme_settings.pdp_sale_badge_label '===' ''}}
+        {{> components/products/product-badge
+        badge-type='sale'
+        badge_view=theme_settings.product_sale_badges
+        badge_label=(lang "page_builder.pdp_sale_badge_label")
+        }}
+        {{else}}
+        {{> components/products/product-badge
+        badge-type='sale'
+        badge_view=theme_settings.product_sale_badges
+        badge_label=theme_settings.pdp_sale_badge_label
+        }}
+        {{/if}}
+        {{/or}}
+        {{/if}}
+
+        <a href="{{url}}" class="card-figure__link" aria-label="{{> components/products/product-info}}" {{#if
+            settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>
+            <div class="card-img-container">
+                {{> components/common/responsive-img
+                image=image
+                class="card-image"
+                fallback_size=theme_settings.productgallery_size
+                lazyload=theme_settings.lazyload_mode
+                default_image=theme_settings.default_image_product
+                }}
+            </div>
+        </a>
+        {{> components/custom/products/product-badges fields=custom_fields}}
+    </figure>
+    <div class="card-body">
+
+        <p class="card-text card-productRating" data-test-info-type="productRating">
+            {{#if rating show_rating}}
+            <span class="rating--small">
+                {{> components/products/ratings rating_target=name rating=rating}}
+            </span>
+            {{/if}}
+        </p>
+
+
+        <!--
+add_to_cart spoofing 
+<a href="/cart.php?action=add&product_id={{id}}" 
+data-event-type="product-click"
+ data-button-type="add-cart"
+  class="button"
+ > 
+Add to Cart
+</a>
+<span class="product-status-message aria-description--hidden">{{lang 'category.add_cart_announcement'}}</span> 
+-->
+        <!--{{#if brand.name}}
+            <p class="card-text" data-test-info-type="brandName">{{brand.name}}</p>
+        {{/if}}-->
+        <h3 class="card-title">
+            <strong><a aria-label="{{> components/products/product-info}}" href="{{url}}" {{#if settings.data_tag_enabled}}
+                data-event-type="product-click" {{/if}}>
+                {{name}}
+            </a>
+        </strong>
+        </h3>
+        <p class="custom-fields">
+            {{#each custom_fields}}
+            {{#if name '==' 'CALORIE'}}
+            <span>{{value}} </span>
+            {{else if name '==' 'CALORIES'}}
+            <span>{{value}} </span>
+            {{/if}}
+            {{/each}}
+        </p>
+        <div class="card-text card-price" data-test-info-type="price">
+            {{#or customer (unless settings.hide_price_from_guests)}}
+            {{> components/products/price price=price}}
+            {{else}}
+            {{> components/common/login-for-pricing}}
+            {{/or}}
+        </div>
+        {{> components/products/bulk-discount-rates}}
+        {{#if add_to_cart_url }}
+        <div class="quantity">
+            {{!--
+            <div class="form-field form-field--increments">
+                <div class="form-increment" data-quantity-change>
+                    <button class="button button--icon dec" data-action="dec">
+                        <i class="icon" aria-hidden="true">
+                            <svg>
+                                <use xlink:href="#icon-remove" />
+                            </svg>
+                        </i>
+                    </button>
+                    <input class="form-input form-input--incrementTotal" type="tel"
+                        data-quantity-min="{{product.min_purchase_quantity}}"
+                        data-quantity-max="{{product.max_purchase_quantity}}" min="1" value="1">
+                    <button class="button button--icon inc" data-action="inc">
+                        <i class="icon" aria-hidden="true">
+                            <svg>
+                                <use xlink:href="#icon-add" />
+                            </svg>
+                        </i>
+                    </button>
+                </div>
+            </div>
+            --}}
+            <!--  <div>Add</div>-->
+
+            <div class="card-button">
+                <!--{{#unless hide_product_quick_view}}
+                {{#if theme_settings.show_product_quick_view}}
+                    {{#if settings.data_tag_enabled}}
+                        <button type="button" class="button button--small card-figcaption-button quickview" data-event-type="product-click" data-product-id="{{id}}">{{lang 'products.quick_view'}}</button>
+                    {{else}}
+                        <button type="button" class="button button--small card-figcaption-button quickview" data-product-id="{{id}}">{{lang 'products.quick_view'}}</button>
+                    {{/if}}
+                {{/if}}
+            {{/unless}}
+            {{#if show_compare}}
+                <label class="button button--small card-figcaption-button" for="compare-{{id}}">
+                    {{lang 'products.compare'}} <input type="checkbox" name="products[]" value="{{id}}" id="compare-{{id}}" data-compare-id="{{id}}">
+                </label>
+            {{/if}} -->
+                {{#if show_cart_action}}
+                <!--  {{#if has_options}}
+                    <a href="{{url}}" data-event-type="product-click" class="button button--small card-figcaption-button" data-product-id="{{id}}">{{lang 'products.choose_options'}}</a>
+                {{/if}}
+                {{#if pre_order}}
+                    <a href="{{pre_order_add_to_cart_url}}" data-event-type="product-click" class="button button--small card-figcaption-button">{{lang 'products.pre_order'}}</a>
+                {{/if}} -->
+
+
+                {{#if add_to_cart_url }}
+                {{> components/products/quick-add-to-cart with_wallet_buttons=true}}
+              
+                {{!--
+                <a href="{{add_to_cart_url}}" data-event-type="product-click" data-button-type="add-cart"
+                    class="button  add-to-cart button--small">
+                    {{lang 'products.add_to_cart'}}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M19 19.5C19 20.329 18.328 21 17.5 21C16.672 21 16 20.329 16 19.5C16 18.671 16.672 18 17.5 18C18.328 18 19 18.671 19 19.5ZM9 19.5C9 20.329 8.328 21 7.5 21C6.672 21 6 20.329 6 19.5C6 18.671 6.672 18 7.5 18C8.328 18 9 18.671 9 19.5ZM16.382 14H8.764L7.127 8H19.382L16.382 14ZM21.083 6.948C20.716 6.354 20.08 6 19.382 6H6.582L5.965 3.737C5.846 3.302 5.451 3 5 3H3C2.447 3 2 3.448 2 4C2 4.552 2.447 5 3 5H4.236L7.035 15.263C7.154 15.698 7.549 16 8 16H17C17.379 16 17.725 15.786 17.895 15.447L21.171 8.894C21.483 8.269 21.45 7.542 21.083 6.948Z"
+                            fill="#BD9B60" />
+                    </svg>
+                </a>
+                --}}
+                <span class="product-status-message aria-description--hidden">{{lang
+                    'category.add_cart_announcement'}}</span>
+                {{/if}}
+                <!-- {{#if out_of_stock_message }}
+                    <a href="{{url}}" data-event-type="product-click" class="button button--small card-figcaption-button" data-product-id="{{id}}">{{out_of_stock_message}}</a>
+                {{/if}}-->
+                {{/if}}
+            </div>
+
+        </div>
+        {{/if}}
+
+        <div class="card-button">
+            {{#unless hide_product_quick_view}}
+            {{#if theme_settings.show_product_quick_view}}
+            {{#if settings.data_tag_enabled}}
+            <button type="button" class="button button--secondary button--small card-figcaption-button quickview"
+                data-event-type="product-click" data-product-id="{{id}}">{{lang 'products.quick_view'}}</button>
+            {{else}}
+            <button type="button" class="button button--secondary button--small card-figcaption-button quickview"
+                data-product-id="{{id}}">{{lang 'products.quick_view'}}</button>
+            {{/if}}
+            {{/if}}
+            {{/unless}}
+            {{#if show_compare}}
+            <label class="button button--small button--secondary card-figcaption-button" for="compare-{{id}}">
+                {{lang 'products.compare'}} <input type="checkbox" name="products[]" value="{{id}}" id="compare-{{id}}"
+                    data-compare-id="{{id}}">
+            </label>
+            {{/if}}
+            {{#if show_cart_action}}
+            {{#if has_options}}
+            <a href="{{url}}" data-event-type="product-click"
+                class="button button--small button--secondary card-figcaption-button"
+                data-product-id="{{id}}"><!--{{lang 'products.choose_options'}}-->View Product</a>
+            {{/if}}
+            {{#if pre_order}}
+            <a href="{{pre_order_add_to_cart_url}}" data-event-type="product-click"
+                class="button button--secondary button--small card-figcaption-button">{{lang 'products.pre_order'}}</a>
+            {{/if}}
+            <!-- {{#if add_to_cart_url }}
+                        <a href="{{add_to_cart_url}}" data-event-type="product-click" data-button-type="add-cart" class="button add-to-cart button--small card-figcaption-button">{{lang 'products.add_to_cart'}}</a>
+                        <span class="product-status-message aria-description--hidden">{{lang 'category.add_cart_announcement'}}</span>
+                    {{/if}}-->
+            {{#if out_of_stock_message }}
+            <a href="{{url}}" data-event-type="product-click"
+                class="button button--secondary button--small card-figcaption-button"
+                data-product-id="{{id}}">{{out_of_stock_message}}</a>
+            {{/if}}
+            {{/if}}
+        </div>
+
+    </div>
+</article>
