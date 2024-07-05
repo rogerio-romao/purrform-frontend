@@ -71,345 +71,331 @@
 
 {{inject "checkoutID" cart_id}}
 {{#if customer}}
-<script>
-    var jsContext = JSON.parse({{jsContext}});
+    {{#unless customer_group_name '===' 'Trade'}}
+    <script>
+        var jsContext = JSON.parse({{jsContext}});
 
-    // window.addEventListener('load', () => {
-    //     const parentEl = document.querySelector('.layout-main')
-    //     const desktopEl = document.querySelector('.layout-cart')
-    //     const elementToAppend = document.querySelector('.cart.optimizedCheckout-orderSummary')
-    //     loyaltyInitialize(elementToAppend)
-        
-    //     return;
-    // });
-
-    // const mobileEl = document.querySelector('.ReactModalPortal')
-
-    // mobileEl.addEventListener('load', () => {
-    //     const elementToAppend = document.querySelector('.cartDrawer.optimizedCheckout-orderSummary')
-    // })
-
-    let loyaltyInterval = setInterval(loyaltyCheck, 1000);
-    function loyaltyCheck() {
-        const elementParentType = document.querySelector('.layout-main')
-        if (elementParentType) {
-            const couponApply =  document.querySelector('#applyRedeemableButton')
-            const couponRemove = document.querySelector('[data-test="cart-price-callback"]')
-            if (couponApply) {
-                couponApply.addEventListener('click', () => {
-                    setTimeout(function(){
-                        window.location.reload()
-                    },1500); //delay is in milliseconds 
-                })
-            }
-            if (couponRemove) {
-                couponRemove.addEventListener('click', () => {
-                    window.location.reload()
-
-                })
-            }
-            const nextSibling = elementParentType.nextElementSibling;
-            // Check if mobile or desktop view
-            if (nextSibling && (nextSibling.classList.contains('layout-cart'))) {
-                // Desktop View
-                // Check if desktop loyalty already exists
-                const desktopLoyalty = document.querySelector('.cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
-                if (!desktopLoyalty ) {
-                    // define location and start func
-                    const element = document.querySelector('.cart.optimizedCheckout-orderSummary')
-                    loyaltyInitialize(element);
+        let loyaltyInterval = setInterval(loyaltyCheck, 1000);
+        function loyaltyCheck() {
+            const elementParentType = document.querySelector('.layout-main')
+            if (elementParentType) {
+                const couponApply =  document.querySelector('#applyRedeemableButton')
+                const couponRemove = document.querySelector('[data-test="cart-price-callback"]')
+                if (couponApply) {
+                    couponApply.addEventListener('click', () => {
+                        setTimeout(function(){
+                            window.location.reload()
+                        },1500); //delay is in milliseconds 
+                    })
                 }
-            } else if (nextSibling && (nextSibling.classList.contains('cartDrawer'))) {
-                // Mobile View
-                // Check if mobile modal is open
-                const mobileModal = document.querySelector('.ReactModalPortal .modal')
-                if(mobileModal) {
-                    // Check if mobile loyalty already exists
-                    const mobileLoyalty = document.querySelector('.modal-body .cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
-                    if (!mobileLoyalty) {
+                if (couponRemove) {
+                    couponRemove.addEventListener('click', () => {
+                        window.location.reload()
+
+                    })
+                }
+                const nextSibling = elementParentType.nextElementSibling;
+                // Check if mobile or desktop view
+                if (nextSibling && (nextSibling.classList.contains('layout-cart'))) {
+                    // Desktop View
+                    // Check if desktop loyalty already exists
+                    const desktopLoyalty = document.querySelector('.cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
+                    if (!desktopLoyalty ) {
                         // define location and start func
-                        const element = document.querySelector('.cart-modal-body.optimizedCheckout-orderSummary')
+                        const element = document.querySelector('.cart.optimizedCheckout-orderSummary')
                         loyaltyInitialize(element);
+                    }
+                } else if (nextSibling && (nextSibling.classList.contains('cartDrawer'))) {
+                    // Mobile View
+                    // Check if mobile modal is open
+                    const mobileModal = document.querySelector('.ReactModalPortal .modal')
+                    if(mobileModal) {
+                        // Check if mobile loyalty already exists
+                        const mobileLoyalty = document.querySelector('.modal-body .cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
+                        if (!mobileLoyalty) {
+                            // define location and start func
+                            const element = document.querySelector('.cart-modal-body.optimizedCheckout-orderSummary')
+                            loyaltyInitialize(element);
+                        }
                     }
                 }
             }
         }
-    }
 
-    function loyaltyInitialize(elementToAppend) {
-    // Fetch loyalty points
-        fetchLoyalty().then(points => {
-        // Create a new div element for displaying loyalty points
-        const pointsDiv = document.createElement('section');
-        const pointsDesc = document.createElement('p');
-        pointsDesc.id = 'pointsDesc'
-        if (points === null) {
-            pointsDesc.innerHTML = `Could not find loyalty points for this account`;
-        } else {
-            pointsDesc.innerHTML = `Loyalty points balance ${points}`;
-        }
-        pointsDiv.appendChild(pointsDesc);
-        pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points'; // Add a class name for styling if needed
-        // Create a label and input for entering points to use
-        const label = document.createElement('label');
-        label.setAttribute('for', 'points-input');
-        label.classList.add('loyaltyLabel')
+        function loyaltyInitialize(elementToAppend) {
+        // Fetch loyalty points
+            fetchLoyalty().then(points => {
+            // Create a new div element for displaying loyalty points
+            const pointsDiv = document.createElement('section');
+            const pointsDesc = document.createElement('p');
+            pointsDesc.id = 'pointsDesc'
+            if (points === null) {
+                pointsDesc.innerHTML = `Could not find loyalty points for this account`;
+            } else {
+                pointsDesc.innerHTML = `Loyalty points balance ${points}`;
+            }
+            pointsDiv.appendChild(pointsDesc);
+            pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points'; // Add a class name for styling if needed
+            // Create a label and input for entering points to use
+            const label = document.createElement('label');
+            label.setAttribute('for', 'points-input');
+            label.classList.add('loyaltyLabel')
 
-        const confirmButton = document.createElement('button')
-        confirmButton.textContent = "Apply discount";
-        confirmButton.id = "loyaltyPointsBtn";
-        confirmButton.className = "btn btn-primary";
+            const confirmButton = document.createElement('button')
+            confirmButton.textContent = "Apply discount";
+            confirmButton.id = "loyaltyPointsBtn";
+            confirmButton.className = "btn btn-primary";
 
-        const input = document.createElement('input');
-        input.type = 'number';
-        input.id = 'points-input';
-        input.pattern = '[0-9]';
-        input.min = '0';
-        input.max = points;
-        input.placeholder = 'How many?';
-        
-        const cancelButton = document.createElement('button')
-        cancelButton.textContent = "Cancel discount";
-        cancelButton.id = "cancelLoyaltyPointsBtn";
-        cancelButton.className = "btn btn-secondary";
-        
-        cancelButton.addEventListener('click', () => {
-            console.log("Received Click");
-            const ID = jsContext.checkoutID;
-            fetch(`https://purrform-apps.onrender.com/applyDiscountToCheckoutInSandbox?checkoutId=${ID}&loyaltyPointsUsed=0`)
-            .then((response) => {
-                cancelButton.setAttribute('disabled', 'true')
-                cancelButton.textContent = 'Removing...'
-                if (!response.ok) {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.id = 'points-input';
+            input.pattern = '[0-9]';
+            input.min = '0';
+            input.max = points;
+            input.placeholder = 'How many?';
+            
+            const cancelButton = document.createElement('button')
+            cancelButton.textContent = "Cancel discount";
+            cancelButton.id = "cancelLoyaltyPointsBtn";
+            cancelButton.className = "btn btn-secondary";
+            
+            cancelButton.addEventListener('click', () => {
+                console.log("Received Click");
+                const ID = jsContext.checkoutID;
+                fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${ID}&loyaltyPointsUsed=0`)
+                .then((response) => {
+                    cancelButton.setAttribute('disabled', 'true')
+                    cancelButton.textContent = 'Removing...'
+                    if (!response.ok) {
+                        // do something here to let the user know the discount failed
+                        cancelButton.removeAttribute('disabled')
+                        input.value = ''
+                        console.log('Fail')
+                    }
+                        cancelButton.removeAttribute('disabled')
+                        window.location.reload()
+                        console.log('Ok')
+                })
+                .catch(err => {
                     // do something here to let the user know the discount failed
                     cancelButton.removeAttribute('disabled')
+                    cancelButton.textContent = 'Remove Discount'
                     input.value = ''
-                    console.log('Fail')
-                }
-                    cancelButton.removeAttribute('disabled')
-                    window.location.reload()
-                    console.log('Ok')
+                })
             })
-            .catch(err => {
-                // do something here to let the user know the discount failed
-                cancelButton.removeAttribute('disabled')
-                cancelButton.textContent = 'Remove Discount'
-                input.value = ''
-            })
-        })
-        
+            
 
-        // Add event listener to ensure the input does not exceed the maximum points
-        input.addEventListener('input', function () {
-            const value = parseInt(this.value, 10);
-            if (value > points) {
-                this.value = points;
-            }
-        });
+            // Add event listener to ensure the input does not exceed the maximum points
+            input.addEventListener('input', function () {
+                const value = parseInt(this.value, 10);
+                if (value > points) {
+                    this.value = points;
+                }
+            });
 
-        // Append the label and input to the usePointsDiv
-        pointsDiv.appendChild(label);
-        pointsDiv.appendChild(input);
-        pointsDiv.appendChild(confirmButton);
-        if (document.querySelector('[data-test="cart-discount"]')) {
-            pointsDiv.appendChild(cancelButton);
-        }
-        if (elementToAppend) {
-            const duplicates = document.querySelectorAll('.cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
-            if (duplicates.length === 0) {
-                elementToAppend.appendChild(pointsDiv);
-                generateNewSummary(points)
+            // Append the label and input to the usePointsDiv
+            pointsDiv.appendChild(label);
+            pointsDiv.appendChild(input);
+            pointsDiv.appendChild(confirmButton);
+            if (document.querySelector('[data-test="cart-discount"]')) {
+                pointsDiv.appendChild(cancelButton);
             }
-        }
-        
-        const loyaltyPointsBtn = document.querySelector('#loyaltyPointsBtn')
-        // Generate a new summary if not done
-        // document.querySelector('#applyRedeemableButton').addEventListener('click', () => {
-        //     window.location.reload()
-        // })
-        if (loyaltyPointsBtn) {
-            loyaltyPointsBtn.addEventListener('click', () => {
-                console.log("Received Click");
-                if (input.value === '') {
-                    return;
+            if (elementToAppend) {
+                const duplicates = document.querySelectorAll('.cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
+                if (duplicates.length === 0) {
+                    elementToAppend.appendChild(pointsDiv);
+                    generateNewSummary(points)
                 }
-                const ID = jsContext.checkoutID;
-                const loyaltyPoints = document.querySelector('#points-input').value
-                if (loyaltyPoints === "") {
-                    console.log("The input is empty.");
-                }
-                if (loyaltyPoints) {
-                    console.log(loyaltyPoints)
-                }
-                fetch(`https://purrform-apps.onrender.com/applyDiscountToCheckoutInSandbox?checkoutId=${ID}&loyaltyPointsUsed=${loyaltyPoints}`)
-                .then((response) => {
-                        loyaltyPointsBtn.setAttribute('disabled', 'true')
-                        loyaltyPointsBtn.textContent = 'Processing'
-                        if (!response.ok) {
+            }
+            
+            const loyaltyPointsBtn = document.querySelector('#loyaltyPointsBtn')
+            // Generate a new summary if not done
+            // document.querySelector('#applyRedeemableButton').addEventListener('click', () => {
+            //     window.location.reload()
+            // })
+            if (loyaltyPointsBtn) {
+                loyaltyPointsBtn.addEventListener('click', () => {
+                    console.log("Received Click");
+                    if (input.value === '') {
+                        return;
+                    }
+                    const ID = jsContext.checkoutID;
+                    const loyaltyPoints = document.querySelector('#points-input').value
+                    if (loyaltyPoints === "") {
+                        console.log("The input is empty.");
+                    }
+                    if (loyaltyPoints) {
+                        console.log(loyaltyPoints)
+                    }
+                    fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${ID}&loyaltyPointsUsed=${loyaltyPoints}`)
+                    .then((response) => {
+                            loyaltyPointsBtn.setAttribute('disabled', 'true')
+                            loyaltyPointsBtn.textContent = 'Processing'
+                            if (!response.ok) {
+                                // do something here to let the user know the discount failed
+                                loyaltyPointsBtn.removeAttribute('disabled')
+                                input.value = ''
+                                console.log('Fail')
+                            }
+                                loyaltyPointsBtn.removeAttribute('disabled')
+                                window.location.reload()
+                                console.log('Ok')
+                        })
+                        .catch(err => {
                             // do something here to let the user know the discount failed
                             loyaltyPointsBtn.removeAttribute('disabled')
+                            loyaltyPointsBtn.textContent = 'Apply discount'
                             input.value = ''
-                            console.log('Fail')
-                        }
-                            loyaltyPointsBtn.removeAttribute('disabled')
-                            window.location.reload()
-                            console.log('Ok')
-                    })
-                    .catch(err => {
-                        // do something here to let the user know the discount failed
-                        loyaltyPointsBtn.removeAttribute('disabled')
-                        loyaltyPointsBtn.textContent = 'Apply discount'
-                        input.value = ''
-                    })
+                        })
+                });
+            }
+            }).catch(error => {
+                console.error('Error fetching loyalty points:', error);
             });
         }
-        }).catch(error => {
-            console.error('Error fetching loyalty points:', error);
-        });
-    }
-    
-    function generateNewSummary(currentUserPoints) {
-        currentUserPoints = Number(currentUserPoints);
+        
+        function generateNewSummary(currentUserPoints) {
+            currentUserPoints = Number(currentUserPoints);
 
-        const masterContainer = document.createElement('div');
-        const masterText = document.createElement('p');
-        masterText.classList.add("loyalty-summary")
-        masterText.textContent = "Loyalty Points Summary"
-        masterContainer.appendChild(masterText)
+            const masterContainer = document.createElement('div');
+            const masterText = document.createElement('p');
+            masterText.classList.add("loyalty-summary")
+            masterText.textContent = "Loyalty Points Summary"
+            masterContainer.appendChild(masterText)
 
-        const discountEl = document.querySelector('[data-test="cart-discount"] [data-test="cart-price-value"]')
-        const earningsEl = document.querySelector('[data-test="cart-subtotal"] [data-test="cart-price-value"]')
-        let VAT = document.querySelector('[data-test="cart-taxes"] [data-test="cart-price-value"]')
-        let couponDiscount = document.querySelector('[data-test="cart-coupon"] [data-test="cart-price-value"]')
-        const existingDiv = document.getElementById('points-input');
-        let earningPriceValue
-        let earningLoyalPointValue
+            const discountEl = document.querySelector('[data-test="cart-discount"] [data-test="cart-price-value"]')
+            const earningsEl = document.querySelector('[data-test="cart-subtotal"] [data-test="cart-price-value"]')
+            let VAT = document.querySelector('[data-test="cart-taxes"] [data-test="cart-price-value"]')
+            let couponDiscount = document.querySelector('[data-test="cart-coupon"] [data-test="cart-price-value"]')
+            const existingDiv = document.getElementById('points-input');
+            let earningPriceValue
+            let earningLoyalPointValue
 
-        let discountPriceValue
-        let discountLoyalPointValue
+            let discountPriceValue
+            let discountLoyalPointValue
 
-        if (discountEl) {
-            // Discount Div
-            const discountContainer = document.createElement('div');
-            discountContainer.classList.add('cart-summaryItem')
-
-            const discountName = document.createElement('div');
-            const discountValue = document.createElement('div');
-
-            discountName.textContent = "Points redeemed"
-
-            discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '')
-            discountPriceValue = discountPriceValue.replace(/[^\d.-]/g, ''); // Remove non-numeric characters
-            discountPriceValue = Number(discountPriceValue); 
-            discountPriceValue = Math.abs(discountPriceValue);
-            discountLoyalPointValue = discountPriceValue * 100
-            discountLoyalPointValue = Math.floor(discountLoyalPointValue);
-            
-            discountValue.textContent = `-${discountLoyalPointValue}`
-
-            discountContainer.appendChild(discountName)
-            discountContainer.appendChild(discountValue)
-            masterContainer.appendChild(discountContainer)
-        }
-        if (earningsEl) {
-             // Earning Div
-            const earningContainer = document.createElement('div');
-            earningContainer.classList.add('cart-summaryItem')
-
-            const earningName = document.createElement('div');
-            const earningValue = document.createElement('div');
-
-            earningName.textContent = "Points earned"
-            earningPriceValue = earningsEl.innerHTML
-            earningPriceValue = earningPriceValue.replace(/[^\d.-]/g, ''); // Remove non-numeric characters
-            earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
             if (discountEl) {
-                earningPriceValue = earningPriceValue - discountPriceValue
-            }
-            /*
-            if (VAT) {
-                VAT = Math.round(Number(VAT.innerHTML.replace(/[^\d.-]/g, '')));
-                earningPriceValue -= VAT;
-            }
-            */
-            if (couponDiscount) {
-                earningPriceValue -= Math.floor(Math.abs(Number(couponDiscount.innerHTML.replace(/[^\d.-]/g, ''))));
-            }
-            
-            earningLoyalPointValue = earningPriceValue / 2;
+                // Discount Div
+                const discountContainer = document.createElement('div');
+                discountContainer.classList.add('cart-summaryItem')
 
-            earningLoyalPointValue = Math.floor(earningLoyalPointValue);
-            if (earningLoyalPointValue < 0) {
-                earningValue.textContent = `+0`
+                const discountName = document.createElement('div');
+                const discountValue = document.createElement('div');
+
+                discountName.textContent = "Points redeemed"
+
+                discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '')
+                discountPriceValue = discountPriceValue.replace(/[^\d.-]/g, ''); // Remove non-numeric characters
+                discountPriceValue = Number(discountPriceValue); 
+                discountPriceValue = Math.abs(discountPriceValue);
+                discountLoyalPointValue = discountPriceValue * 100
+                discountLoyalPointValue = Math.floor(discountLoyalPointValue);
+                
+                discountValue.textContent = `-${discountLoyalPointValue}`
+
+                discountContainer.appendChild(discountName)
+                discountContainer.appendChild(discountValue)
+                masterContainer.appendChild(discountContainer)
+            }
+            if (earningsEl) {
+                // Earning Div
+                const earningContainer = document.createElement('div');
+                earningContainer.classList.add('cart-summaryItem')
+
+                const earningName = document.createElement('div');
+                const earningValue = document.createElement('div');
+
+                earningName.textContent = "Points earned"
+                earningPriceValue = earningsEl.innerHTML
+                earningPriceValue = earningPriceValue.replace(/[^\d.-]/g, ''); // Remove non-numeric characters
+                earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
+                if (discountEl) {
+                    earningPriceValue = earningPriceValue - discountPriceValue
+                }
+                /*
+                if (VAT) {
+                    VAT = Math.round(Number(VAT.innerHTML.replace(/[^\d.-]/g, '')));
+                    earningPriceValue -= VAT;
+                }
+                */
+                if (couponDiscount) {
+                    earningPriceValue -= Math.floor(Math.abs(Number(couponDiscount.innerHTML.replace(/[^\d.-]/g, ''))));
+                }
+                
+                earningLoyalPointValue = earningPriceValue / 2;
+
+                earningLoyalPointValue = Math.floor(earningLoyalPointValue);
+                if (earningLoyalPointValue < 0) {
+                    earningValue.textContent = `+0`
+                } else {
+                    earningValue.textContent = `+${earningLoyalPointValue}`
+                }
+
+                earningContainer.appendChild(earningName)
+                earningContainer.appendChild(earningValue)
+                masterContainer.appendChild(earningContainer)
+            }
+            const finalContainer = document.createElement('div');
+            const finalResult = document.createElement('div');
+            const finalResultText = document.createElement('p');
+
+            const finalType = document.createElement('div');
+            const finalTypeText = document.createElement('p');
+            finalTypeText.textContent = 'Estimated total after purchase:'
+            if (earningsEl && discountEl && currentUserPoints) {
+                finalResultText.textContent  = `${(currentUserPoints + earningLoyalPointValue  - discountLoyalPointValue)}`
+            } else if (earningsEl && currentUserPoints){
+                finalResultText.textContent  = `${currentUserPoints + earningLoyalPointValue}`
             } else {
-                earningValue.textContent = `+${earningLoyalPointValue}`
+                finalResultText.textContent  = `${earningLoyalPointValue}`
             }
+            finalType.appendChild(finalTypeText)
+            finalResult.appendChild(finalResultText)
+            finalContainer.appendChild(finalType)
+            finalContainer.appendChild(finalResult)
+            finalContainer.classList.add('cart-resultItem')
 
-            earningContainer.appendChild(earningName)
-            earningContainer.appendChild(earningValue)
-            masterContainer.appendChild(earningContainer)
+            masterContainer.appendChild(finalContainer)
+            existingDiv.insertAdjacentElement('afterend', masterContainer);
         }
-        const finalContainer = document.createElement('div');
-        const finalResult = document.createElement('div');
-        const finalResultText = document.createElement('p');
 
-        const finalType = document.createElement('div');
-        const finalTypeText = document.createElement('p');
-        finalTypeText.textContent = 'Estimated total after purchase:'
-        if (earningsEl && discountEl && currentUserPoints) {
-            finalResultText.textContent  = `${(currentUserPoints + earningLoyalPointValue  - discountLoyalPointValue)}`
-        } else if (earningsEl && currentUserPoints){
-            finalResultText.textContent  = `${currentUserPoints + earningLoyalPointValue}`
-        } else {
-            finalResultText.textContent  = `${earningLoyalPointValue}`
-        }
-        finalType.appendChild(finalTypeText)
-        finalResult.appendChild(finalResultText)
-        finalContainer.appendChild(finalType)
-        finalContainer.appendChild(finalResult)
-        finalContainer.classList.add('cart-resultItem')
-
-        masterContainer.appendChild(finalContainer)
-        existingDiv.insertAdjacentElement('afterend', masterContainer);
-    }
-
-    // Append the usePointsDiv to the target element
-    function fetchLoyalty() {
-        return fetch('/graphql', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer {{ settings.storefront_api.token }}'
-            },
-            body: JSON.stringify({
-                query: `
-                    query loyaltyQuery{
-                        customer {
-                            attributes {
-                                attribute(entityId: 1) {
-                                    value
-                                    name
+        // Append the usePointsDiv to the target element
+        function fetchLoyalty() {
+            return fetch('/graphql', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+                },
+                body: JSON.stringify({
+                    query: `
+                        query loyaltyQuery{
+                            customer {
+                                attributes {
+                                    attribute(entityId: 1) {
+                                        value
+                                        name
+                                    }
                                 }
                             }
                         }
-                    }
-                `
-            }),
-        })
-        .then(res => res.json())
-        .then(json => {
-            const attribute = json.data.customer.attributes.attribute;
-            const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
-            console.log(attribute)
-            return points;
-        })
-        .catch(error => {
-            console.error('Error fetching loyalty points:', error);
-            return '0'; // Return '0' in case of error
-        });
-    }
-</script>
+                    `
+                }),
+            })
+            .then(res => res.json())
+            .then(json => {
+                const attribute = json.data.customer.attributes.attribute;
+                const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
+                return points;
+            })
+            .catch(error => {
+                console.error('Error fetching loyalty points:', error);
+                return '0'; // Return '0' in case of error
+            });
+        }
+    </script>
+    {{/unless}}
 {{/if}}
 
 
@@ -453,7 +439,7 @@
         const dailySlotValues = {};
         const disabledDates = [];
         // get delivery dates from middleware
-        fetch('https://purrform-apps.onrender.com/deliveryDates')
+        fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
             .then((response) => {
                 if (!response.ok) {
                     console.log('Middleware network response was not ok');
