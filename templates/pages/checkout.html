@@ -69,6 +69,17 @@
 {{/if}}
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhEVGvTFe26KQ1-eDZ9i10znl03qH1ZlI&libraries=places,geometry&v=weekly" defer ></script>
 
+
+<script>
+    let mobileCheck = setInterval(mobileRename, 1000);
+    function mobileRename() {
+        const mobileModal = document.querySelector('.cartDrawer.optimizedCheckout-orderSummary')
+        if (mobileModal) {
+            console.log(mobileModal)
+            mobileModal.querySelector('.cartDrawer-body a').textContent = "Show Details & Rewards"
+        }
+    }
+</script>
 {{inject "checkoutID" cart_id}}
 {{#if customer}}
     {{#unless customer_group_name '===' 'Trade'}}
@@ -79,13 +90,13 @@
         function loyaltyCheck() {
             const elementParentType = document.querySelector('.layout-main')
             if (elementParentType) {
-                const couponApply =  document.querySelector('#applyRedeemableButton')
+                const couponApply = document.querySelector('#applyRedeemableButton')
                 const couponRemove = document.querySelector('[data-test="cart-price-callback"]')
                 if (couponApply) {
                     couponApply.addEventListener('click', () => {
-                        setTimeout(function(){
+                        setTimeout(function () {
                             window.location.reload()
-                        },1500); //delay is in milliseconds 
+                        }, 1500); //delay is in milliseconds 
                     })
                 }
                 if (couponRemove) {
@@ -100,7 +111,7 @@
                     // Desktop View
                     // Check if desktop loyalty already exists
                     const desktopLoyalty = document.querySelector('.cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
-                    if (!desktopLoyalty ) {
+                    if (!desktopLoyalty) {
                         // define location and start func
                         const element = document.querySelector('.cart.optimizedCheckout-orderSummary')
                         loyaltyInitialize(element);
@@ -109,7 +120,7 @@
                     // Mobile View
                     // Check if mobile modal is open
                     const mobileModal = document.querySelector('.ReactModalPortal .modal')
-                    if(mobileModal) {
+                    if (mobileModal) {
                         // Check if mobile loyalty already exists
                         const mobileLoyalty = document.querySelector('.modal-body .cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
                         if (!mobileLoyalty) {
@@ -209,10 +220,7 @@
             }
             
             const loyaltyPointsBtn = document.querySelector('#loyaltyPointsBtn')
-            // Generate a new summary if not done
-            // document.querySelector('#applyRedeemableButton').addEventListener('click', () => {
-            //     window.location.reload()
-            // })
+
             if (loyaltyPointsBtn) {
                 loyaltyPointsBtn.addEventListener('click', () => {
                     console.log("Received Click");
@@ -559,6 +567,22 @@
     }
 </script>
 
+<script>
+    let warnInterval = setInterval(renameWarning, 1000)
+    function renameWarning() {
+        let warningMsg = document.querySelector('.shippingOptions-panel.optimizedCheckout-overlay p')
+        let proceedButton = document.querySelector('#proceedButton')
+        if (warningMsg) {
+            warningMsg.textContent = "Please ensure all required fields have been completed to see delivery options"
+            if (proceedButton && warningMsg.textContent == "Please ensure all required fields have been completed to see delivery options") {
+                proceedButton.addEventListener('click', () => {
+                    warningMsg.style.color = "red";
+                })
+            }
+        }
+    }
+    
+</script>
 
 <script>
     // This script handles 'instructions' in 'shipping'
@@ -566,7 +590,8 @@
     function instructionCheck() {
         const element = document.querySelector('fieldset.form-fieldset[data-test="checkout-shipping-comments"]');
         const shippingMethod = document.querySelector('.form-checklist');
-        if (element && shippingMethod) {
+
+        if (element) {
             clearInterval(instructionInterval);
             createInstructions(); 
         }
@@ -800,6 +825,19 @@
 </script>
 
 <style>
+    .optimizedCheckout-cart-modal .optimizedCheckout-orderSummary-cartSection {
+        padding: 20px;
+    }
+    .modal-body.cart-modal-body.optimizedCheckout-orderSummary {
+        height: 100vh;
+    }
+    .modal.modal--afterOpen.optimizedCheckout-cart-modal .modal-body {
+        overflow-y: hidden !important;
+        height: 110vh !important;
+    }
+    .storeCreditOverlay {
+        z-index: 9 !important;
+    }
     .loyalty-summary {
         margin: 10px 0;
     }
@@ -856,11 +894,7 @@
         flex-direction: column;
         background-color: #FFEDCD;
     }
-    @media (max-width: 600px) {
-        .loyalty-points {
-            background-color: transparent; 
-        }
-    }
+
     #points-input {
         border: 1px solid #dbdada;
         border-radius: 32px;
