@@ -22,6 +22,11 @@
         width: 100%;
       }
     }
+    .disabled {
+      background-color: #666666 !important;
+      opacity: 0.4;
+      pointer-events: none;
+    }
     input,
     select {
       height: 48px;

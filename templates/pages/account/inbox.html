@@ -68,6 +68,8 @@
                     </div>
                 </div>
             </div>
+            {{/if}}
+            {{#if customer_group_name '===' 'Testing Group'}}
             <div id="friend-referral" class="reward-section">
                 <h2>Refer a friend</h2>
                 <p>Refer a friend and both of you will receive a 5% discount code.</p>
@@ -105,12 +107,14 @@
 <script>
         const jsContext = JSON.parse({{jsContext}});
         const breederReferralForm = document.querySelector('#breeder-referral-form')
+        const breederRerferralButton = document.querySelector('#breeder-referral-form .button-primary')
         const breederReferralInput = document.querySelector('#reward-breeder-refer-email')
         const breederEmail = jsContext.breederEmail
         const errorMsg = document.querySelector('#breederError')
         // errorMsg.textContent = "";
         breederReferralForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            e.submitter.classList.add('disabled')
             // console.log(breederReferralInput.value)
             // https://purrform-apps-027e.onrender.com/breederReferralForm?breederEmail=${breederEmail}&customerEmail=${breederReferralInput.value}
             // https://4722-188-214-15-243.ngrok-free.app/breederReferralForm?breederEmail=${breederEmail}&customerEmail=${breederReferralInput.value}
@@ -123,28 +127,39 @@
             .then((response) => {
                 if (!response.ok) {
                     if (response.status == 401) {
-                        errorMsg.textContent = "Error: This email has already been referred.";
-                        return
+                        if (breederReferralInput.value.trim() !== "") {
+                            errorMsg.textContent = "Error: This email has already been referred.";
+                        } else {
+                            errorMsg.textContent = "Error: Field is empty";  
+                        }
+                        errorMsg.style.color = "red";
                     } else if (response.status == 402) {
                         errorMsg.textContent = "Error: Your referral was created, however we couldn't deliver the email to the customer.";
-                        return
+                        errorMsg.style.color = "red";
                     } else {
                         errorMsg.textContent = "Error: Something went wrong when creating the referral."
-                        return
+                        errorMsg.style.color = "red";
                     }
                 } else {
                     errorMsg.textContent = "Referral succesful";
                     breederReferralInput.value = "";
+                    errorMsg.style.color = "initial";
                 }
+                setTimeout(function() {
+                    e.submitter.classList.remove('disabled')
+                }, 750); 
             })
             .catch(err => {
                 errorMsg.textContent = err.message
                 console.log("Error on referral")
+                setTimeout(function() {
+                    e.submitter.classList.remove('disabled')
+                }, 750); 
             })
         })
 </script>
 {{/if}}
-{{#if customer_group_name '===' 'Personal'}}
+{{#if customer_group_name '===' 'Testing Group'}}
 {{inject "friendEmail" customer.email}}
 <script>
         const friendJsContext = JSON.parse({{jsContext}});
@@ -155,6 +170,7 @@
         // errorMsg.textContent = "";
         friendReferralForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            e.submitter.classList.add('disabled')
             // console.log(friendReferralInput.value)
             // https://purrform-apps-027e.onrender.com/friendReferralForm?friendEmail=${friendEmail}&customerEmail=${friendReferralInput.value}
             // https://4722-188-214-15-243.ngrok-free.app/friendReferralForm?friendEmail=${friendEmail}&customerEmail=${friendReferralInput.value}
@@ -168,22 +184,29 @@
                 if (!response.ok) {
                     if (response.status == 401) {
                         friendErrorMsg.textContent = "Error: This email has already been referred.";
-                        return
+                        friendErrorMsg.style.color = "red";
                     } else if (response.status == 402) {
                         friendErrorMsg.textContent = "Error: Your referral was created, however we couldn't deliver the email to the customer.";
-                        return
+                        friendErrorMsg.style.color = "red";
                     } else {
                         friendErrorMsg.textContent = "Error: Something went wrong when creating the referral."
-                        return
+                        friendErrorMsg.style.color = "red";
                     }
                 } else {
                     friendErrorMsg.textContent = "Referral succesful";
                     friendReferralInput.value = "";
+                    friendErrorMsg.style.color = "initial";
                 }
+                setTimeout(function() {
+                    e.submitter.classList.remove('disabled')
+                }, 750); 
             })
             .catch(err => {
                 friendErrorMsg.textContent = err.message
                 console.log("Error on referral")
+                setTimeout(function() {
+                    e.submitter.classList.remove('disabled')
+                }, 750); 
             })
         })
 </script>
