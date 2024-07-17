@@ -1,93 +1,126 @@
 .account.account--fixed {
-  .account-content {
-    .reward-section {
-      padding: 20px 0;
-      border-bottom: 5px solid $color-p;
-      &:not(:first-child) {
-        padding: 40px 0;
-      }
+    .account-content {
+        .reward-section {
+            padding: 20px 0;
+            border-bottom: 5px solid $color-p;
+            &:not(:first-child) {
+                padding: 40px 0;
+            }
+        }
+        .reward-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            button {
+                margin: 0;
+                grid-column: 1 / 3;
+            }
+        }
+        button {
+            margin-top: 20px;
+            @media (max-width: $tablet) {
+                width: 100%;
+            }
+        }
+        .disabled {
+            background-color: #a2a2a2 !important;
+            opacity: 0.8;
+            color: whitesmoke !important;
+            pointer-events: none;
+        }
+        input,
+        select {
+            height: 48px;
+            border-radius: 32px;
+            font-family: 'Filson Pro';
+            font-size: 1rem;
+            line-height: 48px;
+            appearance: none;
+            background-color: white;
+            border: 1px solid #8f8f8f;
+            color: #666666;
+            display: block;
+            font-family: inherit;
+            margin: 0;
+            padding: 0rem 1rem;
+
+            transition: border-color 100ms ease-out;
+            width: 100%;
+        }
+
+        // Specific elements
+        #loyalty-points-balance {
+            font-weight: bold;
+        }
+        .list-of-cats {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            @media (max-width: $tablet) {
+                grid-template-columns: 1fr;
+            }
+            .cat {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 20px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                &.disabled {
+                    background-color: #8f8f8f;
+                    color: #666666;
+                }
+                .cat-header {
+                    font-size: 20px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                }
+
+                .cat-detail {
+                    font-size: 16px;
+                    margin-bottom: 5px;
+                }
+            }
+        }
     }
-    .reward-form {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      button {
-        margin: 0;
-        grid-column: 1 / 3;
-      }
-    }
-    button {
-      margin-top: 20px;
-      @media (max-width: $tablet) {
+    .account-footer {
+        text-align: center;
+        padding: 40px 0.75rem;
         width: 100%;
-      }
+        float: left;
     }
-    .disabled {
-      background-color: #666666 !important;
-      opacity: 0.4;
-      pointer-events: none;
+    #previous-length {
+        margin-top: 1rem;
     }
-    input,
-    select {
-      height: 48px;
-      border-radius: 32px;
-      font-family: "Filson Pro";
-      font-size: 1rem;
-      line-height: 48px;
-      appearance: none;
-      background-color: white;
-      border: 1px solid #8f8f8f;
-      color: #666666;
-      display: block;
-      font-family: inherit;
-      margin: 0;
-      padding: 0rem 1rem;
-
-      transition: border-color 100ms ease-out;
-      width: 100%;
-    }
-
-    // Specific elements
-    #loyalty-points-balance {
-      font-weight: bold;
-    }
-    .list-of-cats {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 20px;
-      @media (max-width: $tablet) {
-        grid-template-columns: 1fr;
-      }
-      .cat {
-        background-color: #fff;
+    #previous-grid {
         border: 1px solid #ddd;
-        border-radius: 8px;
+        border-radius: 1rem;
         padding: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        &.disabled {
-          background-color: #8f8f8f;
-          color: #666666;
-        }
-        .cat-header {
-          font-size: 20px;
-          font-weight: bold;
-          margin-bottom: 10px;
-        }
+        display: none;
+        grid-template-columns: 1.7fr 0.6fr;
+        margin-top: 2rem;
 
-        .cat-detail {
-          font-size: 16px;
-          margin-bottom: 5px;
+        @media (max-width: $mobile) {
+            overflow: auto;
+            .previous-grid-title {
+                font-size: 0.9rem;
+            }
+            .previous-grid-item {
+                font-size: 0.7rem;
+            }
+            .previous-grid-item:nth-child(even) {
+                text-align: right;
+            }
         }
-      }
     }
-  }
-  .account-footer {
-    text-align: center;
-    padding: 40px 0.75rem;
-    width: 100%;
-    float: left;
-    span {
+    .previous-grid-title {
+        font-size: 1.15rem;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
     }
-  }
+    .previous-grid-item {
+        font-size: 0.8rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #ddd;
+    }
 }

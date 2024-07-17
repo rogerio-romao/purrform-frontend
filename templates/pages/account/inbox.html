@@ -1,6 +1,4 @@
-{{#partial "page"}}
-
-{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+{{#partial "page"}} {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
 <h1 class="page-heading page-heading--account">Rewards</h1>
 {{> components/account/navigation account_page='messages'}}
 
@@ -13,31 +11,45 @@
                 <p>Purchase goods to earn points for discounts!</p>
                 <p id="loyalty-points-balance">No balance found.</p>
             </div>
-            {{/unless}}
-            {{#if customer_group_id '===' 11}}
+            {{/unless}} {{#if customer_group_id '===' 11}}
             <div class="reward-section">
                 <h2>Birthday gift</h2>
-                <p>Register up to 4 cats to receive a 10% discount voucher when it's their birthday! The purrfect gift!
+                <p
+                    >Register up to 4 cats to receive a 10% discount voucher
+                    when it's their birthday! The purrfect gift!
                 </p>
                 <div class="reward-form">
                     <div>
-                        <label class="form-label" for="reward-cat-name">Name</label>
-                        <input type="text" id="reward-cat-name">
+                        <label class="form-label" for="reward-cat-name"
+                            >Name</label
+                        >
+                        <input type="text" id="reward-cat-name" />
                     </div>
                     <div>
-                        <label class="form-label" for="reward-cat-sex">Sex</label>
+                        <label class="form-label" for="reward-cat-sex"
+                            >Sex</label
+                        >
                         <select name="sex" id="reward-cat-sex">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
                     <div>
-                        <label class="form-label" for="reward-cat-breed">Breed</label>
-                        <input type="text" id="reward-cat-breed">
+                        <label class="form-label" for="reward-cat-breed"
+                            >Breed</label
+                        >
+                        <input type="text" id="reward-cat-breed" />
                     </div>
                     <div>
-                        <label class="form-label" for="reward-cat-birthday">Birthday</label>
-                        <input type="text" id="reward-cat-birthday" placeholder="DD/MM/YYYY" maxlength="10">
+                        <label class="form-label" for="reward-cat-birthday"
+                            >Birthday</label
+                        >
+                        <input
+                            type="text"
+                            id="reward-cat-birthday"
+                            placeholder="DD/MM/YYYY"
+                            maxlength="10"
+                        />
                     </div>
                     <button class="button button--primary">Add Cat</button>
                 </div>
@@ -46,19 +58,25 @@
                         <div class="cat-header">Cat #1</div>
                         <div class="cat-detail">Name: Josh</div>
                         <div class="cat-detail">Age: 12</div>
-                        <div class="cat-detail">Birthday: 10th of June, 1997</div>
+                        <div class="cat-detail"
+                            >Birthday: 10th of June, 1997</div
+                        >
                     </div>
                     <div class="cat">
                         <div class="cat-header">Cat #2</div>
                         <div class="cat-detail">Name: Bella</div>
                         <div class="cat-detail">Age: 8</div>
-                        <div class="cat-detail">Birthday: 22nd of August, 2015</div>
+                        <div class="cat-detail"
+                            >Birthday: 22nd of August, 2015</div
+                        >
                     </div>
                     <div class="cat">
                         <div class="cat-header">Cat #3</div>
                         <div class="cat-detail">Name: Whiskers</div>
                         <div class="cat-detail">Age: 4</div>
-                        <div class="cat-detail">Birthday: 14th of March, 2019</div>
+                        <div class="cat-detail"
+                            >Birthday: 14th of March, 2019</div
+                        >
                     </div>
                     <div class="cat disabled">
                         <div class="cat-header">Cat #4</div>
@@ -68,147 +86,236 @@
                     </div>
                 </div>
             </div>
-            {{/if}}
-            {{#if customer_group_name '===' 'Testing Group'}}
+            {{/if}} {{#if customer_group_name '===' 'Testing Group'}}
             <div id="friend-referral" class="reward-section">
                 <h2>Refer a friend</h2>
-                <p>Refer a friend and both of you will receive a 5% discount code.</p>
+                <p
+                    >Refer a friend and both of you will receive a 5% discount
+                    code.</p
+                >
                 <form id="friend-referral-form">
                     <p id="friendError"></p>
-                    <label class="form-label" for="reward-friend-refer-email">Email Address</label>
-                    <input type="email" id="reward-friend-refer-email">
-                    <button class="button button--primary" type="submit">Submit</button>
+                    <label class="form-label" for="reward-friend-refer-email"
+                        >Email Address</label
+                    >
+                    <input type="email" id="reward-friend-refer-email" />
+                    <button class="button button--primary" type="submit"
+                        >Submit</button
+                    >
                 </form>
             </div>
-            {{/if}}
-            {{#if customer_group_name '===' 'Breeder'}}
+            {{/if}} {{#if customer_group_name '===' 'Breeder'}}
             <div id="breeder-referral" class="reward-section">
                 <h2>Breeder referral</h2>
-                <p>Send a 10% discount code to your customers and when 5 customers redeem their codes, you will receive
-                    a 5% discount code as a reward.</p>
+                <p
+                    >Send a 10% discount code to your customers and when 5
+                    customers redeem their codes, you will receive a 5% discount
+                    code as a reward.</p
+                >
                 <form id="breeder-referral-form">
                     <p id="breederError"></p>
-                    <label class="form-label" for="reward-breeder-refer-email">Email Address</label>
-                    <input type="email" id="reward-breeder-refer-email">
-                    <button class="button button--primary" type="submit">Submit</button>
+                    <label class="form-label" for="reward-breeder-refer-email"
+                        >Email Address</label
+                    >
+                    <input type="email" id="reward-breeder-refer-email" />
+                    <button class="button button--primary" type="submit"
+                        >Submit</button
+                    >
                 </form>
+                <button
+                    id="previous-referrals-btn"
+                    class="button button--primary"
+                    >See previous referrals</button
+                >
+                <div id="previous-container">
+                    <div id="previous-length"></div>
+                    <div id="previous-grid">
+                        <div
+                            id="previous-grid-title-email"
+                            class="previous-grid-title"
+                            >Email</div
+                        >
+                        <div
+                            id="previous-grid-title-purchased"
+                            class="previous-grid-title"
+                            >Purchased</div
+                        >
+                    </div>
+                </div>
             </div>
             {{/if}}
         </section>
         <section class="account-footer">
-            <span>Terms and conditions apply, full T&Cs can be found at <br /> <a
-                    href="https://www.purrform.co.uk/terms-conditions/">https://www.purrform.co.uk/terms-conditions/</a>
+            <span
+                >Terms and conditions apply, full T&Cs can be found at <br />
+                <a href="https://www.purrform.co.uk/terms-conditions/"
+                    >https://www.purrform.co.uk/terms-conditions/</a
+                >
             </span>
         </section>
     </div>
 </div>
-{{#if customer_group_name '===' 'Breeder'}}
-{{inject "breederEmail" customer.email}}
+{{#if customer_group_name '===' 'Breeder'}} {{inject "breederEmail"
+customer.email}}
 <script>
-        const jsContext = JSON.parse({{jsContext}});
-        const breederReferralForm = document.querySelector('#breeder-referral-form')
-        const breederRerferralButton = document.querySelector('#breeder-referral-form .button-primary')
-        const breederReferralInput = document.querySelector('#reward-breeder-refer-email')
-        const breederEmail = jsContext.breederEmail
-        const errorMsg = document.querySelector('#breederError')
-        // errorMsg.textContent = "";
-        breederReferralForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            e.submitter.classList.add('disabled')
-            // console.log(breederReferralInput.value)
-            // https://purrform-apps-027e.onrender.com/breederReferralForm?breederEmail=${breederEmail}&customerEmail=${breederReferralInput.value}
-            // https://4722-188-214-15-243.ngrok-free.app/breederReferralForm?breederEmail=${breederEmail}&customerEmail=${breederReferralInput.value}
-            fetch(`https://purrform-apps-027e.onrender.com/breederReferralForm?breederEmail=${breederEmail}&customerEmail=${breederReferralInput.value}`, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-            .then((response) => {
-                if (!response.ok) {
-                    if (response.status == 401) {
-                        if (breederReferralInput.value.trim() !== "") {
-                            errorMsg.textContent = "Error: This email has already been referred.";
-                        } else {
-                            errorMsg.textContent = "Error: Field is empty";  
-                        }
-                        errorMsg.style.color = "red";
-                    } else if (response.status == 402) {
-                        errorMsg.textContent = "Error: Your referral was created, however we couldn't deliver the email to the customer.";
-                        errorMsg.style.color = "red";
-                    } else {
-                        errorMsg.textContent = "Error: Something went wrong when creating the referral."
-                        errorMsg.style.color = "red";
-                    }
-                } else {
-                    errorMsg.textContent = "Referral succesful";
-                    breederReferralInput.value = "";
-                    errorMsg.style.color = "initial";
-                }
-                setTimeout(function() {
-                    e.submitter.classList.remove('disabled')
-                }, 750); 
-            })
-            .catch(err => {
-                errorMsg.textContent = err.message
-                console.log("Error on referral")
-                setTimeout(function() {
-                    e.submitter.classList.remove('disabled')
-                }, 750); 
-            })
+    // sends a referral
+    const jsContext = JSON.parse({{jsContext}});
+    const breederReferralForm = document.querySelector('#breeder-referral-form')
+    const breederRerferralButton = document.querySelector('#breeder-referral-form .button-primary')
+    const breederReferralInput = document.querySelector('#reward-breeder-refer-email')
+    const breederEmail = jsContext.breederEmail
+    const errorMsg = document.querySelector('#breederError')
+    // errorMsg.textContent = "";
+    breederReferralForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.submitter.classList.add('disabled')
+
+        if (breederReferralInput.value.trim() === "") {
+            errorMsg.textContent = "Error: Field is empty";
+            errorMsg.style.color = "red";
+            setTimeout(function() {
+                e.submitter.classList.remove('disabled')
+            }, 750);
+            return;
+        }
+
+        fetch(`https://purrform-apps-027e.onrender.com/breederReferralForm?breederEmail=${breederEmail}&customerEmail=${breederReferralInput.value}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            },
         })
+        .then(async (response) => {
+            if (!response.ok) {
+                const message = await response.text()
+                errorMsg.style.color = "red";
+                errorMsg.textContent = message
+
+            } else {
+                errorMsg.style.color = "initial";
+                errorMsg.style.fontWeight = "bold";
+                errorMsg.textContent = "Referral succesful - 10% discount code sent to customer.";
+                breederReferralInput.value = "";
+            }
+            setTimeout(function() {
+                e.submitter.classList.remove('disabled')
+            }, 750);
+        })
+        .catch(err => {
+            errorMsg.textContent = err.message
+            console.log("Error on referral")
+            setTimeout(function() {
+                e.submitter.classList.remove('disabled')
+            }, 750);
+        })
+    })
 </script>
-{{/if}}
-{{#if customer_group_name '===' 'Testing Group'}}
-{{inject "friendEmail" customer.email}}
 <script>
-        const friendJsContext = JSON.parse({{jsContext}});
-        const friendReferralForm = document.querySelector('#friend-referral-form')
-        const friendReferralInput = document.querySelector('#reward-friend-refer-email')
-        const friendEmail = friendJsContext.friendEmail
-        const friendErrorMsg = document.querySelector('#friendError')
-        // errorMsg.textContent = "";
-        friendReferralForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            e.submitter.classList.add('disabled')
-            // console.log(friendReferralInput.value)
-            // https://purrform-apps-027e.onrender.com/friendReferralForm?friendEmail=${friendEmail}&customerEmail=${friendReferralInput.value}
-            // https://4722-188-214-15-243.ngrok-free.app/friendReferralForm?friendEmail=${friendEmail}&customerEmail=${friendReferralInput.value}
-            fetch(`https://purrform-apps-027e.onrender.com/friendReferralForm?friendEmail=${friendEmail}&customerEmail=${friendReferralInput.value}`, {
-                method: "GET",
+    // fetches previous referrals
+    const seePreviousBtn = document.querySelector('#previous-referrals-btn');
+    const previousLength = document.querySelector('#previous-length');
+
+    seePreviousBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        fetch(
+            `https://purrform-apps-027e.onrender.com/getBreedersPreviousReferrals?breederEmail=${breederEmail}`,
+            {
+                method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-            })
+            }
+        )
             .then((response) => {
                 if (!response.ok) {
-                    if (response.status == 401) {
-                        friendErrorMsg.textContent = "Error: This email has already been referred.";
-                        friendErrorMsg.style.color = "red";
-                    } else if (response.status == 402) {
-                        friendErrorMsg.textContent = "Error: Your referral was created, however we couldn't deliver the email to the customer.";
-                        friendErrorMsg.style.color = "red";
-                    } else {
-                        friendErrorMsg.textContent = "Error: Something went wrong when creating the referral."
-                        friendErrorMsg.style.color = "red";
-                    }
+                    previousLength.textContent =
+                        'Error fetching previous referrals, please try again later.';
                 } else {
-                    friendErrorMsg.textContent = "Referral succesful";
-                    friendReferralInput.value = "";
-                    friendErrorMsg.style.color = "initial";
+                    response.json().then((data) => {
+                        previousLength.textContent = `You have referred ${data.length} customers.`;
+                        const previousGrid =
+                            document.querySelector('#previous-grid');
+                        if (data.length > 0) {
+                            // remove previous grid items (for refreshing)
+                            const gridItems = document.querySelectorAll(
+                                '.previous-grid-item'
+                            );
+                            gridItems.forEach((item) => {
+                                item.remove();
+                            });
+                            previousGrid.style.display = 'grid';
+                        }
+                        data.forEach(({ customer_email, has_purchased }) => {
+                            const email = document.createElement('div');
+                            email.classList.add('previous-grid-item');
+                            email.textContent = customer_email;
+                            const purchased = document.createElement('div');
+                            purchased.classList.add('previous-grid-item');
+                            purchased.textContent = has_purchased
+                                ? 'Yes'
+                                : 'No';
+                            previousGrid.appendChild(email);
+                            previousGrid.appendChild(purchased);
+                        });
+                    });
                 }
-                setTimeout(function() {
-                    e.submitter.classList.remove('disabled')
-                }, 750); 
             })
-            .catch(err => {
-                friendErrorMsg.textContent = err.message
-                console.log("Error on referral")
-                setTimeout(function() {
-                    e.submitter.classList.remove('disabled')
-                }, 750); 
-            })
+            .catch((err) => {
+                previousLength.textContent =
+                    'Error fetching previous referrals, please try again later.';
+            });
+    });
+</script>
+{{/if}} {{#if customer_group_name '===' 'Testing Group'}} {{inject "friendEmail"
+customer.email}}
+<script>
+    const friendJsContext = JSON.parse({{jsContext}});
+    const friendReferralForm = document.querySelector('#friend-referral-form')
+    const friendReferralInput = document.querySelector('#reward-friend-refer-email')
+    const friendEmail = friendJsContext.friendEmail
+    const friendErrorMsg = document.querySelector('#friendError')
+    // errorMsg.textContent = "";
+    friendReferralForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.submitter.classList.add('disabled')
+        // console.log(friendReferralInput.value)
+        // https://purrform-apps-027e.onrender.com/friendReferralForm?friendEmail=${friendEmail}&customerEmail=${friendReferralInput.value}
+        // https://4722-188-214-15-243.ngrok-free.app/friendReferralForm?friendEmail=${friendEmail}&customerEmail=${friendReferralInput.value}
+        fetch(`https://purrform-apps-027e.onrender.com/friendReferralForm?friendEmail=${friendEmail}&customerEmail=${friendReferralInput.value}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            },
         })
+        .then((response) => {
+            if (!response.ok) {
+                if (response.status == 401) {
+                    friendErrorMsg.textContent = "Error: This email has already been referred.";
+                    friendErrorMsg.style.color = "red";
+                } else if (response.status == 402) {
+                    friendErrorMsg.textContent = "Error: Your referral was created, however we couldn't deliver the email to the customer.";
+                    friendErrorMsg.style.color = "red";
+                } else {
+                    friendErrorMsg.textContent = "Error: Something went wrong when creating the referral."
+                    friendErrorMsg.style.color = "red";
+                }
+            } else {
+                friendErrorMsg.textContent = "Referral succesful";
+                friendReferralInput.value = "";
+                friendErrorMsg.style.color = "initial";
+            }
+            setTimeout(function() {
+                e.submitter.classList.remove('disabled')
+            }, 750);
+        })
+        .catch(err => {
+            friendErrorMsg.textContent = err.message
+            console.log("Error on referral")
+            setTimeout(function() {
+                e.submitter.classList.remove('disabled')
+            }, 750);
+        })
+    })
 </script>
 {{/if}}
 <script>
@@ -223,7 +330,12 @@
 
                 // Insert slashes
                 if (value.length >= 5) {
-                    value = value.slice(0, 2) + '/' + value.slice(2, 4) + '/' + value.slice(4, 8);
+                    value =
+                        value.slice(0, 2) +
+                        '/' +
+                        value.slice(2, 4) +
+                        '/' +
+                        value.slice(4, 8);
                 } else if (value.length >= 3) {
                     value = value.slice(0, 2) + '/' + value.slice(2, 4);
                 } else if (value.length >= 1) {
@@ -233,7 +345,6 @@
                 e.target.value = value;
             });
         }
-
     });
 </script>
 <script>
@@ -244,7 +355,7 @@
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+                Authorization: 'Bearer {{ settings.storefront_api.token }}',
             },
             body: JSON.stringify({
                 query: `
@@ -258,24 +369,27 @@
                         }
                     }
                 }
-            `
+            `,
             }),
         })
-            .then(res => res.json())
-            .then(json => {
+            .then((res) => res.json())
+            .then((json) => {
                 const attribute = json.data.customer.attributes.attribute;
                 const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
 
-                const pointsBalanceElement = document.getElementById('loyalty-points-balance');
+                const pointsBalanceElement = document.getElementById(
+                    'loyalty-points-balance'
+                );
                 pointsBalanceElement.textContent = `Current Balance: ${points}`;
             })
-            .catch(error => {
-                const pointsBalanceElement = document.getElementById('loyalty-points-balance');
+            .catch((error) => {
+                const pointsBalanceElement = document.getElementById(
+                    'loyalty-points-balance'
+                );
                 pointsBalanceElement.textContent = 'Current Balance: 0';
             });
     }
-    fetchLoyalty()
-    document.addEventListener('DOMContentLoaded', fetchLoyalty())
+    fetchLoyalty();
+    document.addEventListener('DOMContentLoaded', fetchLoyalty());
 </script>
-{{/partial}}
-{{> layout/base}}
+{{/partial}} {{> layout/base}}
