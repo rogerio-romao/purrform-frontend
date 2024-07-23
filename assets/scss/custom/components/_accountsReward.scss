@@ -89,10 +89,12 @@
         width: 100%;
         float: left;
     }
-    #previous-length {
+    #previous-length,
+    #previous-friends-length {
         margin-top: 1rem;
     }
-    #previous-grid {
+    #previous-grid,
+    #previous-friends-grid {
         border: 1px solid #ddd;
         border-radius: 1rem;
         padding: 20px;
