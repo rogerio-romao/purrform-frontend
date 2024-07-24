@@ -1,7 +1,7 @@
 {{#partial "page"}} {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
 <h1 class="page-heading page-heading--account">Rewards</h1>
 {{> components/account/navigation account_page='messages'}} {{inject
-"customerEmail" customer.email}}
+"customerEmail" customer.email}} {{inject "customerName" customer.name}}
 
 <div class="account account--fixed">
     <div class="account-body">
@@ -290,6 +290,7 @@
     const friendReferralForm = document.querySelector('#friend-referral-form')
     const friendReferralInput = document.querySelector('#reward-friend-refer-email')
     const customerEmail = friendJsContext.customerEmail
+    const customerName = friendJsContext.customerName
     const friendErrorMsg = document.querySelector('#friendError')
     // errorMsg.textContent = "";
     friendReferralForm.addEventListener('submit', (e) => {
@@ -305,7 +306,7 @@
             return;
         }
 
-        fetch(`https://purrform-apps-027e.onrender.com/friendReferralForm?friendEmail=${friendReferralInput.value}&customerEmail=${customerEmail}`, {
+        fetch(`https://purrform-apps-027e.onrender.com/friendReferralForm?friendEmail=${friendReferralInput.value}&customerEmail=${customerEmail}&customerName=${customerName}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json'
