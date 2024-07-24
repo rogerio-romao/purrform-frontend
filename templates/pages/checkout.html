@@ -1,426 +1,473 @@
-{{#partial "head"}}
+{{#partial "head"}} {{{ checkout.checkout_head }}} {{{ stylesheet
+'/assets/css/optimized-checkout.css' }}} {{ getFontsCollection }}
 
-{{{ checkout.checkout_head }}}
-{{{ stylesheet '/assets/css/optimized-checkout.css' }}}
- 
- 
-{{ getFontsCollection }} 
- 
 <script type="text/javascript">
-    window.language = {{{langJson 'optimized_checkout'}}}; 
-</script> 
+    window.language = {{{langJson 'optimized_checkout'}}};
+</script>
 
-{{{head.scripts}}} 
+{{{head.scripts}}} {{/partial}} {{#partial "page"}}
 
-
-{{/partial}}
-
-{{#partial "page"}}
-
-
-
- 
 <!-- UIkit CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/css/uikit.min.css" />
-<link rel="stylesheet" href="https://use.typekit.net/drc3iaj.css">
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/css/uikit.min.css"
+/>
+<link rel="stylesheet" href="https://use.typekit.net/drc3iaj.css" />
 
 <!-- UIkit JS -->
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/js/uikit-icons.min.js"></script>
 
 <!-- CALL MOST RECENT JQUERY LIBRARY -->
-<script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+<script
+    src="https://code.jquery.com/jquery-3.6.2.min.js"
+    integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
+    crossorigin="anonymous"
+></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css">
-
+<link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+    crossorigin="anonymous"
+/>
+<link
+    rel="stylesheet"
+    href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css"
+/>
 
 <script src="{{cdn 'assets/js/custom.js'}}"></script>
 {{#if customer_group_name '!==' 'trade_blocked'}}
-    <div id="optimised_main_chout">
-        <header class="checkoutHeader optimizedCheckout-header">
-            <div class="checkoutHeader-content">
-                <h1 class="is-srOnly">{{lang 'checkout.title'}}</h1>
-                <h2 class="checkoutHeader-heading">
-                    <a class="checkoutHeader-link" href="{{urls.home}}">
-                        {{#if checkout.header_image}}
-                        <img alt="{{settings.store_logo.title}}" class="checkoutHeader-logo" id="logoImage" src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/d-logo.png"
+<div id="optimised_main_chout">
+    <header class="checkoutHeader optimizedCheckout-header">
+        <div class="checkoutHeader-content">
+            <h1 class="is-srOnly">{{lang 'checkout.title'}}</h1>
+            <h2 class="checkoutHeader-heading">
+                <a class="checkoutHeader-link" href="{{urls.home}}">
+                    {{#if checkout.header_image}}
+                    <img
                         alt="{{settings.store_logo.title}}"
-                        title="{{settings.store_logo.title}}">
-                        {{!--
-                            <img alt="{{settings.store_logo.title}}" class="checkoutHeader-logo" id="logoImage" src="{{ checkout.header_image }}"/>
-                            --}}
-                            
-                        {{ else }}
-                            <span class="header-logo-text">{{settings.store_logo.title}}</span>
-                        {{/if}}
-                    </a>
-                </h2>
-            </div>
-        </header>
-        {{{ checkout.checkout_content }}}
-    </div>
+                        class="checkoutHeader-logo"
+                        id="logoImage"
+                        src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/d-logo.png"
+                        alt="{{settings.store_logo.title}}"
+                        title="{{settings.store_logo.title}}"
+                    />
+                    {{!--
+                    <img
+                        alt="{{settings.store_logo.title}}"
+                        class="checkoutHeader-logo"
+                        id="logoImage"
+                        src="{{ checkout.header_image }}"
+                    />
+                    --}} {{ else }}
+                    <span class="header-logo-text"
+                        >{{settings.store_logo.title}}</span
+                    >
+                    {{/if}}
+                </a>
+            </h2>
+        </div>
+    </header>
+    {{{ checkout.checkout_content }}}
+</div>
 {{else}}
-    <div class="container" style="height: 200px;display: flex;">
-        <p style="margin: 50px auto;width: 80%;text-align: center;border: 1px solid;height: 50px;padding: 10px 5px;">You are currently blocked for shopping, Please contact to admin for more info</p>
-    </div>
+<div class="container" style="height: 200px; display: flex">
+    <p
+        style="
+            margin: 50px auto;
+            width: 80%;
+            text-align: center;
+            border: 1px solid;
+            height: 50px;
+            padding: 10px 5px;
+        "
+        >You are currently blocked for shopping, Please contact to admin for
+        more info</p
+    >
+</div>
 {{/if}}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhEVGvTFe26KQ1-eDZ9i10znl03qH1ZlI&libraries=places,geometry&v=weekly" defer ></script>
-
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhEVGvTFe26KQ1-eDZ9i10znl03qH1ZlI&libraries=places,geometry&v=weekly"
+    defer
+></script>
 
 <script>
-    let mobileCheck = setInterval(mobileRename, 1000);
+    let mobileCheck = setInterval(mobileRename, 300);
     function mobileRename() {
-        const mobileModal = document.querySelector('.cartDrawer.optimizedCheckout-orderSummary')
+        const mobileModal = document.querySelector(
+            '.cartDrawer.optimizedCheckout-orderSummary'
+        );
         if (mobileModal) {
-            console.log(mobileModal)
-            mobileModal.querySelector('.cartDrawer-body a').textContent = "Show Details & Rewards"
+            console.log(mobileModal);
+            mobileModal.querySelector('.cartDrawer-body a').textContent =
+                'Show Details & Rewards';
         }
     }
 </script>
-{{inject "checkoutID" cart_id}}
-{{#if customer}}
-    {{#unless customer_group_name '===' 'Trade'}}
-    <script>
-        var jsContext = JSON.parse({{jsContext}});
+{{inject "checkoutID" cart_id}} {{#if customer}} {{#unless customer_group_name
+'===' 'Trade'}}
+<script>
+    var jsContext = JSON.parse({{jsContext}});
 
-        let loyaltyInterval = setInterval(loyaltyCheck, 1000);
-        function loyaltyCheck() {
-            const elementParentType = document.querySelector('.layout-main')
-            if (elementParentType) {
-                const couponApply = document.querySelector('#applyRedeemableButton')
-                const couponRemove = document.querySelector('[data-test="cart-price-callback"]')
-                if (couponApply) {
-                    couponApply.addEventListener('click', () => {
-                        setTimeout(function () {
-                            window.location.reload()
-                        }, 1500); //delay is in milliseconds 
-                    })
-                }
-                if (couponRemove) {
-                    couponRemove.addEventListener('click', () => {
+    let loyaltyInterval = setInterval(loyaltyCheck, 1000);
+    function loyaltyCheck() {
+        const elementParentType = document.querySelector('.layout-main')
+        if (elementParentType) {
+            const couponApply = document.querySelector('#applyRedeemableButton')
+            const couponRemove = document.querySelector('[data-test="cart-price-callback"]')
+            if (couponApply) {
+                couponApply.addEventListener('click', () => {
+                    setTimeout(function () {
                         window.location.reload()
+                    }, 1500); //delay is in milliseconds
+                })
+            }
+            if (couponRemove) {
+                couponRemove.addEventListener('click', () => {
+                    window.location.reload()
 
-                    })
+                })
+            }
+            const nextSibling = elementParentType.nextElementSibling;
+            // Check if mobile or desktop view
+            if (nextSibling && (nextSibling.classList.contains('layout-cart'))) {
+                // Desktop View
+                // Check if desktop loyalty already exists
+                const desktopLoyalty = document.querySelector('.cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
+                if (!desktopLoyalty) {
+                    // define location and start func
+                    const element = document.querySelector('.cart.optimizedCheckout-orderSummary')
+                    loyaltyInitialize(element);
                 }
-                const nextSibling = elementParentType.nextElementSibling;
-                // Check if mobile or desktop view
-                if (nextSibling && (nextSibling.classList.contains('layout-cart'))) {
-                    // Desktop View
-                    // Check if desktop loyalty already exists
-                    const desktopLoyalty = document.querySelector('.cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
-                    if (!desktopLoyalty) {
+            } else if (nextSibling && (nextSibling.classList.contains('cartDrawer'))) {
+                // Mobile View
+                // Check if mobile modal is open
+                const mobileModal = document.querySelector('.ReactModalPortal .modal')
+                if (mobileModal) {
+                    // Check if mobile loyalty already exists
+                    const mobileLoyalty = document.querySelector('.modal-body .cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
+                    if (!mobileLoyalty) {
                         // define location and start func
-                        const element = document.querySelector('.cart.optimizedCheckout-orderSummary')
+                        const element = document.querySelector('.cart-modal-body.optimizedCheckout-orderSummary')
                         loyaltyInitialize(element);
                     }
-                } else if (nextSibling && (nextSibling.classList.contains('cartDrawer'))) {
-                    // Mobile View
-                    // Check if mobile modal is open
-                    const mobileModal = document.querySelector('.ReactModalPortal .modal')
-                    if (mobileModal) {
-                        // Check if mobile loyalty already exists
-                        const mobileLoyalty = document.querySelector('.modal-body .cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
-                        if (!mobileLoyalty) {
-                            // define location and start func
-                            const element = document.querySelector('.cart-modal-body.optimizedCheckout-orderSummary')
-                            loyaltyInitialize(element);
-                        }
-                    }
                 }
             }
         }
+    }
 
-        function loyaltyInitialize(elementToAppend) {
-        // Fetch loyalty points
-            fetchLoyalty().then(points => {
-            // Create a new div element for displaying loyalty points
-            const pointsDiv = document.createElement('section');
-            const pointsDesc = document.createElement('p');
-            pointsDesc.id = 'pointsDesc'
-            if (points === null) {
-                pointsDesc.innerHTML = `Could not find loyalty points for this account`;
-            } else {
-                pointsDesc.innerHTML = `Loyalty points balance ${points}`;
-            }
-            pointsDiv.appendChild(pointsDesc);
-            pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points'; // Add a class name for styling if needed
-            // Create a label and input for entering points to use
-            const label = document.createElement('label');
-            label.setAttribute('for', 'points-input');
-            label.classList.add('loyaltyLabel')
+    function loyaltyInitialize(elementToAppend) {
+    // Fetch loyalty points
+        fetchLoyalty().then(points => {
+        // Create a new div element for displaying loyalty points
+        const pointsDiv = document.createElement('section');
+        const pointsDesc = document.createElement('p');
+        pointsDesc.id = 'pointsDesc'
+        if (points === null) {
+            pointsDesc.innerHTML = `Could not find loyalty points for this account`;
+        } else {
+            pointsDesc.innerHTML = `Loyalty points balance ${points}`;
+        }
+        pointsDiv.appendChild(pointsDesc);
+        pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points'; // Add a class name for styling if needed
+        // Create a label and input for entering points to use
+        const label = document.createElement('label');
+        label.setAttribute('for', 'points-input');
+        label.classList.add('loyaltyLabel')
 
-            const confirmButton = document.createElement('button')
-            confirmButton.textContent = "Apply discount";
-            confirmButton.id = "loyaltyPointsBtn";
-            confirmButton.className = "btn btn-primary";
+        const confirmButton = document.createElement('button')
+        confirmButton.textContent = "Apply discount";
+        confirmButton.id = "loyaltyPointsBtn";
+        confirmButton.className = "btn btn-primary";
 
-            const input = document.createElement('input');
-            input.type = 'number';
-            input.id = 'points-input';
-            input.pattern = '[0-9]';
-            input.min = '0';
-            input.max = points;
-            input.placeholder = 'How many?';
-            
-            const cancelButton = document.createElement('button')
-            cancelButton.textContent = "Cancel discount";
-            cancelButton.id = "cancelLoyaltyPointsBtn";
-            cancelButton.className = "btn btn-secondary";
-            
-            cancelButton.addEventListener('click', () => {
-                console.log("Received Click");
-                const ID = jsContext.checkoutID;
-                fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${ID}&loyaltyPointsUsed=0`)
-                .then((response) => {
-                    cancelButton.setAttribute('disabled', 'true')
-                    cancelButton.textContent = 'Removing...'
-                    if (!response.ok) {
-                        // do something here to let the user know the discount failed
-                        cancelButton.removeAttribute('disabled')
-                        input.value = ''
-                        console.log('Fail')
-                    }
-                        cancelButton.removeAttribute('disabled')
-                        window.location.reload()
-                        console.log('Ok')
-                })
-                .catch(err => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = 'points-input';
+        input.pattern = '[0-9]';
+        input.min = '0';
+        input.max = points;
+        input.placeholder = 'How many?';
+
+        const cancelButton = document.createElement('button')
+        cancelButton.textContent = "Cancel discount";
+        cancelButton.id = "cancelLoyaltyPointsBtn";
+        cancelButton.className = "btn btn-secondary";
+
+        cancelButton.addEventListener('click', () => {
+            console.log("Received Click");
+            const ID = jsContext.checkoutID;
+            fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${ID}&loyaltyPointsUsed=0`)
+            .then((response) => {
+                cancelButton.setAttribute('disabled', 'true')
+                cancelButton.textContent = 'Removing...'
+                if (!response.ok) {
                     // do something here to let the user know the discount failed
                     cancelButton.removeAttribute('disabled')
-                    cancelButton.textContent = 'Remove Discount'
                     input.value = ''
-                })
+                    console.log('Fail')
+                }
+                    cancelButton.removeAttribute('disabled')
+                    window.location.reload()
+                    console.log('Ok')
             })
-            
+            .catch(err => {
+                // do something here to let the user know the discount failed
+                cancelButton.removeAttribute('disabled')
+                cancelButton.textContent = 'Remove Discount'
+                input.value = ''
+            })
+        })
 
-            // Add event listener to ensure the input does not exceed the maximum points
-            input.addEventListener('input', function () {
-                const value = parseInt(this.value, 10);
-                if (value > points) {
-                    this.value = points;
-                }
-            });
 
-            // Append the label and input to the usePointsDiv
-            pointsDiv.appendChild(label);
-            pointsDiv.appendChild(input);
-            pointsDiv.appendChild(confirmButton);
-            if (document.querySelector('[data-test="cart-discount"]')) {
-                pointsDiv.appendChild(cancelButton);
+        // Add event listener to ensure the input does not exceed the maximum points
+        input.addEventListener('input', function () {
+            const value = parseInt(this.value, 10);
+            if (value > points) {
+                this.value = points;
             }
-            if (elementToAppend) {
-                const duplicates = document.querySelectorAll('.cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
-                if (duplicates.length === 0) {
-                    elementToAppend.appendChild(pointsDiv);
-                    generateNewSummary(points)
-                }
-            }
-            
-            const loyaltyPointsBtn = document.querySelector('#loyaltyPointsBtn')
+        });
 
-            if (loyaltyPointsBtn) {
-                loyaltyPointsBtn.addEventListener('click', () => {
-                    console.log("Received Click");
-                    if (input.value === '') {
-                        return;
-                    }
-                    const ID = jsContext.checkoutID;
-                    const loyaltyPoints = document.querySelector('#points-input').value
-                    if (loyaltyPoints === "") {
-                        console.log("The input is empty.");
-                    }
-                    if (loyaltyPoints) {
-                        console.log(loyaltyPoints)
-                    }
-                    fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${ID}&loyaltyPointsUsed=${loyaltyPoints}`)
-                    .then((response) => {
-                            loyaltyPointsBtn.setAttribute('disabled', 'true')
-                            loyaltyPointsBtn.textContent = 'Processing'
-                            if (!response.ok) {
-                                // do something here to let the user know the discount failed
-                                loyaltyPointsBtn.removeAttribute('disabled')
-                                input.value = ''
-                                console.log('Fail')
-                            }
-                                loyaltyPointsBtn.removeAttribute('disabled')
-                                window.location.reload()
-                                console.log('Ok')
-                        })
-                        .catch(err => {
+        // Append the label and input to the usePointsDiv
+        pointsDiv.appendChild(label);
+        pointsDiv.appendChild(input);
+        pointsDiv.appendChild(confirmButton);
+        if (document.querySelector('[data-test="cart-discount"]')) {
+            pointsDiv.appendChild(cancelButton);
+        }
+        if (elementToAppend) {
+            const duplicates = document.querySelectorAll('.cart-section.optimizedCheckout-orderSummary-cartSection.loyalty-points')
+            if (duplicates.length === 0) {
+                elementToAppend.appendChild(pointsDiv);
+                generateNewSummary(points)
+            }
+        }
+
+        const loyaltyPointsBtn = document.querySelector('#loyaltyPointsBtn')
+
+        if (loyaltyPointsBtn) {
+            loyaltyPointsBtn.addEventListener('click', () => {
+                console.log("Received Click");
+                if (input.value === '') {
+                    return;
+                }
+                const ID = jsContext.checkoutID;
+                const loyaltyPoints = document.querySelector('#points-input').value
+                if (loyaltyPoints === "") {
+                    console.log("The input is empty.");
+                }
+                if (loyaltyPoints) {
+                    console.log(loyaltyPoints)
+                }
+                fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${ID}&loyaltyPointsUsed=${loyaltyPoints}`)
+                .then((response) => {
+                        loyaltyPointsBtn.setAttribute('disabled', 'true')
+                        loyaltyPointsBtn.textContent = 'Processing'
+                        if (!response.ok) {
                             // do something here to let the user know the discount failed
                             loyaltyPointsBtn.removeAttribute('disabled')
-                            loyaltyPointsBtn.textContent = 'Apply discount'
                             input.value = ''
-                        })
-                });
-            }
-            }).catch(error => {
-                console.error('Error fetching loyalty points:', error);
+                            console.log('Fail')
+                        }
+                            loyaltyPointsBtn.removeAttribute('disabled')
+                            window.location.reload()
+                            console.log('Ok')
+                    })
+                    .catch(err => {
+                        // do something here to let the user know the discount failed
+                        loyaltyPointsBtn.removeAttribute('disabled')
+                        loyaltyPointsBtn.textContent = 'Apply discount'
+                        input.value = ''
+                    })
             });
         }
-        
-        function generateNewSummary(currentUserPoints) {
-            currentUserPoints = Number(currentUserPoints);
+        }).catch(error => {
+            console.error('Error fetching loyalty points:', error);
+        });
+    }
 
-            const masterContainer = document.createElement('div');
-            const masterText = document.createElement('p');
-            masterText.classList.add("loyalty-summary")
-            masterText.textContent = "Loyalty Points Summary"
-            masterContainer.appendChild(masterText)
+    function generateNewSummary(currentUserPoints) {
+        currentUserPoints = Number(currentUserPoints);
 
-            const discountEl = document.querySelector('[data-test="cart-discount"] [data-test="cart-price-value"]')
-            const earningsEl = document.querySelector('[data-test="cart-subtotal"] [data-test="cart-price-value"]')
-            let VAT = document.querySelector('[data-test="cart-taxes"] [data-test="cart-price-value"]')
-            let couponDiscount = document.querySelector('[data-test="cart-coupon"] [data-test="cart-price-value"]')
-            const existingDiv = document.getElementById('points-input');
-            let earningPriceValue
-            let earningLoyalPointValue
+        const masterContainer = document.createElement('div');
+        const masterText = document.createElement('p');
+        masterText.classList.add("loyalty-summary")
+        masterText.textContent = "Loyalty Points Summary"
+        masterContainer.appendChild(masterText)
 
-            let discountPriceValue
-            let discountLoyalPointValue
+        const discountEl = document.querySelector('[data-test="cart-discount"] [data-test="cart-price-value"]')
+        const earningsEl = document.querySelector('[data-test="cart-subtotal"] [data-test="cart-price-value"]')
+        let VAT = document.querySelector('[data-test="cart-taxes"] [data-test="cart-price-value"]')
+        let couponDiscount = document.querySelector('[data-test="cart-coupon"] [data-test="cart-price-value"]')
+        const existingDiv = document.getElementById('points-input');
+        let earningPriceValue
+        let earningLoyalPointValue
 
-            if (discountEl) {
-                // Discount Div
-                const discountContainer = document.createElement('div');
-                discountContainer.classList.add('cart-summaryItem')
+        let discountPriceValue
+        let discountLoyalPointValue
 
-                const discountName = document.createElement('div');
-                const discountValue = document.createElement('div');
+        if (discountEl) {
+            // Discount Div
+            const discountContainer = document.createElement('div');
+            discountContainer.classList.add('cart-summaryItem')
 
-                discountName.textContent = "Points redeemed"
+            const discountName = document.createElement('div');
+            const discountValue = document.createElement('div');
 
-                discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '')
-                discountPriceValue = discountPriceValue.replace(/[^\d.-]/g, ''); // Remove non-numeric characters
-                discountPriceValue = Number(discountPriceValue); 
-                discountPriceValue = Math.abs(discountPriceValue);
-                discountLoyalPointValue = discountPriceValue * 100
-                discountLoyalPointValue = Math.floor(discountLoyalPointValue);
-                
-                discountValue.textContent = `-${discountLoyalPointValue}`
+            discountName.textContent = "Points redeemed"
 
-                discountContainer.appendChild(discountName)
-                discountContainer.appendChild(discountValue)
-                masterContainer.appendChild(discountContainer)
-            }
-            if (earningsEl) {
-                // Earning Div
-                const earningContainer = document.createElement('div');
-                earningContainer.classList.add('cart-summaryItem')
+            discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '')
+            discountPriceValue = discountPriceValue.replace(/[^\d.-]/g, ''); // Remove non-numeric characters
+            discountPriceValue = Number(discountPriceValue);
+            discountPriceValue = Math.abs(discountPriceValue);
+            discountLoyalPointValue = discountPriceValue * 100
+            discountLoyalPointValue = Math.floor(discountLoyalPointValue);
 
-                const earningName = document.createElement('div');
-                const earningValue = document.createElement('div');
+            discountValue.textContent = `-${discountLoyalPointValue}`
 
-                earningName.textContent = "Points earned"
-                earningPriceValue = earningsEl.innerHTML
-                earningPriceValue = earningPriceValue.replace(/[^\d.-]/g, ''); // Remove non-numeric characters
-                earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
-                if (discountEl) {
-                    earningPriceValue = earningPriceValue - discountPriceValue
-                }
-                /*
-                if (VAT) {
-                    VAT = Math.round(Number(VAT.innerHTML.replace(/[^\d.-]/g, '')));
-                    earningPriceValue -= VAT;
-                }
-                */
-                if (couponDiscount) {
-                    earningPriceValue -= Math.floor(Math.abs(Number(couponDiscount.innerHTML.replace(/[^\d.-]/g, ''))));
-                }
-                
-                earningLoyalPointValue = earningPriceValue / 2;
-
-                earningLoyalPointValue = Math.floor(earningLoyalPointValue);
-                if (earningLoyalPointValue < 0) {
-                    earningValue.textContent = `+0`
-                } else {
-                    earningValue.textContent = `+${earningLoyalPointValue}`
-                }
-
-                earningContainer.appendChild(earningName)
-                earningContainer.appendChild(earningValue)
-                masterContainer.appendChild(earningContainer)
-            }
-            const finalContainer = document.createElement('div');
-            const finalResult = document.createElement('div');
-            const finalResultText = document.createElement('p');
-
-            const finalType = document.createElement('div');
-            const finalTypeText = document.createElement('p');
-            finalTypeText.textContent = 'Estimated total after purchase:'
-            if (earningsEl && discountEl && currentUserPoints) {
-                finalResultText.textContent  = `${(currentUserPoints + earningLoyalPointValue  - discountLoyalPointValue)}`
-            } else if (earningsEl && currentUserPoints){
-                finalResultText.textContent  = `${currentUserPoints + earningLoyalPointValue}`
-            } else {
-                finalResultText.textContent  = `${earningLoyalPointValue}`
-            }
-            finalType.appendChild(finalTypeText)
-            finalResult.appendChild(finalResultText)
-            finalContainer.appendChild(finalType)
-            finalContainer.appendChild(finalResult)
-            finalContainer.classList.add('cart-resultItem')
-
-            masterContainer.appendChild(finalContainer)
-            existingDiv.insertAdjacentElement('afterend', masterContainer);
+            discountContainer.appendChild(discountName)
+            discountContainer.appendChild(discountValue)
+            masterContainer.appendChild(discountContainer)
         }
+        if (earningsEl) {
+            // Earning Div
+            const earningContainer = document.createElement('div');
+            earningContainer.classList.add('cart-summaryItem')
 
-        // Append the usePointsDiv to the target element
-        function fetchLoyalty() {
-            return fetch('/graphql', {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer {{ settings.storefront_api.token }}'
-                },
-                body: JSON.stringify({
-                    query: `
-                        query loyaltyQuery{
-                            customer {
-                                attributes {
-                                    attribute(entityId: 1) {
-                                        value
-                                        name
-                                    }
+            const earningName = document.createElement('div');
+            const earningValue = document.createElement('div');
+
+            earningName.textContent = "Points earned"
+            earningPriceValue = earningsEl.innerHTML
+            earningPriceValue = earningPriceValue.replace(/[^\d.-]/g, ''); // Remove non-numeric characters
+            earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
+            if (discountEl) {
+                earningPriceValue = earningPriceValue - discountPriceValue
+            }
+            /*
+            if (VAT) {
+                VAT = Math.round(Number(VAT.innerHTML.replace(/[^\d.-]/g, '')));
+                earningPriceValue -= VAT;
+            }
+            */
+            if (couponDiscount) {
+                earningPriceValue -= Math.floor(Math.abs(Number(couponDiscount.innerHTML.replace(/[^\d.-]/g, ''))));
+            }
+
+            earningLoyalPointValue = earningPriceValue / 2;
+
+            earningLoyalPointValue = Math.floor(earningLoyalPointValue);
+            if (earningLoyalPointValue < 0) {
+                earningValue.textContent = `+0`
+            } else {
+                earningValue.textContent = `+${earningLoyalPointValue}`
+            }
+
+            earningContainer.appendChild(earningName)
+            earningContainer.appendChild(earningValue)
+            masterContainer.appendChild(earningContainer)
+        }
+        const finalContainer = document.createElement('div');
+        const finalResult = document.createElement('div');
+        const finalResultText = document.createElement('p');
+
+        const finalType = document.createElement('div');
+        const finalTypeText = document.createElement('p');
+        finalTypeText.textContent = 'Estimated total after purchase:'
+        if (earningsEl && discountEl && currentUserPoints) {
+            finalResultText.textContent  = `${(currentUserPoints + earningLoyalPointValue  - discountLoyalPointValue)}`
+        } else if (earningsEl && currentUserPoints){
+            finalResultText.textContent  = `${currentUserPoints + earningLoyalPointValue}`
+        } else {
+            finalResultText.textContent  = `${earningLoyalPointValue}`
+        }
+        finalType.appendChild(finalTypeText)
+        finalResult.appendChild(finalResultText)
+        finalContainer.appendChild(finalType)
+        finalContainer.appendChild(finalResult)
+        finalContainer.classList.add('cart-resultItem')
+
+        masterContainer.appendChild(finalContainer)
+        existingDiv.insertAdjacentElement('afterend', masterContainer);
+    }
+
+    // Append the usePointsDiv to the target element
+    function fetchLoyalty() {
+        return fetch('/graphql', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+            },
+            body: JSON.stringify({
+                query: `
+                    query loyaltyQuery{
+                        customer {
+                            attributes {
+                                attribute(entityId: 1) {
+                                    value
+                                    name
                                 }
                             }
                         }
-                    `
-                }),
-            })
-            .then(res => res.json())
-            .then(json => {
-                const attribute = json.data.customer.attributes.attribute;
-                const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
-                return points;
-            })
-            .catch(error => {
-                console.error('Error fetching loyalty points:', error);
-                return '0'; // Return '0' in case of error
-            });
-        }
-    </script>
-    {{/unless}}
-{{/if}}
-
-
-
+                    }
+                `
+            }),
+        })
+        .then(res => res.json())
+        .then(json => {
+            const attribute = json.data.customer.attributes.attribute;
+            const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
+            return points;
+        })
+        .catch(error => {
+            console.error('Error fetching loyalty points:', error);
+            return '0'; // Return '0' in case of error
+        });
+    }
+</script>
+{{/unless}} {{/if}}
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM fully loaded and parsed');
+        let foundDatepickerElInterval = setInterval(() => {
+            const datepickerEl = document.querySelector('#datepicker');
+            console.log('Looking for datepicker element');
+            if (datepickerEl) {
+                console.log('Datepicker element found');
+                clearInterval(foundDatepickerElInterval);
+                datepickerEl.addEventListener(
+                    'blur',
+                    (e) => {
+                        console.log('Date changed');
+                        console.log(
+                            'Value:',
+                            document.querySelector('#datepicker').value
+                        );
+                    },
+                    true
+                );
+            }
+        }, 200);
+    });
+</script> -->
 <script>
     // This script handles 'datepicker' in 'shipping'
-    let shippingInterval = setInterval(shippingChecker, 1000);
+    let shippingInterval = setInterval(shippingChecker, 500);
     function shippingChecker() {
         const element = document.querySelector('#checkout-shipping-options');
         const shippingMethod = document.querySelector('.form-checklist');
         if (element && element !== null && shippingMethod) {
             clearInterval(shippingInterval); // Stop the interval once the element is found
-            createCalendar(element)
+            createCalendar(element);
         }
     }
     function createCalendar(element) {
-        const existingInstructions = document.getElementById('datepicker-hoster');
+        const existingInstructions =
+            document.getElementById('datepicker-hoster');
         if (existingInstructions) {
             existingInstructions.remove();
         }
@@ -463,28 +510,37 @@
                 if (data.perDay) {
                     dailyDeliveryLimit = data.perDay;
                 }
-                attachDatePicker(dailyDeliveryLimit, dailySlotValues, disabledDates);
+                attachDatePicker(
+                    dailyDeliveryLimit,
+                    dailySlotValues,
+                    disabledDates
+                );
             })
             .catch((error) => {
-                console.log('Error calling delivery dates middleware endpoint:', error);
+                console.log(
+                    'Error calling delivery dates middleware endpoint:',
+                    error
+                );
                 // Handle error if necessary
             });
     }
     // Attach
     function attachDatePicker(dailyDeliveryLimit, dailySlotValues, holidays) {
-  
-
         function disableDates(date) {
             let result = [true, '', '']; // Default result to ensure proper return format
             const ulElement = document.querySelector('.form-checklist');
             if (ulElement) {
                 const liElements = ulElement.querySelectorAll('li');
-                liElements.forEach(li => {
+                liElements.forEach((li) => {
                     const listItem = li.querySelector('.shippingOption-desc');
                     const listItemText = listItem.innerHTML;
-                    const isSaturday = listItemText.toLowerCase().includes('saturday');
+                    const isSaturday = listItemText
+                        .toLowerCase()
+                        .includes('saturday');
                     // The initial
-                    if (li.classList.contains('form-checklist-item--selected')) {
+                    if (
+                        li.classList.contains('form-checklist-item--selected')
+                    ) {
                         if (isSaturday) {
                             result = enableSaturday(date);
                         } else {
@@ -492,9 +548,13 @@
                         }
                     }
                     // Clicker
-                    li.addEventListener('click', function() {
+                    li.addEventListener('click', function () {
                         // Check if the clicked LI does not have the 'form-checklist-item--selected' class
-                        if (!li.classList.contains('form-checklist-item--selected')) {
+                        if (
+                            !li.classList.contains(
+                                'form-checklist-item--selected'
+                            )
+                        ) {
                             // Print a message to the console based on the LI's inner HTML
                             if (isSaturday) {
                                 result = enableSaturday(date);
@@ -514,90 +574,119 @@
             const dayBeingChecked = $.datepicker.formatDate('yy-mm-dd', date);
             const dayOfTheWeek = date.getDay();
             const dayOfMonth = date.getDate();
-            let slotsForThisDay = dailySlotValues[dayBeingChecked] ?? dailyDeliveryLimit;
+            let slotsForThisDay =
+                dailySlotValues[dayBeingChecked] ?? dailyDeliveryLimit;
             if (slotsForThisDay > dailyDeliveryLimit) {
                 slotsForThisDay = dailyDeliveryLimit;
             }
             // Enable 6th day of the week (Saturday) AND if slots is higher than 0
-            let isSaturdayWithSlots
-            isSaturdayWithSlots = (dayOfTheWeek === 6 && slotsForThisDay > 0 && slotsForThisDay > 0 && !holidays.includes(dayBeingChecked) );
-            if (sessionStorage.getItem('deliveryDate')) {
-                sessionStorage.clear('deliveryDate')
-                location.reload();
-            }
+            let isSaturdayWithSlots;
+            isSaturdayWithSlots =
+                dayOfTheWeek === 6 &&
+                slotsForThisDay > 0 &&
+                slotsForThisDay > 0 &&
+                !holidays.includes(dayBeingChecked);
+            // if (sessionStorage.getItem('deliveryDate')) {
+            //     sessionStorage.clear('deliveryDate');
+            //     location.reload();
+            // }
             $('#datepicker').val('');
-            return [isSaturdayWithSlots, '', `Slots available: ${slotsForThisDay}`];
+            return [
+                isSaturdayWithSlots,
+                '',
+                `Slots available: ${slotsForThisDay}`,
+            ];
         }
         // Enable weekdays
         function enableWeekdays(date) {
             const dayBeingChecked = $.datepicker.formatDate('yy-mm-dd', date);
             const dayOfTheWeek = date.getDay();
-            let slotsForThisDay = dailySlotValues[dayBeingChecked] ?? dailyDeliveryLimit;
+            let slotsForThisDay =
+                dailySlotValues[dayBeingChecked] ?? dailyDeliveryLimit;
             if (slotsForThisDay > dailyDeliveryLimit) {
                 slotsForThisDay = dailyDeliveryLimit;
             }
-            // Enable if not 6 (Saturday) 0 (Sunday) AND 1 (Monday) 
-            let isEnabledDay
-            isEnabledDay = (dayOfTheWeek !== 6 && dayOfTheWeek !== 0 && dayOfTheWeek !== 1 && slotsForThisDay > 0  && !holidays.includes(dayBeingChecked) );
-            if (sessionStorage.getItem('deliveryDate')) {
-                sessionStorage.clear('deliveryDate')
-                location.reload();
-            }
+            // Enable if not 6 (Saturday) 0 (Sunday) AND 1 (Monday)
+            let isEnabledDay;
+            isEnabledDay =
+                dayOfTheWeek !== 6 &&
+                dayOfTheWeek !== 0 &&
+                dayOfTheWeek !== 1 &&
+                slotsForThisDay > 0 &&
+                !holidays.includes(dayBeingChecked);
+            // if (sessionStorage.getItem('deliveryDate')) {
+            //     sessionStorage.clear('deliveryDate');
+            //     location.reload();
+            // }
             $('#datepicker').val('');
             return [isEnabledDay, '', `Slots available: ${slotsForThisDay}`];
         }
         // Check if the session token for delivery date has been generated
-        if (sessionStorage.getItem('deliveryDate')) {
-            const datepicker = document.querySelector('#datepicker');
-            const deliveryDate = sessionStorage.getItem('deliveryDate');
-            datepicker.value = deliveryDate;
-        }
-        
+        // if (sessionStorage.getItem('deliveryDate')) {
+        //     const datepicker = document.querySelector('#datepicker');
+        //     const deliveryDate = sessionStorage.getItem('deliveryDate');
+        //     datepicker.value = deliveryDate;
+        // }
+
         $('#datepicker').datepicker({
             beforeShowDay: disableDates,
+            onClose: function () {
+                const datepicker = document.querySelector('#datepicker');
+                const deliveryDate = datepicker.value;
+                sessionStorage.setItem('deliveryDate', deliveryDate);
+            },
             defaultDate: '+1D',
             minDate: '+1D',
             maxDate: '+21D',
             dateFormat: 'd MM, yy',
             showOtherMonths: true,
             firstDay: 1,
-            placeholder: 'Select Date'
+            placeholder: 'Select Date',
         });
         $('#datepicker').attr('placeholder', 'Select Date');
     }
 </script>
 
 <script>
-    let warnInterval = setInterval(renameWarning, 1000)
+    let warnInterval = setInterval(renameWarning, 1000);
     function renameWarning() {
-        let warningMsg = document.querySelector('.shippingOptions-panel.optimizedCheckout-overlay p')
-        let proceedButton = document.querySelector('#proceedButton')
+        let warningMsg = document.querySelector(
+            '.shippingOptions-panel.optimizedCheckout-overlay p'
+        );
+        let proceedButton = document.querySelector('#proceedButton');
         if (warningMsg) {
-            warningMsg.textContent = "Please ensure all required fields have been completed to see delivery options"
-            if (proceedButton && warningMsg.textContent == "Please ensure all required fields have been completed to see delivery options") {
+            warningMsg.textContent =
+                'Please ensure all required fields have been completed to see delivery options';
+            if (
+                proceedButton &&
+                warningMsg.textContent ==
+                    'Please ensure all required fields have been completed to see delivery options'
+            ) {
                 proceedButton.addEventListener('click', () => {
-                    warningMsg.style.color = "red";
-                })
+                    warningMsg.style.color = 'red';
+                });
             }
         }
     }
-    
 </script>
 
 <script>
     // This script handles 'instructions' in 'shipping'
     let instructionInterval = setInterval(instructionCheck, 1000);
     function instructionCheck() {
-        const element = document.querySelector('fieldset.form-fieldset[data-test="checkout-shipping-comments"]');
+        const element = document.querySelector(
+            'fieldset.form-fieldset[data-test="checkout-shipping-comments"]'
+        );
         const shippingMethod = document.querySelector('.form-checklist');
 
         if (element) {
             clearInterval(instructionInterval);
-            createInstructions(); 
+            createInstructions();
         }
     }
     function createInstructions() {
-        const existingInstructions = document.getElementById('instruction-wrap');
+        const existingInstructions =
+            document.getElementById('instruction-wrap');
         if (existingInstructions) {
             existingInstructions.remove();
         }
@@ -618,7 +707,9 @@
         </div>
         `;
         // Select the div with class 'checkout-address'
-        const instructionSpot = document.querySelector('fieldset.form-fieldset[data-test="checkout-shipping-comments"]');
+        const instructionSpot = document.querySelector(
+            'fieldset.form-fieldset[data-test="checkout-shipping-comments"]'
+        );
         // Append the HTML code to the 'checkout-instruction' div
         instructionSpot.insertAdjacentHTML('afterend', instructionsDiv);
     }
@@ -638,40 +729,46 @@
     let resetInterval = setInterval(resetCheck, 1000);
     function resetCheck() {
         // Button by BC
-        const shipButton = document.querySelector('#checkout-shipping-continue');
+        const shipButton = document.querySelector(
+            '#checkout-shipping-continue'
+        );
         // Mockup button
-        const proceedButton = document.querySelector('#proceedButton')
+        const proceedButton = document.querySelector('#proceedButton');
         const shippingMethod = document.querySelector('.form-checklist');
         if (shipButton && proceedButton && shippingMethod) {
             // Stop the interval once the shipButton is found
-            clearInterval(resetInterval); 
+            clearInterval(resetInterval);
             // Execute the function
-            resetFunction(shipButton, proceedButton); 
+            resetFunction(shipButton, proceedButton);
         }
     }
     function resetFunction(shipButton, proceedButton) {
         // Add event for new button
-        proceedButton.addEventListener('click', function() {
-            let finalInstructions = "";
+        proceedButton.addEventListener('click', function () {
+            let finalInstructions = '';
             // Get session keys if they exist
             const deliveryDate = sessionStorage.getItem('deliveryDate');
             const deliveryInstr = sessionStorage.getItem('tracked_input_text');
             // Get datepicker
-            const datepicker = document.querySelector('.datepicker')
-            const datePickerValue = document.querySelector('#datepicker').value
+            const datepicker = document.querySelector('.datepicker');
+            const datePickerValue =
+                deliveryDate || document.querySelector('#datepicker').value;
             // Get instructions
-            const instructionSelector = document.querySelector('#delivery_inst_tag');
-            const inputElement = document.querySelector('input[name="orderComment"]');
+            const instructionSelector =
+                document.querySelector('#delivery_inst_tag');
+            const inputElement = document.querySelector(
+                'input[name="orderComment"]'
+            );
             // Set URL
-            const url ="/api/storefront/checkouts/{{cart_id}}";
+            const url = '/api/storefront/checkouts/{{cart_id}}';
             // Get warning
-            const warning = document.querySelector("#warningMessage");
+            const warning = document.querySelector('#warningMessage');
             // Check if user decided to add instructions
-            if (instructionSelector.value === "user_instruction") {
+            if (instructionSelector.value === 'user_instruction') {
                 const textarea = document.querySelector('#delivery_user_text');
                 // If no instructions provided
                 if (textarea.value.length == 0) {
-                    textarea.value = "Will be in";
+                    textarea.value = 'Will be in';
                 }
                 finalInstructions = textarea.value;
             } else {
@@ -679,38 +776,38 @@
             }
             // Fill instructions and data
             const fullInstructions = `${datePickerValue} | ${finalInstructions}`;
-            const newData = {customerMessage: fullInstructions};
+            const newData = { customerMessage: fullInstructions };
             //// Set and Put
             // Set input
             inputElement.value = fullInstructions;
             // Put request
             if (!datePickerValue == '' && !shipButton.disabled) {
-                fetch("/api/storefront/checkouts/{{cart_id}}", {
+                fetch('/api/storefront/checkouts/{{cart_id}}', {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(newData)
+                    body: JSON.stringify(newData),
                 })
-                .then(response => {
+                    .then((response) => {
                         if (!response.ok) {
                             throw new Error('PUT request failed');
                         }
                         return response.json(); // Parse the JSON response
-                })
-                .then(data => {
+                    })
+                    .then((data) => {
                         console.log('PUT request successful');
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error('Error:', error);
-                });
+                    });
                 // If delivery date is different
                 if (deliveryDate) {
                     if (deliveryDate !== datePickerValue) {
                         // console.log('Date did not match')
                         location.reload();
                     }
-                } 
+                }
                 // If delivery instructions are different
                 if (deliveryInstr) {
                     if (finalInstructions !== deliveryInstr) {
@@ -720,10 +817,10 @@
                 }
                 // Assign new storage
                 sessionStorage.setItem('tracked_input_text', finalInstructions);
-                sessionStorage.setItem('deliveryDate', datePickerValue);
+                // sessionStorage.setItem('deliveryDate', datePickerValue);
                 // Remove warnings
-                warning.style.display = "none"
-                datepicker.classList.remove('warning')
+                warning.style.display = 'none';
+                datepicker.classList.remove('warning');
                 // Add delay to ensure put is ran
                 setTimeout(function () {
                     shipButton.click();
@@ -732,17 +829,17 @@
                     resetInterval = setInterval(resetCheck, 1000);
                     instructionInterval = setInterval(instructionCheck, 1000);
                     shippingInterval = setInterval(shippingChecker, 1000);
-                }, 2000); 
-            //User used shipping method but failed to fill in datepicker
+                }, 2000);
+                //User used shipping method but failed to fill in datepicker
             } else if (datePickerValue == '' && !shipButton.disabled) {
-                warning.style.display = "block"
-                warning.textContent = "Please fill in the datepicker field.";
-                datepicker.classList.add('warning')
-            // User used darepicker but failed to fill shipping method
+                warning.style.display = 'block';
+                warning.textContent = 'Please fill in the datepicker field.';
+                datepicker.classList.add('warning');
+                // User used darepicker but failed to fill shipping method
             } else if (!datePickerValue == '' && shipButton.disabled) {
-                warning.style.display = "block"
-                warning.textContent = "Please select a shipping method.";
-            } 
+                warning.style.display = 'block';
+                warning.textContent = 'Please select a shipping method.';
+            }
         });
     }
 </script>
@@ -751,20 +848,23 @@
     // This script handles Payment Behaviour
     let finalInterval = setInterval(finalCheck, 1000);
     function finalCheck() {
-        const element = document.querySelector('#checkout-payment-continue')
+        const element = document.querySelector('#checkout-payment-continue');
         if (element && element.innerHTML !== null) {
             // Generate elements and append location
-            const fakeButton = document.createElement("div");
-            const missingWarn = document.createElement("p")
-            const location = document.querySelector(".checkout-step--payment .checkout-form .form-actions")
+            const fakeButton = document.createElement('div');
+            const missingWarn = document.createElement('p');
+            const location = document.querySelector(
+                '.checkout-step--payment .checkout-form .form-actions'
+            );
             // Generate placeholder button
-            fakeButton.innerHTML = "Place Order";
+            fakeButton.innerHTML = 'Place Order';
             fakeButton.id = 'fakeButton';
             fakeButton.style.display = 'none';
             // Generate warning text
             missingWarn.classList.add('warning');
-            missingWarn.textContent = "Cannot find delivery date. Please review your 'shipping' details.";
-            missingWarn.style.display = "none";
+            missingWarn.textContent =
+                "Cannot find delivery date. Please review your 'shipping' details.";
+            missingWarn.style.display = 'none';
             // Append the button to the body of the HTML document
             if (!document.querySelector('#fakeButton')) {
                 location.appendChild(missingWarn);
@@ -776,52 +876,58 @@
     function finalFunction(element, fakeButton, missingWarn) {
         // Make sure its targetting the right 'order' button
         let mimicInterval = setInterval(function () {
-            const nearestTar = document.querySelector('#checkout-payment-continue')
+            const nearestTar = document.querySelector(
+                '#checkout-payment-continue'
+            );
             if (nearestTar) {
                 // Clear interval
                 clearInterval(mimicInterval);
                 // Hide real, show fake just incase
-                element.style.display = 'none'
-                fakeButton.style.display = 'block'
+                element.style.display = 'none';
+                fakeButton.style.display = 'block';
                 // Add event now that it has the correct target
                 fakeButton.addEventListener('click', () => {
-                    fetch("/api/storefront/checkouts/{{cart_id}}", {
+                    fetch('/api/storefront/checkouts/{{cart_id}}', {
                         method: 'GET',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
                         },
                     })
-                    .then(response => {
+                        .then((response) => {
                             if (!response.ok) {
                                 throw new Error('PUT request failed');
                             }
                             return response.json(); // Parse the JSON response
-                    })
-                    .then(data => {
-                            const deliveryInstructions = data.customerMessage
-                            if (data.customerMessage && data.customerMessage.trim()) {
+                        })
+                        .then((data) => {
+                            const deliveryInstructions = data.customerMessage;
+                            if (
+                                data.customerMessage &&
+                                data.customerMessage.trim()
+                            ) {
                                 nearestTar.click();
                             } else {
-                                missingWarn.style.display = "block";
+                                missingWarn.style.display = 'block';
                             }
                         })
-                    .catch(error => {
+                        .catch((error) => {
                             console.error('Error:', error);
-                    });
-                })
+                        });
+                });
             }
         }, 1000);
 
         // Add reset button incase user changes their mind
-        const editButtons = document.querySelectorAll('.checkout-step .button--tertiary.button--tiny.optimizedCheckout-buttonSecondary')
-        editButtons.forEach(editButton => {
+        const editButtons = document.querySelectorAll(
+            '.checkout-step .button--tertiary.button--tiny.optimizedCheckout-buttonSecondary'
+        );
+        editButtons.forEach((editButton) => {
             editButton.addEventListener('click', () => {
                 // reset the interval
                 finalInterval = setInterval(finalCheck, 1000);
-            })
+            });
         });
     }
-
 </script>
 
 <style>
@@ -884,15 +990,15 @@
     }
     .modal.modal--afterOpen.optimizedCheckout-cart-modal .modal-body {
         box-shadow: none;
-        height: 100%; 
+        height: 100%;
         padding-bottom: 0;
         overflow-x: auto;
-        overflow-y: auto; 
+        overflow-y: auto;
     }
     .loyalty-points {
         display: flex;
         flex-direction: column;
-        background-color: #FFEDCD;
+        background-color: #ffedcd;
     }
 
     #points-input {
@@ -900,9 +1006,9 @@
         border-radius: 32px;
         padding: 16px 12px;
     }
-    fieldset[data-test="checkout-shipping-comments"],
+    fieldset[data-test='checkout-shipping-comments'],
     #checkout-shipping-continue,
-    input[name="orderComment"],
+    input[name='orderComment'],
     #checkout-payment-continue {
         display: none;
     }
@@ -924,7 +1030,7 @@
         font-size: 16px;
         background-color: #687d6a;
         transition: all 0.15s ease;
-        font-family: "Montserrat", Arial, Helvetica, sans-serif;
+        font-family: 'Montserrat', Arial, Helvetica, sans-serif;
         font-weight: 500;
         padding: 14px 24px;
         text-align: center;
@@ -1108,6 +1214,4 @@
     }
 </style>
 
-{{/partial}}
-
-{{> layout/empty}}
+{{/partial}} {{> layout/empty}}
