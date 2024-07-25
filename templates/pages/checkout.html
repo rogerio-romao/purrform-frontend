@@ -518,9 +518,6 @@
     ) {
         function disableDates(day) {
             // day gets implicitly passed by jQuery Calendar
-            const shippingMethodOptions =
-                document.querySelector('.form-checklist');
-
             const selectedShippingMethod = document.querySelector(
                 '.form-checklist-item--selected'
             );
@@ -541,6 +538,7 @@
                 'yy-mm-dd',
                 day
             );
+
             const dayOfTheWeek = day.getDay();
             const saturdayDay = 6;
 
@@ -554,7 +552,8 @@
                 // this should never happen, but just in case
                 slotsForThisDay = dailyDeliveryLimit;
             }
-            // Enable 6th day of the week (Saturday) AND if slots is higher than 0
+
+            // Enable check
             const isSaturdayEnabled =
                 slotsForThisDay > 0 &&
                 !disabledDates.includes(dayBeingCheckedFormatted);
@@ -572,7 +571,16 @@
                 'yy-mm-dd',
                 day
             );
+
             const dayOfTheWeek = day.getDay();
+            // Disable if 6 (Saturday) 0 (Sunday) AND 1 (Monday)
+            if (
+                dayOfTheWeek === 6 ||
+                dayOfTheWeek === 0 ||
+                dayOfTheWeek === 1
+            ) {
+                return [false, '', ''];
+            }
 
             let slotsForThisDay =
                 dailySlotValues[dayBeingCheckedFormatted] ?? dailyDeliveryLimit;
@@ -581,11 +589,7 @@
                 slotsForThisDay = dailyDeliveryLimit;
             }
 
-            // Enable if not 6 (Saturday) 0 (Sunday) AND 1 (Monday)
             const isEnabledDay =
-                dayOfTheWeek !== 6 &&
-                dayOfTheWeek !== 0 &&
-                dayOfTheWeek !== 1 &&
                 slotsForThisDay > 0 &&
                 !disabledDates.includes(dayBeingCheckedFormatted);
 
@@ -607,6 +611,7 @@
             firstDay: 1,
             placeholder: 'Select Date',
         });
+
         $('#datepicker').attr('placeholder', 'Select Date');
     }
 </script>
