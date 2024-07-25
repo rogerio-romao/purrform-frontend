@@ -27,6 +27,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhEVGvTFe26KQ1-eDZ9i10znl03qH1ZlI&libraries=places,geometry&v=weekly"
+    defer
+></script>
+
 <link
     rel="stylesheet"
     href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -38,7 +43,6 @@
     href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css"
 />
 
-<script src="{{cdn 'assets/js/custom.js'}}"></script>
 {{#if customer_group_name '!==' 'trade_blocked'}}
 <div id="optimised_main_chout">
     <header class="checkoutHeader optimizedCheckout-header">
@@ -88,28 +92,26 @@
         more info</p
     >
 </div>
-{{/if}}
-<script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhEVGvTFe26KQ1-eDZ9i10znl03qH1ZlI&libraries=places,geometry&v=weekly"
-    defer
-></script>
+{{/if}} {{inject "checkoutID" cart_id}}
 
 <script>
+    // Change the text of the mobile modal
     let mobileCheck = setInterval(mobileRename, 300);
     function mobileRename() {
         const mobileModal = document.querySelector(
             '.cartDrawer.optimizedCheckout-orderSummary'
         );
         if (mobileModal) {
-            console.log(mobileModal);
             mobileModal.querySelector('.cartDrawer-body a').textContent =
                 'Show Details & Rewards';
+            clearInterval(mobileCheck);
         }
     }
 </script>
-{{inject "checkoutID" cart_id}} {{#if customer}} {{#unless customer_group_name
-'===' 'Trade'}}
+
+{{#if customer}} {{#unless customer_group_name '===' 'Trade'}}
 <script>
+    // Handles the loyalty points
     var jsContext = JSON.parse({{jsContext}});
 
     let loyaltyInterval = setInterval(loyaltyCheck, 1000);
@@ -430,47 +432,28 @@
     }
 </script>
 {{/unless}} {{/if}}
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM fully loaded and parsed');
-        let foundDatepickerElInterval = setInterval(() => {
-            const datepickerEl = document.querySelector('#datepicker');
-            console.log('Looking for datepicker element');
-            if (datepickerEl) {
-                console.log('Datepicker element found');
-                clearInterval(foundDatepickerElInterval);
-                datepickerEl.addEventListener(
-                    'blur',
-                    (e) => {
-                        console.log('Date changed');
-                        console.log(
-                            'Value:',
-                            document.querySelector('#datepicker').value
-                        );
-                    },
-                    true
-                );
-            }
-        }, 200);
-    });
-</script> -->
+
 <script>
     // This script handles 'datepicker' in 'shipping'
-    let shippingInterval = setInterval(shippingChecker, 500);
+    let shippingInterval = setInterval(shippingChecker, 250);
     function shippingChecker() {
-        const element = document.querySelector('#checkout-shipping-options');
+        const shippingOptionsElement = document.querySelector(
+            '#checkout-shipping-options'
+        );
         const shippingMethod = document.querySelector('.form-checklist');
-        if (element && element !== null && shippingMethod) {
+        if (shippingOptionsElement && shippingMethod) {
             clearInterval(shippingInterval); // Stop the interval once the element is found
-            createCalendar(element);
+            createCalendar(shippingOptionsElement);
         }
     }
-    function createCalendar(element) {
+
+    function createCalendar(parent) {
         const existingInstructions =
             document.getElementById('datepicker-hoster');
         if (existingInstructions) {
             existingInstructions.remove();
         }
+
         // Define the HTML code for the elements
         const datePickerHTML = `
             <div id="datepicker-hoster" class="datepicker">
@@ -484,15 +467,17 @@
                 <p style="font-size: 16px;">*Next Day delivery is usually available on any orders placed before 12 noon, Monday to Friday. Excluding some postcodes in Scotland.</p>
             </div>
         `;
-        element.insertAdjacentHTML('beforeend', datePickerHTML);
+        parent.insertAdjacentHTML('beforeend', datePickerHTML);
         getCalendarData();
     }
+
     // Get data for the calendar
     function getCalendarData() {
         // Create calendar and attach date picker logic here
         let dailyDeliveryLimit = 250;
         const dailySlotValues = {};
         const disabledDates = [];
+
         // get delivery dates from middleware
         fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
             .then((response) => {
@@ -524,109 +509,88 @@
                 // Handle error if necessary
             });
     }
-    // Attach
-    function attachDatePicker(dailyDeliveryLimit, dailySlotValues, holidays) {
-        function disableDates(date) {
-            let result = [true, '', '']; // Default result to ensure proper return format
-            const ulElement = document.querySelector('.form-checklist');
-            if (ulElement) {
-                const liElements = ulElement.querySelectorAll('li');
-                liElements.forEach((li) => {
-                    const listItem = li.querySelector('.shippingOption-desc');
-                    const listItemText = listItem.innerHTML;
-                    const isSaturday = listItemText
-                        .toLowerCase()
-                        .includes('saturday');
-                    // The initial
-                    if (
-                        li.classList.contains('form-checklist-item--selected')
-                    ) {
-                        if (isSaturday) {
-                            result = enableSaturday(date);
-                        } else {
-                            result = enableWeekdays(date);
-                        }
-                    }
-                    // Clicker
-                    li.addEventListener('click', function () {
-                        // Check if the clicked LI does not have the 'form-checklist-item--selected' class
-                        if (
-                            !li.classList.contains(
-                                'form-checklist-item--selected'
-                            )
-                        ) {
-                            // Print a message to the console based on the LI's inner HTML
-                            if (isSaturday) {
-                                result = enableSaturday(date);
-                            } else {
-                                result = enableWeekdays(date);
-                            }
-                        }
-                    });
-                });
-            } else {
-                result = enableWeekdays(date);
-            }
-            return result;
+
+    // Attach the calendar
+    function attachDatePicker(
+        dailyDeliveryLimit,
+        dailySlotValues,
+        disabledDates
+    ) {
+        function disableDates(day) {
+            // day gets implicitly passed by jQuery Calendar
+            const shippingMethodOptions =
+                document.querySelector('.form-checklist');
+
+            const selectedShippingMethod = document.querySelector(
+                '.form-checklist-item--selected'
+            );
+
+            const isSaturdayDelivery = selectedShippingMethod
+                .querySelector('.shippingOption-desc')
+                .textContent.toLowerCase()
+                .includes('saturday');
+
+            return isSaturdayDelivery
+                ? enableSaturday(day)
+                : enableWeekdays(day);
         }
-        // Disable everything except Saturday
-        function enableSaturday(date) {
-            const dayBeingChecked = $.datepicker.formatDate('yy-mm-dd', date);
-            const dayOfTheWeek = date.getDay();
-            const dayOfMonth = date.getDate();
+
+        // Disable everything except Saturdays
+        function enableSaturday(day) {
+            const dayBeingCheckedFormatted = $.datepicker.formatDate(
+                'yy-mm-dd',
+                day
+            );
+            const dayOfTheWeek = day.getDay();
+            const saturdayDay = 6;
+
+            if (dayOfTheWeek !== saturdayDay) {
+                return [false, '', ''];
+            }
+
             let slotsForThisDay =
-                dailySlotValues[dayBeingChecked] ?? dailyDeliveryLimit;
+                dailySlotValues[dayBeingCheckedFormatted] ?? dailyDeliveryLimit;
             if (slotsForThisDay > dailyDeliveryLimit) {
+                // this should never happen, but just in case
                 slotsForThisDay = dailyDeliveryLimit;
             }
             // Enable 6th day of the week (Saturday) AND if slots is higher than 0
-            let isSaturdayWithSlots;
-            isSaturdayWithSlots =
-                dayOfTheWeek === 6 &&
+            const isSaturdayEnabled =
                 slotsForThisDay > 0 &&
-                slotsForThisDay > 0 &&
-                !holidays.includes(dayBeingChecked);
-            // if (sessionStorage.getItem('deliveryDate')) {
-            //     sessionStorage.clear('deliveryDate');
-            //     location.reload();
-            // }
-            $('#datepicker').val('');
+                !disabledDates.includes(dayBeingCheckedFormatted);
+
             return [
-                isSaturdayWithSlots,
+                isSaturdayEnabled,
                 '',
                 `Slots available: ${slotsForThisDay}`,
             ];
         }
+
         // Enable weekdays
-        function enableWeekdays(date) {
-            const dayBeingChecked = $.datepicker.formatDate('yy-mm-dd', date);
-            const dayOfTheWeek = date.getDay();
+        function enableWeekdays(day) {
+            const dayBeingCheckedFormatted = $.datepicker.formatDate(
+                'yy-mm-dd',
+                day
+            );
+            const dayOfTheWeek = day.getDay();
+
             let slotsForThisDay =
-                dailySlotValues[dayBeingChecked] ?? dailyDeliveryLimit;
+                dailySlotValues[dayBeingCheckedFormatted] ?? dailyDeliveryLimit;
             if (slotsForThisDay > dailyDeliveryLimit) {
+                // this should never happen, but just in case
                 slotsForThisDay = dailyDeliveryLimit;
             }
+
             // Enable if not 6 (Saturday) 0 (Sunday) AND 1 (Monday)
-            let isEnabledDay;
-            isEnabledDay =
+            const isEnabledDay =
                 dayOfTheWeek !== 6 &&
                 dayOfTheWeek !== 0 &&
                 dayOfTheWeek !== 1 &&
                 slotsForThisDay > 0 &&
-                !holidays.includes(dayBeingChecked);
-            // if (sessionStorage.getItem('deliveryDate')) {
-            //     sessionStorage.clear('deliveryDate');
-            //     location.reload();
-            // }
-            $('#datepicker').val('');
+                !disabledDates.includes(dayBeingCheckedFormatted);
+
             return [isEnabledDay, '', `Slots available: ${slotsForThisDay}`];
         }
-        // Check if the session token for delivery date has been generated
-        // if (sessionStorage.getItem('deliveryDate')) {
-        //     const datepicker = document.querySelector('#datepicker');
-        //     const deliveryDate = sessionStorage.getItem('deliveryDate');
-        //     datepicker.value = deliveryDate;
-        // }
 
         $('#datepicker').datepicker({
             beforeShowDay: disableDates,
