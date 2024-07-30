@@ -543,7 +543,7 @@
             const saturdayDay = 6;
 
             if (dayOfTheWeek !== saturdayDay) {
-                return [false, '', ''];
+                return [false, '', '']; // disabled boolean, css class, tooltip
             }
 
             let slotsForThisDay =
@@ -562,7 +562,7 @@
                 isSaturdayEnabled,
                 '',
                 `Slots available: ${slotsForThisDay}`,
-            ];
+            ]; // enabled boolean, css class, tooltip
         }
 
         // Enable weekdays
@@ -579,7 +579,7 @@
                 dayOfTheWeek === 0 ||
                 dayOfTheWeek === 1
             ) {
-                return [false, '', ''];
+                return [false, '', '']; // disabled boolean, css class, tooltip
             }
 
             let slotsForThisDay =
@@ -593,7 +593,7 @@
                 slotsForThisDay > 0 &&
                 !disabledDates.includes(dayBeingCheckedFormatted);
 
-            return [isEnabledDay, '', `Slots available: ${slotsForThisDay}`];
+            return [isEnabledDay, '', `Slots available: ${slotsForThisDay}`]; // enabled boolean, css class, tooltip
         }
 
         $('#datepicker').datepicker({
@@ -617,7 +617,7 @@
 </script>
 
 <script>
-    let warnInterval = setInterval(renameWarning, 1000);
+    let warnInterval = setInterval(renameWarning, 250);
     function renameWarning() {
         let warningMsg = document.querySelector(
             '.shippingOptions-panel.optimizedCheckout-overlay p'
@@ -641,7 +641,7 @@
 
 <script>
     // This script handles 'instructions' in 'shipping'
-    let instructionInterval = setInterval(instructionCheck, 1000);
+    let instructionInterval = setInterval(instructionCheck, 250);
     function instructionCheck() {
         const element = document.querySelector(
             'fieldset.form-fieldset[data-test="checkout-shipping-comments"]'
@@ -669,7 +669,7 @@
                     <option value="user_instruction">User instruction</option>
                 </select>
                 <div id="word_limit" style="text-align: right;padding: 3px 0;display:none">(30 characters)</div>
-                <textarea style="display:none" name="delivery_user_text" id="delivery_user_text" rows="1" cols="40" class="form-input"></textarea>
+                <textarea style="display:none" name="delivery_user_text" id="delivery_user_text" rows="3" cols="40" class="form-input"></textarea>
             </div>
             <p id="warningMessage" class="warning" style="display:none;">Please fill the required field.</p>
             <div id="proceedButton">Continue</div>
@@ -682,11 +682,14 @@
         // Append the HTML code to the 'checkout-instruction' div
         instructionSpot.insertAdjacentHTML('afterend', instructionsDiv);
     }
+
     function showTextarea() {
         const selectElement = document.getElementById('delivery_inst_tag');
         const textarea = document.getElementById('delivery_user_text');
         if (selectElement.value === 'user_instruction') {
             textarea.style.display = 'block';
+            textarea.style.margin = '10px 0';
+            textarea.focus();
         } else {
             textarea.style.display = 'none';
         }
@@ -695,7 +698,7 @@
 
 <script>
     // This script handles 'Shipping' continue button
-    let resetInterval = setInterval(resetCheck, 1000);
+    let resetInterval = setInterval(resetCheck, 250);
     function resetCheck() {
         // Button by BC
         const shipButton = document.querySelector(
@@ -711,6 +714,7 @@
             resetFunction(shipButton, proceedButton);
         }
     }
+
     function resetFunction(shipButton, proceedButton) {
         // Add event for new button
         proceedButton.addEventListener('click', function () {
@@ -770,20 +774,7 @@
                     .catch((error) => {
                         console.error('Error:', error);
                     });
-                // If delivery date is different
-                if (deliveryDate) {
-                    if (deliveryDate !== datePickerValue) {
-                        // console.log('Date did not match')
-                        location.reload();
-                    }
-                }
-                // If delivery instructions are different
-                if (deliveryInstr) {
-                    if (finalInstructions !== deliveryInstr) {
-                        // console.log('Instructions did not match')
-                        location.reload();
-                    }
-                }
+
                 // Assign new storage
                 sessionStorage.setItem('tracked_input_text', finalInstructions);
                 // sessionStorage.setItem('deliveryDate', datePickerValue);
@@ -794,15 +785,11 @@
                 setTimeout(function () {
                     shipButton.click();
                 }, 1000);
-                setTimeout(function () {
-                    resetInterval = setInterval(resetCheck, 1000);
-                    instructionInterval = setInterval(instructionCheck, 1000);
-                    shippingInterval = setInterval(shippingChecker, 1000);
-                }, 2000);
+
                 //User used shipping method but failed to fill in datepicker
             } else if (datePickerValue == '' && !shipButton.disabled) {
                 warning.style.display = 'block';
-                warning.textContent = 'Please fill in the datepicker field.';
+                warning.textContent = 'Please fill in the delivery date field.';
                 datepicker.classList.add('warning');
                 // User used darepicker but failed to fill shipping method
             } else if (!datePickerValue == '' && shipButton.disabled) {
@@ -815,7 +802,7 @@
 
 <script>
     // This script handles Payment Behaviour
-    let finalInterval = setInterval(finalCheck, 1000);
+    let finalInterval = setInterval(finalCheck, 250);
     function finalCheck() {
         const element = document.querySelector('#checkout-payment-continue');
         if (element && element.innerHTML !== null) {
@@ -842,6 +829,7 @@
             }
         }
     }
+
     function finalFunction(element, fakeButton, missingWarn) {
         // Make sure its targetting the right 'order' button
         let mimicInterval = setInterval(function () {
@@ -884,7 +872,7 @@
                         });
                 });
             }
-        }, 1000);
+        }, 50);
 
         // Add reset button incase user changes their mind
         const editButtons = document.querySelectorAll(
@@ -893,7 +881,7 @@
         editButtons.forEach((editButton) => {
             editButton.addEventListener('click', () => {
                 // reset the interval
-                finalInterval = setInterval(finalCheck, 1000);
+                finalInterval = setInterval(finalCheck, 250);
             });
         });
     }
