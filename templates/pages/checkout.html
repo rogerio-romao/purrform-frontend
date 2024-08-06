@@ -642,12 +642,11 @@
                     if (!response.ok) {
                         throw new Error('PUT request failed');
                     }
-                    return response.json(); // Parse the JSON response
-                })
-                .then((data) => {
                     sessionStorage.removeItem('deliveryDate');
                     sessionStorage.removeItem('customerMessage');
                     realCommentsInput.value = fullInstructions;
+                    console.log('Delivery instructions updated successfully');
+                    console.log('reakCommentsInput:', realCommentsInput.value);
                     realContinueButton.click();
                 })
                 .catch((error) => {
