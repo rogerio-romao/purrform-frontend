@@ -96,6 +96,7 @@
     // Handles the loyalty points
     var jsContext = JSON.parse({{jsContext}});
 
+
     let loyaltyInterval = setInterval(loyaltyCheck, 1000);
     function loyaltyCheck() {
         const elementParentType = document.querySelector('.layout-main')
@@ -182,7 +183,7 @@
 
         cancelButton.addEventListener('click', () => {
             console.log("Received Click");
-            const ID = jsContext.checkoutID;
+            const ID = jsContext.checkoutId;
             fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${ID}&loyaltyPointsUsed=0`)
             .then((response) => {
                 cancelButton.setAttribute('disabled', 'true')
@@ -237,7 +238,7 @@
                 if (input.value === '') {
                     return;
                 }
-                const ID = jsContext.checkoutID;
+                const ID = jsContext.checkoutId;
                 const loyaltyPoints = document.querySelector('#points-input').value
                 if (loyaltyPoints === "") {
                     console.log("The input is empty.");
