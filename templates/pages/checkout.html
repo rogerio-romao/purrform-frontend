@@ -40,7 +40,66 @@
 
 {{inject "checkoutId" cart_id}}
 
-<script src="{{cdn 'assets/js/custom.js'}}"></script>
+<script>
+    // This is a custom function to check if an element is ready in the DOM with MutationObserver (no timers)
+    (function (win) {
+        'use strict';
+
+        var listeners = [],
+            doc = win.document,
+            MutationObserver =
+                win.MutationObserver || win.WebKitMutationObserver,
+            observer;
+
+        function ready(selector, fn) {
+            // Store the selector and callback to be monitored
+            listeners.push({
+                selector: selector,
+                fn: fn,
+            });
+            if (!observer) {
+                // Watch for changes in the document
+                observer = new MutationObserver(check);
+                observer.observe(doc.documentElement, {
+                    childList: true,
+                    subtree: true,
+                });
+            }
+            // Check if the element is currently in the DOM
+            check();
+        }
+
+        function check() {
+            // Check the DOM for elements matching a stored selector
+            for (
+                var i = 0, len = listeners.length, listener, elements;
+                i < len;
+                i++
+            ) {
+                listener = listeners[i];
+                // Query for elements matching the specified selector
+                elements = doc.querySelectorAll(listener.selector);
+                for (
+                    var j = 0, jLen = elements.length, element;
+                    j < jLen;
+                    j++
+                ) {
+                    element = elements[j];
+                    // Make sure the callback isn't invoked with the
+                    // same element more than once
+                    if (!element.ready) {
+                        element.ready = true;
+                        // Invoke the callback with the element
+                        listener.fn.call(element, element);
+                    }
+                }
+            }
+        }
+
+        // Expose `ready`
+        win.ready = ready;
+    })(this);
+</script>
 
 {{#if customer_group_name '!==' 'trade_blocked'}}
 <div id="optimised_main_chout">
@@ -93,35 +152,35 @@
 </div>
 {{/if}} {{#if customer}} {{#unless customer_group_name '===' 'Trade'}}
 <script>
-        // Handles the loyalty points
-        var jsContext = JSON.parse({{jsContext}});
-        const checkoutId = jsContext.checkoutId;
+    // Handles the loyalty points
 
-        const parentSelectorDesktop = '.cart.optimizedCheckout-orderSummary'
-        const parentSelectorMobile = '.cart-modal-body.optimizedCheckout-orderSummary'
+    const parentSelectorDesktop = '.cart.optimizedCheckout-orderSummary';
+    const parentSelectorMobile =
+        '.cart-modal-body.optimizedCheckout-orderSummary';
 
-        ready(parentSelectorDesktop, (parentElement) => {
-            loyaltyInitialize(parentElement);
-        })
+    ready(parentSelectorDesktop, (parentElement) => {
+        loyaltyInitialize(parentElement);
+    });
 
-        ready(parentSelectorMobile, (parentElement) => {
-            loyaltyInitialize(parentElement);
-        })
+    ready(parentSelectorMobile, (parentElement) => {
+        loyaltyInitialize(parentElement);
+    });
 
-        function loyaltyInitialize(elementToAppend) {
+    function loyaltyInitialize(elementToAppend) {
         // Fetch loyalty points
-            fetchLoyalty().then(points => {
+        fetchLoyalty().then((points) => {
             // Create a new div element for displaying loyalty points
             const pointsDiv = document.createElement('section');
             const pointsDesc = document.createElement('p');
-            pointsDesc.id = 'pointsDesc'
+            pointsDesc.id = 'pointsDesc';
             pointsDesc.innerHTML = `Loyalty points balance ${points}`;
             pointsDiv.appendChild(pointsDesc);
-            pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
+            pointsDiv.className =
+                'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
             // Create a label and input for entering points to use
             const label = document.createElement('label');
             label.setAttribute('for', 'points-input');
-            label.classList.add('loyaltyLabel')
+            label.classList.add('loyaltyLabel');
             pointsDiv.appendChild(label);
 
             const pointsInput = document.createElement('input');
@@ -132,98 +191,109 @@
             pointsInput.placeholder = 'How many?';
             pointsDiv.appendChild(pointsInput);
 
-            const confirmButton = document.createElement('button')
-            confirmButton.textContent = "Apply discount";
-            confirmButton.id = "loyaltyPointsBtn";
-            confirmButton.className = "btn btn-primary";
+            const confirmButton = document.createElement('button');
+            confirmButton.textContent = 'Apply discount';
+            confirmButton.id = 'loyaltyPointsBtn';
+            confirmButton.className = 'btn btn-primary';
             pointsDiv.appendChild(confirmButton);
 
-            const cancelButton = document.createElement('button')
-            cancelButton.textContent = "Cancel discount";
-            cancelButton.id = "cancelLoyaltyPointsBtn";
-            cancelButton.className = "btn btn-secondary";
-            cancelButton.style.display = document.querySelector('[data-test="cart-discount"] [data-test="cart-price-value"]') ? 'block' : 'none';
+            const cancelButton = document.createElement('button');
+            cancelButton.textContent = 'Cancel discount';
+            cancelButton.id = 'cancelLoyaltyPointsBtn';
+            cancelButton.className = 'btn btn-secondary';
+            cancelButton.style.display = document.querySelector(
+                '[data-test="cart-discount"] [data-test="cart-price-value"]'
+            )
+                ? 'block'
+                : 'none';
             pointsDiv.appendChild(cancelButton);
 
             const errorMessage = document.createElement('p');
             errorMessage.id = 'usedPointsError';
             errorMessage.classList.add('warning');
-            errorMessage.textContent = 'There was an error applying the discount. Please try again later.';
+            errorMessage.textContent =
+                'There was an error applying the discount. Please try again later.';
             errorMessage.style.display = 'none';
             pointsDiv.appendChild(errorMessage);
 
             // Mount the entire loyalty points div to the parent element
             elementToAppend.appendChild(pointsDiv);
 
-            generateNewSummary(points)
+            generateNewSummary(points);
 
             loyaltyPointsBtn.addEventListener('click', () => {
                 if (pointsInput.value === '') {
                     return;
                 }
 
-                loyaltyPointsBtn.setAttribute('disabled', 'true')
-                loyaltyPointsBtn.textContent = 'Processing'
+                loyaltyPointsBtn.setAttribute('disabled', 'true');
+                loyaltyPointsBtn.textContent = 'Processing';
 
-                fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${checkoutId}&loyaltyPointsUsed=${pointsInput.value}`)
+                fetch(
+                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}`
+                )
                     .then((response) => {
                         if (!response.ok) {
                             // do something here to let the user know the discount failed
-                            throw new Error('Failed to apply discount')
+                            throw new Error('Failed to apply discount');
                         }
 
-                        loyaltyPointsBtn.removeAttribute('disabled')
+                        loyaltyPointsBtn.removeAttribute('disabled');
                         errorMessage.style.display = 'none';
                         cancelButton.style.display = 'block';
                         window.location.reload();
-
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         // do something here to let the user know the discount failed
-                        loyaltyPointsBtn.removeAttribute('disabled')
-                        loyaltyPointsBtn.textContent = 'Apply discount'
-                        pointsInput.value = ''
+                        loyaltyPointsBtn.removeAttribute('disabled');
+                        loyaltyPointsBtn.textContent = 'Apply discount';
+                        pointsInput.value = '';
                         errorMessage.style.display = 'block';
-                    })
-            })
+                    });
+            });
 
             cancelButton.addEventListener('click', () => {
-                cancelButton.setAttribute('disabled', 'true')
-                cancelButton.textContent = 'Removing...'
-                fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${checkoutId}&loyaltyPointsUsed=0`)
+                cancelButton.setAttribute('disabled', 'true');
+                cancelButton.textContent = 'Removing...';
+                fetch(
+                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=0`
+                )
                     .then((response) => {
                         if (!response.ok) {
-                            throw new Error('Failed to remove discount')
+                            throw new Error('Failed to remove discount');
                         }
-                        cancelButton.removeAttribute('disabled')
+                        cancelButton.removeAttribute('disabled');
                         errorMessage.style.display = 'none';
                         cancelButton.style.display = 'none';
                         window.location.reload();
-
-                })
-                .catch(err => {
-                    // do something here to let the user know the discount failed
-                    cancelButton.removeAttribute('disabled')
-                    cancelButton.textContent = 'Remove Discount'
-                    pointsInput.value = ''
-                    errorMessage.style.display = 'block';
-                })
-
-            })
-
-        })
+                    })
+                    .catch((err) => {
+                        // do something here to let the user know the discount failed
+                        cancelButton.removeAttribute('disabled');
+                        cancelButton.textContent = 'Remove Discount';
+                        pointsInput.value = '';
+                        errorMessage.style.display = 'block';
+                    });
+            });
+        });
     }
 
     function generateNewSummary(currentUserPoints) {
         const masterContainer = document.createElement('div');
         const masterText = document.createElement('p');
-        masterText.classList.add("loyalty-summary")
-        masterText.textContent = "Loyalty Points Summary"
-        masterContainer.appendChild(masterText)
+        masterText.classList.add('loyalty-summary');
+        masterText.textContent = 'Loyalty Points Summary';
+        masterContainer.appendChild(masterText);
 
-        const discountEl = document.querySelector('[data-test="cart-discount"] [data-test="cart-price-value"]')
-        const subtotalEl = document.querySelector('[data-test="cart-subtotal"] [data-test="cart-price-value"]')
-        const couponDiscountEl = document.querySelector('[data-test="cart-coupon"] [data-test="cart-price-value"]')
+        const discountEl = document.querySelector(
+            '[data-test="cart-discount"] [data-test="cart-price-value"]'
+        );
+        const subtotalEl = document.querySelector(
+            '[data-test="cart-subtotal"] [data-test="cart-price-value"]'
+        );
+        const couponDiscountEl = document.querySelector(
+            '[data-test="cart-coupon"] [data-test="cart-price-value"]'
+        );
         const pointsInput = document.getElementById('points-input');
 
         let discountPriceValue = 0;
@@ -231,58 +301,63 @@
         let earningPriceValue = 0;
         let earningLoyalPointValue = 0;
 
-
         if (discountEl) {
             // Discount Div
             const discountContainer = document.createElement('div');
-            discountContainer.classList.add('cart-summaryItem')
+            discountContainer.classList.add('cart-summaryItem');
 
             const discountDescription = document.createElement('div');
             const discountValue = document.createElement('div');
 
-            discountDescription.textContent = "Points redeemed"
+            discountDescription.textContent = 'Points redeemed';
 
-            discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '')
+            discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '');
             discountPriceValue = Math.abs(Number(discountPriceValue));
-            discountLoyalPointValue =  Math.floor(discountPriceValue * 100)
+            discountLoyalPointValue = Math.floor(discountPriceValue * 100);
 
-            discountValue.textContent = `-${discountLoyalPointValue}`
+            discountValue.textContent = `-${discountLoyalPointValue}`;
 
-            discountContainer.appendChild(discountDescription)
-            discountContainer.appendChild(discountValue)
-            masterContainer.appendChild(discountContainer)
+            discountContainer.appendChild(discountDescription);
+            discountContainer.appendChild(discountValue);
+            masterContainer.appendChild(discountContainer);
         }
         if (subtotalEl) {
             // Earning Div
             const earningContainer = document.createElement('div');
-            earningContainer.classList.add('cart-summaryItem')
+            earningContainer.classList.add('cart-summaryItem');
 
             const earningDescription = document.createElement('div');
             const earningValue = document.createElement('div');
 
-            earningDescription.textContent = "Points earned"
+            earningDescription.textContent = 'Points earned';
             earningPriceValue = subtotalEl.innerHTML.replace(/[^\d.-]/g, '');
             earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
             if (discountEl) {
-                earningPriceValue = earningPriceValue - discountPriceValue
+                earningPriceValue = earningPriceValue - discountPriceValue;
             }
 
             if (couponDiscountEl) {
-                earningPriceValue -= Math.floor(Math.abs(Number(couponDiscountEl.innerHTML.replace(/[^\d.-]/g, ''))));
+                earningPriceValue -= Math.floor(
+                    Math.abs(
+                        Number(
+                            couponDiscountEl.innerHTML.replace(/[^\d.-]/g, '')
+                        )
+                    )
+                );
             }
 
             earningLoyalPointValue = Math.floor(earningPriceValue / 2);
 
             if (earningLoyalPointValue < 0) {
                 earningLoyalPointValue = 0;
-                earningValue.textContent = `0`
+                earningValue.textContent = `0`;
             } else {
-                earningValue.textContent = `+${earningLoyalPointValue}`
+                earningValue.textContent = `+${earningLoyalPointValue}`;
             }
 
-            earningContainer.appendChild(earningDescription)
-            earningContainer.appendChild(earningValue)
-            masterContainer.appendChild(earningContainer)
+            earningContainer.appendChild(earningDescription);
+            earningContainer.appendChild(earningValue);
+            masterContainer.appendChild(earningContainer);
         }
 
         const finalContainer = document.createElement('div');
@@ -291,21 +366,27 @@
 
         const finalType = document.createElement('div');
         const finalTypeText = document.createElement('p');
-        finalTypeText.textContent = 'Estimated total after purchase:'
+        finalTypeText.textContent = 'Estimated total after purchase:';
 
         if (discountEl) {
-            finalResultText.textContent  = `${(currentUserPoints + earningLoyalPointValue  - discountLoyalPointValue)}`
+            finalResultText.textContent = `${
+                currentUserPoints +
+                earningLoyalPointValue -
+                discountLoyalPointValue
+            }`;
         } else {
-            finalResultText.textContent  = `${currentUserPoints + earningLoyalPointValue}`
+            finalResultText.textContent = `${
+                currentUserPoints + earningLoyalPointValue
+            }`;
         }
 
-        finalType.appendChild(finalTypeText)
-        finalResult.appendChild(finalResultText)
-        finalContainer.appendChild(finalType)
-        finalContainer.appendChild(finalResult)
-        finalContainer.classList.add('cart-resultItem')
+        finalType.appendChild(finalTypeText);
+        finalResult.appendChild(finalResultText);
+        finalContainer.appendChild(finalType);
+        finalContainer.appendChild(finalResult);
+        finalContainer.classList.add('cart-resultItem');
 
-        masterContainer.appendChild(finalContainer)
+        masterContainer.appendChild(finalContainer);
         pointsInput.insertAdjacentElement('afterend', masterContainer);
     }
 
@@ -315,7 +396,7 @@
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+                Authorization: 'Bearer {{ settings.storefront_api.token }}',
             },
             body: JSON.stringify({
                 query: `
@@ -329,22 +410,379 @@
                             }
                         }
                     }
-                `
+                `,
             }),
         })
-        .then(res => res.json())
-        .then(json => {
-            const attribute = json.data.customer.attributes.attribute;
-            const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
-            return Number(points);
-        })
-        .catch(error => {
-            console.error('Error fetching loyalty points:', error);
-            return 0;// Return '0' in case of error
-        });
+            .then((res) => res.json())
+            .then((json) => {
+                const attribute = json.data.customer.attributes.attribute;
+                const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
+                return Number(points);
+            })
+            .catch((error) => {
+                console.error('Error fetching loyalty points:', error);
+                return 0; // Return '0' in case of error
+            });
     }
 </script>
 {{/unless}} {{/if}}
+
+<script>
+    // ------------------------------------------------------//
+    // change the text on the mobile modal
+    const mobileModalSelector = '.cartDrawer.optimizedCheckout-orderSummary';
+    ready(mobileModalSelector, (mobileModalElement) => {
+        mobileModalElement.querySelector('.cartDrawer-body a').textContent =
+            'Show Details & Rewards';
+    });
+
+    // ------------------------------------------------------//
+    // This  handles 'datepicker' in 'shipping'
+    const shippingSelector = '#checkout-shipping-options';
+    ready(shippingSelector, (shippingOptionsElement) => {
+        createCalendar(shippingOptionsElement);
+    });
+
+    // Attach the datepicker to the shipping options
+    function createCalendar(parent) {
+        const existingInstructions =
+            document.getElementById('datepicker-hoster');
+        if (existingInstructions) {
+            return;
+        }
+
+        // Define the HTML code for the elements
+        const datePickerHTML = `
+        <div id="datepicker-hoster" class="datepicker">
+            <div class="cart-total-label">
+                <strong style="color: #687d6a;">Delivery Date *</strong>
+            </div>
+            <div class="voucher-section">
+                <input type="text" id="datepicker" name="datepicker" readonly autocomplete="off" aria-autocomplete="none" class="form-input" style="background: white; width: calc(100%); border-radius: 45px; border-color: #687d6a; color: #687d6a; font-size: 16px; text-align: center;" onkeydown="return false;">
+                <p id="datepicker_err" style="display: none; color: red; font-size: 16px; font-weight: normal;"></p>
+            </div>
+            <p style="font-size: 16px;">*Next Day delivery is usually available on any orders placed before 12 noon, Monday to Friday. Excluding some postcodes in Scotland.</p>
+        </div>
+    `;
+        parent.insertAdjacentHTML('beforeend', datePickerHTML);
+        getCalendarData();
+    }
+
+    // Get data for the calendar
+    function getCalendarData() {
+        // Create calendar and attach date picker logic here
+        let dailyDeliveryLimit = 250;
+        const dailySlotValues = {};
+        const disabledDates = [];
+
+        // get delivery dates from middleware
+        fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                disabledDates.push(...data.unavailableDates);
+                for (const [date, slots] of Object.entries(data.dateSlots)) {
+                    dailySlotValues[date] = slots;
+                }
+                if (data.perDay) {
+                    dailyDeliveryLimit = data.perDay;
+                }
+                attachDatePicker(
+                    dailyDeliveryLimit,
+                    dailySlotValues,
+                    disabledDates
+                );
+            })
+            .catch((error) => {
+                console.log(
+                    'Error calling delivery dates middleware endpoint:',
+                    error
+                );
+                // Handle error if necessary
+            });
+    }
+
+    // Attach the calendar to the datepicker and enable/disable dates
+    function attachDatePicker(
+        dailyDeliveryLimit,
+        dailySlotValues,
+        disabledDates
+    ) {
+        function disableDates(day) {
+            // day gets implicitly passed by jQuery Calendar
+            const selectedShippingMethod = document.querySelector(
+                '.form-checklist-item--selected'
+            );
+
+            const isSaturdayDelivery = selectedShippingMethod
+                .querySelector('.shippingOption-desc')
+                .textContent.toLowerCase()
+                .includes('saturday');
+
+            return isSaturdayDelivery
+                ? enableSaturday(day)
+                : enableWeekdays(day);
+        }
+
+        // Disable everything except Saturdays
+        function enableSaturday(day) {
+            const dayBeingCheckedFormatted = $.datepicker.formatDate(
+                'yy-mm-dd',
+                day
+            );
+
+            const dayOfTheWeek = day.getDay();
+            const saturdayDay = 6;
+
+            if (dayOfTheWeek !== saturdayDay) {
+                return [false, '', '']; // disabled boolean, css class, tooltip
+            }
+
+            let slotsForThisDay =
+                dailySlotValues[dayBeingCheckedFormatted] ?? dailyDeliveryLimit;
+            if (slotsForThisDay > dailyDeliveryLimit) {
+                // this should never happen, but just in case
+                slotsForThisDay = dailyDeliveryLimit;
+            }
+
+            // Enable check
+            const isSaturdayEnabled =
+                slotsForThisDay > 0 &&
+                !disabledDates.includes(dayBeingCheckedFormatted);
+
+            return [
+                isSaturdayEnabled,
+                '',
+                `Slots available: ${slotsForThisDay}`,
+            ]; // enabled boolean, css class, tooltip
+        }
+
+        // Enable weekdays
+        function enableWeekdays(day) {
+            const dayBeingCheckedFormatted = $.datepicker.formatDate(
+                'yy-mm-dd',
+                day
+            );
+
+            const dayOfTheWeek = day.getDay();
+            // Disable if 6 (Saturday) 0 (Sunday) or 1 (Monday)
+            if (
+                dayOfTheWeek === 6 ||
+                dayOfTheWeek === 0 ||
+                dayOfTheWeek === 1
+            ) {
+                return [false, '', '']; // disabled boolean, css class, tooltip
+            }
+
+            let slotsForThisDay =
+                dailySlotValues[dayBeingCheckedFormatted] ?? dailyDeliveryLimit;
+            if (slotsForThisDay > dailyDeliveryLimit) {
+                // this should never happen, but just in case
+                slotsForThisDay = dailyDeliveryLimit;
+            }
+
+            const isEnabledDay =
+                slotsForThisDay > 0 &&
+                !disabledDates.includes(dayBeingCheckedFormatted);
+
+            return [isEnabledDay, '', `Slots available: ${slotsForThisDay}`]; // enabled boolean, css class, tooltip
+        }
+
+        $('#datepicker').datepicker({
+            beforeShowDay: disableDates,
+            onClose: function () {
+                const datepicker = document.querySelector('#datepicker');
+                const deliveryDate = datepicker.value;
+                if (deliveryDate) {
+                    sessionStorage.setItem('deliveryDate', deliveryDate);
+                }
+            },
+            defaultDate: '+1D',
+            minDate: '+1D',
+            maxDate: '+21D',
+            dateFormat: 'd MM, yy',
+            showOtherMonths: true,
+            firstDay: 1,
+            placeholder: 'Select Date',
+        });
+
+        $('#datepicker').attr('placeholder', 'Select Date');
+    }
+
+    // ------------------------------------------------------//
+    // handle proceed button
+    const proceedButtonSelector = '#proceedButton';
+    ready(proceedButtonSelector, (proceedButton) => {
+        proceedButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            const deliveryDate = sessionStorage.getItem('deliveryDate');
+            const customerMessage = sessionStorage.getItem('customerMessage');
+            const realContinueButton = document.querySelector(
+                '#checkout-shipping-continue'
+            );
+
+            const datepickerErrorElement =
+                document.getElementById('datepicker_err');
+
+            if (!deliveryDate) {
+                datepickerErrorElement.textContent =
+                    'Please select a delivery date before proceeding.';
+                datepickerErrorElement.style.display = 'block';
+                return;
+            }
+            // Proceed with the form submission
+            datepickerErrorElement.style.display = 'none';
+
+            const selectElement = document.querySelector('#delivery_inst_tag');
+            const selectedValue = selectElement.value;
+            const deliveryInstructions =
+                selectedValue === 'user_instruction' &&
+                customerMessage.length > 0
+                    ? customerMessage
+                    : 'Will be in';
+
+            const fullInstructions = `${deliveryDate} | ${deliveryInstructions}`;
+            const realCommentsInput = document.querySelector(
+                'input[name="orderComment"]'
+            );
+
+            // Update the customer message with the delivery instructions
+            fetch(`/api/storefront/checkouts/{{cart_id}}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    customerMessage: fullInstructions,
+                }),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('PUT request failed');
+                    }
+                    sessionStorage.removeItem('deliveryDate');
+                    sessionStorage.removeItem('customerMessage');
+                    realCommentsInput.value = fullInstructions;
+                    realContinueButton.click();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    realCommentsInput.value = fullInstructions;
+                });
+        });
+    });
+
+    // ------------------------------------------------------//
+    // This handles the delivery details / customer message
+    const deliveryDetailsSelector =
+        'fieldset.form-fieldset[data-test="checkout-shipping-comments"]';
+    ready(deliveryDetailsSelector, (deliveryDetailsElement) => {
+        const existingInstructions =
+            document.getElementById('instruction-wrap');
+        if (existingInstructions) {
+            return;
+        }
+
+        // generate custom HTML
+        const instructionsDiv = `
+        <div id="instruction-wrap" class="delivery_instruction_wrapper">
+            <div class="del_cont">
+                <label class="form-legend optimizedCheckout-headingSecondary">Delivery Details</label>
+                <select class="form-select form-select--small" id="delivery_inst_tag">
+                    <option value="Will be in">Will be in</option>
+                    <option value="user_instruction">User instruction</option>
+                </select>
+                <textarea style="display:none" name="delivery_user_text" id="delivery_user_text" rows="3" cols="40" class="form-input"></textarea>
+            </div>
+            <div id="proceedButton">Continue</div>
+        </div>
+        `;
+
+        deliveryDetailsElement.insertAdjacentHTML('afterend', instructionsDiv);
+
+        const selectElement = document.getElementById('delivery_inst_tag');
+        const textarea = document.getElementById('delivery_user_text');
+
+        selectElement.addEventListener('change', function () {
+            const selectedValue = selectElement.value;
+            if (selectedValue === 'user_instruction') {
+                textarea.style.display = 'block';
+                textarea.style.margin = '10px 0';
+                textarea.focus();
+            } else {
+                textarea.style.display = 'none';
+            }
+        });
+
+        textarea.addEventListener('input', function () {
+            const deliveryInstructions = textarea.value;
+            sessionStorage.setItem('customerMessage', deliveryInstructions);
+        });
+    });
+
+    // ------------------------------------------------------//
+    // This handles the payment continue button
+    const paymentContinueButtonSelector = '#checkout-payment-continue';
+    ready(paymentContinueButtonSelector, (paymentContinueButton) => {
+        const fakeButton = document.createElement('div');
+        const missingWarn = document.createElement('p');
+        const parent = document.querySelector(
+            '.checkout-step--payment .checkout-form .form-actions'
+        );
+
+        // hide the real button
+        paymentContinueButton.style.display = 'none';
+
+        // Generate placeholder button
+        fakeButton.innerHTML = 'Place Order';
+        fakeButton.id = 'fakeButton';
+        fakeButton.style.display = 'block';
+
+        // Generate warning text
+        missingWarn.classList.add('warning');
+        missingWarn.textContent =
+            "Cannot find delivery date. Please edit your 'shipping' details above and select a delivery date.";
+        missingWarn.style.display = 'none';
+
+        // Append the button to the body of the HTML document
+        parent.appendChild(missingWarn);
+        parent.appendChild(fakeButton);
+
+        fakeButton.addEventListener('click', () => {
+            fetch(`/api/storefront/checkouts/{{cart_id}}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('GET request failed');
+                    }
+                    return response.json(); // Parse the JSON response
+                })
+                .then((data) => {
+                    const deliveryInstructions = data.customerMessage;
+
+                    if (deliveryInstructions?.trim()) {
+                        paymentContinueButton.click();
+                    } else {
+                        missingWarn.style.display = 'block';
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    missingWarn.textContent =
+                        'Something went wrong. Check if you have set a delivery date in shipping and try again.';
+                    missingWarn.style.display = 'block';
+                });
+        });
+    });
+</script>
 
 <style>
     .optimizedCheckout-cart-modal .optimizedCheckout-orderSummary-cartSection {

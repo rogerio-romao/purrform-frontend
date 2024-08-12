@@ -1,5 +1,5 @@
 {
-    "name": "DEV Theme - Fix loyalty points",
+    "name": "DEV Theme - delivery dates refactored",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
