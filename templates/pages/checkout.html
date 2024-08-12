@@ -152,35 +152,35 @@
 </div>
 {{/if}} {{#if customer}} {{#unless customer_group_name '===' 'Trade'}}
 <script>
-        // Handles the loyalty points
-        var jsContext = JSON.parse({{jsContext}});
-        const checkoutId = jsContext.checkoutId;
+    // Handles the loyalty points
 
-        const parentSelectorDesktop = '.cart.optimizedCheckout-orderSummary'
-        const parentSelectorMobile = '.cart-modal-body.optimizedCheckout-orderSummary'
+    const parentSelectorDesktop = '.cart.optimizedCheckout-orderSummary';
+    const parentSelectorMobile =
+        '.cart-modal-body.optimizedCheckout-orderSummary';
 
-        ready(parentSelectorDesktop, (parentElement) => {
-            loyaltyInitialize(parentElement);
-        })
+    ready(parentSelectorDesktop, (parentElement) => {
+        loyaltyInitialize(parentElement);
+    });
 
-        ready(parentSelectorMobile, (parentElement) => {
-            loyaltyInitialize(parentElement);
-        })
+    ready(parentSelectorMobile, (parentElement) => {
+        loyaltyInitialize(parentElement);
+    });
 
-        function loyaltyInitialize(elementToAppend) {
+    function loyaltyInitialize(elementToAppend) {
         // Fetch loyalty points
-            fetchLoyalty().then(points => {
+        fetchLoyalty().then((points) => {
             // Create a new div element for displaying loyalty points
             const pointsDiv = document.createElement('section');
             const pointsDesc = document.createElement('p');
-            pointsDesc.id = 'pointsDesc'
+            pointsDesc.id = 'pointsDesc';
             pointsDesc.innerHTML = `Loyalty points balance ${points}`;
             pointsDiv.appendChild(pointsDesc);
-            pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
+            pointsDiv.className =
+                'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
             // Create a label and input for entering points to use
             const label = document.createElement('label');
             label.setAttribute('for', 'points-input');
-            label.classList.add('loyaltyLabel')
+            label.classList.add('loyaltyLabel');
             pointsDiv.appendChild(label);
 
             const pointsInput = document.createElement('input');
@@ -191,98 +191,109 @@
             pointsInput.placeholder = 'How many?';
             pointsDiv.appendChild(pointsInput);
 
-            const confirmButton = document.createElement('button')
-            confirmButton.textContent = "Apply discount";
-            confirmButton.id = "loyaltyPointsBtn";
-            confirmButton.className = "btn btn-primary";
+            const confirmButton = document.createElement('button');
+            confirmButton.textContent = 'Apply discount';
+            confirmButton.id = 'loyaltyPointsBtn';
+            confirmButton.className = 'btn btn-primary';
             pointsDiv.appendChild(confirmButton);
 
-            const cancelButton = document.createElement('button')
-            cancelButton.textContent = "Cancel discount";
-            cancelButton.id = "cancelLoyaltyPointsBtn";
-            cancelButton.className = "btn btn-secondary";
-            cancelButton.style.display = document.querySelector('[data-test="cart-discount"] [data-test="cart-price-value"]') ? 'block' : 'none';
+            const cancelButton = document.createElement('button');
+            cancelButton.textContent = 'Cancel discount';
+            cancelButton.id = 'cancelLoyaltyPointsBtn';
+            cancelButton.className = 'btn btn-secondary';
+            cancelButton.style.display = document.querySelector(
+                '[data-test="cart-discount"] [data-test="cart-price-value"]'
+            )
+                ? 'block'
+                : 'none';
             pointsDiv.appendChild(cancelButton);
 
             const errorMessage = document.createElement('p');
             errorMessage.id = 'usedPointsError';
             errorMessage.classList.add('warning');
-            errorMessage.textContent = 'There was an error applying the discount. Please try again later.';
+            errorMessage.textContent =
+                'There was an error applying the discount. Please try again later.';
             errorMessage.style.display = 'none';
             pointsDiv.appendChild(errorMessage);
 
             // Mount the entire loyalty points div to the parent element
             elementToAppend.appendChild(pointsDiv);
 
-            generateNewSummary(points)
+            generateNewSummary(points);
 
             loyaltyPointsBtn.addEventListener('click', () => {
                 if (pointsInput.value === '') {
                     return;
                 }
 
-                loyaltyPointsBtn.setAttribute('disabled', 'true')
-                loyaltyPointsBtn.textContent = 'Processing'
+                loyaltyPointsBtn.setAttribute('disabled', 'true');
+                loyaltyPointsBtn.textContent = 'Processing';
 
-                fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${checkoutId}&loyaltyPointsUsed=${pointsInput.value}`)
+                fetch(
+                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}`
+                )
                     .then((response) => {
                         if (!response.ok) {
                             // do something here to let the user know the discount failed
-                            throw new Error('Failed to apply discount')
+                            throw new Error('Failed to apply discount');
                         }
 
-                        loyaltyPointsBtn.removeAttribute('disabled')
+                        loyaltyPointsBtn.removeAttribute('disabled');
                         errorMessage.style.display = 'none';
                         cancelButton.style.display = 'block';
                         window.location.reload();
-
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         // do something here to let the user know the discount failed
-                        loyaltyPointsBtn.removeAttribute('disabled')
-                        loyaltyPointsBtn.textContent = 'Apply discount'
-                        pointsInput.value = ''
+                        loyaltyPointsBtn.removeAttribute('disabled');
+                        loyaltyPointsBtn.textContent = 'Apply discount';
+                        pointsInput.value = '';
                         errorMessage.style.display = 'block';
-                    })
-            })
+                    });
+            });
 
             cancelButton.addEventListener('click', () => {
-                cancelButton.setAttribute('disabled', 'true')
-                cancelButton.textContent = 'Removing...'
-                fetch(`https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId=${checkoutId}&loyaltyPointsUsed=0`)
+                cancelButton.setAttribute('disabled', 'true');
+                cancelButton.textContent = 'Removing...';
+                fetch(
+                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=0`
+                )
                     .then((response) => {
                         if (!response.ok) {
-                            throw new Error('Failed to remove discount')
+                            throw new Error('Failed to remove discount');
                         }
-                        cancelButton.removeAttribute('disabled')
+                        cancelButton.removeAttribute('disabled');
                         errorMessage.style.display = 'none';
                         cancelButton.style.display = 'none';
                         window.location.reload();
-
-                })
-                .catch(err => {
-                    // do something here to let the user know the discount failed
-                    cancelButton.removeAttribute('disabled')
-                    cancelButton.textContent = 'Remove Discount'
-                    pointsInput.value = ''
-                    errorMessage.style.display = 'block';
-                })
-
-            })
-
-        })
+                    })
+                    .catch((err) => {
+                        // do something here to let the user know the discount failed
+                        cancelButton.removeAttribute('disabled');
+                        cancelButton.textContent = 'Remove Discount';
+                        pointsInput.value = '';
+                        errorMessage.style.display = 'block';
+                    });
+            });
+        });
     }
 
     function generateNewSummary(currentUserPoints) {
         const masterContainer = document.createElement('div');
         const masterText = document.createElement('p');
-        masterText.classList.add("loyalty-summary")
-        masterText.textContent = "Loyalty Points Summary"
-        masterContainer.appendChild(masterText)
+        masterText.classList.add('loyalty-summary');
+        masterText.textContent = 'Loyalty Points Summary';
+        masterContainer.appendChild(masterText);
 
-        const discountEl = document.querySelector('[data-test="cart-discount"] [data-test="cart-price-value"]')
-        const subtotalEl = document.querySelector('[data-test="cart-subtotal"] [data-test="cart-price-value"]')
-        const couponDiscountEl = document.querySelector('[data-test="cart-coupon"] [data-test="cart-price-value"]')
+        const discountEl = document.querySelector(
+            '[data-test="cart-discount"] [data-test="cart-price-value"]'
+        );
+        const subtotalEl = document.querySelector(
+            '[data-test="cart-subtotal"] [data-test="cart-price-value"]'
+        );
+        const couponDiscountEl = document.querySelector(
+            '[data-test="cart-coupon"] [data-test="cart-price-value"]'
+        );
         const pointsInput = document.getElementById('points-input');
 
         let discountPriceValue = 0;
@@ -290,58 +301,63 @@
         let earningPriceValue = 0;
         let earningLoyalPointValue = 0;
 
-
         if (discountEl) {
             // Discount Div
             const discountContainer = document.createElement('div');
-            discountContainer.classList.add('cart-summaryItem')
+            discountContainer.classList.add('cart-summaryItem');
 
             const discountDescription = document.createElement('div');
             const discountValue = document.createElement('div');
 
-            discountDescription.textContent = "Points redeemed"
+            discountDescription.textContent = 'Points redeemed';
 
-            discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '')
+            discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '');
             discountPriceValue = Math.abs(Number(discountPriceValue));
-            discountLoyalPointValue =  Math.floor(discountPriceValue * 100)
+            discountLoyalPointValue = Math.floor(discountPriceValue * 100);
 
-            discountValue.textContent = `-${discountLoyalPointValue}`
+            discountValue.textContent = `-${discountLoyalPointValue}`;
 
-            discountContainer.appendChild(discountDescription)
-            discountContainer.appendChild(discountValue)
-            masterContainer.appendChild(discountContainer)
+            discountContainer.appendChild(discountDescription);
+            discountContainer.appendChild(discountValue);
+            masterContainer.appendChild(discountContainer);
         }
         if (subtotalEl) {
             // Earning Div
             const earningContainer = document.createElement('div');
-            earningContainer.classList.add('cart-summaryItem')
+            earningContainer.classList.add('cart-summaryItem');
 
             const earningDescription = document.createElement('div');
             const earningValue = document.createElement('div');
 
-            earningDescription.textContent = "Points earned"
+            earningDescription.textContent = 'Points earned';
             earningPriceValue = subtotalEl.innerHTML.replace(/[^\d.-]/g, '');
             earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
             if (discountEl) {
-                earningPriceValue = earningPriceValue - discountPriceValue
+                earningPriceValue = earningPriceValue - discountPriceValue;
             }
 
             if (couponDiscountEl) {
-                earningPriceValue -= Math.floor(Math.abs(Number(couponDiscountEl.innerHTML.replace(/[^\d.-]/g, ''))));
+                earningPriceValue -= Math.floor(
+                    Math.abs(
+                        Number(
+                            couponDiscountEl.innerHTML.replace(/[^\d.-]/g, '')
+                        )
+                    )
+                );
             }
 
             earningLoyalPointValue = Math.floor(earningPriceValue / 2);
 
             if (earningLoyalPointValue < 0) {
                 earningLoyalPointValue = 0;
-                earningValue.textContent = `0`
+                earningValue.textContent = `0`;
             } else {
-                earningValue.textContent = `+${earningLoyalPointValue}`
+                earningValue.textContent = `+${earningLoyalPointValue}`;
             }
 
-            earningContainer.appendChild(earningDescription)
-            earningContainer.appendChild(earningValue)
-            masterContainer.appendChild(earningContainer)
+            earningContainer.appendChild(earningDescription);
+            earningContainer.appendChild(earningValue);
+            masterContainer.appendChild(earningContainer);
         }
 
         const finalContainer = document.createElement('div');
@@ -350,21 +366,27 @@
 
         const finalType = document.createElement('div');
         const finalTypeText = document.createElement('p');
-        finalTypeText.textContent = 'Estimated total after purchase:'
+        finalTypeText.textContent = 'Estimated total after purchase:';
 
         if (discountEl) {
-            finalResultText.textContent  = `${(currentUserPoints + earningLoyalPointValue  - discountLoyalPointValue)}`
+            finalResultText.textContent = `${
+                currentUserPoints +
+                earningLoyalPointValue -
+                discountLoyalPointValue
+            }`;
         } else {
-            finalResultText.textContent  = `${currentUserPoints + earningLoyalPointValue}`
+            finalResultText.textContent = `${
+                currentUserPoints + earningLoyalPointValue
+            }`;
         }
 
-        finalType.appendChild(finalTypeText)
-        finalResult.appendChild(finalResultText)
-        finalContainer.appendChild(finalType)
-        finalContainer.appendChild(finalResult)
-        finalContainer.classList.add('cart-resultItem')
+        finalType.appendChild(finalTypeText);
+        finalResult.appendChild(finalResultText);
+        finalContainer.appendChild(finalType);
+        finalContainer.appendChild(finalResult);
+        finalContainer.classList.add('cart-resultItem');
 
-        masterContainer.appendChild(finalContainer)
+        masterContainer.appendChild(finalContainer);
         pointsInput.insertAdjacentElement('afterend', masterContainer);
     }
 
@@ -374,7 +396,7 @@
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+                Authorization: 'Bearer {{ settings.storefront_api.token }}',
             },
             body: JSON.stringify({
                 query: `
@@ -388,25 +410,24 @@
                             }
                         }
                     }
-                `
+                `,
             }),
         })
-        .then(res => res.json())
-        .then(json => {
-            const attribute = json.data.customer.attributes.attribute;
-            const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
-            return Number(points);
-        })
-        .catch(error => {
-            console.error('Error fetching loyalty points:', error);
-            return 0;// Return '0' in case of error
-        });
+            .then((res) => res.json())
+            .then((json) => {
+                const attribute = json.data.customer.attributes.attribute;
+                const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
+                return Number(points);
+            })
+            .catch((error) => {
+                console.error('Error fetching loyalty points:', error);
+                return 0; // Return '0' in case of error
+            });
     }
 </script>
 {{/unless}} {{/if}}
 
 <script>
-    var jsContext = JSON.parse({{jsContext}});
     // ------------------------------------------------------//
     // change the text on the mobile modal
     const mobileModalSelector = '.cartDrawer.optimizedCheckout-orderSummary';
@@ -625,11 +646,12 @@
                     : 'Will be in';
 
             const fullInstructions = `${deliveryDate} | ${deliveryInstructions}`;
-            const realCommentsInput = document.querySelector('input[name="orderComment"]');
+            const realCommentsInput = document.querySelector(
+                'input[name="orderComment"]'
+            );
 
             // Update the customer message with the delivery instructions
-            const checkoutId = jsContext.checkoutId;
-            fetch(`/api/storefront/checkouts/${checkoutId}`, {
+            fetch(`/api/storefront/checkouts/{{cart_id}}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -650,8 +672,7 @@
                 .catch((error) => {
                     console.error('Error:', error);
                     realCommentsInput.value = fullInstructions;
-                })
-
+                });
         });
     });
 
@@ -724,7 +745,7 @@
         // Generate warning text
         missingWarn.classList.add('warning');
         missingWarn.textContent =
-            "Cannot find delivery date. Please review your 'shipping' details.";
+            "Cannot find delivery date. Please edit your 'shipping' details above and select a delivery date.";
         missingWarn.style.display = 'none';
 
         // Append the button to the body of the HTML document
@@ -732,8 +753,7 @@
         parent.appendChild(fakeButton);
 
         fakeButton.addEventListener('click', () => {
-            const checkoutId = jsContext.checkoutId;
-            fetch(`/api/storefront/checkouts/${checkoutId}`, {
+            fetch(`/api/storefront/checkouts/{{cart_id}}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
