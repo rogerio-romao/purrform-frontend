@@ -646,6 +646,30 @@
                     : 'Will be in';
 
             const fullInstructions = `${deliveryDate} | ${deliveryInstructions}`;
+
+            // send the message to the middleware server to store in supabase as a backup if BC fails to store it
+            fetch(
+                `https://purrform-apps-027e.onrender.com/storeCustomerMessage?checkoutId={{cart_id}}&message=${fullInstructions}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to store customer message');
+                    }
+                    console.log('Customer message stored successfully');
+                })
+                .catch((error) => {
+                    console.error(
+                        'Error storing customer message in supabase:',
+                        error
+                    );
+                });
+
             const realCommentsInput = document.querySelector(
                 'input[name="orderComment"]'
             );
