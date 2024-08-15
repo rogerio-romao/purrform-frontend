@@ -1,5 +1,5 @@
 {
-    "name": "DEV Theme - store msg externally",
+    "name": "DEV Theme - check invalid dates",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
