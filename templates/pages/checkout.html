@@ -437,9 +437,6 @@
     });
 
     // ------------------------------------------------------//
-    const disabledDates = []; // we will need to access this in multiple functions
-
-    // ------------------------------------------------------//
     // This  handles 'datepicker' in 'shipping'
     const shippingSelector = '#checkout-shipping-options';
     ready(shippingSelector, (shippingOptionsElement) => {
@@ -476,6 +473,7 @@
         // Create calendar and attach date picker logic here
         let dailyDeliveryLimit = 250;
         const dailySlotValues = {};
+        const disabledDates = [];
 
         // get delivery dates from middleware
         fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
@@ -798,32 +796,6 @@
                     const deliveryInstructions = data.customerMessage;
 
                     if (deliveryInstructions?.trim()) {
-                        // need to check if the date is valid
-                        if (!deliveryInstructions.includes(' | ')) {
-                            missingWarn.textContent =
-                                'Invalid delivery date. Please edit your shipping details above and select a valid delivery date.';
-                            missingWarn.style.display = 'block';
-                            return;
-                        }
-
-                        const date = deliveryInstructions.split(' | ')[0];
-                        if (disabledDates.includes(date)) {
-                            missingWarn.textContent =
-                                'This delivery date cannot be selected. Please edit your shipping details above and select another delivery date.';
-                            missingWarn.style.display = 'block';
-                            return;
-                        }
-
-                        // check if the date is in the past
-                        const today = new Date();
-                        const selectedDate = new Date(date);
-                        if (selectedDate < today) {
-                            missingWarn.textContent =
-                                'This delivery date is in the past. Please edit your shipping details above and select another delivery date.';
-                            missingWarn.style.display = 'block';
-                            return;
-                        }
-
                         paymentContinueButton.click();
                     } else {
                         missingWarn.style.display = 'block';

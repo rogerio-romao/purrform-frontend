@@ -28,7 +28,7 @@
             color: whitesmoke !important;
             pointer-events: none;
         }
-        input,
+        input:not([type='radio']),
         select {
             height: 48px;
             border-radius: 32px;
@@ -125,4 +125,30 @@
         padding: 0.75rem 0;
         border-bottom: 1px solid #ddd;
     }
+}
+
+.cat-birthdays {
+    display: none;
+}
+.household-question {
+    display: none;
+    font-size: 1.3rem;
+    color: #687d6a;
+}
+.household-question button {
+    font-size: 1rem;
+    color: initial;
+    border: 1px solid #687d6a;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    border-radius: 5px;
+    transition: background-color 0.2s, color 0.2s;
+}
+.household-question button:hover {
+    background-color: #687d6a;
+    color: white;
+}
+.birthday-error {
+    display: none;
+    color: red;
 }
