@@ -132,6 +132,13 @@
 .cat button {
     border: 1px solid #8f8f8f;
     border-radius: 5px;
+    background-color: #687d6a;
+    color: white;
+    transition: all 0.2s;
+}
+.cat button:hover {
+    background-color: white;
+    color: #687d6a;
 }
 
 .cat-birthdays {
@@ -158,4 +165,34 @@
 .birthday-error {
     display: none;
     color: red;
+}
+
+#change-slot-dialog {
+    border-radius: 0.5rem;
+    border-color: #687d6a;
+    padding-inline: 1.5rem;
+}
+
+#change-slot-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#change-slot-dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#change-slot-dialog button {
+    margin-top: 1rem;
+    border: 1px solid #8f8f8f;
+    border-radius: 5px;
+    background-color: #687d6a;
+    color: white;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: white;
+        color: #687d6a;
+    }
 }

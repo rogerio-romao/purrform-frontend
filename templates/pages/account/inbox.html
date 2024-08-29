@@ -452,6 +452,7 @@
     let catsInHousehold,
         catsRegistered,
         changeSlotAvailable,
+        changeSlotUsed,
         registeredCatsData;
 
     const changeButtonAvailable = catsRegistered === 4 && changeSlotAvailable;
@@ -485,6 +486,7 @@
                 birthdayFormDiv.style.display = 'none';
             }
             changeSlotAvailable = data.change_slot_available;
+            changeSlotUsed = data.change_slot_used;
             registeredCatsData = data.cats;
 
             if (catsRegistered === 0) {
@@ -591,6 +593,9 @@
                     return;
                 }
                 birthdayErrorDiv.style.display = 'none';
+
+                catsRegistered++;
+
                 const catDiv = document.createElement('div');
                 catDiv.classList.add('cat');
                 catDiv.innerHTML = `
@@ -600,13 +605,19 @@
                     <div class="cat-detail">Birthday: ${catBirthday}</div>
                     <button class="delete-cat-btn" onclick="deleteCat('${catName}')">Remove</button>
                 `;
+
+                if (catsRegistered === 4 && !changeSlotUsed) {
+                    catDiv.innerHTML += `
+                        <button class="change-cat-btn" onclick="changeCat('${catName}')">Change</button>
+                    `;
+                }
+
                 catListDiv.appendChild(catDiv);
                 document.querySelector('#reward-cat-name').value = '';
                 document.querySelector('#reward-cat-breed').value = '';
                 document.querySelector('#reward-cat-birthday').value = '';
                 document.querySelector('#reward-cat-sex').value = '';
 
-                catsRegistered++;
                 if (catsRegistered >= catsInHousehold) {
                     birthdayFormDiv.style.display = 'none';
                 }
@@ -680,6 +691,116 @@
                     'Error connecting to the server, please try again later.';
                 return;
             });
+    }
+
+    function changeCat(oldName) {
+        const changeSlotDialog = document.createElement('dialog');
+        changeSlotDialog.id = 'change-slot-dialog';
+        changeSlotDialog.innerHTML = `
+            <p>Change your cat's details</p>
+            <form id="change-cat-form">
+                <div>
+                    <label for="change-cat-name" class="form-label">Cat Name</label>
+                    <input type="text" id="change-cat-name" required minlength="2" />
+                </div>
+                <div>
+                    <label for="change-cat-breed" class="form-label">Breed</label>
+                    <input type="text" id="change-cat-breed" required minlength="2" />
+                </div>
+                <div>
+                <label for="change-cat-sex" class="form-label">Sex</label>
+                    <select name="sex" id="change-cat-sex">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="change-cat-birthday" class="form-label">Birthday</label>
+                    <input type="date" id="change-cat-birthday" required />
+                </div>
+                <button type="submit">Change</button>
+            </form>
+            <div class="birthday-change-error"></div>
+        `;
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Cancel';
+        cancelButton.style.display = 'block';
+        cancelButton.style.width = '100%';
+        cancelButton.onclick = () => {
+            changeSlotDialog.close();
+        };
+        changeSlotDialog.appendChild(cancelButton);
+        document.body.appendChild(changeSlotDialog);
+        changeSlotDialog.showModal();
+
+        const changeCatForm = document.querySelector('#change-cat-form');
+        changeCatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const birthdayChangeErrorDiv = document.querySelector(
+                '.birthday-change-error'
+            );
+
+            const catName = document.querySelector('#change-cat-name').value;
+            const catBreed = document.querySelector('#change-cat-breed').value;
+            const catGender = document.querySelector('#change-cat-sex').value;
+            const catBirthday = document.querySelector(
+                '#change-cat-birthday'
+            ).value;
+
+            if (
+                catName.trim() === '' ||
+                catBreed.trim() === '' ||
+                catGender.trim() === '' ||
+                catBirthday.trim() === ''
+            ) {
+                birthdayChangeErrorDiv.textContent =
+                    'Please fill in all fields.';
+                return;
+            }
+
+            fetch(
+                `https://e4c7-2a01-4b00-805d-b800-4869-64a3-a1d2-7f3b.ngrok-free.app/changeCatBirthday?ownerEmail={{customer.email}}&oldCatName=${oldName}&newCatName=${catName}&newCatBreed=${catBreed}&newCatGender=${catGender}&newCatBirthday=${catBirthday}`
+            )
+                .then(async (response) => {
+                    if (!response.ok) {
+                        const message = await response.text();
+                        birthdayChangeErrorDiv.textContent = message;
+                        return;
+                    }
+
+                    birthdayErrorDiv.textContent = '';
+
+                    const catDivs = document.querySelectorAll('.cat');
+                    catDivs.forEach((catDiv) => {
+                        if (
+                            catDiv.querySelector('.cat-header').textContent ===
+                            oldName
+                        ) {
+                            catDiv.querySelector('.cat-header').textContent =
+                                catName;
+                            catDiv.querySelector(
+                                '.cat-detail:nth-of-type(1)'
+                            ).textContent = `Breed: ${catBreed}`;
+                            catDiv.querySelector(
+                                '.cat-detail:nth-of-type(2)'
+                            ).textContent = `Sex: ${catGender}`;
+                            catDiv.querySelector(
+                                '.cat-detail:nth-of-type(3)'
+                            ).textContent = `Birthday: ${catBirthday}`;
+                        }
+                    });
+
+                    changeSlotDialog.close();
+                    return;
+                })
+                .catch((err) => {
+                    console.error(err);
+                    birthdayChangeErrorDiv.textContent =
+                        'Error connecting to the server, please try again later.';
+                    return;
+                });
+        });
     }
 </script>
 {{/if}} {{/partial}} {{> layout/base}}
