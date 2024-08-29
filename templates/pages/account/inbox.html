@@ -449,7 +449,12 @@
     const catListDiv = document.querySelector('.list-of-cats');
     const mainContainer = document.querySelector('.cat-birthdays');
 
-    let catsInHousehold, catsRegistered, changeSlotAvailable, registeredCats;
+    let catsInHousehold,
+        catsRegistered,
+        changeSlotAvailable,
+        registeredCatsData;
+
+    const changeButtonAvailable = catsRegistered === 4 && changeSlotAvailable;
 
     // Call backend to see if customer has registered a cat
     fetch(
@@ -480,7 +485,7 @@
                 birthdayFormDiv.style.display = 'none';
             }
             changeSlotAvailable = data.change_slot_available;
-            registeredCats = data.cats;
+            registeredCatsData = data.cats;
 
             if (catsRegistered === 0) {
                 catListDiv.textContent = 'No cats registered yet.';
@@ -493,7 +498,7 @@
             catListDiv.appendChild(catListTitle);
             catListDiv.appendChild(document.createElement('br'));
 
-            for (const registeredCat of registeredCats) {
+            for (const registeredCat of registeredCatsData) {
                 const catDiv = document.createElement('div');
                 catDiv.classList.add('cat');
                 catDiv.innerHTML = `
@@ -501,8 +506,23 @@
                     <div class="cat-detail">Breed: ${registeredCat.cat_breed}</div>
                     <div class="cat-detail">Sex: ${registeredCat.cat_gender}</div>
                     <div class="cat-detail">Birthday: ${registeredCat.cat_birthday}</div>
+                    <button class="delete-cat-btn" onclick="deleteCat('${registeredCat.cat_name}') ">Remove</button>
                 `;
+                if (changeSlotAvailable) {
+                    catDiv.innerHTML += `
+                        <button class="change-cat-btn" onclick="changeCat('${registeredCat.cat_name}')">Change</button>
+                    `;
+                }
                 catListDiv.appendChild(catDiv);
+            }
+
+            if (changeSlotAvailable) {
+                const changeSlotMsg = document.createElement('p');
+                changeSlotMsg.classList.add('change-slot-msg');
+                changeSlotMsg.textContent =
+                    'You can change a cat by clicking the "Change" button. (1 change / year)';
+                mainContainer.appendChild(changeSlotMsg);
+                mainContainer.appendChild(document.createElement('br'));
             }
         })
         .catch((err) => {
@@ -578,6 +598,7 @@
                     <div class="cat-detail">Breed: ${catBreed}</div>
                     <div class="cat-detail">Sex: ${catGender}</div>
                     <div class="cat-detail">Birthday: ${catBirthday}</div>
+                    <button class="delete-cat-btn" onclick="deleteCat('${catName}')">Remove</button>
                 `;
                 catListDiv.appendChild(catDiv);
                 document.querySelector('#reward-cat-name').value = '';
@@ -604,5 +625,61 @@
                 return;
             });
     });
+
+    function deleteCat(catName) {
+        fetch(
+            `https://e4c7-2a01-4b00-805d-b800-4869-64a3-a1d2-7f3b.ngrok-free.app/deleteCatBirthday?ownerEmail={{customer.email}}&catName=${catName}`
+        )
+            .then(async (response) => {
+                if (!response.ok) {
+                    const message = await response.text();
+                    birthdayErrorDiv.style.display = 'block';
+                    birthdayErrorDiv.textContent = message;
+                    return;
+                }
+                birthdayErrorDiv.style.display = 'none';
+                const catDivs = document.querySelectorAll('.cat');
+                catDivs.forEach((catDiv) => {
+                    if (
+                        catDiv.querySelector('.cat-header').textContent ===
+                        catName
+                    ) {
+                        catDiv.remove();
+                    }
+                });
+
+                catsRegistered--;
+                if (catsRegistered < catsInHousehold) {
+                    birthdayFormDiv.style.display = 'block';
+                }
+
+                // remove the change buttons
+                const changeButtons =
+                    document.querySelectorAll('.change-cat-btn');
+                changeButtons.forEach((button) => {
+                    button.remove();
+                });
+
+                // remove the change slot message
+                const changeSlotMsg =
+                    document.querySelector('.change-slot-msg');
+                if (changeSlotMsg) {
+                    changeSlotMsg.remove();
+                }
+
+                document.querySelector(
+                    '.cat-list-title'
+                ).textContent = `Your Registered Cats (${catsRegistered}/${catsInHousehold})`;
+
+                return;
+            })
+            .catch((err) => {
+                console.error(err);
+                birthdayErrorDiv.style.display = 'block';
+                birthdayErrorDiv.textContent =
+                    'Error connecting to the server, please try again later.';
+                return;
+            });
+    }
 </script>
 {{/if}} {{/partial}} {{> layout/base}}
