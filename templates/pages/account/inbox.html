@@ -12,79 +12,78 @@
                 <p>Purchase goods to earn points for discounts!</p>
                 <p id="loyalty-points-balance">No balance found.</p>
             </div>
-            {{/unless}} {{#if customer_group_id '===' 11}}
+            {{/unless}} {{#if customer_group_name '===' 'Personal'}}
             <div class="reward-section">
                 <h2>Birthday gift</h2>
                 <p
                     >Register up to 4 cats to receive a 10% discount voucher
                     when it's their birthday! The purrfect gift!
                 </p>
-                <div class="reward-form">
+                <div class="birthday-error"></div>
+                <div class="household-question">
+                    How many cats do you have in your household?
                     <div>
-                        <label class="form-label" for="reward-cat-name"
-                            >Name</label
-                        >
-                        <input type="text" id="reward-cat-name" />
+                        <button onclick="registerOwner(1)"> 1 </button>
+                        <button onclick="registerOwner(2)"> 2 </button>
+                        <button onclick="registerOwner(3)"> 3 </button>
+                        <button onclick="registerOwner(4)"> 4 </button>
                     </div>
-                    <div>
-                        <label class="form-label" for="reward-cat-sex"
-                            >Sex</label
-                        >
-                        <select name="sex" id="reward-cat-sex">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="form-label" for="reward-cat-breed"
-                            >Breed</label
-                        >
-                        <input type="text" id="reward-cat-breed" />
-                    </div>
-                    <div>
-                        <label class="form-label" for="reward-cat-birthday"
-                            >Birthday</label
-                        >
-                        <input
-                            type="text"
-                            id="reward-cat-birthday"
-                            placeholder="DD/MM/YYYY"
-                            maxlength="10"
-                        />
-                    </div>
-                    <button class="button button--primary">Add Cat</button>
                 </div>
-                <div class="list-of-cats">
-                    <div class="cat">
-                        <div class="cat-header">Cat #1</div>
-                        <div class="cat-detail">Name: Josh</div>
-                        <div class="cat-detail">Age: 12</div>
-                        <div class="cat-detail"
-                            >Birthday: 10th of June, 1997</div
-                        >
-                    </div>
-                    <div class="cat">
-                        <div class="cat-header">Cat #2</div>
-                        <div class="cat-detail">Name: Bella</div>
-                        <div class="cat-detail">Age: 8</div>
-                        <div class="cat-detail"
-                            >Birthday: 22nd of August, 2015</div
-                        >
-                    </div>
-                    <div class="cat">
-                        <div class="cat-header">Cat #3</div>
-                        <div class="cat-detail">Name: Whiskers</div>
-                        <div class="cat-detail">Age: 4</div>
-                        <div class="cat-detail"
-                            >Birthday: 14th of March, 2019</div
-                        >
-                    </div>
-                    <div class="cat disabled">
-                        <div class="cat-header">Cat #4</div>
-                        <!-- <div class="cat-detail">Name: --</div>
-                            <div class="cat-detail">Age: -</div>
-                            <div class="cat-detail">Birthday: ----</div> -->
-                    </div>
+                <div class="cat-birthdays">
+                    <form id="add-birthday-form">
+                        <div class="reward-form">
+                            <div>
+                                <label class="form-label" for="reward-cat-name"
+                                    >Name</label
+                                >
+                                <input
+                                    type="text"
+                                    id="reward-cat-name"
+                                    required
+                                    minlength="2"
+                                />
+                            </div>
+                            <div>
+                                <label class="form-label" for="reward-cat-sex"
+                                    >Sex</label
+                                >
+                                <select name="sex" id="reward-cat-sex">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label" for="reward-cat-breed"
+                                    >Breed</label
+                                >
+                                <input
+                                    type="text"
+                                    id="reward-cat-breed"
+                                    required
+                                    minlength="2"
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    class="form-label"
+                                    for="reward-cat-birthday"
+                                    >Birthday</label
+                                >
+                                <input
+                                    type="date"
+                                    id="reward-cat-birthday"
+                                    required
+                                />
+                            </div>
+                            <button
+                                class="button button--primary add-cat-btn"
+                                type="submit"
+                                >Add Cat</button
+                            >
+                        </div>
+                    </form>
+
+                    <div class="list-of-cats"> </div>
                 </div>
             </div>
             {{/if}} {{#if customer_group_name '===' 'Personal'}}
@@ -398,35 +397,6 @@
 </script>
 {{/if}}
 <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const dateInput = document.getElementById('reward-cat-birthday');
-        if (dateInput) {
-            dateInput.addEventListener('input', function (e) {
-                let value = e.target.value.replace(/\D/g, ''); // Remove all non-digit characters
-                if (value.length > 8) {
-                    value = value.slice(0, 8); // Limit input to 8 digits
-                }
-
-                // Insert slashes
-                if (value.length >= 5) {
-                    value =
-                        value.slice(0, 2) +
-                        '/' +
-                        value.slice(2, 4) +
-                        '/' +
-                        value.slice(4, 8);
-                } else if (value.length >= 3) {
-                    value = value.slice(0, 2) + '/' + value.slice(2, 4);
-                } else if (value.length >= 1) {
-                    value = value.slice(0, 2);
-                }
-
-                e.target.value = value;
-            });
-        }
-    });
-</script>
-<script>
     // Append the usePointsDiv to the target element
     function fetchLoyalty() {
         return fetch('/graphql', {
@@ -471,4 +441,329 @@
     fetchLoyalty();
     document.addEventListener('DOMContentLoaded', fetchLoyalty());
 </script>
-{{/partial}} {{> layout/base}}
+{{#if customer_group_name '===' 'Personal'}}
+<script>
+    const householdQuestionDiv = document.querySelector('.household-question');
+    const birthdayErrorDiv = document.querySelector('.birthday-error');
+    const birthdayFormDiv = document.querySelector('.reward-form');
+    const catListDiv = document.querySelector('.list-of-cats');
+    const mainContainer = document.querySelector('.cat-birthdays');
+
+    let catsInHousehold,
+        catsRegistered = 0,
+        changeSlotAvailable,
+        changeSlotUsed,
+        registeredCatsData;
+
+    const changeButtonAvailable = catsRegistered === 4 && changeSlotAvailable;
+
+    // Call backend to see if customer has registered a cat
+    fetch(
+        'https://purrform-apps-027e.onrender.com/getCatOwnerInfo?ownerEmail={{customer.email}}&withCats=true'
+    )
+        .then((response) => {
+            if (!response.ok) {
+                if (response.status === 404) {
+                    householdQuestionDiv.style.display = 'block';
+                    return;
+                } else {
+                    birthdayErrorDiv.style.display = 'block';
+                    birthdayErrorDiv.textContent =
+                        'Error connecting to the server, please try again later.';
+                    return;
+                }
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (!data) {
+                const catListTitle = document.createElement('h5');
+                catListTitle.classList.add('cat-list-title');
+                catListTitle.textContent = `You have not registered any cats yet.`;
+                catListDiv.appendChild(catListTitle);
+                catListDiv.appendChild(document.createElement('br'));
+                return;
+            }
+            mainContainer.style.display = 'block';
+            householdQuestionDiv.style.display = 'none';
+            birthdayErrorDiv.style.display = 'none';
+
+            catsRegistered = data.cats_registered;
+            catsInHousehold = data.cats_in_household;
+            if (catsRegistered >= catsInHousehold) {
+                birthdayFormDiv.style.display = 'none';
+            }
+            changeSlotAvailable = data.change_slot_available;
+            changeSlotUsed = data.change_slot_used;
+            registeredCatsData = data.cats;
+
+            if (catsRegistered === 0) {
+                catListDiv.textContent = 'No cats registered yet.';
+                return;
+            }
+
+            const catListTitle = document.createElement('h5');
+            catListTitle.classList.add('cat-list-title');
+            catListTitle.textContent = `You have previously registered ${catsRegistered} cat${
+                catsRegistered > 1 ? 's' : ''
+            }`;
+            catListDiv.appendChild(catListTitle);
+            catListDiv.appendChild(document.createElement('br'));
+
+            for (const registeredCat of registeredCatsData) {
+                const catDiv = document.createElement('div');
+                catDiv.classList.add('cat');
+                catDiv.innerHTML = `
+                    <div class="cat-header">${registeredCat.cat_name}</div>
+                    <div class="cat-detail">Breed: ${registeredCat.cat_breed}</div>
+                    <div class="cat-detail">Sex: ${registeredCat.cat_gender}</div>
+                    <div class="cat-detail">Birthday: ${registeredCat.cat_birthday}</div>
+                    <button class="delete-cat-btn" onclick="deleteCat('${registeredCat.cat_name}') ">Remove</button>
+                `;
+                if (changeSlotAvailable) {
+                    catDiv.innerHTML += `
+                        <button class="change-cat-btn" onclick="changeCat('${registeredCat.cat_name}')">Change</button>
+                    `;
+                }
+                catListDiv.appendChild(catDiv);
+            }
+
+            const changeSlotMsg = document.createElement('p');
+            changeSlotMsg.classList.add('change-slot-msg');
+            if (changeSlotAvailable) {
+                changeSlotMsg.textContent =
+                    'You can change a cat by clicking the "Change" button. (1 change / year)';
+            } else {
+                changeSlotMsg.textContent =
+                    'Contact us at support@purrform.co.uk if you require a change to your registered cats.';
+            }
+            mainContainer.appendChild(changeSlotMsg);
+            mainContainer.appendChild(document.createElement('br'));
+        })
+        .catch((err) => {
+            console.error(err);
+            birthdayErrorDiv.style.display = 'block';
+            birthdayErrorDiv.textContent =
+                'Error connecting to the server, please try again later.';
+        });
+
+    function registerOwner(householdCats) {
+        fetch(
+            `https://purrform-apps-027e.onrender.com/registerCatOwner?ownerEmail={{customer.email}}&catsInHousehold=${householdCats}`
+        )
+            .then((response) => {
+                if (!response.ok) {
+                    birthdayErrorDiv.style.display = 'block';
+                    birthdayErrorDiv.textContent =
+                        'Error connecting to the server, please try again later.';
+                    return;
+                }
+                birthdayErrorDiv.style.display = 'none';
+                householdQuestionDiv.style.display = 'none';
+                document.querySelector('.cat-birthdays').style.display =
+                    'block';
+                return;
+            })
+            .catch((err) => {
+                console.error(err);
+                birthdayErrorDiv.style.display = 'block';
+                birthdayErrorDiv.textContent =
+                    'Error connecting to the server, please try again later.';
+                return;
+            });
+    }
+
+    const addCatForm = document.querySelector('#add-birthday-form');
+    addCatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const addBtn = document.querySelector('.add-cat-btn');
+        addBtn.classList.add('disabled');
+        addBtn.textContent = 'Adding...';
+
+        const catName = document.querySelector('#reward-cat-name').value;
+        const catBreed = document.querySelector('#reward-cat-breed').value;
+        const catGender = document.querySelector('#reward-cat-sex').value;
+        const catBirthday = document.querySelector(
+            '#reward-cat-birthday'
+        ).value;
+
+        if (
+            catName.trim() === '' ||
+            catBreed.trim() === '' ||
+            catGender.trim() === '' ||
+            catBirthday.trim() === ''
+        ) {
+            birthdayErrorDiv.style.display = 'block';
+            birthdayErrorDiv.textContent = 'Please fill in all fields.';
+            return;
+        }
+
+        fetch(
+            `https://purrform-apps-027e.onrender.com/registerCatBirthday?ownerEmail={{customer.email}}&catName=${catName}&catBreed=${catBreed}&catGender=${catGender}&catBirthday=${catBirthday}`
+        )
+            .then(async (response) => {
+                if (!response.ok) {
+                    const message = await response.text();
+                    birthdayErrorDiv.style.display = 'block';
+                    birthdayErrorDiv.textContent = message;
+                    addBtn.textContent = 'Add Cat';
+                    addBtn.classList.remove('disabled');
+                    return;
+                }
+
+                // refresh the page
+                window.location.reload();
+            })
+            .catch((err) => {
+                birthdayErrorDiv.style.display = 'block';
+                birthdayErrorDiv.textContent =
+                    'Error connecting to the server, please try again later.';
+                addBtn.textContent = 'Add Cat';
+                addBtn.classList.remove('disabled');
+                return;
+            });
+    });
+
+    function deleteCat(catName) {
+        fetch(
+            `https://purrform-apps-027e.onrender.com/deleteCatBirthday?ownerEmail={{customer.email}}&catName=${catName}`
+        )
+            .then(async (response) => {
+                if (!response.ok) {
+                    const message = await response.text();
+                    birthdayErrorDiv.style.display = 'block';
+                    birthdayErrorDiv.textContent = message;
+                    return;
+                }
+
+                // refresh the page
+                window.location.reload();
+            })
+            .catch((err) => {
+                birthdayErrorDiv.style.display = 'block';
+                birthdayErrorDiv.textContent =
+                    'Error connecting to the server, please try again later.';
+                return;
+            });
+    }
+
+    function changeCat(oldName) {
+        const changeSlotDialog = document.createElement('dialog');
+        changeSlotDialog.id = 'change-slot-dialog';
+        changeSlotDialog.innerHTML = `
+            <p>Change your cat details</p>
+            <form id="change-cat-form">
+                <div>
+                    <label for="change-cat-name" class="form-label">Cat Name</label>
+                    <input type="text" id="change-cat-name" required minlength="2" />
+                </div>
+                <div>
+                    <label for="change-cat-breed" class="form-label">Breed</label>
+                    <input type="text" id="change-cat-breed" required minlength="2" />
+                </div>
+                <div>
+                <label for="change-cat-sex" class="form-label">Sex</label>
+                    <select name="sex" id="change-cat-sex">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="change-cat-birthday" class="form-label">Birthday</label>
+                    <input type="date" id="change-cat-birthday" required />
+                </div>
+                <button type="submit">Change</button>
+            </form>
+            <div class="birthday-change-error"></div>
+        `;
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Cancel';
+        cancelButton.style.display = 'block';
+        cancelButton.style.width = '100%';
+        cancelButton.onclick = () => {
+            changeSlotDialog.close();
+        };
+        changeSlotDialog.appendChild(cancelButton);
+        document.body.appendChild(changeSlotDialog);
+        changeSlotDialog.showModal();
+
+        const changeCatForm = document.querySelector('#change-cat-form');
+        changeCatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const birthdayChangeErrorDiv = document.querySelector(
+                '.birthday-change-error'
+            );
+
+            const catName = document.querySelector('#change-cat-name').value;
+            const catBreed = document.querySelector('#change-cat-breed').value;
+            const catGender = document.querySelector('#change-cat-sex').value;
+            const catBirthday = document.querySelector(
+                '#change-cat-birthday'
+            ).value;
+
+            if (
+                catName.trim() === '' ||
+                catBreed.trim() === '' ||
+                catGender.trim() === '' ||
+                catBirthday.trim() === ''
+            ) {
+                birthdayChangeErrorDiv.textContent =
+                    'Please fill in all fields.';
+                return;
+            }
+
+            fetch(
+                `https://purrform-apps-027e.onrender.com/changeCatBirthday?ownerEmail={{customer.email}}&oldCatName=${oldName}&newCatName=${catName}&newCatBreed=${catBreed}&newCatGender=${catGender}&newCatBirthday=${catBirthday}`
+            )
+                .then(async (response) => {
+                    if (!response.ok) {
+                        const message = await response.text();
+                        birthdayChangeErrorDiv.textContent = message;
+                        return;
+                    }
+
+                    birthdayErrorDiv.textContent = '';
+
+                    const catDivs = document.querySelectorAll('.cat');
+                    catDivs.forEach((catDiv) => {
+                        if (
+                            catDiv.querySelector('.cat-header').textContent ===
+                            oldName
+                        ) {
+                            catDiv.innerHTML = `
+                                <div class="cat-header">${catName}</div>
+                                <div class="cat-detail">Breed: ${catBreed}</div>
+                                <div class="cat-detail">Sex: ${catGender}</div>
+                                <div class="cat-detail">Birthday: ${catBirthday}</div>
+                                <button class="delete-cat-btn" onclick="deleteCat('${catName}')">Remove</button>
+                            `;
+
+                            // remove the change buttons
+                            const changeButtons =
+                                document.querySelectorAll('.change-cat-btn');
+                            changeButtons.forEach((button) => {
+                                button.remove();
+                            });
+                        }
+                    });
+
+                    changeSlotDialog.close();
+
+                    // change the message if the user has used up their change slot
+                    const changeSlotMsg =
+                        document.querySelector('.change-slot-msg');
+                    changeSlotMsg.textContent =
+                        'Contact us at support@purrform.co.uk if you require a change to your registered cats.';
+                    return;
+                })
+                .catch((err) => {
+                    birthdayChangeErrorDiv.textContent =
+                        'Error connecting to the server, please try again later.';
+                    return;
+                });
+        });
+    }
+</script>
+{{/if}} {{/partial}} {{> layout/base}}
