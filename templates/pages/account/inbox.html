@@ -450,7 +450,7 @@
     const mainContainer = document.querySelector('.cat-birthdays');
 
     let catsInHousehold,
-        catsRegistered,
+        catsRegistered = 0,
         changeSlotAvailable,
         changeSlotUsed,
         registeredCatsData;
@@ -476,6 +476,14 @@
             return response.json();
         })
         .then((data) => {
+            if (!data) {
+                const catListTitle = document.createElement('h5');
+                catListTitle.classList.add('cat-list-title');
+                catListTitle.textContent = `You have not registered any cats yet.`;
+                catListDiv.appendChild(catListTitle);
+                catListDiv.appendChild(document.createElement('br'));
+                return;
+            }
             mainContainer.style.display = 'block';
             householdQuestionDiv.style.display = 'none';
             birthdayErrorDiv.style.display = 'none';
@@ -494,9 +502,11 @@
                 return;
             }
 
-            const catListTitle = document.createElement('h4');
+            const catListTitle = document.createElement('h5');
             catListTitle.classList.add('cat-list-title');
-            catListTitle.textContent = `Your Registered Cats (${catsRegistered}/${catsInHousehold})`;
+            catListTitle.textContent = `You have previously registered ${catsRegistered} cat${
+                catsRegistered > 1 ? 's' : ''
+            }`;
             catListDiv.appendChild(catListTitle);
             catListDiv.appendChild(document.createElement('br'));
 
@@ -606,17 +616,21 @@
                     <button class="delete-cat-btn" onclick="deleteCat('${catName}')">Remove</button>
                 `;
 
+                catListDiv.appendChild(catDiv);
+
                 if (catsRegistered === 4 && !changeSlotUsed) {
-                    catDiv.innerHTML += `
-                        <button class="change-cat-btn" onclick="changeCat('${catName}')">Change</button>
-                    `;
+                    const allCatDivs = document.querySelectorAll('.cat');
+
+                    allCatDivs.forEach((catDiv) => {
+                        catDiv.innerHTML += `
+                            <button class="change-cat-btn" onclick="changeCat('${catName}')">Change</button>
+                        `;
+                    });
                 }
 
-                catListDiv.appendChild(catDiv);
                 document.querySelector('#reward-cat-name').value = '';
                 document.querySelector('#reward-cat-breed').value = '';
                 document.querySelector('#reward-cat-birthday').value = '';
-                document.querySelector('#reward-cat-sex').value = '';
 
                 if (catsRegistered >= catsInHousehold) {
                     birthdayFormDiv.style.display = 'none';
@@ -624,7 +638,9 @@
 
                 document.querySelector(
                     '.cat-list-title'
-                ).textContent = `Your Registered Cats (${catsRegistered}/${catsInHousehold})`;
+                ).textContent = `You have previously registered ${catsRegistered} cat${
+                    catsRegistered > 1 ? 's' : ''
+                }`;
 
                 return;
             })
@@ -659,11 +675,6 @@
                     }
                 });
 
-                catsRegistered--;
-                if (catsRegistered < catsInHousehold) {
-                    birthdayFormDiv.style.display = 'block';
-                }
-
                 // remove the change buttons
                 const changeButtons =
                     document.querySelectorAll('.change-cat-btn');
@@ -680,7 +691,9 @@
 
                 document.querySelector(
                     '.cat-list-title'
-                ).textContent = `Your Registered Cats (${catsRegistered}/${catsInHousehold})`;
+                ).textContent = `You previously registered ${catsRegistered} cat${
+                    catsRegistered > 1 ? 's' : ''
+                }`;
 
                 return;
             })
@@ -777,17 +790,20 @@
                             catDiv.querySelector('.cat-header').textContent ===
                             oldName
                         ) {
-                            catDiv.querySelector('.cat-header').textContent =
-                                catName;
-                            catDiv.querySelector(
-                                '.cat-detail:nth-of-type(1)'
-                            ).textContent = `Breed: ${catBreed}`;
-                            catDiv.querySelector(
-                                '.cat-detail:nth-of-type(2)'
-                            ).textContent = `Sex: ${catGender}`;
-                            catDiv.querySelector(
-                                '.cat-detail:nth-of-type(3)'
-                            ).textContent = `Birthday: ${catBirthday}`;
+                            catDiv.innerHTML = `
+                                <div class="cat-header">${catName}</div>
+                                <div class="cat-detail">Breed: ${catBreed}</div>
+                                <div class="cat-detail">Sex: ${catGender}</div>
+                                <div class="cat-detail">Birthday: ${catBirthday}</div>
+                                <button class="delete-cat-btn" onclick="deleteCat('${catName}')">Remove</button>
+                            `;
+
+                            // remove the change buttons
+                            const changeButtons =
+                                document.querySelectorAll('.change-cat-btn');
+                            changeButtons.forEach((button) => {
+                                button.remove();
+                            });
                         }
                     });
 
