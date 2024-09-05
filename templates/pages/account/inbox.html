@@ -12,7 +12,7 @@
                 <p>Purchase goods to earn points for discounts!</p>
                 <p id="loyalty-points-balance">No balance found.</p>
             </div>
-            {{/unless}} {{#if customer_group_id '===' 11}}
+            {{/unless}} {{#if customer_group_name '===' 'Personal'}}
             <div class="reward-section">
                 <h2>Birthday gift</h2>
                 <p
@@ -441,7 +441,7 @@
     fetchLoyalty();
     document.addEventListener('DOMContentLoaded', fetchLoyalty());
 </script>
-{{#if customer_group_name '===' 'Testing Group'}}
+{{#if customer_group_name '===' 'Personal'}}
 <script>
     const householdQuestionDiv = document.querySelector('.household-question');
     const birthdayErrorDiv = document.querySelector('.birthday-error');
@@ -459,7 +459,7 @@
 
     // Call backend to see if customer has registered a cat
     fetch(
-        'https://e4c7-2a01-4b00-805d-b800-4869-64a3-a1d2-7f3b.ngrok-free.app/getCatOwnerInfo?ownerEmail={{customer.email}}&withCats=true'
+        'https://purrform-apps-027e.onrender.com/getCatOwnerInfo?ownerEmail={{customer.email}}&withCats=true'
     )
         .then((response) => {
             if (!response.ok) {
@@ -528,14 +528,17 @@
                 catListDiv.appendChild(catDiv);
             }
 
+            const changeSlotMsg = document.createElement('p');
+            changeSlotMsg.classList.add('change-slot-msg');
             if (changeSlotAvailable) {
-                const changeSlotMsg = document.createElement('p');
-                changeSlotMsg.classList.add('change-slot-msg');
                 changeSlotMsg.textContent =
                     'You can change a cat by clicking the "Change" button. (1 change / year)';
-                mainContainer.appendChild(changeSlotMsg);
-                mainContainer.appendChild(document.createElement('br'));
+            } else {
+                changeSlotMsg.textContent =
+                    'Contact us at support@purrform.co.uk if you require a change to your registered cats.';
             }
+            mainContainer.appendChild(changeSlotMsg);
+            mainContainer.appendChild(document.createElement('br'));
         })
         .catch((err) => {
             console.error(err);
@@ -546,7 +549,7 @@
 
     function registerOwner(householdCats) {
         fetch(
-            `https://e4c7-2a01-4b00-805d-b800-4869-64a3-a1d2-7f3b.ngrok-free.app/registerCatOwner?ownerEmail={{customer.email}}&catsInHousehold=${householdCats}`
+            `https://purrform-apps-027e.onrender.com/registerCatOwner?ownerEmail={{customer.email}}&catsInHousehold=${householdCats}`
         )
             .then((response) => {
                 if (!response.ok) {
@@ -574,6 +577,10 @@
     addCatForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
+        const addBtn = document.querySelector('.add-cat-btn');
+        addBtn.classList.add('disabled');
+        addBtn.textContent = 'Adding...';
+
         const catName = document.querySelector('#reward-cat-name').value;
         const catBreed = document.querySelector('#reward-cat-breed').value;
         const catGender = document.querySelector('#reward-cat-sex').value;
@@ -593,69 +600,34 @@
         }
 
         fetch(
-            `https://e4c7-2a01-4b00-805d-b800-4869-64a3-a1d2-7f3b.ngrok-free.app/registerCatBirthday?ownerEmail={{customer.email}}&catName=${catName}&catBreed=${catBreed}&catGender=${catGender}&catBirthday=${catBirthday}`
+            `https://purrform-apps-027e.onrender.com/registerCatBirthday?ownerEmail={{customer.email}}&catName=${catName}&catBreed=${catBreed}&catGender=${catGender}&catBirthday=${catBirthday}`
         )
             .then(async (response) => {
                 if (!response.ok) {
                     const message = await response.text();
                     birthdayErrorDiv.style.display = 'block';
                     birthdayErrorDiv.textContent = message;
+                    addBtn.textContent = 'Add Cat';
+                    addBtn.classList.remove('disabled');
                     return;
                 }
-                birthdayErrorDiv.style.display = 'none';
 
-                catsRegistered++;
-
-                const catDiv = document.createElement('div');
-                catDiv.classList.add('cat');
-                catDiv.innerHTML = `
-                    <div class="cat-header">${catName}</div>
-                    <div class="cat-detail">Breed: ${catBreed}</div>
-                    <div class="cat-detail">Sex: ${catGender}</div>
-                    <div class="cat-detail">Birthday: ${catBirthday}</div>
-                    <button class="delete-cat-btn" onclick="deleteCat('${catName}')">Remove</button>
-                `;
-
-                catListDiv.appendChild(catDiv);
-
-                if (catsRegistered === 4 && !changeSlotUsed) {
-                    const allCatDivs = document.querySelectorAll('.cat');
-
-                    allCatDivs.forEach((catDiv) => {
-                        catDiv.innerHTML += `
-                            <button class="change-cat-btn" onclick="changeCat('${catName}')">Change</button>
-                        `;
-                    });
-                }
-
-                document.querySelector('#reward-cat-name').value = '';
-                document.querySelector('#reward-cat-breed').value = '';
-                document.querySelector('#reward-cat-birthday').value = '';
-
-                if (catsRegistered >= catsInHousehold) {
-                    birthdayFormDiv.style.display = 'none';
-                }
-
-                document.querySelector(
-                    '.cat-list-title'
-                ).textContent = `You have previously registered ${catsRegistered} cat${
-                    catsRegistered > 1 ? 's' : ''
-                }`;
-
-                return;
+                // refresh the page
+                window.location.reload();
             })
             .catch((err) => {
-                console.error(err);
                 birthdayErrorDiv.style.display = 'block';
                 birthdayErrorDiv.textContent =
                     'Error connecting to the server, please try again later.';
+                addBtn.textContent = 'Add Cat';
+                addBtn.classList.remove('disabled');
                 return;
             });
     });
 
     function deleteCat(catName) {
         fetch(
-            `https://e4c7-2a01-4b00-805d-b800-4869-64a3-a1d2-7f3b.ngrok-free.app/deleteCatBirthday?ownerEmail={{customer.email}}&catName=${catName}`
+            `https://purrform-apps-027e.onrender.com/deleteCatBirthday?ownerEmail={{customer.email}}&catName=${catName}`
         )
             .then(async (response) => {
                 if (!response.ok) {
@@ -664,41 +636,11 @@
                     birthdayErrorDiv.textContent = message;
                     return;
                 }
-                birthdayErrorDiv.style.display = 'none';
-                const catDivs = document.querySelectorAll('.cat');
-                catDivs.forEach((catDiv) => {
-                    if (
-                        catDiv.querySelector('.cat-header').textContent ===
-                        catName
-                    ) {
-                        catDiv.remove();
-                    }
-                });
 
-                // remove the change buttons
-                const changeButtons =
-                    document.querySelectorAll('.change-cat-btn');
-                changeButtons.forEach((button) => {
-                    button.remove();
-                });
-
-                // remove the change slot message
-                const changeSlotMsg =
-                    document.querySelector('.change-slot-msg');
-                if (changeSlotMsg) {
-                    changeSlotMsg.remove();
-                }
-
-                document.querySelector(
-                    '.cat-list-title'
-                ).textContent = `You previously registered ${catsRegistered} cat${
-                    catsRegistered > 1 ? 's' : ''
-                }`;
-
-                return;
+                // refresh the page
+                window.location.reload();
             })
             .catch((err) => {
-                console.error(err);
                 birthdayErrorDiv.style.display = 'block';
                 birthdayErrorDiv.textContent =
                     'Error connecting to the server, please try again later.';
@@ -710,7 +652,7 @@
         const changeSlotDialog = document.createElement('dialog');
         changeSlotDialog.id = 'change-slot-dialog';
         changeSlotDialog.innerHTML = `
-            <p>Change your cat's details</p>
+            <p>Change your cat details</p>
             <form id="change-cat-form">
                 <div>
                     <label for="change-cat-name" class="form-label">Cat Name</label>
@@ -773,7 +715,7 @@
             }
 
             fetch(
-                `https://e4c7-2a01-4b00-805d-b800-4869-64a3-a1d2-7f3b.ngrok-free.app/changeCatBirthday?ownerEmail={{customer.email}}&oldCatName=${oldName}&newCatName=${catName}&newCatBreed=${catBreed}&newCatGender=${catGender}&newCatBirthday=${catBirthday}`
+                `https://purrform-apps-027e.onrender.com/changeCatBirthday?ownerEmail={{customer.email}}&oldCatName=${oldName}&newCatName=${catName}&newCatBreed=${catBreed}&newCatGender=${catGender}&newCatBirthday=${catBirthday}`
             )
                 .then(async (response) => {
                     if (!response.ok) {
@@ -808,10 +750,15 @@
                     });
 
                     changeSlotDialog.close();
+
+                    // change the message if the user has used up their change slot
+                    const changeSlotMsg =
+                        document.querySelector('.change-slot-msg');
+                    changeSlotMsg.textContent =
+                        'Contact us at support@purrform.co.uk if you require a change to your registered cats.';
                     return;
                 })
                 .catch((err) => {
-                    console.error(err);
                     birthdayChangeErrorDiv.textContent =
                         'Error connecting to the server, please try again later.';
                     return;
