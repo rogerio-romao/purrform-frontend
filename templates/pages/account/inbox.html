@@ -175,7 +175,7 @@
 </div>
 {{#if customer_group_name '===' 'Breeder'}}
 <script>
-    // sends a referral
+    // sends a breeder referral
     const jsContext = JSON.parse({{jsContext}});
     const breederReferralForm = document.querySelector('#breeder-referral-form')
     const breederRerferralButton = document.querySelector('#breeder-referral-form .button-primary')
@@ -227,7 +227,7 @@
     })
 </script>
 <script>
-    // fetches previous referrals
+    // fetches previous breeder referrals
     const seePreviousBtn = document.querySelector('#previous-referrals-btn');
     const previousLength = document.querySelector('#previous-length');
 
@@ -335,7 +335,7 @@
     })
 </script>
 <script>
-    // fetches previous referrals
+    // fetches previous friend referrals
     const seePreviousFriendsBtn = document.querySelector(
         '#previous-friends-btn'
     );
@@ -448,6 +448,15 @@
     const birthdayFormDiv = document.querySelector('.reward-form');
     const catListDiv = document.querySelector('.list-of-cats');
     const mainContainer = document.querySelector('.cat-birthdays');
+    const birthdayDateInput = document.querySelector('#reward-cat-birthday');
+
+    const todayDate = new Date().toISOString().slice(0, 10);
+    const todayYear = new Date().getFullYear();
+    const startYear = todayYear - 25;
+    const startDate = `${startYear}${todayDate.slice(4)}`;
+
+    birthdayDateInput.setAttribute('max', todayDate);
+    birthdayDateInput.setAttribute('min', startDate);
 
     let catsInHousehold,
         catsRegistered = 0,
@@ -651,6 +660,12 @@
     function changeCat(oldName) {
         const changeSlotDialog = document.createElement('dialog');
         changeSlotDialog.id = 'change-slot-dialog';
+
+        const todayDate = new Date().toISOString().slice(0, 10);
+        const todayYear = new Date().getFullYear();
+        const startYear = todayYear - 25;
+        const startDate = `${startYear}${todayDate.slice(4)}`;
+
         changeSlotDialog.innerHTML = `
             <p>Change your cat details</p>
             <form id="change-cat-form">
@@ -671,7 +686,7 @@
                 </div>
                 <div>
                     <label for="change-cat-birthday" class="form-label">Birthday</label>
-                    <input type="date" id="change-cat-birthday" required />
+                    <input type="date" id="change-cat-birthday" required min="${startDate}" max="${todayDate}" />
                 </div>
                 <button type="submit">Change</button>
             </form>
