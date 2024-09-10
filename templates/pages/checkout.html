@@ -387,7 +387,10 @@
         finalContainer.classList.add('cart-resultItem');
 
         masterContainer.appendChild(finalContainer);
-        pointsInput.insertAdjacentElement('afterend', masterContainer);
+        // pointsDiv.insertAdjacentHTML('afterend', finalContainer.innerHTML);
+        pointsInput.insertAdjacentHTML('afterend', masterContainer.outerHTML);
+        const confirmButton = document.querySelector('#loyaltyPointsBtn');
+        confirmButton.focus();
     }
 
     function fetchLoyalty() {
