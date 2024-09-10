@@ -389,8 +389,14 @@
         masterContainer.appendChild(finalContainer);
         // pointsDiv.insertAdjacentHTML('afterend', finalContainer.innerHTML);
         pointsInput.insertAdjacentHTML('afterend', masterContainer.outerHTML);
-        const confirmButton = document.querySelector('#loyaltyPointsBtn');
-        confirmButton.focus();
+
+        // fix for mobile not showing button
+        const parentSelectorMobile =
+            '.cart-modal-body.optimizedCheckout-orderSummary';
+        if (document.querySelector(parentSelectorMobile)) {
+            const confirmButton = document.querySelector('#loyaltyPointsBtn');
+            confirmButton.focus();
+        }
     }
 
     function fetchLoyalty() {
