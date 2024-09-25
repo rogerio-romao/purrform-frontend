@@ -1,5 +1,5 @@
 {
-    "name": "fix mobile no button",
+    "name": "calculator merged",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {

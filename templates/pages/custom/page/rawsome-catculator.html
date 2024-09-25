@@ -1,25 +1,4 @@
-{{#partial "page"}} {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
-
-{{{region name="page_builder_content__above-toggler"}}}
-
-{{> components/custom/calculator-toggler}}
-{{> components/custom/calculator-toggler-mobile}}
-
-{{{region name="page_builder_content__below-toggler"}}}
-
-{{!--<div class="rawsome-catculator-page">
-  <div class="calculator-heading">
-    <h1>How much protein are you currently feeding your cat?</h1>
-    <p>
-      Use our calculator below to compare how much protein Purrform provides
-      versus other cat foods
-    </p>
-  </div>
-
-  {{> components/custom/calculator-toggler}}
-  {{> components/custom/calculator-toggler-mobile}}
-
-  <div style="display: none">
+<div style="display: none">
     <div class="tubs_temp" style="display: none"></div>
     <div class="pouches_temp" style="display: none"></div>
   </div>
@@ -88,140 +67,14 @@
     </div>
   </div>
 
-  <div style="margin: 3rem auto; text-align: center">
-    <p>
-      Please note that the generic calculation is calculated by using an average
-      of 150kcal per 100g of PurrForm food.
-      <br />
-      <br />
-      Please refer to the RDA to find out how much to feed by product.
-      <br />
-      <br />
-      These are guidelines only and may need to be adjusted accordingly.
-      <br />
-      <br />
-      If you need further information please contact us on
-      enquiry@purrform.co.uk.
-    </p>
-  </div>
-
-  <div id="rawsome-bottom">
-    <div class="rawsome-info-table">
-      <div>
-        <img
-          src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/cat1new.png?t=1638444894&_gl=1*558qiq*_ga*MTEwMDQ4NTI5Ny4xNjg1OTY5NDc0*_ga_WS2VZYPC6G*MTY4ODEyODk1My4xMDIuMS4xNjg4MTMxMzIyLjI5LjAuMA.."
-        />
-        <div>
-          <h1>Super Fine Minced</h1>
-          <p>For baby kittens from 4-8 weeks old.</p>
-          <button
-            style="
-              display: block;
-              margin: 10px auto 20px auto;
-              width: 150px;
-              height: 3rem;
-              border-color: rgb(104, 125, 106);
-              border-radius: 40px;
-              background-color: rgb(104, 125, 106);
-              text-align: center;
-            "
-          >
-            <a
-              href="/all"
-              style="
-                color: #fff;
-                font-size: 18px;
-                font-weight: bold;
-                margin: auto;
-                padding-bottom: 3px;
-                text-decoration: none;
-              "
-            >
-              Shop Now
-            </a>
-          </button>
-        </div>
-      </div>
-      <div>
-        <img
-          src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/cat3new.png?t=1638444909&_gl=1*1c7qqbf*_ga*MTEwMDQ4NTI5Ny4xNjg1OTY5NDc0*_ga_WS2VZYPC6G*MTY4ODEyODk1My4xMDIuMS4xNjg4MTMxMzIyLjI5LjAuMA.."
-        />
-        <div>
-          <h1>Finely Minced</h1>
-          <p>For kittens above 8 weeks to 9 months old.</p>
-          <button
-            style="
-              display: block;
-              margin: 10px auto 20px auto;
-              width: 150px;
-              height: 3rem;
-              border-color: rgb(104, 125, 106);
-              border-radius: 40px;
-              background-color: rgb(104, 125, 106);
-              text-align: center;
-            "
-          >
-            <a
-              href="/all"
-              style="
-                color: #fff;
-                font-size: 18px;
-                font-weight: bold;
-                margin: auto;
-                padding-bottom: 3px;
-                text-decoration: none;
-              "
-            >
-              Shop Now
-            </a>
-          </button>
-        </div>
-      </div>
-      <div>
-        <img
-          src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/adult-cat-green-new2.png?t=1655893873&_gl=1*1j7s8a4*_ga*MTEwMDQ4NTI5Ny4xNjg1OTY5NDc0*_ga_WS2VZYPC6G*MTY4ODEyODk1My4xMDIuMS4xNjg4MTMxMzIyLjI5LjAuMA.."
-        />
-        <div>
-          <h1>Coarsely Minced</h1>
-          <p>For adult cats above the age of 9 months old.</p>
-          <button
-            style="
-              display: block;
-              margin: 10px auto 20px auto;
-              width: 150px;
-              height: 3rem;
-              border-color: rgb(104, 125, 106);
-              border-radius: 40px;
-              background-color: rgb(104, 125, 106);
-              text-align: center;
-            "
-          >
-            <a
-              href="/all"
-              style="
-                color: #fff;
-                font-size: 18px;
-                font-weight: bold;
-                margin: auto;
-                padding-bottom: 3px;
-                text-decoration: none;
-              "
-            >
-              Shop Now
-            </a>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script
+    <script
     src="https://code.jquery.com/jquery-3.7.0.js"
     integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
     crossorigin="anonymous"
   ></script>
 
   <script>
+    // ATTENTION: the store has a Page Builder widget for this page. The code below is a copy of the widget's code as of 2024-09-25 but changes to the code here will have no effect. Please edit the widget instead. (this was not my system, but it's how it is set up)
     let prev_value = ``;
     let age_value = null;
     let weight_value = null;
@@ -235,13 +88,7 @@
 
     const weightInput = () => {
       const weight_input = document.getElementById("weight_input");
-      const re = /^[1-9][0-9]?$/;
-
-      console.table({
-        "prev value": prev_value,
-        "weight input": weight_input.value,
-      });
-      console.log("passes regex test:", re.test(weight_input.value));
+      const re = /^[0-9][.]?[0-9]?$/;
 
       if (weight_input.value && !re.test(weight_input.value))
         weight_input.value = prev_value;
@@ -266,9 +113,9 @@
                   <button class="rawsome-button--primary" onclick='weight(1)' style='color: #fff; font-size: 18px; font-weight: bold; margin: 20px 0px 0px 141px; text-align: center; width: 165px; height: 3.5rem; background-color: #687D6A; border-color: #00000000; border-radius: 45px;'>Next</button>
                 </div>
                   </div>
-           
+
             </div>
-           
+
             </div>
       `;
     };
@@ -290,7 +137,7 @@
                   <button class="rawsome-button--primary" onclick='weight(2)' style='color: #fff; font-size: 18px; font-weight: bold; margin: 20px 0px 0px 141px; text-align: center; width: 165px; height: 3.5rem; background-color: #687D6A; border-color: #00000000; border-radius: 45px;'>Next</button>
                 </div>
               </div>
-             
+
             </div>
             </div>
       `;
@@ -316,14 +163,6 @@
     };
 
     const catculate = () => {
-      console.log(`
-              age: ${age_value}
-              weight: ${weight_value}
-              coef: ${coef}
-              activity: ${activity_value}
-              neutered?: ${neutered_value}
-              daily meals: ${daily_meals}
-          `);
       total = Math.round(
         ((Math.pow(weight_value, 0.67) * activity_value * 1000) / kcal_per_kg) *
           coef
@@ -372,21 +211,15 @@
     };
 
     const age = (num) => {
-      console.log("num:" + num);
       $(".tubs_temp").html("");
       $(".pouches_temp").html("");
       age_value = num;
       storehash = "lh9wfk05w0";
-      url =
-        "https://api.purrform.co.uk/api/v3/get_category_by_age?store_hash=" +
-        storehash +
-        "&age=" +
-        num;
+      url = `https://purrform-apps-027e.onrender.com/calculator?age=${num}`
       $.ajax({
         url: url,
         method: "GET",
         success: function (response) {
-          console.log("response:" + response);
           var tubs;
           var pouches;
           if (response != "" && response != undefined) {
@@ -417,7 +250,6 @@
           }
           if (tubs != null && tubs != undefined) {
             $(tubs).each(function (i, val) {
-              console.log("val:" + JSON.stringify(val));
               p_id = val.id;
               p_image = val.image;
               p_name = val.name;
@@ -425,21 +257,21 @@
               p_cal_per_kg = val.calorie;
 
               $(".tubs_temp").append(
-                '<div class="wrapper"><div class="image_wrap" style="">' +
+                '<div class="wrapper" style="display: flex; flex-direction: column; justify-content: space-between;"><div class="image_wrap" style="">' +
                   '<a href="' +
                   p_url +
                   '"><img src="' +
                   p_image +
                   '"style="width: auto; height: auto; "/></a>' +
                   "</div>" +
-                  '<div class="content_wrap" style="">' +
+                  '<div class="content_wrap" style="flex-grow: 1;">' +
                   '<a href="' +
                   p_url +
                   '"><p style="line-height: 16px; font-size: 14px; color: #687D6A;">' +
                   p_name +
                   "</p></a>" +
                   "</div>" +
-                  '<div class="cta_wrap" style="">' +
+                  '<div class="cta_wrap" style="margin-top: auto;">' +
                   '<a href="' +
                   p_url +
                   '"><button class="rawsome-button--primary" data-calorie = "' +
@@ -455,7 +287,6 @@
           }
           if (pouches != null && pouches != undefined) {
             $(pouches).each(function (i, val) {
-              console.log("val:" + JSON.stringify(val));
               p_id = val.id;
               p_image = val.image;
               p_name = val.name;
@@ -464,21 +295,21 @@
               //console.log("Here is the product data");
               //console.log(JSON.stringify(val));
               $(".pouches_temp").append(
-                '<div class="wrapper"><div class="image_wrap" style="">' +
+                '<div class="wrapper" style="display: flex; flex-direction: column; justify-content: space-between;"><div class="image_wrap" style="">' +
                   '<a href="' +
                   p_url +
                   '"><img src="' +
                   p_image +
                   '"style="width: auto; height: auto;"/></a>' +
                   "</div>" +
-                  '<div class="content_wrap" style="">' +
+                  '<div class="content_wrap" style="flex-grow: 1;">' +
                   '<a href="' +
                   p_url +
                   '"><p style="line-height: 16px; font-size: 14px; color: #687D6A;">' +
                   p_name +
                   "</p></a>" +
                   "</div>" +
-                  '<div class="cta_wrap" style="">' +
+                  '<div class="cta_wrap" style="margin-top: auto;">' +
                   '<a href="' +
                   p_url +
                   '"><button class="rawsome-button--primary" data-calorie = "' +
@@ -494,10 +325,7 @@
           }
         },
         error: function (jqxhr, status, error) {
-          console.log("Something went wrong!");
-          console.log("jqxhr!" + JSON.stringify(jqxhr));
-          console.log("status" + status);
-          console.log("Error!" + error);
+          console.log("Could not fetch products!");
         },
       });
       switch (num) {
@@ -505,7 +333,6 @@
           coef = 2.3;
           daily_meals = `Feed as & when required`;
           activity_value = 95;
-          console.log("hi");
           toKittenPageTwo();
           break;
         case 2:
@@ -565,25 +392,25 @@
           </div>-->
           <div class="modal-content swal2-content" >
               <h1 style="text-align:center; margin-bottom: 1.5rem;" id="swal2-title">450g Tubs</h1>
-               
+
               <div id="swal2-content_tubs" class="swal2-html-container tubs" style="display: block;">
                     ` +
         getTubs.html() +
-        `	
+        `
                 </div>
               <hr>
               <h1 style="text-align:center; margin-bottom: 1.5rem;" id="swal2-title">Pouches</h1>
-               
+
               <div id="swal2-content-pouches" class="swal2-html-container tubs" style="display: block;">
-                    
+
                   ` +
         getpouches.html() +
         `
                 </div>
               <hr>
-  
+
           </div>
-          
+
       </div>
   </div>
   `;
@@ -592,7 +419,8 @@
       $(".cta_wrap button").each(function () {
         this_cal = $(this).attr("data-calorie");
         this_cal = this_cal * 10;
-        
+        //console.log("CALORIES after  :"+this_cal);
+        //console.log("weight_value :"+weight_value+", activity_value :"+activity_value+", coef : "+coef);
         this_total = Math.round(
           ((Math.pow(weight_value, 0.67) * activity_value * 1000) / this_cal) *
             coef
@@ -600,6 +428,8 @@
         $(this).text(this_total + "g per day");
       });
 
+      //console.log("***TOTAL : ${total}");
+      //console.log("***TOTAL 2: "+total);
     };
 
     const toPageOne = () => {
@@ -618,7 +448,7 @@
                   </p>
                 </button>
               </div>
-  
+
               <div class="catculator-col">
                 <img style='width: 125px; height: 91px; margin: 59px 0px 30px 12px;' src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/product_images/uploaded_images/cat2.png'/>
                 <button class="rawsome-button--primary" onclick='age(2)' >
@@ -627,7 +457,7 @@
                   </p>
                 </button>
               </div>
-  
+
               <div class="catculator-col">
                 <img style='width: 150px; height: 106px; margin: 44px 0px 30px 0px;' src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/product_images/uploaded_images/cat3.png'/>
                 <button class="rawsome-button--primary" onclick='age(3)' >
@@ -636,7 +466,7 @@
                   </p>
                 </button>
               </div>
-  
+
               <div class="catculator-col">
                 <img style='width: 95px; height: 128px; margin: 22px 0px 30px 27px;' src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/product_images/uploaded_images/cat4.png'/>
                 <button class="rawsome-button--primary" onclick='age(4)'>
@@ -645,7 +475,7 @@
                   </p>
                 </button>
               </div>
-  
+
               <div class="catculator-col">
                 <img style='width: 90px; height: 140px; margin: 10px 0px 30px 30px;' src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/product_images/uploaded_images/cat5.png'/>
                 <button class="rawsome-button--primary" onclick='age(5)' >
@@ -673,16 +503,16 @@
                       <p >Serving per day: <span><strong>${total}g</strong></span></p>
                       <!--<button style='cursor:auto;margin: -10px 0px 0px 50px; color: #fff; font-size: 18px; font-weight: bold; text-align: center; width: 165px; height: 3.5rem; background-color: #BD9B60; border-color: #00000000; border-radius: 45px;'>${total}g</button>-->
                     </div>
-  
+
                   <div class="daily_meals">
                       <p >${daily_meals}</p>
                     </div>
-  
+
                   <div class="rc_reccoms">
                       <div>
                         <p >Daily calorie intake: <span><strong>${kcal} kcal</strong></span></p>
                       <!--<button style='cursor:auto;margin: -10px 0px 0px 20px; color: #fff; font-size: 18px; font-weight: bold; text-align: center; width: 165px; height: 3.5rem; background-color: #BD9B60; border-color: #00000000; border-radius: 45px;'>${kcal} kcal</button></div>-->
-                
+
                     </div>
                 </div>
                 <button class="rawsome-button--secondary" onclick='reset()'>Start Over</button>
@@ -693,7 +523,7 @@
                           <button class="rda_account_btn rawsome-button--secondary" title="loading... please wait" id="show_product_cta" class="cta--loading" onclick='showProducts()' style=''>View your RDA on our products
                             <span class="button--loading"></span>
                             </button>
-                       
+
                       </div>
 
                       <div id="show_RDA" class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto;display:none">
@@ -705,7 +535,7 @@
       interval = setInterval(function () {
         tub = $(".tubs_temp .wrapper").children().length;
         pouche = $(".pouches_temp .wrapper").children().length;
-        console.log("TUB :" + tub + ": , POUCH :" + pouche + ":");
+
         if (tub > 0 || pouche > 0) {
           clearInterval(interval);
           $(".button--loading").hide();
@@ -764,20 +594,16 @@
             <div class="cat_weight_cal" >
               <img style='width: 250px; height: 215px; margin-left: 15%;' src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/cat-weight.png'/>
               <div style='display: flex; flex-direction: column; width: auto; height: auto;'>
-                <p class="cat_weight_p" >kg</p>  
+                <p class="cat_weight_p" >kg</p>
                 <input id='weight_input' style='margin: 40px 0px 0px 141px; width: 165px; height: 3.5rem; border: 3px solid #687D6A; border-radius: 45px; background-color: #00000000; color: #687D6A; font-size: 18px;'/>
                 <div>
                 <button class="rawsome-button--secondary"  onclick='toPageOne()' >Back</button>
                   <button class="rawsome-button--primary" onclick='weight(3)' style='color: #fff; font-size: 18px; font-weight: bold; margin: 20px 0px 0px 141px;  ; width: 165px; height: 3.5rem; background-color: #687D6A; border-color: #00000000; border-radius: 45px;'>Next</button>
                 </div>
                   </div>
-             
+
             </div>
             </div>
           `;
     };
   </script>
-</div>--}}
-
-
-{{/partial}} {{> layout/base}}
