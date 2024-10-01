@@ -530,6 +530,10 @@
                 '.form-checklist-item--selected'
             );
 
+            if (!selectedShippingMethod) {
+                return enableWeekdays(day);
+            }
+
             const isSaturdayDelivery = selectedShippingMethod
                 .querySelector('.shippingOption-desc')
                 .textContent.toLowerCase()
