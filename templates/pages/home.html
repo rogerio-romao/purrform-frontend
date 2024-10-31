@@ -247,10 +247,16 @@ blog:
                 font-size: 1.35rem;
                 font-weight: bold;
                 color: #556153;
+                white-space: nowrap;      /* Prevents the text from wrapping */
+                overflow: hidden;         /* Hides the overflowed text */
+                text-overflow: ellipsis;  /* Adds the ellipsis (...) at the end */
             }
             p {
                 font-family: 'Filson Pro', sans-serif;
                 font-size: 0.95rem;
+                white-space: nowrap;      /* Prevents the text from wrapping */
+                overflow: hidden;         /* Hides the overflowed text */
+                text-overflow: ellipsis;  /* Adds the ellipsis (...) at the end */
             }
         }
     }
