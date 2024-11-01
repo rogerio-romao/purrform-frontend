@@ -27,36 +27,27 @@ category:
 {{/if}}
 
 <div class="category-description">
-  <div class="d-flex flex-reverse">
-    <div class="col4 d-flex align-justify-end">
-      <img
-        class="lazyload"
-        data-src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/adult-cat.png"
-        alt=""
-      />
-    </div>
     <div class="col8">
-      {{#unless theme_settings.hide_category_page_heading }}
-      <h1 class="page-heading">{{category.name}}</h1>
-      {{{region name="category_below_header"}}} {{/unless}}
-      <div id="cat-description-box" class="">
-        {{#if category.description}} {{{category.description}}} {{else}}
-        <p>
-          Our adult cat food are for cats above 9 months old and come in a
-          variety of flavours. They contain only premium cuts of human grade
-          meat, minced with bone and offal. The mince is a courser texture then
-          our kitten foods and contain slightly larger pieces of bone, which aid
-          in grinding and cleaning the teeth. The 450g tubs and 70g pouches are
-          complete foods so provide all the protein, nutrients, minerals and
-          amino acids, including taurine that your cat needs on a daily basis.
-          Our 450g tubs are ideal for multi cat households, whereas our 70g
-          pouches are perfect for single cat households and easy to store and
-          serve.
-        </p>
+        {{#unless theme_settings.hide_category_page_heading }}
+        <h1 class="page-heading">{{category.name}}</h1>
+        {{{region name="category_below_header"}}} {{/unless}}
+        <div id="cat-description-box" class="">
+            {{#if category.description}} {{{category.description}}} {{else}}
+            <p>
+            Our adult cat food are for cats above 9 months old and come in a
+            variety of flavours. They contain only premium cuts of human grade
+            meat, minced with bone and offal. The mince is a courser texture then
+            our kitten foods and contain slightly larger pieces of bone, which aid
+            in grinding and cleaning the teeth. The 450g tubs and 70g pouches are
+            complete foods so provide all the protein, nutrients, minerals and
+            amino acids, including taurine that your cat needs on a daily basis.
+            Our 450g tubs are ideal for multi cat households, whereas our 70g
+            pouches are perfect for single cat households and easy to store and
+            serve.
+            </p>
         {{/if}}
-      </div>
+        </div>
     </div>
-  </div>
 </div>
 
 
@@ -71,7 +62,7 @@ category:
         </aside>
     {{else if category.shop_by_price}}
         {{#if theme_settings.shop_by_price_visibility}}
-             <aside class="page-sidebar" id="faceted-search-container">
+            <aside class="page-sidebar" id="faceted-search-container">
                 {{> components/category/sidebar}}
             </aside>
         {{/if}}
@@ -87,9 +78,9 @@ category:
 {{> layout/base}}
 
 <script>
-  const categoryToggle = document.getElementById("category-toggle");
-  const categoryDescript = document.getElementById("cat-description-box");
-  const catToggle = () => {
-    categoryDescript.classList.toggle("open");
-  };
+    const categoryToggle = document.getElementById("category-toggle");
+    const categoryDescript = document.getElementById("cat-description-box");
+    const catToggle = () => {
+        categoryDescript.classList.toggle("open");
+    };
 </script>
