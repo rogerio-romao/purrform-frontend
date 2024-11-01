@@ -1,4 +1,4 @@
- 
+
 <!-- UIkit CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/css/uikit.min.css" />
 <link rel="stylesheet" href="https://use.typekit.net/drc3iaj.css">
@@ -17,7 +17,7 @@
 
 
 <script src="{{cdn 'assets/js/custom.js'}}"></script>
- 
+
 
 <a href="#main-content" class="skip-to-main-link">{{lang 'header.skip_to_main'}}</a>
 {{#if banners.top}}
@@ -32,15 +32,27 @@
 </div>
 {{/if}}
 <header class="header" role="banner">
-   
+
     {{> components/common/navigation}}
 
-   
+
     <div class="navPages-container" id="menu" data-menu>
         {{> components/common/navigation-menu}}
     </div>
     {{{region name="header_navigation_bottom--global"}}}
-</header> 
+</header>
 {{{region name="header_bottom--global"}}}
 {{{region name="header_bottom"}}}
 
+<style>
+    header.header {
+        position: sticky;
+        top: 0;
+    }
+
+    @media (max-width: 800px) {
+        header.header {
+            position: fixed;
+        }
+    }
+</style>

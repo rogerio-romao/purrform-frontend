@@ -1,5 +1,5 @@
 {
-    "name": "new homepage carousel 3 secs",
+    "name": "sticky nav",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
