@@ -151,7 +151,7 @@
             <!--<section class="account-sidebar-block">
                 <h3 class="account-heading">{{lang 'account.orders.details.actions'}}</h3>
                 <div class="order-details-info">
-                   
+
                     {{#if settings.returns_enabled}}
                         {{#if order.is_complete}}
                             <a href="{{order.return_url}}" class="button">{{lang 'account.orders.details.return'}}</a>
@@ -185,7 +185,7 @@
                     <input type="hidden" name="reorderitem[{{order_product_id}}]">
                     {{/if}}
                     {{/each}}
-                    <input type="submit" class="button button--primary"
+                    <input type="submit" class="button button--primary reorder-button"
                         value="{{lang 'account.orders.details.reorder'}}">
                 </form>
 
@@ -199,3 +199,8 @@
 </div>
 {{/partial}}
 {{> layout/base}}
+
+<script>
+    const reorderButton = document.querySelector('.reorder-button');
+    reorderButton.focus()
+</script>
