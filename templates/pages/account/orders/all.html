@@ -32,3 +32,86 @@ customer:
 
 {{/partial}}
 {{> layout/base}}
+
+<script>
+    document.querySelectorAll('.reorder-button').forEach(button => {
+        button.addEventListener('click', async () => {
+            button.disabled = true;
+            button.textContent = 'Loading';
+
+            const orderId = button.getAttribute('data-order-id');
+
+            let orderProducts = [];
+
+            await fetch(`/api/storefront/orders/${orderId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(response => {
+                orderProducts = response.lineItems.physicalItems.map(item => {
+                    return {
+                        quantity: item.quantity,
+                        productId: item.productId
+                    }
+                })
+            })
+            .catch(err => console.error(err));
+
+            if (!orderProducts.length) {
+                button.disabled = false;
+                button.textContent = 'Reorder';
+                alert('Error getting order products');
+                return;
+            }
+
+            const options = {
+                method: 'POST',
+                headers: {Accept: 'application/json', 'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    lineItems: orderProducts,
+                    locale: 'en'
+                })
+            };
+
+            let cartCreated = false;
+            let errorMsg;
+            let redirectUrl;
+
+            await fetch('/api/storefront/carts', options)
+            .then(response => response.json())
+            .then(response => {
+                // either the cart was created or there was already an empty cart, in which case they just send you the cart object (hence the response.id)
+                if (response.ok || response.id) {
+                    cartCreated = true;
+                } else {
+                    const receivedError = response.title ? response.title : 'Error creating cart';
+                    if (receivedError === 'Cannot create a new cart') {
+                        redirectUrl = `/account.php?action=view_order&order_id=${orderId}`;
+                    } else {
+                        errorMsg = receivedError;
+                    }
+                }
+            })
+            .catch(err => console.error(err));
+
+            if (redirectUrl) {
+                button.disabled = false;
+                button.textContent = 'Reorder';
+                window.location.href = redirectUrl;
+                return;
+            }
+
+            if (!cartCreated) {
+                button.disabled = false;
+                button.textContent = 'Reorder';
+                alert(errorMsg);
+                return;
+            }
+
+            window.location.href = '/cart.php';
+        });
+    });
+</script>

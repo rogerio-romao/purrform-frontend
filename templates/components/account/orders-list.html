@@ -22,7 +22,12 @@
             </div>
             <div class="account-product-body">
                 <div class="account-orderStatus">
-                    <h6 class="account-orderStatus-label">{{this.status}}</h6>
+                    <div>
+                        <button data-order-id="{{this.id}}" class="reorder-button">Reorder</button>
+                    </div>
+                    <div>
+                        <h6 class="account-orderStatus-label">{{this.status}}</h6>
+                    </div>
                     {{#if ../settings.returns_enabled}}
                         {{#if this.return_url}}
                             <a class="account-orderStatus-action" href="{{this.return_url}}">
@@ -52,3 +57,39 @@
     </li>
     {{/each}}
 </ul>
+
+<style>
+    .account-orderStatus {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    @media screen and (min-width: 800px) {
+        .account-orderStatus {
+            display: block;
+        }
+
+        .account-orderStatus > div {
+            display: inline-block;
+        }
+
+    }
+    .reorder-button {
+        transform: translateY(1px);
+        padding: .2rem .5rem;
+        cursor: pointer;
+        background-color: #000;
+        color: #fff;
+        transition: background-color .2s;
+
+        &:hover {
+            background-color: #2c2c2c;
+        }
+
+        &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    }
+</style>
