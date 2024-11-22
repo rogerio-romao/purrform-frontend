@@ -134,7 +134,6 @@
     }
 
     .custom-popup .mapboxgl-popup-close-button {
-        display: none;
         outline: none !important;
     }
 
@@ -392,7 +391,7 @@
              **/
             new mapboxgl.Marker({anchor: MARKER_ANCHOR_POSITION, color: MARKER_COLOR, scale: MARKER_SCALE })
             .setLngLat(marker.geometry.coordinates)
-            .setPopup(new mapboxgl.Popup({ className: 'custom-popup' }).setHTML(`<h4>${marker.properties.title}</h4><p>We source our ${marker.properties.title} from ${marker.properties.location}</p>`))
+            .setPopup(new mapboxgl.Popup({ className: 'custom-popup', focusAfterOpen: false }).setHTML(`<h4>${marker.properties.title}</h4><p>We source our ${marker.properties.title} from ${marker.properties.location}</p>`))
             .addTo(map);
 
         }
@@ -452,7 +451,7 @@
         /** Check if there is already a popup on the map and if so, remove it */
         if (popUps[0]) popUps[0].remove();
 
-        const popup = new mapboxgl.Popup({ className: 'custom-popup' })
+        const popup = new mapboxgl.Popup({ className: 'custom-popup', focusAfterOpen: false })
             .setLngLat(currentFeature.geometry.coordinates)
             .setHTML(`<h4>${currentFeature.properties.title}</h4><p>We source our ${currentFeature.properties.title} from ${currentFeature.properties.location}</p>`)
             .addTo(map);
