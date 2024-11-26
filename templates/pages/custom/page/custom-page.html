@@ -6,9 +6,10 @@
 
 <style>
     .map-wrapper {
+        visibility: hidden;
         width: 100%;
         height: 650px;
-        margin: 1rem 0 2rem;
+        margin: 3rem 0;
         position: relative;
         border: 1px solid #373737;
         font-family: 'Filson Pro', sans-serif;
@@ -154,6 +155,14 @@
         border-top-color: #8cc63f;
         border-bottom-color: #8cc63f;
     }
+
+    #map-error {
+        font-family: 'Filson Pro', sans-serif;
+        color: black;
+        font-size: 1.5rem;
+        text-align: center;
+        margin-top: 1rem;
+    }
 </style>
 
 <div  class="container-fluid">
@@ -169,6 +178,7 @@
     {{/if}}
     <div class="container">
         {{{region name="page_builder_content"}}}
+        <div id="map-error">Loading map data...</div>
          <div class="map-wrapper">
             <div class="sidebar">
                 <div class="heading">
@@ -192,165 +202,12 @@
     const MARKER_SCALE = 0.70
     const MARKER_ANCHOR_POSITION = 'bottom'
 
-    const ingredients = {
-        'type': 'FeatureCollection',
-        features: [
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-3.54, 51.13] },
-                properties: { title: 'Beef Trim', location: 'Somerset UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.65, 51.79] },
-                properties: { title: 'Chicken Breast', location: 'Hertfordshire UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.33, 51.75] },
-                properties: { title: 'Chicken Gizzard', location: 'Hertfordshire UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.36, 51.64] },
-                properties: { title: 'Chicken Heart', location: 'Hertfordshire UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.40, 51.65] },
-                properties: { title: 'Chicken Leg', location: 'Hertfordshire UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.56, 51.70] },
-                properties: { title: 'Chicken Liver', location: 'Hertfordshire UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [1.32, 52.5] },
-                properties: { title: 'Duck Breast', location: 'Norfolk UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [1.29, 52.62] },
-                properties: { title: 'Duck Heart', location: 'Norfolk UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [1.30, 52.9] },
-                properties: { title: 'Duck Leg', location: 'Norfolk UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [1.2, 52.25] },
-                properties: { title: 'Duck Liver', location: 'Norfolk UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.21, 48.70] },
-                properties: { title: 'Fresh Rabbit', location: 'Orne France' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-5.99, 37.39] },
-                properties: { title: 'Goat', location: 'Seville Spain' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-7, 52.5] },
-                properties: { title: 'Lamb Trim', location: 'Ireland' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-1.44, 53.11] },
-                properties: { title: 'Lamb Heart & Liver', location: 'Derbyshire UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [2.3, 41.8] },
-                properties: { title: 'Pork Loin', location: "L'Esquirol Spain" }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.02, 48.70] },
-                properties: { title: 'Pigeon', location: 'Orne France' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [2.87, 50.80] },
-                properties: { title: 'Pig Heart & Liver', location: 'Wijtschate Belgium' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.12, 48.80] },
-                properties: { title: 'Rabbit Kidney', location: 'Orne France' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.18, 48.80] },
-                properties: { title: 'Rabbit Liver', location: 'Orne France' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-6.65, 54.35] },
-                properties: { title: 'Ox Heart', location: 'Armagh Northern Ireland' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-4.44, 55.84] },
-                properties: { title: 'Ox Liver', location: 'Paisley UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.62, 41.61] },
-                properties: { title: 'Quail', location: 'Lleida Spain' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.08, 48.66] },
-                properties: { title: 'Turkey Gizzard', location: 'Orne France' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.16, 48.60] },
-                properties: { title: 'Turkey Heart', location: 'Orne France' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-0.02, 48.90] },
-                properties: { title: 'Turkey Liver', location: 'Orne France' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [0.66, 51.76] },
-                properties: { title: 'Turkey Breast', location: 'Essex UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [0.47, 51.73] },
-                properties: { title: 'Turkey Leg', location: 'Essex UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [-2.72, 52.85] },
-                properties: { title: 'Venison Trim', location: 'Shropshire UK' }
-            },
-            {
-                type: 'Feature',
-                geometry: { type: 'Point', coordinates: [11.76, 55.22] },
-                properties: { title: 'Wild Boar', location: 'Naestved Denmark' }
-            }
-        ]
-    }
-
-    /* Assign a unique ID to each ingredient */
-    ingredients.features.forEach(function (ingredient, i) {
-        ingredient.properties.id = i;
-    });
+    const mapErrorEl = document.getElementById('map-error')
+    const mapWrapperEl = document.querySelector('.map-wrapper')
 
 	mapboxgl.accessToken = 'pk.eyJ1IjoicHVycmZvcm0iLCJhIjoiY20zaDZ2Z28wMDk2ZDJ1cXo0M3U5dHEzbSJ9.ITQ3yVlSo_QZHWJBl46XZg';
     const map = new mapboxgl.Map({
-        container: 'map', // container ID
+        container: 'map', // container element ID
         bounds: [
             -2,  // Westernmost longitude (West of Ireland)
             23,   // Southernmost latitude (Just south of Spain)
@@ -363,32 +220,44 @@
         touchPitch: false
     });
 
-    // Add zoom and rotation controls to the map.
+    // Add zoom controls to the map.
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }));
 
-    map.on('load', () => {
-        map.addSource('places', {
-            type: 'geojson',
-            data: ingredients
+    map.on('load', async () => {
+        await fetch('https://purrform-apps-027e.onrender.com/traceabilityIngredients').then(response => {
+            if (!response.ok) {
+                throw new Error('Error fetching ingredients');
+            }
+            return response.json()
+        }).then(ingredients => {
+            if (ingredients.features.length === 0) {
+                throw new Error('No ingredients found');
+            }
+
+            mapErrorEl.style.display = 'none';
+            mapWrapperEl.style.visibility = 'visible';
+
+            map.addSource('places', {
+                type: 'geojson',
+                data: ingredients
+            });
+            addMarkers(ingredients);
+            buildLocationList(ingredients);
+        })
+        .catch(error => {
+            mapErrorEl.style.color = 'red';
+            mapErrorEl.innerHTML = 'Error loading ingredients map';
+            mapWrapperEl.style.display = 'none';
         });
-        addMarkers();
-        buildLocationList(ingredients);
+
     });
 
-    function addMarkers() {
-        /* For each feature in the GeoJSON object above: */
+    function addMarkers(ingredients) {
         for (const marker of ingredients.features) {
-            /* Create a div element for the marker. */
             const el = document.createElement('div');
-            /* Assign a unique `id` to the marker. */
             el.id = `marker-${marker.properties.id}`;
-            /* Assign the `marker` class to each marker for styling. */
             el.className = 'marker';
 
-            /**
-             * Create a marker using the div element
-             * defined above and add it to the map.
-             **/
             new mapboxgl.Marker({anchor: MARKER_ANCHOR_POSITION, color: MARKER_COLOR, scale: MARKER_SCALE })
             .setLngLat(marker.geometry.coordinates)
             .setPopup(new mapboxgl.Popup({ className: 'custom-popup', focusAfterOpen: false }).setHTML(`<h4>${marker.properties.title}</h4><p>We source our ${marker.properties.title} from ${marker.properties.location}</p>`))
@@ -399,21 +268,16 @@
 
     function buildLocationList(ingredients) {
         for (const ingredient of ingredients.features) {
-            /* Add a new listing section to the sidebar. */
             const listings = document.getElementById('listings');
             const listing = listings.appendChild(document.createElement('div'));
-            /* Assign a unique `id` to the listing. */
             listing.id = `listing-${ingredient.properties.id}`;
-            /* Assign the `item` class to each listing for styling. */
             listing.className = 'item';
 
-            /* Add the link to the individual listing created above. */
             const link = listing.appendChild(document.createElement('p'));
             link.className = 'title';
             link.id = `link-${ingredient.properties.id}`;
             link.innerHTML = `${ingredient.properties.title}`;
 
-            /* Add details to the individual listing. */
             const details = listing.appendChild(document.createElement('div'));
             details.innerHTML = `${ingredient.properties.location}`;
 
@@ -456,4 +320,6 @@
             .setHTML(`<h4>${currentFeature.properties.title}</h4><p>We source our ${currentFeature.properties.title} from ${currentFeature.properties.location}</p>`)
             .addTo(map);
     }
+
+
 </script>
