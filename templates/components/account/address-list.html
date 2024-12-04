@@ -2,6 +2,8 @@
     {{> components/common/alert/alert-info (lang 'account.addresses.no_addresses')}}
 {{/unless}}
 
+{{assignVar "customerGroup" customer.customer_group_name}}
+
 <ul class="addressList">
     {{#each customer.addresses}}
         <li class="address">
@@ -21,16 +23,23 @@
                             <dd class="address-description">{{phone}}</dd>
                         </dl>
                     {{/if}}
+
+                    <!-- Breeders cannot edit or delete addresses -->
+                    {{#if (getVar 'customerGroup') '!==' 'Breeder'}}
                     <form action="{{delete_url}}" method="post" data-delete-address="{{lang 'forms.address.confirm_delete'}}">
                         <div class="form-actions">
                             <button type="submit" class="button secondary button--small">{{lang 'common.delete' }}</button>
                             <a class="button button--primary button--small" href="{{edit_url}}">{{lang 'common.edit' }}</a>
                         </div>
                     </form>
+                    {{/if}}
                 </div>
             </div>
         </li>
     {{/each}}
+
+    <!-- Non Breeder customers can add addresses as normal -->
+    {{#if (getVar 'customerGroup') '!==' 'Breeder'}}
     <li class="address address--new">
         <a class="panel panel--address panel--newAddress" href="{{urls.account.add_address}}">
             <span class="panel-body">
@@ -41,4 +50,33 @@
             </span>
         </a>
     </li>
+    {{else}}
+        <!-- Breeders cannot add more than 2 addresses -->
+        {{#if customer.addresses.length '<' 2}}
+        <li class="address address--new">
+            <a class="panel panel--address panel--newAddress" href="{{urls.account.add_address}}">
+                <span class="panel-body">
+                    <span class="address-addNew">
+                        <span class="address-symbol">&plus;</span>
+                        <h5 class="address-title">{{lang 'account.addresses.new_address' }}</h5>
+                    </span>
+                </span>
+            </a>
+        </li>
+        {{/if}}
+    {{/if}}
 </ul>
+
+<!-- Message for Breeders once they have 2 addresses -->
+{{#if (getVar 'customerGroup') '===' 'Breeder'}}
+    {{#if customer.addresses.length '>=' 2}}
+        <p class="breeder-notice">If you need to change your address, please contact us at support@purrform.co.uk</p>
+    {{/if}}
+{{/if}}
+
+<style>
+    .breeder-notice {
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+</style>
