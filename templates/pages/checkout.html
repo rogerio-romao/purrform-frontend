@@ -1,11 +1,22 @@
-{{#partial "head"}} {{{ checkout.checkout_head }}} {{{ stylesheet
-'/assets/css/optimized-checkout.css' }}} {{ getFontsCollection }}
+{{#partial "head"}}
+
+{{{ checkout.checkout_head }}}
+{{{ stylesheet '/assets/css/optimized-checkout.css' }}}
+
+{{ getFontsCollection }}
 
 <script type="text/javascript">
     window.language = {{{langJson 'optimized_checkout'}}};
 </script>
 
-{{{head.scripts}}} {{/partial}} {{#partial "page"}}
+{{{head.scripts}}}
+
+{{/partial}}
+
+{{ inject 'customerGroupName' customer_group_name }}
+
+{{#partial "page"}}
+
 
 <!-- UIkit CSS -->
 <link
@@ -99,6 +110,35 @@
         // Expose `ready`
         win.ready = ready;
     })(this);
+</script>
+
+<script>
+    // Handle hidding address creation for breeder group
+
+    const parentSelectorShipping = '#checkoutShippingAddress div.dropdownMenu';
+    const parentSelectorBilling = '#checkoutBillingAddress div.dropdownMenu';
+
+    ready(parentSelectorShipping, (parentElement) => {
+        // get the number of children
+        const ul = parentElement.querySelector('ul');
+        const children = ul.children;
+        const customerGroupName = '{{customer_group_name}}';
+        if (customerGroupName === 'Breeder' && children.length > 2) {
+            // hide the first child (add new address)
+            children[0].style.display = 'none';
+        }
+    });
+
+    ready(parentSelectorBilling, (parentElement) => {
+        // get the number of children
+        const ul = parentElement.querySelector('ul');
+        const children = ul.children;
+        const customerGroupName = '{{customer_group_name}}';
+        if (customerGroupName === 'Breeder' && children.length > 2) {
+            // hide the first child (add new address)
+            children[0].style.display = 'none';
+        }
+    });
 </script>
 
 {{#if customer_group_name '!==' 'trade_blocked'}}
