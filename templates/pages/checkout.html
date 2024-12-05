@@ -776,7 +776,8 @@
                     <option value="Will be in">Will be in</option>
                     <option value="user_instruction">User instruction</option>
                 </select>
-                <textarea style="display:none" name="delivery_user_text" id="delivery_user_text" rows="3" cols="40" class="form-input"></textarea>
+                <div id="word_limit" style="text-align: right;padding: 3px 0;display:none; margin-top:1rem;">(50 characters)</div>
+                <textarea style="display:none" name="delivery_user_text" id="delivery_user_text" rows="1" cols="40" class="form-input" maxlength="50"></textarea>
             </div>
             <div id="proceedButton">Continue</div>
         </div>
@@ -786,19 +787,22 @@
 
         const selectElement = document.getElementById('delivery_inst_tag');
         const textarea = document.getElementById('delivery_user_text');
+        const wordLimit = document.getElementById('word_limit');
 
         selectElement.addEventListener('change', function () {
             const selectedValue = selectElement.value;
             if (selectedValue === 'user_instruction') {
                 textarea.style.display = 'block';
-                textarea.style.margin = '10px 0';
+                wordLimit.style.display = 'block';
                 textarea.focus();
             } else {
+                wordLimit.style.display = 'none';
                 textarea.style.display = 'none';
             }
         });
 
         textarea.addEventListener('input', function () {
+            wordLimit.textContent = `(${50 - textarea.value.length} characters)`;
             const deliveryInstructions = textarea.value;
             sessionStorage.setItem('customerMessage', deliveryInstructions);
         });
