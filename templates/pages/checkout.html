@@ -231,6 +231,12 @@
             pointsInput.placeholder = 'How many?';
             pointsDiv.appendChild(pointsInput);
 
+            pointsInput.addEventListener('input', () => {
+                if (pointsInput.value > points) {
+                    pointsInput.value = points;
+                }
+            });
+
             const confirmButton = document.createElement('button');
             confirmButton.textContent = 'Apply discount';
             confirmButton.id = 'loyaltyPointsBtn';
