@@ -1,5 +1,5 @@
 {
-    "name": "customer msg limit",
+    "name": "fix loyalty points max",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
