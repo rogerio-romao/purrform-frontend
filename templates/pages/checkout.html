@@ -276,7 +276,7 @@
                 loyaltyPointsBtn.textContent = 'Processing';
 
                 fetch(
-                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}`
+                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}&max_points=${points}`
                 )
                     .then((response) => {
                         if (!response.ok) {
@@ -665,7 +665,7 @@
             },
             defaultDate: '+1D',
             minDate: '+1D',
-            maxDate: '+21D',
+            maxDate: '+28D',
             dateFormat: 'd MM, yy',
             showOtherMonths: true,
             firstDay: 1,
