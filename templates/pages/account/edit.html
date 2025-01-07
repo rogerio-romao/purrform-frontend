@@ -1,5 +1,14 @@
 {{inject 'passwordRequirements' settings.password_requirements}}
 {{#partial "page"}}
+{{#if customer_group_name '===' 'Trade'}}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const navSectionEl = document.querySelector('a.navBar-action[href="/account.php?action=inbox"]');
+        navSectionEl.textContent = 'Pricelist';
+    });
+</script>
+{{/if}}
 <div class="account account--fixed">
     {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
     <h2 class="page-heading page-heading--account">{{lang 'account.settings.heading' }}</h2>

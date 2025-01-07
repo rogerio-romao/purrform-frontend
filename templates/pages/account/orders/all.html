@@ -10,6 +10,15 @@ customer:
 <h1 class="page-heading page-heading--account">{{lang 'account.orders.heading' }}</h1>
 {{> components/account/navigation account_page='orders'}}
 
+{{#if customer_group_name '===' 'Trade'}}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navSectionEl = document.querySelector('a.navBar-action[href="/account.php?action=inbox"]');
+        navSectionEl.textContent = 'Pricelist';
+    });
+</script>
+{{/if}}
+
 <div class="account account--fixed">
     <div class="account-head">
         {{#if customer.store_credit.value '>' 0}}

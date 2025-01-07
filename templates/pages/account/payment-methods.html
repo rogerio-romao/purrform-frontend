@@ -3,6 +3,16 @@
     <h2 class="page-heading page-heading--account">{{lang 'account.payment_methods.heading' }}</h2>
     {{> components/account/navigation account_page='payment_methods'}}
 
+    {{#if customer_group_name '===' 'Trade'}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const navSectionEl = document.querySelector('a.navBar-action[href="/account.php?action=inbox"]');
+            navSectionEl.textContent = 'Pricelist';
+        });
+    </script>
+    {{/if}}
+
     <div class="account account--fixedLarge">
         <div class="account-body">
             {{> components/account/payment-methods-list }}
