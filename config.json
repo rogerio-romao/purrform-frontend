@@ -1,5 +1,5 @@
 {
-    "name": "calendar for deliveries 4 weeks",
+    "name": "pricelist",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
