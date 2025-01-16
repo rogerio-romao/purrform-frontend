@@ -17,7 +17,6 @@
 
 {{#partial "page"}}
 
-
 <!-- UIkit CSS -->
 <link
     rel="stylesheet"
@@ -154,20 +153,11 @@
                         class="checkoutHeader-logo"
                         id="logoImage"
                         src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/d-logo.png"
-                        alt="{{settings.store_logo.title}}"
                         title="{{settings.store_logo.title}}"
                     />
-                    {{!--
-                    <img
-                        alt="{{settings.store_logo.title}}"
-                        class="checkoutHeader-logo"
-                        id="logoImage"
-                        src="{{ checkout.header_image }}"
-                    />
-                    --}} {{ else }}
-                    <span class="header-logo-text"
-                        >{{settings.store_logo.title}}</span
-                    >
+
+                    {{ else }}
+                    <span class="header-logo-text">{{settings.store_logo.title}}</span>
                     {{/if}}
                 </a>
             </h2>
@@ -186,14 +176,12 @@
             height: 50px;
             padding: 10px 5px;
         "
-        >You are currently blocked for shopping, Please contact to admin for
-        more info</p
-    >
+        >You are currently blocked for shopping. Please contact admin for more info</p>
 </div>
 {{/if}} {{#if customer}} {{#unless customer_group_name '===' 'Trade'}}
+
 <script>
     // Handles the loyalty points
-
     const parentSelectorDesktop = '.cart.optimizedCheckout-orderSummary';
     const parentSelectorMobile =
         '.cart-modal-body.optimizedCheckout-orderSummary';
@@ -213,10 +201,14 @@
             const pointsDiv = document.createElement('section');
             const pointsDesc = document.createElement('p');
             pointsDesc.id = 'pointsDesc';
-            pointsDesc.innerHTML = `Loyalty points balance ${points}`;
+            if (points == null) {
+                pointsDesc.innerHTML = "Could not find loyalty points for this account, make sure you are logged in or refresh the page.";
+            } else {
+                pointsDesc.innerHTML = `Loyalty points balance ${points}`;
+            }
             pointsDiv.appendChild(pointsDesc);
-            pointsDiv.className =
-                'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
+            pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
+
             // Create a label and input for entering points to use
             const label = document.createElement('label');
             label.setAttribute('for', 'points-input');
@@ -232,7 +224,7 @@
             pointsDiv.appendChild(pointsInput);
 
             pointsInput.addEventListener('input', () => {
-                if (pointsInput.value > points) {
+                if (Number(pointsInput.value) > points) {
                     pointsInput.value = points;
                 }
             });
@@ -519,6 +511,7 @@
             <p style="font-size: 16px;">*Next Day delivery is usually available on any orders placed before 12 noon, Monday to Friday. Excluding some postcodes in Scotland.</p>
         </div>
     `;
+
         parent.insertAdjacentHTML('beforeend', datePickerHTML);
         getCalendarData();
     }
@@ -542,9 +535,6 @@
                 disabledDates.push(...data.unavailableDates);
                 for (const [date, slots] of Object.entries(data.dateSlots)) {
                     dailySlotValues[date] = slots;
-                    if (slots <= 0) {
-                        disabledDates.push(date);
-                    }
                 }
                 if (data.perDay) {
                     dailyDeliveryLimit = data.perDay;
@@ -556,10 +546,7 @@
                 );
             })
             .catch((error) => {
-                console.log(
-                    'Error calling delivery dates middleware endpoint:',
-                    error
-                );
+                console.log('Error calling delivery dates middleware endpoint:', error);
                 // Handle error if necessary
             });
     }
@@ -818,6 +805,9 @@
     // This handles the payment continue button
     const paymentContinueButtonSelector = '#checkout-payment-continue';
     ready(paymentContinueButtonSelector, (paymentContinueButton) => {
+        if (document.getElementById('fakeButton')) {
+            document.getElementById('fakeButton').remove();
+        }
         const fakeButton = document.createElement('div');
         const missingWarn = document.createElement('p');
         const parent = document.querySelector(
@@ -835,14 +825,28 @@
         // Generate warning text
         missingWarn.classList.add('warning');
         missingWarn.textContent =
-            "Cannot find delivery date. Please edit your 'shipping' details above and select a delivery date.";
+            "Cannot find delivery date. Please edit your Shipping details above and select a delivery date.";
         missingWarn.style.display = 'none';
 
         // Append the button to the body of the HTML document
         parent.appendChild(missingWarn);
         parent.appendChild(fakeButton);
 
-        fakeButton.addEventListener('click', () => {
+        fakeButton.addEventListener('click', async () => {
+            const disabledDates = await fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
+                            .then((response) => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then((data) => {
+                                return data.unavailableDates;
+                            })
+                            .catch((error) => {
+                                console.error('Error calling delivery dates middleware endpoint:', error);
+                            });
+
             fetch(`/api/storefront/checkouts/{{cart_id}}`, {
                 method: 'GET',
                 headers: {
@@ -857,17 +861,26 @@
                 })
                 .then((data) => {
                     const deliveryInstructions = data.customerMessage;
+                    const [selectedDate] = deliveryInstructions.split(' | ')
+                    const formattedDate = new Date(selectedDate).toISOString().split('T')[0]
+
+                    if (disabledDates.includes(formattedDate)) {
+                        missingWarn.textContent = 'The selected delivery date is not available. Please click the Edit button on the Shipping section above and then pick an available date on the delivery date calendar.';
+                        missingWarn.style.display = 'block';
+                        return;
+                    }
 
                     if (deliveryInstructions?.trim()) {
                         paymentContinueButton.click();
                     } else {
                         missingWarn.style.display = 'block';
                     }
+
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                     missingWarn.textContent =
-                        'Something went wrong. Check if you have set a delivery date in shipping and try again.';
+                        'Something went wrong. Check if you have set a delivery date in the Shipping section above and try again.';
                     missingWarn.style.display = 'block';
                 });
         });
