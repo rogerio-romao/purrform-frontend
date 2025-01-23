@@ -4,6 +4,13 @@ customer:
         limit: 10
 ---
 
+<script>
+    const referer = document.referrer;
+    if (referer === 'http://localhost:3000/login.php' || referer === 'https://www.purrform.co.uk/login.php') {
+        window.location.href = 'account.php?action=inbox';
+    }
+</script>
+
 {{#partial "page"}}
 
 {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
