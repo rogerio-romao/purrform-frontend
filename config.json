@@ -1,5 +1,5 @@
 {
-    "name": "abandoned carts",
+    "name": "redirect login",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
