@@ -141,6 +141,11 @@
                             >Email</div
                         >
                         <div
+                            id="previous-friends-grid-title-date"
+                            class="previous-grid-title"
+                            >Date</div
+                        >
+                        <div
                             id="previous-friends-grid-title-purchased"
                             class="previous-grid-title"
                             >Purchased</div
@@ -178,6 +183,11 @@
                             id="previous-grid-title-email"
                             class="previous-grid-title"
                             >Email</div
+                        >
+                        <div
+                            id="previous-grid-title-date"
+                            class="previous-grid-title"
+                            >Date</div
                         >
                         <div
                             id="previous-grid-title-purchased"
@@ -274,7 +284,10 @@
                         'Error fetching previous referrals, please try again later.';
                 } else {
                     response.json().then((data) => {
-                        previousLength.textContent = `You have referred ${data.length} customers.`;
+                        const purchasedCount = data.filter(
+                            (item) => item.has_purchased
+                        ).length;
+                        previousLength.innerHTML = `You have referred <strong>${data.length}</strong> customers. <strong>${purchasedCount}</strong> ${purchasedCount === 1 ? 'has' : 'have'} purchased.`;
                         const previousGrid =
                             document.querySelector('#previous-grid');
                         if (data.length > 0) {
@@ -287,16 +300,32 @@
                             });
                             previousGrid.style.display = 'grid';
                         }
-                        data.forEach(({ customer_email, has_purchased }) => {
+
+                        const sortedData = data.sort((a, b) => a.has_purchased ? -1 : 1);
+
+                        sortedData.forEach(({ customer_email, has_purchased, created_at }) => {
                             const email = document.createElement('div');
                             email.classList.add('previous-grid-item');
                             email.textContent = customer_email;
+
+                            const createdAt = document.createElement('div');
+                            createdAt.classList.add('previous-grid-item');
+                            createdAt.textContent = created_at;
+
                             const purchased = document.createElement('div');
                             purchased.classList.add('previous-grid-item');
                             purchased.textContent = has_purchased
                                 ? 'Yes'
                                 : 'No';
+
+                            if (has_purchased) {
+                                email.style.backgroundColor = 'rgba(0, 255, 0, 0.15)';
+                                createdAt.style.backgroundColor = 'rgba(0, 255, 0, 0.15)';
+                                purchased.style.backgroundColor = 'rgba(0, 255, 0, 0.15)';
+                            }
+
                             previousGrid.appendChild(email);
+                            previousGrid.appendChild(createdAt);
                             previousGrid.appendChild(purchased);
                         });
                     });
@@ -386,7 +415,10 @@
                         'Error fetching previous referrals, please try again later.';
                 } else {
                     response.json().then((data) => {
-                        previousFriendsLength.textContent = `You have referred ${data.length} customers.`;
+                        const purchasedCount = data.filter(
+                            (item) => item.has_purchased
+                        ).length;
+                        previousFriendsLength.innerHTML = `You have referred <strong>${data.length}</strong> customers. <strong>${purchasedCount}</strong> ${purchasedCount === 1 ? 'has' : 'have'} purchased.`;
                         const previousGrid = document.querySelector(
                             '#previous-friends-grid'
                         );
@@ -400,16 +432,32 @@
                             });
                             previousGrid.style.display = 'grid';
                         }
-                        data.forEach(({ friend_email, has_purchased }) => {
+
+                        const sortedData = data.sort((a, b) => a.has_purchased ? -1 : 1);
+
+                        sortedData.forEach(({ friend_email, has_purchased, created_at }) => {
                             const email = document.createElement('div');
                             email.classList.add('previous-grid-item');
                             email.textContent = friend_email;
+
+                            const createdAt = document.createElement('div');
+                            createdAt.classList.add('previous-grid-item');
+                            createdAt.textContent = created_at;
+
                             const purchased = document.createElement('div');
                             purchased.classList.add('previous-grid-item');
                             purchased.textContent = has_purchased
                                 ? 'Yes'
                                 : 'No';
+
+                            if (has_purchased) {
+                                email.style.backgroundColor = 'rgba(0, 255, 0, 0.15)';
+                                createdAt.style.backgroundColor = 'rgba(0, 255, 0, 0.15)';
+                                purchased.style.backgroundColor = 'rgba(0, 255, 0, 0.15)';
+                            }
+
                             previousGrid.appendChild(email);
+                            previousGrid.appendChild(createdAt);
                             previousGrid.appendChild(purchased);
                         });
                     });

@@ -100,7 +100,7 @@
         border-radius: 1rem;
         padding: 20px;
         display: none;
-        grid-template-columns: 1.7fr 0.6fr;
+        grid-template-columns: 1.7fr 0.6fr 0.6fr;
         margin-top: 2rem;
 
         @media (max-width: $mobile) {
@@ -111,7 +111,7 @@
             .previous-grid-item {
                 font-size: 0.7rem;
             }
-            .previous-grid-item:nth-child(even) {
+            .previous-grid-item:nth-child(3) {
                 text-align: right;
             }
         }
