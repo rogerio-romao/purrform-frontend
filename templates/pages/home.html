@@ -242,6 +242,7 @@ blog:
         .text {
             padding: 1rem 0.5rem 0.5rem;
             color: #556153;
+
             h3 {
                 font-family: 'Filson Pro', sans-serif;
                 font-size: 1.35rem;
@@ -251,6 +252,7 @@ blog:
                 overflow: hidden;         /* Hides the overflowed text */
                 text-overflow: ellipsis;  /* Adds the ellipsis (...) at the end */
             }
+
             p {
                 font-family: 'Filson Pro', sans-serif;
                 font-size: 0.95rem;
@@ -268,5 +270,34 @@ blog:
     .text a {
         width: 100%;
         font-family: 'Filson Pro', sans-serif;
+    }
+
+    @media only screen and (max-width: 650px) {
+        .calashock-hero-carousel-widget section {
+            margin: 0 auto 10px auto;
+            gap: 1rem;
+        }
+
+        .calashock-hero-carousel-widget p {
+            font-size: 1rem!important;
+        }
+
+        .calashock-hero-carousel-widget h3 {
+            font-size: 34px!important;
+            padding-left:0!important;
+            padding-right: 0!important;
+        }
+    }
+
+    @media only screen and (min-width: 1251px) {
+        .calashock-hero-carousel-widget h3 {
+            max-width: 500px!important;
+            line-height: 1!important;
+        }
+
+        .calashock-hero-carousel-widget p {
+            max-width: 500px!important;
+            line-height:1.2!important;
+        }
     }
 </style>
