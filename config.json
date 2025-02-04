@@ -1,5 +1,5 @@
 {
-    "name": "referrals data improvements",
+    "name": "non cumulative coupons",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
