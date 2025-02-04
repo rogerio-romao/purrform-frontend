@@ -112,32 +112,96 @@
 </script>
 
 <script>
-    // Handle hidding address creation for breeder group
-
-    const parentSelectorShipping = '#checkoutShippingAddress div.dropdownMenu';
-    const parentSelectorBilling = '#checkoutBillingAddress div.dropdownMenu';
-
-    ready(parentSelectorShipping, (parentElement) => {
-        // get the number of children
-        const ul = parentElement.querySelector('ul');
-        const children = ul.children;
-        const customerGroupName = '{{customer_group_name}}';
-        if (customerGroupName === 'Breeder' && children.length > 2) {
-            // hide the first child (add new address)
-            children[0].style.display = 'none';
+    // Handles non-cumulative discounts
+    const couponsElSelector = 'a.redeemable-label';
+    ready(couponsElSelector, (couponsEl) => {
+        const discountEl = document.querySelector(
+            'div[data-test="cart-discount"]'
+        );
+        if (discountEl) {
+            couponsEl.style.display = 'none';
         }
-    });
+    })
 
-    ready(parentSelectorBilling, (parentElement) => {
-        // get the number of children
-        const ul = parentElement.querySelector('ul');
-        const children = ul.children;
-        const customerGroupName = '{{customer_group_name}}';
-        if (customerGroupName === 'Breeder' && children.length > 2) {
-            // hide the first child (add new address)
-            children[0].style.display = 'none';
+    const loyaltyElSelector = 'section.loyalty-points';
+    ready(loyaltyElSelector, (loyaltyEl) => {
+        const couponEl = document.querySelector(
+            'div[data-test="cart-coupon"]'
+        );
+
+        if (couponEl) {
+            const label = document.querySelector('.loyaltyLabel');
+            const input = loyaltyEl.querySelector('input');
+            const button = loyaltyEl.querySelector('#loyaltyPointsBtn');
+            label.style.display = 'none';
+            input.style.display = 'none';
+            button.style.display = 'none';
+
+            const removeCouponButton = couponEl.querySelector('a[data-test="cart-price-callback"]');
+            removeCouponButton.addEventListener('click', () => {
+                label.style.display = 'block';
+                input.style.display = 'block';
+                button.style.display = 'block';
+            });
         }
-    });
+
+        const checkForCouponInterval = setInterval(() => {
+            const couponEl = document.querySelector(
+                'div[data-test="cart-coupon"]'
+            );
+
+            if (couponEl) {
+                const label = document.querySelector('.loyaltyLabel');
+                const input = loyaltyEl.querySelector('input');
+                const button = loyaltyEl.querySelector('#loyaltyPointsBtn');
+                label.style.display = 'none';
+                input.style.display = 'none';
+                button.style.display = 'none';
+
+                const removeCouponButton = couponEl.querySelector('a[data-test="cart-price-callback"]');
+
+                removeCouponButton.addEventListener('click', () => {
+                    label.style.display = 'block';
+                    input.style.display = 'block';
+                    button.style.display = 'block';
+                });
+
+                clearInterval(checkForCouponInterval);
+            }
+
+
+
+        }, 100)
+    })
+    </script>
+
+    <script>
+        // Handle hidding address creation for breeder group
+
+        const parentSelectorShipping = '#checkoutShippingAddress div.dropdownMenu';
+        const parentSelectorBilling = '#checkoutBillingAddress div.dropdownMenu';
+
+        ready(parentSelectorShipping, (parentElement) => {
+            // get the number of children
+            const ul = parentElement.querySelector('ul');
+            const children = ul.children;
+            const customerGroupName = '{{customer_group_name}}';
+            if (customerGroupName === 'Breeder' && children.length > 2) {
+                // hide the first child (add new address)
+                children[0].style.display = 'none';
+            }
+        });
+
+        ready(parentSelectorBilling, (parentElement) => {
+            // get the number of children
+            const ul = parentElement.querySelector('ul');
+            const children = ul.children;
+            const customerGroupName = '{{customer_group_name}}';
+            if (customerGroupName === 'Breeder' && children.length > 2) {
+                // hide the first child (add new address)
+                children[0].style.display = 'none';
+            }
+        });
 </script>
 
 {{#if customer_group_name '!==' 'trade_blocked'}}
