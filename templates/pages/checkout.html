@@ -145,6 +145,7 @@
             });
         }
 
+        // the standalone code above does not work on mobile, this is a fix for mobile
         const checkForCouponInterval = setInterval(() => {
             const couponEl = document.querySelector(
                 'div[data-test="cart-coupon"]'
@@ -168,9 +169,6 @@
 
                 clearInterval(checkForCouponInterval);
             }
-
-
-
         }, 100)
     })
     </script>
