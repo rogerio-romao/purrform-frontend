@@ -31,7 +31,7 @@
             {{else}}
                 {{{post.summary}}}
                 {{#if post.show_read_more}}
-                    &hellip; 
+                    &hellip;
                     <p class="blog-read-more">
                         <a class="button" href="{{url}}" aria-label="{{post.title}} {{lang 'blog.read_more'}}">{{lang 'blog.read_more'}}</a>
                     </p>
@@ -53,7 +53,34 @@
             {{/if}}
         {{/if}}
 
-
-
     </div>
 </article>
+
+<style>
+    .blog-header h2.blog-title {
+        font-family: 'Filson Pro', sans-serif;
+    }
+
+    .blog {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .blog-post-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .blog-post {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .blogs-grid .blog .blog-read-more {
+        padding-top: 1rem;
+        margin-top: auto;
+    }
+</style>
