@@ -133,7 +133,7 @@ $overAll: 568px;
         line-height: 36px;
         font-weight: 600;
         color: $color-p;
-        font-family: "Montserrat", sans-serif;
+        font-family: 'Filson Pro', sans-serif;
         @media only screen and (min-width: 651px) {
             padding: 0;
             text-align: left;
@@ -225,7 +225,7 @@ $overAll: 568px;
         &::before,
         &::after {
             background-image: none;
-            content: "";
+            content: '';
             background-color: #fff;
             height: 15px;
             width: 4px;

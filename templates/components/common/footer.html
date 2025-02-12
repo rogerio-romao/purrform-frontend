@@ -30,15 +30,15 @@
         <h3 class="footer-info-heading">{{lang 'footer.navigate'}}</h3>
         --}}
         <ul class="footer-info-list d-flex flex-wrap align-top">
-			{{#each pages}} 
+			{{#each pages}}
 				{{#if name '===' 'Contact Us'}}
 					<li >
 						<a href="{{url}}">{{name}}</a>
 					</li>
 				{{/if}}
 			{{/each}}
-			
-			{{#each pages}} 
+
+			{{#each pages}}
 				{{#if name '===' 'Deliveries'}}
 					<li >
 						<a href="{{url}}">{{name}}</a>
@@ -47,30 +47,30 @@
 			{{/each}}
 			<li class="sitemap">
 				<a href="{{urls.sitemap}}">{{lang 'sitemap.page_title'}}</a>
-			  </li>     
-			  {{#each pages}} 
+			  </li>
+			  {{#each pages}}
 			  {{#if name '===' 'Returns'}}
 				  <li >
 					  <a href="{{url}}">{{name}}</a>
 				  </li>
 			  {{/if}}
 		  	{{/each}}
-			{{#each pages}} 
+			{{#each pages}}
 				{{#if name '===' 'Disclaimer'}}
 					<li >
 						<a href="{{url}}">{{name}}</a>
 					</li>
 				{{/if}}
 			{{/each}}
-			{{#each pages}} 
+			{{#each pages}}
 				{{#if name '===' 'Product Recall'}}
 					<li >
 						<a href="{{url}}">{{name}}</a>
 					</li>
 				{{/if}}
 			{{/each}}
-                 
-          
+
+
 
           {{#if settings.address}}
           <li class="col3-mobile ">
@@ -84,7 +84,7 @@
 </li>
 
             <li class="col3-mobile mobile-footer-address">
-   
+
 
 
               <address>{{{lang 'footer.address'}}}</address>
@@ -102,7 +102,7 @@
 
             {{/if}}
 
-        
+
             <!--<article class="footer-info-col col3 col3-mobile" data-section-type="storeInfo">
               <h3 class="footer-info-heading">{{lang 'footer.customer_service'}}</h3>
               {{!--
@@ -115,9 +115,9 @@
               >
               {{/if}}
             </article> -->
-           
 
-         
+
+
 
         </ul>
         <!--<ul class="footer-info-list d-flex flex-wrap align-top">
@@ -125,7 +125,7 @@
                         <a href="{{urls.sitemap}}">{{lang 'sitemap.page_title'}}</a>
                     </li>
                     <li>tester</li>
-                </ul> 
+                </ul>
 
                 <h3 class="footer-info-heading">{{lang 'footer.customer_service'}}</h3>
                 {{!--<address>{{nl2br settings.address}}</address>--}}
@@ -193,8 +193,8 @@
                     footer-info-col--social
                     footer-info-col--{{#if theme_settings.social_icon_placement_bottom '===' 'bottom_left'}}left{{else}}right{{/if}}"
                     data-section-type="footer-webPages">
- 
-               
+
+
                 </article>-->
         {{> components/common/social-links}} {{/if}}
       </article>
@@ -240,7 +240,7 @@
         var card = $(this).parents('.card-button');
         var product_id = $(this).parents('form').find('input[name="product_id"]').val();
         var quantity = $(this).parents('form').find('.form-input--incrementTotal').val()
-        
+
         $.ajax({
         type: 'POST',
         //url:'/cart.php?action=add&product_id='+product_id+'&qty='+quantity+'&ajaxsubmit=1',
@@ -259,11 +259,11 @@
               $('.countPill.cart-quantity').text(c_qty);
             }
           });
-          
+
           form.find('.quick-add-to-cart').hide();
           card.find('.product-status-message').removeClass('aria-description--hidden');
           setTimeout(
-            function() 
+            function()
             {
               card.find('.product-status-message').addClass('aria-description--hidden');
             }, 5000);
@@ -277,3 +277,13 @@
 </div> -->
 
 
+<style>
+    .newsletterSubscription h3,
+    .newsletterSubscription p {
+        font-family: 'Filson Pro', sans-serif !important;
+    }
+
+    h3.footer-info-heading {
+        font-family: 'Filson Pro', sans-serif !important;
+    }
+</style>
