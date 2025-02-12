@@ -1,0 +1,159 @@
+---
+product:
+    videos:
+        limit: {{theme_settings.productpage_videos_count}}
+    reviews:
+        limit: {{theme_settings.productpage_reviews_count}}
+    related_products:
+        limit: {{theme_settings.productpage_related_products_count}}
+    similar_by_views:
+        limit: {{theme_settings.productpage_similar_by_views_count}}
+---
+
+{{inject 'productId' product.id}}
+
+{{#partial "page"}}
+<div class="container">
+    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+    {{> components/custom/products/donation-product-view }}
+    <section class="more-info">
+        <div class="more-info-title">
+            <h3>More Information</h3>
+        </div>
+        <div class="more-info-grid">
+            <div class="more-info-grid-selectors">
+                <div class="more-info-grid-selector active-flipbook" data-label="Jules">
+                    Houdini, Jules & Phinda
+                </div>
+                <div class="more-info-grid-selector" data-label="Wishlist">
+                    Project Wishlist 2025
+                </div>
+                <div class="more-info-grid-selector" data-label="Budget">
+                    Basic Care Budget p/ year
+                </div>
+                <div class="more-info-grid-selector" data-label="Profile">
+                    Company Profile
+                </div>
+            </div>
+            <div class="more-info-grid-flipbooks">
+                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/a3383a3b89.html" style="border: 0px; width: 100%; height: 780px;"></iframe>
+            </div>
+        </div>
+    </section>
+</div>
+{{/partial}}
+
+{{> layout/base}}
+
+<script>
+    const flipbooks = {
+        'Jules': 'https://heyzine.com/flip-book/a3383a3b89.html',
+        'Wishlist': 'https://heyzine.com/flip-book/85bfdacbcb.html',
+        'Budget': 'https://heyzine.com/flip-book/77fb435b2b.html',
+        'Profile': 'https://heyzine.com/flip-book/8ab375a300.html'
+    }
+
+    let selectedFlipbook = 'Jules';
+
+    document.querySelectorAll('.more-info-grid-selector').forEach(div => {
+        div.addEventListener('click', () => {
+            selectedFlipbook = div.getAttribute('data-label');
+            document.querySelector('.fp-iframe').src = flipbooks[selectedFlipbook];
+            const parentDiv = div.parentElement;
+            parentDiv.querySelectorAll('.more-info-grid-selector').forEach(selector => {
+                selector.classList.remove('active-flipbook');
+            });
+            div.classList.add('active-flipbook');
+        });
+    });
+</script>
+
+<style>
+    .productView-images {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    ul.productView-thumbnails {
+        display: none;
+    }
+    .productView-title {
+        text-align: center;
+    }
+    .productView-details {
+        display: block;
+        float: none !important;
+        width: 100% !important;
+    }
+    .product-description h2 {
+        display: flex;
+        justify-content: center;
+    }
+    .more-info {
+        border: 1px solid rgb(219, 218, 218);
+        border-radius: 0.75rem;
+        margin-bottom: 2.5rem;
+        overflow: hidden;
+    }
+    .more-info-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 1rem;
+        border-bottom: 1px solid rgb(219, 218, 218);
+    }
+    .more-info-grid {
+        display: grid;
+        grid-template-columns: 220px 3fr;
+    }
+    @media screen and (max-width: 850px) {
+        .more-info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .more-info-grid-selectors {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        grid-template-rows: repeat(4, 1fr);
+        border-right: 1px solid rgb(219, 218, 218);
+    }
+    .more-info-grid-selector {
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        padding-inline: 1rem;
+        padding-block: 3rem;
+        border-bottom: 1px solid rgb(219, 218, 218);
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+    .more-info-grid-selector:hover {
+        background-color: aliceblue;
+    }
+    .more-info-grid-selector:last-child {
+        border-bottom: none;
+    }
+    .more-info-grid-selector.active-flipbook {
+        background-color: #FFEDCC;
+    }
+    @media screen and (max-width: 850px) {
+        .more-info-grid-selectors {
+            flex-direction: row;
+            border-right: none;
+        }
+        .more-info-grid-selector {
+            font-size: 0.75rem;
+            padding-inline: .25rem;
+            padding-block: .2rem;
+            border-right: 1px dashed rgb(219, 218, 218);
+            text-align: center;
+        }
+        .more-info-grid-selector:last-child {
+            border-bottom: 1px solid rgb(219, 218, 218);
+            border-right: none;
+        }
+    }
+</style>

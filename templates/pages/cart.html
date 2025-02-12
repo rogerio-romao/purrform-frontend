@@ -3,24 +3,186 @@ cart: true
 ---
 {{inject 'cancelButtonText' (lang 'common.cancel')}} {{#partial "page"}}
 {{inject 'invalidEntryMessage' (lang 'cart.invalid_entry_message')}}
- 
- 
+{{inject 'cartId' cart_id}}
+
+<script type="module">
+    const jsContext = JSON.parse({{jsContext}});
+    const cheetahCentreProductId = 639;
+    const variantPrices = {
+        718: 0.50,
+        719: 1.00,
+        720: 2.00
+    };
+
+    try {
+        const charityProduct = await fetch('/graphql', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+            },
+            body: JSON.stringify({
+                query: `
+                    query site {
+                        site {
+                            product(entityId: ${cheetahCentreProductId}) {
+                                id
+                                entityId
+                                name
+                                addToCartUrl
+                                images {
+                                    edges {
+                                        node {
+                                            url: url(width: 320)
+                                        }
+                                    }
+                                }
+                                variants {
+                                    edges {
+                                        node {
+                                            entityId
+                                            sku
+                                            prices {
+                                                price {
+                                                    currencyCode
+                                                    value
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                `
+                })
+            })
+            .then(response => response.json())
+            .then(data => data.data.site.product);
+
+        if (charityProduct) {
+            console.log('Charity product data', charityProduct);
+            const charitySection = document.querySelector('.charity-product');
+
+            const charityTitle = charitySection.querySelector('h4');
+            charityTitle.textContent = charityProduct.name;
+
+            const charityImage = charitySection.querySelector('img');
+            // charityImage.src = charityProduct.images.edges[0].node.url;
+
+            const charityList = charitySection.querySelector('ul');
+            charityProduct.variants.edges.forEach((variant, i) => {
+                const listItem = document.createElement('li');
+                if (i === 0) {
+                    listItem.classList.add('selected');
+                }
+                listItem.dataset.variantId = variant.node.entityId;
+                const price = variantPrices[variant.node.entityId];
+                listItem.textContent = `£${price.toFixed(2)}`;
+                listItem.addEventListener('click', () => {
+                    const selected = charityList.querySelector('.selected');
+                    if (selected) {
+                        selected.classList.remove('selected');
+                    }
+                    listItem.classList.add('selected');
+                });
+                charityList.appendChild(listItem);
+            });
+
+            charitySection.style.display = 'block';
+            const addToCartButton = document.getElementById('add-charity-product');
+            addToCartButton.addEventListener('click', async () => {
+                const selectedVariant = charityList.querySelector('.selected');
+                const variantId = Number(selectedVariant.dataset.variantId);
+
+                addToCartButton.disabled = true;
+                addToCartButton.style.cursor = 'not-allowed';
+                addToCartButton.textContent = 'Adding...';
+
+                const mutation = `
+                    mutation addCartLineItems($addCartLineItemsInput: AddCartLineItemsInput!) {
+                        cart {
+                            addCartLineItems(input: $addCartLineItemsInput) {
+                                cart {
+                                    entityId
+                                }
+                            }
+                        }
+                    }
+                `;
+
+                const variables = {
+                    addCartLineItemsInput: {
+                    cartEntityId: jsContext.cartId,
+                    data: {
+                        lineItems: [
+                        {
+                            quantity: 1,
+                            productEntityId: cheetahCentreProductId,
+                            variantEntityId: variantId
+                        }
+                        ]
+                    }
+                    }
+                };
+
+                const response = await fetch('/graphql', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+                    },
+                    body: JSON.stringify({
+                        query: mutation,
+                        variables
+                    })
+                });
+
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    addToCartButton.disabled = false;
+                    addToCartButton.style.cursor = 'pointer';
+                    addToCartButton.textContent = 'Add to Cart';
+                    console.error('Error adding charity product to cart', response);
+                }
+            });
+        }
+    } catch (e) {
+        console.error('Error getting charity product data', e);
+    }
+</script>
 
 <div class="container" style="padding: 0;">
 <div class="page">
-    
+
     <main style='color: #687D6A;' class="page-content" data-item-size="{{cart.items.length}}" data-cart data-id="{{cart_id}}" data-customer-grp-id="{{customer_group_id}}">
         {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
 
         {{> components/cart/page-title}}
-         
-       
+
+        <section class="charity-product">
+            <h4></h4>
+            <div class="charity-container">
+                <div class="left">
+                    <img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/cheetah-centre-logo-bw-1739357472050.png?t=1739357472" alt="Ann Van Dyk Cheetah Centre logo" width="200">
+                    <a href="/cheetah-sanctuary-donation">Learn more</a>
+                </div>
+                <div class="right">
+                    <ul class="charity-variants"></ul>
+                    <button id="add-charity-product">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
         <div data-cart-status>
             {{> components/cart/status-messages}}
         </div>
-      
+
         {{#if cart.items.length}}
-        
+
             <div class="loadingOverlay"></div>
 
             <div data-cart-content>
@@ -30,7 +192,7 @@ cart: true
         <div data-cart-totals class="cart-totals-container cart-content-padding-right">
                 {{> components/cart/totals}}
             </div>
-           
+
 
             {{#if cart.show_primary_checkout_button}}
                 <div class="cart-actions">
@@ -97,7 +259,7 @@ cart: true
                 </div>
             </div>
         </div>
-        
+
         <div class="modal fade" id="newsletter-box" tabindex="-1" aria-labelledby="redeem_point" style="text-align:center;display: none;box-shadow:0px 0px 39px 9px rgb(0 0 0 / 20%);border-radius:50px" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-header swal2-header" style="background: #687d6a;">
@@ -113,7 +275,7 @@ cart: true
                       <div class="">
                           <div class="" style="margin-bottom: 25px;">Subscribe to our newsletter to get free shipping! </div>
                       </div>
-                    
+
                       <div class="form-section">
                         <form class="form" id="nl_form" style="margin: 0 auto;">
                           <input type="hidden" name="action" value="subscribe">
@@ -122,7 +284,7 @@ cart: true
                             <input type="hidden" name="check" value="1">
                           <input class="form-input" id="nl_email" name="nl_email" type="email" value="" placeholder="Your email address" style="border: 1px solid #687d6a;">
                           <input id="nl_cta" class="button button--primary form-prefixPostfix-button--postfix" type="button" value="Join Now">
-                          
+
                         </form>
                         <p id="response_api" style="text-align: center;font-size:1.1rem;font-weight:400;color:#bd9b60;"></p>
                       </div>
@@ -133,7 +295,7 @@ cart: true
                     <div class="gdpr-field">
                         <input type="checkbox" id="gdpr_checkbox" name="gdpr_checkbox" class="gdpr-checkbox">
                         <span class="wcb-gdpr-message">I agree to the <a href="terms-conditions" target="_blank">Terms &amp; Conditions</a> and <a href="privacy-policy" target="_blank">Privacy Policy</a>.</span>
-                    </div>  
+                    </div>
                     <div class="footer-text">No spam email &amp; you can unsubscribe at anytime. Maximum order £100</div>
                   </div>
                 </div>
@@ -149,3 +311,85 @@ cart: true
 </div>
 {{/partial}}
 {{> layout/base}}
+
+<style>
+    .charity-product {
+        display: none;
+        max-width: 420px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 0.8rem 1rem;
+        box-sizing: border-box;
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.075);
+        margin-block: 3rem;
+        color: black;
+    }
+
+    .charity-product h4 {
+        color:#687D6A;
+        font-weight: 500;
+    }
+
+    .charity-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+     .charity-container .left,
+     .charity-container .right {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .charity-container .left {
+    flex: 1;
+    }
+
+    .charity-container .right {
+        flex-shrink: 1;
+    }
+
+    .charity-variants {
+        display: flex;
+        list-style: none;
+        padding: 0;
+    }
+
+    .charity-variants li {
+        margin-right: 0.5rem;
+        border: 1px solid;
+        border-radius: 3px;
+        padding: 0.2rem 0.3rem;
+    }
+
+    .charity-variants li:last-child {
+        margin-right: 0;
+    }
+
+    .charity-variants li:hover {
+        background-color: aliceblue;
+        cursor: pointer;
+    }
+
+    .charity-variants li.selected {
+        border-color: #687D6A;
+        border-width: 2px;
+        background-color: aliceblue;
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    #add-charity-product {
+        background-color: #687D6A;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        padding: 0.5rem 1rem;
+        margin-top: 1rem;
+        cursor: pointer;
+    }
+
+    #add-charity-product:hover {
+        background-color: #5c6e5d;
+    }
+</style>
