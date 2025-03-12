@@ -66,13 +66,13 @@
             </div>
             {{> components/custom/products/product-badges fields=product.custom_fields}}
         </figure>
-        <ul 
+        <ul
         class="productView-thumbnails"{{#gt product.images.length 1}} data-slick='{
                 "infinite": true,
                 "mobileFirst": true,
                 "dots": false,
                 "accessibility": false,
-                "slidesToShow": 4,                
+                "slidesToShow": 4,
                 "arrows": true,
                 "slidesToScroll": 2,
                 "responsive": [
@@ -127,7 +127,7 @@
                     {{/if}} -->
                 {{/if}}
                 {{#if settings.show_product_reviews}}
-                <span>[{{product.num_reviews}}]</span> 
+                <span>[{{product.num_reviews}}]</span>
                     <a href="{{product.url}}{{#if is_ajax}}#write_review{{/if}}"
                        class="productView-reviewLink productView-reviewLink--new"
                        {{#unless is_ajax}}data-reveal-id="modal-review-form"{{/unless}}
@@ -153,7 +153,7 @@
                 {{/or}}
             </div>
             {{{region name="product_below_price"}}}
-         
+
             {{product.detail_messages}}
             <dl class="productView-info">
                 {{#if product.sku}}
@@ -238,9 +238,9 @@
                     </div>
                 {{/if}}
 
-             
-                {{#if theme_settings.show_custom_fields_tabs '!==' true}}                
-                    {{> components/products/custom-fields }}                
+
+                {{#if theme_settings.show_custom_fields_tabs '!==' true}}
+                    {{> components/products/custom-fields }}
                 {{/if}}
             </dl>
         </div>
@@ -282,35 +282,35 @@
                     <p class="available">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.0938 6.17833L7.70217 14.5708L3.33301 10.2017L4.51134 9.02333L7.70217 12.2142L14.9155 5L16.0938 6.17833Z" fill="#687D6A"/>
-                    </svg>    
+                    </svg>
                     <strong>{{lang 'products.available'}}   {{!--{{product.availability}}--}}</strong>
                     </p>
                     {{else}}
                     <p class="not-available">
-                      <span>X&nbsp;</span>   
+                      <span>X&nbsp;</span>
                         <strong>{{lang 'products.not_available'}}</strong>
                         </p>
                     {{/if}}
-                </div> 
+                </div>
                 {{!--{{/if}} --}}
 
-                
+
                 {{> components/products/add-to-cart with_wallet_buttons=true}}
             </div>
             {{#if product.custom_fields }}
-            <div class="custom-badge">              
+            <div class="custom-badge">
             {{#each product.custom_fields}}
                     {{#startsWith "_USP" name}}
                     <div>
                       <img class="lazyload {{dashcase value}}"   src="{{cdn 'img/loading.png'}}" data-src="{{cdn '../img/badges/'}}{{dashcase value}}.png" width="92" height="92"/>
                     </div>
                     {{/startsWith}}
-                                    
-            
+
+
             {{/each}}
             </div>
             {{/if}}
-     
+
                 {{#if product.out_of_stock}}
                     {{#if product.out_of_stock_message}}
                         {{> components/common/alert/alert-error product.out_of_stock_message}}
@@ -324,9 +324,9 @@
             {{/if}}
 
             {{{region name="product _certified"}}}
-         
-           
-          
+
+
+
 
         </div>
     </section>
@@ -335,19 +335,19 @@
         {{!-- {{#contains product.description "<p><!-- pagebreak --></p>" }}
             {{> components/products/description}}
             <div id="accordion-container"></div>
-            
+
         {{else}}--}}
 
         <div id="_product-description" style="display: none;">
             {{{product.description}}}
         </div>
         {{#if theme_settings.show_product_details_tabs}}
- 
-        {{#contains product.category 'Sanitisers'}}
+
+        {{#contains product.category 'Others/Sanitisers'}}
         {{> components/custom/products/sanitisers-description-tabs}}
         {{/contains}}
 
-        {{#contains product.category 'Accessories'}}
+        {{#contains product.category 'Others/Accessories'}}
         {{> components/custom/products/accessories-description-tabs}}
         {{/contains}}
 
@@ -361,9 +361,9 @@
 
         {{> components/products/description-tabs}}
         {{{region name="product _description"}}}
- 
-   
- 
+
+
+
 
         {{else}}
         {{> components/products/description}}
@@ -371,9 +371,9 @@
         {{/if}}
 
         {{!--{{/contains}}--}}
-        
 
-         </article> 
+
+         </article>
 </div>
 
 {{!--<article>
@@ -381,7 +381,7 @@
 
     <div class="productView-description-container"{{#if schema}} itemprop="description"{{/if}}>
         {{> components/products/description}}
-    </div> 
+    </div>
 
 </article>--}}
 
@@ -390,7 +390,3 @@
     <div class="modal-content"></div>
     <div class="loadingOverlay"></div>
 </div>
-
-
-
-
