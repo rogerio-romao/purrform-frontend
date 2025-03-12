@@ -2,7 +2,7 @@
     <ul class="tabs" data-tab>
         {{#if product.description}}
         <li class="tab is-active">
-            <a class="tab-title" href="#tab-description">{{lang 'products.description'}} </a>
+            <a class="tab-title" href="#tab-description">Product Overview </a>
             <div class="mobile-description-tab" id="tab-mobile-description">
                 {{!--<div class="description-v1">
                     {{{product.description}}}
@@ -11,7 +11,7 @@
         </li>
         {{/if}} {{#if product.description}}
         <li class="tab {{#if product.description}} {{else}} is-active{{/if}}">
-            <a class="tab-title" href="#tab-instructions">Instructions for Use </a>
+            <a class="tab-title" href="#tab-instructions">Application </a>
             <div class="mobile-description-tab" id="tab-mobile-instructions">
                 {{!-- <div class="description-v1">
                     {{{product.description}}}
