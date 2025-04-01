@@ -171,35 +171,35 @@
             }
         }, 100)
     })
-    </script>
+</script>
 
-    <script>
-        // Handle hidding address creation for breeder group
+<script>
+    // Handle hidding address creation for breeder group
 
-        const parentSelectorShipping = '#checkoutShippingAddress div.dropdownMenu';
-        const parentSelectorBilling = '#checkoutBillingAddress div.dropdownMenu';
+    const parentSelectorShipping = '#checkoutShippingAddress div.dropdownMenu';
+    const parentSelectorBilling = '#checkoutBillingAddress div.dropdownMenu';
 
-        ready(parentSelectorShipping, (parentElement) => {
-            // get the number of children
-            const ul = parentElement.querySelector('ul');
-            const children = ul.children;
-            const customerGroupName = '{{customer_group_name}}';
-            if (customerGroupName === 'Breeder' && children.length > 2) {
-                // hide the first child (add new address)
-                children[0].style.display = 'none';
-            }
-        });
+    ready(parentSelectorShipping, (parentElement) => {
+        // get the number of children
+        const ul = parentElement.querySelector('ul');
+        const children = ul.children;
+        const customerGroupName = '{{customer_group_name}}';
+        if (customerGroupName === 'Breeder' && children.length > 2) {
+            // hide the first child (add new address)
+            children[0].style.display = 'none';
+        }
+    });
 
-        ready(parentSelectorBilling, (parentElement) => {
-            // get the number of children
-            const ul = parentElement.querySelector('ul');
-            const children = ul.children;
-            const customerGroupName = '{{customer_group_name}}';
-            if (customerGroupName === 'Breeder' && children.length > 2) {
-                // hide the first child (add new address)
-                children[0].style.display = 'none';
-            }
-        });
+    ready(parentSelectorBilling, (parentElement) => {
+        // get the number of children
+        const ul = parentElement.querySelector('ul');
+        const children = ul.children;
+        const customerGroupName = '{{customer_group_name}}';
+        if (customerGroupName === 'Breeder' && children.length > 2) {
+            // hide the first child (add new address)
+            children[0].style.display = 'none';
+        }
+    });
 </script>
 
 {{#if customer_group_name '!==' 'trade_blocked'}}
@@ -924,7 +924,9 @@
                 .then((data) => {
                     const deliveryInstructions = data.customerMessage;
                     const [selectedDate] = deliveryInstructions.split(' | ')
-                    const formattedDate = new Date(selectedDate).toISOString().split('T')[0]
+                    const maybeDate = new Date(selectedDate) // Ex: 3 April, 2025
+                    const adjustForDaylightDate = new Date(maybeDate.getTime() + 3 * 60 * 60 * 1000);
+                    const formattedDate = adjustForDaylightDate.toISOString().split('T')[0]; // Format the date for comparison
 
                     if (disabledDates.includes(formattedDate)) {
                         missingWarn.textContent = 'The selected delivery date is not available. Please click the Edit button on the Shipping section above and then pick an available date on the delivery date calendar.';
