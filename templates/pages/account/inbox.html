@@ -229,7 +229,7 @@
             return;
         }
 
-        fetch(`https://purrform-apps-027e.onrender.com/breederReferralForm?breederEmail=${breederEmail}&customerEmail=${breederReferralInput.value}`, {
+        fetch(`https://purrform-apps-027e.onrender.com/breederReferralForm?breederEmail=${encodeURIComponent(breederEmail)}&customerEmail=${encodeURIComponent(breederReferralInput.value)}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json'
