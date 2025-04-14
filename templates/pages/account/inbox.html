@@ -357,7 +357,11 @@
             return;
         }
 
-        fetch(`https://purrform-apps-027e.onrender.com/friendReferralForm?friendEmail=${friendReferralInput.value}&customerEmail=${customerEmail}&customerName=${customerName}`, {
+        const encodedCustomerName = encodeURIComponent(customerName);
+        const encodedCustomerEmail = encodeURIComponent(customerEmail);
+        const encodedFriendEmail = encodeURIComponent(friendReferralInput.value);
+
+        fetch(`https://purrform-apps-027e.onrender.com/friendReferralForm?friendEmail=${encodedFriendEmail}&customerEmail=${encodedCustomerEmail}&customerName=${encodedCustomerName}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json'

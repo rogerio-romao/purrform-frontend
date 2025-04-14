@@ -1,5 +1,5 @@
 {
-    "name": "fix encode breeder referral emails",
+    "name": "fix encode friend referral emails",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
