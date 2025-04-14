@@ -519,7 +519,6 @@
 {{#if customer_group_name '===' 'Personal'}}
 <script>
     const birthdayJsContext = JSON.parse({{jsContext}});
-    const customerEmail = birthdayJsContext.customerEmail;
     const householdQuestionDiv = document.querySelector('.household-question');
     const birthdayErrorDiv = document.querySelector('.birthday-error');
     const birthdayFormDiv = document.querySelector('.reward-form');
@@ -545,7 +544,7 @@
 
     // Call backend to see if customer has registered a cat
     fetch(
-        `https://purrform-apps-027e.onrender.com/getCatOwnerInfo?ownerEmail=${encodeURIComponent(customerEmail)}&withCats=true`
+        `https://purrform-apps-027e.onrender.com/getCatOwnerInfo?ownerEmail=${encodeURIComponent(birthdayJsContext.customerEmail)}&withCats=true`
     )
         .then((response) => {
             if (!response.ok) {
@@ -635,7 +634,7 @@
 
     function registerOwner(householdCats) {
         fetch(
-            `https://purrform-apps-027e.onrender.com/registerCatOwner?ownerEmail=${encodeURIComponent(customerEmail)}&catsInHousehold=${householdCats}`
+            `https://purrform-apps-027e.onrender.com/registerCatOwner?ownerEmail=${encodeURIComponent(birthdayJsContext.customerEmail)}&catsInHousehold=${householdCats}`
         )
             .then((response) => {
                 if (!response.ok) {
@@ -686,7 +685,7 @@
         }
 
         fetch(
-            `https://purrform-apps-027e.onrender.com/registerCatBirthday?ownerEmail=${encodeURIComponent(customerEmail)}&catName=${encodeURIComponent(catName)}&catBreed=${encodeURIComponent(catBreed)}&catGender=${catGender}&catBirthday=${catBirthday}`
+            `https://purrform-apps-027e.onrender.com/registerCatBirthday?ownerEmail=${encodeURIComponent(birthdayJsContext.customerEmail)}&catName=${encodeURIComponent(catName)}&catBreed=${encodeURIComponent(catBreed)}&catGender=${catGender}&catBirthday=${catBirthday}`
         )
             .then(async (response) => {
                 if (!response.ok) {
@@ -713,7 +712,7 @@
 
     function deleteCat(catName) {
         fetch(
-            `https://purrform-apps-027e.onrender.com/deleteCatBirthday?ownerEmail={{customer.email}}&catName=${catName}`
+            `https://purrform-apps-027e.onrender.com/deleteCatBirthday?ownerEmail=${encodeURIComponent(birthdayJsContext.customerEmail)}&catName=${encodeURIComponent(catName)}`
         )
             .then(async (response) => {
                 if (!response.ok) {
@@ -806,8 +805,15 @@
                 return;
             }
 
+            const encodedCustomerEmail = encodeURIComponent(
+                birthdayJsContext.customerEmail
+            );
+            const encodedOldName = encodeURIComponent(oldName);
+            const encodedCatName = encodeURIComponent(catName);
+            const encodedCatBreed = encodeURIComponent(catBreed);
+
             fetch(
-                `https://purrform-apps-027e.onrender.com/changeCatBirthday?ownerEmail={{customer.email}}&oldCatName=${oldName}&newCatName=${catName}&newCatBreed=${catBreed}&newCatGender=${catGender}&newCatBirthday=${catBirthday}`
+                `https://purrform-apps-027e.onrender.com/changeCatBirthday?ownerEmail=${encodedCustomerEmail}&oldCatName=${encodedOldName}&newCatName=${encodedCatName}&newCatBreed=${encodedCatBreed}&newCatGender=${catGender}&newCatBirthday=${catBirthday}`
             )
                 .then(async (response) => {
                     if (!response.ok) {
