@@ -115,10 +115,21 @@
     // Handles non-cumulative discounts
     const couponsElSelector = 'a.redeemable-label';
     ready(couponsElSelector, (couponsEl) => {
+        // if discount el is present, customer used loyalty points, hide coupons
         const discountEl = document.querySelector(
             'div[data-test="cart-discount"]'
         );
         if (discountEl) {
+            couponsEl.style.display = 'none';
+        }
+
+        // if customer group is trade, hide coupons
+        if ('{{customer_group_name}}' === 'Trade') {
+            couponsEl.style.display = 'none';
+        }
+
+        // non logged in users should not see coupons
+        if (! '{{customer}}') {
             couponsEl.style.display = 'none';
         }
     })

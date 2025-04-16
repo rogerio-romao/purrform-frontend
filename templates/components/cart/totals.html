@@ -12,7 +12,7 @@
       {{/if}}
     </p>
    <p style="background-color: red;"><span style="background-color: blue; width: {{cart.grand_total.value}} %;"></span> </p>-->
-  </div> 
+  </div>
 <br>
   <div class="mobile-back-button">
     <a class="button button--secondary" href="/all/">
@@ -48,7 +48,8 @@
             </div>
         </li>
     {{/if}}
-    {{#if cart.shipping_handling.show_estimator}}
+    <!-- Hide the shipping estimator -->
+    <!-- {{#if cart.shipping_handling.show_estimator}}
         <li class="cart-total cart-total-shipping">
             <div class="cart-total-label">
                 <strong>{{lang 'cart.checkout.shipping'}}: </strong>
@@ -71,7 +72,7 @@
             </div>
             {{> components/cart/shipping-estimator cart.shipping_handling}}
         </li>
-    {{/if}}
+    {{/if}} -->
     {{#each cart.taxes}}
         {{#unless included}}
             <li class="cart-total">
@@ -94,31 +95,9 @@
             </div>
         </li>
     {{/if}}
-    {{#if cart.coupons}}
-        {{#each cart.coupons}}
-            <li class="cart-total">
-                <div class="cart-total-label">
-                    <strong>{{lang 'cart.coupons.code_label' code=code}}</strong>
-                    <div>
-                        <a href="{{remove_url}}">{{lang 'cart.coupons.remove'}}</a>
-                    </div>
-                </div>
-                <div class="cart-total-value">
-                    <span>{{discount.formatted}}</span>
-                </div>
-            </li>
-        {{/each}}
-    {{else}}
-        <li class="cart-total cart-total-coupon">
-            <div class="cart-total-label">
-                <strong>{{lang 'cart.coupon_code'}}:</strong>
-                <button class="coupon-code-add">{{lang 'cart.coupons.add_coupon'}}</button>
 
-                <button class="coupon-code-cancel" style="display: none;">{{lang 'cart.coupons.cancel'}}</button>
-            </div>
-            {{> components/cart/coupon-input}}
-        </li>
-    {{/if}}
+    <!-- Coupons were cut out from here, look in base cornerstone to put back  -->
+
     {{#if settings.gift_certificates_enabled}}
         {{#each cart.gift_certificates}}
             <li class="cart-total">
@@ -136,7 +115,7 @@
         <li class="cart-total cart-total-gift-certificate">
             <div class="cart-total-label">
                 <strong>{{lang 'cart.gift_certificates.gift_certificate'}}:</strong>
-                
+
     <button class="gift-certificate-add">{{lang 'cart.gift_certificates.gift_certificate'}}</button>
 
     <button class="gift-certificate-cancel" style="display: none;">{{lang 'cart.coupons.cancel'}}</button>
@@ -169,12 +148,12 @@
         {{/if}}
     {{/each}}
     <li class="cart-total datepicker">
-       
+
         <p style="font-size:16px; text-align: center;">
             <i>*If your DPD notification states that your parcel has been delivered and you are unable to locate it, please let us by <strong>4.00pm latest</strong>, on the delivery day.
             This will enable us to resolve any issues on the day.
             <br>
-            You will always receive a DPD notification, with photograph, confirming delivery.            
+            You will always receive a DPD notification, with photograph, confirming delivery.
             <br>
             Many thanks for your co-operation.
             <br>
@@ -185,7 +164,7 @@
 </ul>
 
 <style>
- 
+
 
     /* DATE PICKER */
 
