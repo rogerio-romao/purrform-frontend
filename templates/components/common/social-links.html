@@ -26,16 +26,11 @@
 
                     {{else if display_name '===' 'twitter'}}
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <!-- White circle background -->
                     <circle cx="12" cy="12" r="12" fill="white"/>
-
-                    <!-- X logo centered in the circle -->
                     <g transform="scale(0.6) translate(8, 8)">
                         <path fill="#687D69" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
                     </g>
                     </svg>
-
-
 
                     {{else if display_name '===' 'instagram'}}
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,6 +47,7 @@
                 </a>
         </li>
         {{/each}}
+        <!-- Because the other ones come from BC's control panel, and there is no Tiktok option there, I had to add this one here outside of the each loop -->
         <a class="tiktok"
                 href="https://www.tiktok.com/@purrform"
                 target="_blank"
