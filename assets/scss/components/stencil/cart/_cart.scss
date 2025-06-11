@@ -9,16 +9,16 @@
 // Cart variables
 // -----------------------------------------------------------------------------
 
-$cart-item-spacing:                     spacing("single");
-$cart-content-padding-right:            4px;
+$cart-item-spacing: spacing('single');
+$cart-content-padding-right: 4px;
 
-$cart-thumbnail-maxWidth:               remCalc(100px);
-$cart-thumbnail-height:                 remCalc(100px);
-$cart-thumbnail-maxHeight:              14rem;
-$cart-thumbnail-paddingVertical:        0.5rem;
+$cart-thumbnail-maxWidth: remCalc(100px);
+$cart-thumbnail-height: remCalc(100px);
+$cart-thumbnail-maxHeight: 14rem;
+$cart-thumbnail-paddingVertical: 0.5rem;
 
-$cart-item-label-offset:                $cart-thumbnail-maxWidth + $cart-item-spacing;
-$card-preview-zoom-bottom-offset:       6rem;
+$cart-item-label-offset: $cart-thumbnail-maxWidth + $cart-item-spacing;
+$card-preview-zoom-bottom-offset: 6rem;
 
 //
 // Shared styles for additional checkout buttons
@@ -32,7 +32,7 @@ $card-preview-zoom-bottom-offset:       6rem;
 
         p {
             float: none !important;
-            margin: spacing("third") 0;
+            margin: spacing('third') 0;
             text-align: right;
         }
 
@@ -54,10 +54,10 @@ $card-preview-zoom-bottom-offset:       6rem;
 
 .cart {
     display: block; // 1
-    margin-bottom: spacing("single");
+    margin-bottom: spacing('single');
     width: 100%;
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: table; // 1
     }
 }
@@ -65,14 +65,14 @@ $card-preview-zoom-bottom-offset:       6rem;
 .cart-header {
     display: none; // 2
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: table-header-group; // 2
         text-align: left;
     }
 }
 
 .cart-header-item {
-    padding-bottom: spacing("base");
+    padding-bottom: spacing('base');
 
     &:last-child {
         text-align: right;
@@ -80,26 +80,26 @@ $card-preview-zoom-bottom-offset:       6rem;
 }
 
 .cart-list {
-    border-top: container("border");
+    border-top: container('border');
     display: block; // 1
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: table-row-group; // 1
     }
 }
 
 .cart-item {
-    border-bottom: container("border");
+    border-bottom: container('border');
     clear: both;
     display: block; // 1
     padding: $cart-item-spacing 0;
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         @include clearfix;
         padding-left: grid-calc(3, $total-columns);
     }
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: table-row; // 1
         padding-left: 0;
 
@@ -113,17 +113,16 @@ $card-preview-zoom-bottom-offset:       6rem;
 .cart-item-block {
     display: block; // 1
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: table-cell; // 1
     }
 
     .definitionList {
-        margin-bottom: spacing("quarter");
+        margin-bottom: spacing('quarter');
     }
 }
 
 .cart-item-figure {
-
     @include cart-item-lazy-load-img-placeholder;
     float: left;
     margin-bottom: $cart-item-spacing;
@@ -131,14 +130,14 @@ $card-preview-zoom-bottom-offset:       6rem;
     text-align: center;
     width: grid-calc(4, $total-columns);
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         // height: auto;
         margin-bottom: 0;
         margin-left: -(grid-calc(4, $total-columns));
         width: grid-calc(4, $total-columns);
     }
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         float: none;
         padding: $cart-thumbnail-paddingVertical 0;
         width: grid-calc(1, $total-columns);
@@ -151,9 +150,9 @@ $card-preview-zoom-bottom-offset:       6rem;
 
 .cart-item-image {
     max-height: $cart-thumbnail-maxHeight;
-    max-width: get-width(stencilString("productthumb_size"));
+    max-width: get-width(stencilString('productthumb_size'));
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         margin-left: 0;
     }
 }
@@ -163,14 +162,14 @@ $card-preview-zoom-bottom-offset:       6rem;
     height: $cart-thumbnail-height;
     padding-left: $cart-item-spacing;
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         display: block;
         height: auto;
         margin-bottom: $cart-item-spacing;
         overflow: hidden;
     }
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: table-cell;
         padding: $cart-item-spacing;
     }
@@ -180,7 +179,7 @@ $card-preview-zoom-bottom-offset:       6rem;
     clear: both;
     width: 100%;
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         clear: none;
         float: left;
         overflow: hidden;
@@ -191,7 +190,7 @@ $card-preview-zoom-bottom-offset:       6rem;
         }
     }
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         float: none;
         width: grid-calc(2, $total-columns);
 
@@ -201,7 +200,6 @@ $card-preview-zoom-bottom-offset:       6rem;
     }
 }
 
-
 // Cart content
 // -----------------------------------------------------------------------------
 .cart-content-padding-right {
@@ -210,8 +208,7 @@ $card-preview-zoom-bottom-offset:       6rem;
 
 .cart-header-quantity,
 .cart-item-quantity {
-
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         text-align: center;
     }
 }
@@ -219,31 +216,30 @@ $card-preview-zoom-bottom-offset:       6rem;
 .cart-item-quantity {
     .form-increment {
         display: inline-block;
-        margin: 0 spacing("eighth") 1px spacing("single");
+        margin: 0 spacing('eighth') 1px spacing('single');
         vertical-align: middle;
 
-        @include breakpoint("medium") {
+        @include breakpoint('medium') {
             margin-left: 0;
         }
     }
-
 }
 
 .cart-item-label {
-    color: stencilColor("color-textBase");
+    color: stencilColor('color-textBase');
     float: left;
-    margin-bottom: spacing("quarter");
+    margin-bottom: spacing('quarter');
     text-align: right;
     width: grid-calc(4, $total-columns);
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         display: block;
         padding-left: $cart-item-spacing;
         text-align: left;
         width: 100%;
     }
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: none;
     }
 }
@@ -251,19 +247,19 @@ $card-preview-zoom-bottom-offset:       6rem;
 .cart-item-value {
     padding-left: $cart-item-spacing;
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         padding-left: 0;
     }
 }
 
 .cart-item-brand {
-    color: stencilColor("color-textSecondary");
-    margin-bottom: spacing("eighth");
+    color: stencilColor('color-textSecondary');
+    margin-bottom: spacing('eighth');
 }
 
 .cart-item-name {
     display: inline-block;
-    font-size: fontSize("smaller");
+    font-size: fontSize('smaller');
     margin: 0;
 
     &__label {
@@ -271,12 +267,12 @@ $card-preview-zoom-bottom-offset:       6rem;
     }
 
     + .definitionList {
-        margin-top: spacing("quarter");
+        margin-top: spacing('quarter');
     }
 }
 
 .cart-item-options--giftWrapping {
-    margin-top: spacing("half") + spacing("quarter");
+    margin-top: spacing('half') + spacing('quarter');
 
     .cart-item-option-description {
         color: $body-font-color;
@@ -284,18 +280,18 @@ $card-preview-zoom-bottom-offset:       6rem;
 }
 
 .cart-remove {
-    background-color: container("fill", "dark");
+    background-color: container('fill', 'dark');
     border-radius: 50%;
     cursor: pointer;
     float: right;
     height: remCalc(18px);
     margin-top: remCalc(2px);
-    padding: spacing("eighth");
+    padding: spacing('eighth');
     transition: background-color 0.15s ease;
     width: remCalc(18px);
 
-    @include breakpoint("small") {
-        margin-left: spacing("base");
+    @include breakpoint('small') {
+        margin-left: spacing('base');
     }
 
     &.cart-remove--spacer {
@@ -303,31 +299,30 @@ $card-preview-zoom-bottom-offset:       6rem;
     }
 
     > svg {
-        fill: stencilColor("icon-color");
+        fill: stencilColor('icon-color');
     }
 }
-
 
 // Cart totals
 // -----------------------------------------------------------------------------
 
 .cart-totals {
-    @include u-listBullets("none");
+    @include u-listBullets('none');
     margin-bottom: $cart-item-spacing;
     text-align: right;
     width: 100%;
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         float: right;
         width: grid-calc(9, $total-columns);
     }
 
-    @include breakpoint("medium") {
-        margin-bottom: spacing("base");
+    @include breakpoint('medium') {
+        margin-bottom: spacing('base');
         width: grid-calc(7, $total-columns);
     }
 
-    @include breakpoint("large") {
+    @include breakpoint('large') {
         width: grid-calc(5, $total-columns);
     }
 }
@@ -336,16 +331,16 @@ $card-preview-zoom-bottom-offset:       6rem;
     @include clearfix;
     border-bottom: 0;
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         + .cart-total {
-            border-top: container("border");
+            border-top: container('border');
         }
     }
 
     .form-input {
         display: inline-block;
         height: remCalc(32px);
-        padding: spacing("third");
+        padding: spacing('third');
         vertical-align: top;
         width: grid-calc(9, $total-columns);
     }
@@ -354,8 +349,8 @@ $card-preview-zoom-bottom-offset:       6rem;
         background-position: right remCalc(5px) center;
         background-size: remCalc(20px) remCalc(20px);
         height: remCalc(32px);
-        margin-bottom: spacing("half");
-        padding: 0 spacing("half");
+        margin-bottom: spacing('half');
+        padding: 0 spacing('half');
     }
 
     .form-inlineMessage {
@@ -364,14 +359,14 @@ $card-preview-zoom-bottom-offset:       6rem;
 }
 
 .cart-total-label {
-    color: stencilColor("color-textSecondary");
+    color: stencilColor('color-textSecondary');
     width: grid-calc(4, $total-columns);
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         width: grid-calc(6, $total-columns);
     }
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: block;
         padding-left: 0;
         text-align: left;
@@ -381,11 +376,11 @@ $card-preview-zoom-bottom-offset:       6rem;
 .cart-total-value {
     text-align: left;
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         text-align: right;
     }
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         width: grid-calc(6, $total-columns);
     }
 }
@@ -393,26 +388,25 @@ $card-preview-zoom-bottom-offset:       6rem;
 .cart-total-label,
 .cart-total-value {
     float: left;
-    padding: spacing("third") 0 spacing("third") $cart-item-spacing;
+    padding: spacing('third') 0 spacing('third') $cart-item-spacing;
 
-    @include breakpoint("medium") {
-        padding: spacing("base") 0;
+    @include breakpoint('medium') {
+        padding: spacing('base') 0;
     }
 }
 
 .cart-total-grandTotal {
-    font-family: fontFamily("headingSans");
-    font-size: fontSize("small");
-    padding-bottom: spacing("eighth");
-    padding-top: spacing("eighth");
+    font-family: fontFamily('headingSans');
+    font-size: fontSize('small');
+    padding-bottom: spacing('eighth');
+    padding-top: spacing('eighth');
     position: relative;
 
-    @include breakpoint("medium") {
-        padding: spacing("base") 0;
-        top: -(spacing("sixth"));
+    @include breakpoint('medium') {
+        padding: spacing('base') 0;
+        top: -(spacing('sixth'));
     }
 }
-
 
 // Cart actions
 // -----------------------------------------------------------------------------
@@ -422,18 +416,18 @@ $card-preview-zoom-bottom-offset:       6rem;
 .shipping-estimate-show,
 .gift-certificate-add,
 .gift-certificate-cancel {
-    color: stencilColor("color-textSecondary");
+    color: stencilColor('color-textSecondary');
     padding: 0;
     text-decoration: underline;
     transition: color 0.15s ease;
 
     &:hover {
-        color: stencilColor("color-textSecondary--hover");
+        color: stencilColor('color-textSecondary--hover');
     }
 }
 
 .coupon-code-cancel,
-.shipping-estimate-show[aria-expanded="true"] {
+.shipping-estimate-show[aria-expanded='true'] {
     font-style: italic;
 }
 
@@ -441,7 +435,7 @@ $card-preview-zoom-bottom-offset:       6rem;
 .cart-gift-certificate-form {
     @include clearfix;
     font-size: 0;
-    margin-bottom: spacing("base");
+    margin-bottom: spacing('base');
 
     .form-input,
     .button {
@@ -454,8 +448,8 @@ $card-preview-zoom-bottom-offset:       6rem;
 
     .button {
         margin: 0 0 0 2%;
-        padding-left: spacing("half");
-        padding-right: spacing("half");
+        padding-left: spacing('half');
+        padding-right: spacing('half');
         width: 20%;
     }
 }
@@ -464,7 +458,7 @@ $card-preview-zoom-bottom-offset:       6rem;
     margin-bottom: 0;
 
     .form-input {
-        margin-bottom: spacing("half");
+        margin-bottom: spacing('half');
         width: 100%;
     }
 
@@ -476,7 +470,7 @@ $card-preview-zoom-bottom-offset:       6rem;
 .estimator-form-label {
     clear: both;
     float: left;
-    font-weight: fontWeight("normal");
+    font-weight: fontWeight('normal');
     margin-bottom: 0;
 
     .form-label {
@@ -521,7 +515,7 @@ $card-preview-zoom-bottom-offset:       6rem;
         display: block;
         margin-bottom: 0;
 
-        @include breakpoint("small") {
+        @include breakpoint('small') {
             display: inline-block;
             float: right;
         }
@@ -531,7 +525,7 @@ $card-preview-zoom-bottom-offset:       6rem;
         clear: right;
         display: block;
         float: right;
-        padding-top: spacing("quarter");
+        padding-top: spacing('quarter');
     }
 }
 
@@ -543,7 +537,8 @@ $card-preview-zoom-bottom-offset:       6rem;
 }
 
 .cart-additionalCheckoutButtons {
-    @extend %additionalCheckoutButtons;
+    // @extend %additionalCheckoutButtons;
+    display: none;
 }
 
 // Cart Preview
@@ -569,10 +564,10 @@ $card-preview-zoom-bottom-offset:       6rem;
 .previewCartItem {
     @include grid-row;
     display: table-row;
-    line-height: lineHeight("smaller");
+    line-height: lineHeight('smaller');
 
     + .previewCartItem {
-        border-top: container("border");
+        border-top: container('border');
     }
 }
 
@@ -585,7 +580,7 @@ $card-preview-zoom-bottom-offset:       6rem;
 .previewCartItem-image {
     @include grid-column(4, $float: false);
 
-    @include lazy-loaded-padding("productthumb_size");
+    @include lazy-loaded-padding('productthumb_size');
     padding: 0;
     position: relative;
     text-align: center;
@@ -596,11 +591,11 @@ $card-preview-zoom-bottom-offset:       6rem;
     }
 
     &::after {
-        @include breakpoint("xxsmall") {
+        @include breakpoint('xxsmall') {
             padding-bottom: 75%;
         }
 
-        @include breakpoint("xsmall") {
+        @include breakpoint('xsmall') {
             padding-bottom: 100%;
         }
     }
@@ -622,33 +617,33 @@ $card-preview-zoom-bottom-offset:       6rem;
 
 .previewCartItem-brand,
 .previewCartItem-name {
-    margin-bottom: spacing("eighth");
+    margin-bottom: spacing('eighth');
 }
 
 .previewCartItem-brand,
 .previewCartItem-price {
     color: $small-font-color;
     display: inline-block;
-    font-size: fontSize("smallest");
+    font-size: fontSize('smallest');
 }
 
 .previewCartAction {
     @include grid-row;
-    border-top: container("border");
+    border-top: container('border');
     display: block;
 
-    @include breakpoint("xxsmall") {
-        padding: spacing("half") spacing("quarter");
+    @include breakpoint('xxsmall') {
+        padding: spacing('half') spacing('quarter');
     }
 
-    @include breakpoint("xsmall") {
-        padding: spacing("single") spacing("half");
+    @include breakpoint('xsmall') {
+        padding: spacing('single') spacing('half');
     }
 
     .button {
         margin: 0;
-        padding-left: spacing("half");
-        padding-right: spacing("half");
+        padding-left: spacing('half');
+        padding-right: spacing('half');
         width: 100%;
     }
 }
@@ -663,21 +658,21 @@ $card-preview-zoom-bottom-offset:       6rem;
 }
 
 .previewCartAction-checkout {
-    padding-right: spacing("quarter");
+    padding-right: spacing('quarter');
 }
 
 .previewCartAction-checkoutMultiple {
     clear: both;
-    padding-left: spacing("half");
-    padding-top: spacing("quarter");
+    padding-left: spacing('half');
+    padding-top: spacing('quarter');
 }
 
 .previewCartAction-viewCart {
-    padding-left: spacing("quarter");
+    padding-left: spacing('quarter');
 }
 
 .previewCart-emptyBody {
-    padding: spacing("double");
+    padding: spacing('double');
     text-align: center;
 }
 
@@ -687,6 +682,6 @@ $card-preview-zoom-bottom-offset:       6rem;
 
 .previewCart-additionalCheckoutButtons {
     @extend %additionalCheckoutButtons;
-    padding-bottom: spacing("single");
-    padding-right: spacing("single");
+    padding-bottom: spacing('single');
+    padding-right: spacing('single');
 }
