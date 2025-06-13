@@ -18,11 +18,75 @@ customer:
 {{> components/account/navigation account_page='orders'}}
 
 {{#if customer_group_name '===' 'Trade'}}
-<script>
+<script type="module">
     document.addEventListener('DOMContentLoaded', () => {
         const navSectionEl = document.querySelector('a.navBar-action[href="/account.php?action=inbox"]');
         navSectionEl.textContent = 'Pricelist';
     });
+
+    // Check if the trader is in the Trader Credit program
+    const traderCreditInfo = document.querySelector('.trader-credit-info');
+
+    try {
+        const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (response.ok) {
+            const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
+            const trader = traders.find(t => t.bc_customer_email === '{{customer.email}}');
+
+            if (trader) {
+                const formattedLimit = new Intl.NumberFormat('en-GB', {
+                    style: 'currency',
+                    currency: 'GBP',
+                }).format(trader.credit_ceiling);
+                const formattedBalance = new Intl.NumberFormat('en-GB', {
+                    style: 'currency',
+                    currency: 'GBP',
+                }).format(trader.current_balance);
+                traderCreditInfo.querySelector('.trader-credit-info__limit').textContent = formattedLimit;
+                traderCreditInfo.querySelector('.trader-credit-info__balance').textContent = formattedBalance;
+
+                if (trader.has_overdue) {
+                    try {
+                        const overdueResponse = await fetch(`https://purrform-apps-027e.onrender.com/getPendingOrdersForTrader?traderId=${trader.id}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        });
+
+                        if (overdueResponse.ok) {
+                            const pendingOrders = await overdueResponse.json(); // { order_nr: number, order_date: string, payment_due: string order_total: number, order_status: string }[]
+                            if (pendingOrders.length > 0) {
+                                const overdueOrders = pendingOrders.filter(order => order.order_status === 'overdue');
+                                const overdueList = document.createElement('ul');
+                                overdueOrders.forEach(order => {
+                                    const listItem = document.createElement('li');
+                                    listItem.textContent = `Order ID: ${order.order_nr}, Date: ${new Date(order.order_date).toLocaleDateString()}, Amount: £${order.order_total.toFixed(2)} (Due: ${new Date(order.payment_due).toLocaleDateString()})`;
+                                    overdueList.appendChild(listItem);
+                                });
+                                traderCreditInfo.querySelector('.trader-credit-info__overdue').appendChild(overdueList);
+                            }
+                        } else {
+                            console.error('Failed to fetch overdue orders:', overdueResponse.statusText);
+                        }
+                    } catch (error) {
+                        console.error('Error fetching overdue orders:', error);
+                    }
+
+
+                    traderCreditInfo.querySelector('.trader-credit-info__overdue').style.display = 'block';
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching trader credit info:', error);
+    }
 </script>
 {{/if}}
 
@@ -35,6 +99,15 @@ customer:
         {{/if}}
     </div>
     <div class="account-body">
+        {{#if customer_group_name '===' 'Trade'}}
+        <div class="trader-credit-info">
+            <h3 class="trader-credit-info__heading">Purrform Trader Credit</h3>
+            <div class="trader-credit-info__status">Your account is in Purrform's Trader Credit program.</div>
+            <div>Your current credit limit is: <span class="trader-credit-info__limit"></span></div>
+            <div>Your current balance is: <span class="trader-credit-info__balance"></span></div>
+            <p class="trader-credit-info__overdue">You have overdue order(s). New orders will not be possible until overdue orders are paid.</p>
+        </div>
+        {{/if}}
         <section class="account-content">
             {{#if customer.orders.length}}
                 {{> components/account/orders-list orders=customer.orders}}
@@ -131,3 +204,33 @@ customer:
         });
     });
 </script>
+
+<style>
+    .trader-credit-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #f9f9f9;
+        padding: 1rem;
+        margin-bottom: 2rem;
+
+        h3 {
+            color: #687D69;
+            font-weight: 500;
+        }
+
+        .trader-credit-info__status {
+            margin-bottom: 0.5rem;
+        }
+
+        span {
+            font-weight: bold;
+        }
+
+        .trader-credit-info__overdue {
+            color: #d9534f;
+            display: none; /* Initially hidden */
+        }
+    }
+</style>
