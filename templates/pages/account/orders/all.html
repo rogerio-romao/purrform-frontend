@@ -51,62 +51,98 @@ customer:
                 traderCreditInfo.querySelector('.trader-credit-info__limit').textContent = formattedLimit;
                 traderCreditInfo.querySelector('.trader-credit-info__balance').textContent = formattedBalance;
 
-                if (trader.has_overdue) {
-                    try {
-                        const overdueResponse = await fetch(`https://purrform-apps-027e.onrender.com/getPendingOrdersForTrader?traderId=${trader.id}`, {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            }
-                        });
-
-                        if (overdueResponse.ok) {
-                            const pendingOrders = await overdueResponse.json(); // { order_nr: number, order_date: string, payment_due: string order_total: number, order_status: string }[]
-                            if (pendingOrders.length > 0) {
-                                const overdueOrders = pendingOrders.filter(order => order.order_status === 'overdue');
-                                const overdueListHeader = document.createElement('p');
-                                overdueListHeader.textContent = 'Overdue Orders:';
-                                overdueListHeader.style.fontWeight = 'bold';
-                                overdueListHeader.style.margin = '10px 0 5px 0';
-
-                                const overdueListTable = document.createElement('table');
-                                overdueListTable.style.width = '100%';
-                                overdueListTable.style.borderCollapse = 'collapse';
-                                overdueListTable.style.marginBottom = '10px';
-                                overdueListTable.innerHTML = `
-                                    <thead>
-                                        <tr>
-                                            <th style="border: 1px solid #ddd; padding: 8px;">Order ID</th>
-                                            <th style="border: 1px solid #ddd; padding: 8px;">Amount</th>
-                                            <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
-                                            <th style="border: 1px solid #ddd; padding: 8px;">Due Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${overdueOrders.map(order => `
-                                            <tr>
-                                                <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${order.order_nr}</td>
-                                                <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">£${order.order_total.toFixed(2)}</td>
-                                                <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${new Date(order.order_date).toLocaleDateString()}</td>
-                                                <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${new Date(order.payment_due).toLocaleDateString()}</td>
-                                            </tr>`).join('')}
-                                    </tbody>`;
-                                overdueListTable.style.border = '1px solid #ddd';
-                                overdueListTable.style.borderRadius = '4px';
-                                overdueListTable.style.overflow = 'hidden';
-
-                                traderCreditInfo.querySelector('.trader-credit-info__overdue').appendChild(overdueListHeader);
-                                traderCreditInfo.querySelector('.trader-credit-info__overdue').appendChild(overdueListTable);
-                            }
-                        } else {
-                            console.error('Failed to fetch overdue orders:', overdueResponse.statusText);
+                let pendingAndOverdueOrders;
+                try {
+                    const pendingAndOverdueOrdersResponse = await fetch(`https://purrform-apps-027e.onrender.com/getPendingOrdersForTrader?traderId=${trader.id}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
                         }
-                    } catch (error) {
-                        console.error('Error fetching overdue orders:', error);
+                    });
+
+                    if (pendingAndOverdueOrdersResponse.ok) {
+                        pendingAndOverdueOrders = await pendingAndOverdueOrdersResponse.json(); // { order_nr: number, order_date: string, payment_due: string order_total: number, order_status: string }[]
+                    } else {
+                        console.error('Failed to fetch pending orders:', pendingAndOverdueOrdersResponse.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching pending orders:', error);
+                }
+
+                if (trader.has_overdue) {
+                    if (pendingAndOverdueOrders.length > 0) {
+                        const overdueOrders = pendingAndOverdueOrders.filter(order => order.order_status === 'overdue');
+                        const overdueListHeader = document.createElement('p');
+                        overdueListHeader.textContent = 'Overdue Orders:';
+                        overdueListHeader.style.fontWeight = 'bold';
+                        overdueListHeader.style.margin = '10px 0 5px 0';
+
+                        const overdueListTable = document.createElement('table');
+                        overdueListTable.style.width = '100%';
+                        overdueListTable.style.borderCollapse = 'collapse';
+                        overdueListTable.style.marginBottom = '10px';
+                        overdueListTable.innerHTML = `
+                            <thead>
+                                <tr>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">Order ID</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">Amount</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">Due Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${overdueOrders.map(order => `
+                                    <tr>
+                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${order.order_nr}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">£${order.order_total.toFixed(2)}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${new Date(order.order_date).toLocaleDateString()}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${new Date(order.payment_due).toLocaleDateString()}</td>
+                                    </tr>`).join('')}
+                            </tbody>`;
+                        overdueListTable.style.border = '1px solid #ddd';
+                        overdueListTable.style.borderRadius = '4px';
+                        overdueListTable.style.overflow = 'hidden';
+
+                        traderCreditInfo.querySelector('.trader-credit-info__overdue').appendChild(overdueListHeader);
+                        traderCreditInfo.querySelector('.trader-credit-info__overdue').appendChild(overdueListTable);
                     }
 
-
                     traderCreditInfo.querySelector('.trader-credit-info__overdue').style.display = 'block';
+                }
+
+                const onlyPendingOrders = pendingAndOverdueOrders.filter(order => order.order_status === 'pending');
+                if (onlyPendingOrders.length > 0) {
+                    const pendingOrdersListHeader = document.createElement('p');
+                    pendingOrdersListHeader.textContent = 'Pending Orders:';
+                    pendingOrdersListHeader.style.fontWeight = 'bold';
+                    pendingOrdersListHeader.style.margin = '10px 0 5px 0';
+                    const pendingOrdersListTable = document.createElement('table');
+                    pendingOrdersListTable.style.width = '100%';
+                    pendingOrdersListTable.style.borderCollapse = 'collapse';
+                    pendingOrdersListTable.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: center">Order ID</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: center">Amount</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: center">Date</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: center">Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${onlyPendingOrders.map(order => `
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${order.order_nr}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">£${order.order_total.toFixed(2)}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${new Date(order.order_date).toLocaleDateString()}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${new Date(order.payment_due).toLocaleDateString()}</td>
+                                </tr>`).join('')}
+                        </tbody>`;
+                    pendingOrdersListTable.style.border = '1px solid #ddd';
+                    pendingOrdersListTable.style.borderRadius = '4px';
+                    pendingOrdersListTable.style.overflow = 'hidden';
+                    traderCreditInfo.querySelector('.trader-credit-info__pending').appendChild(pendingOrdersListHeader);
+                    traderCreditInfo.querySelector('.trader-credit-info__pending').appendChild(pendingOrdersListTable);
+
                 }
             }
         }
@@ -132,6 +168,7 @@ customer:
             <div>Your current credit limit is: <span class="trader-credit-info__limit"></span></div>
             <div>Your current balance is: <span class="trader-credit-info__balance"></span></div>
             <p class="trader-credit-info__overdue">You have overdue order(s). New orders will not be possible until overdue orders are paid.</p>
+            <p class="trader-credit-info__pending"></p>
         </div>
         {{/if}}
         <section class="account-content">
@@ -238,7 +275,7 @@ customer:
         justify-content: center;
         align-items: center;
         background-color: #f9f9f9;
-        padding: 1rem;
+        padding: 1rem 2rem;
         margin-bottom: 2rem;
 
         h3 {
@@ -256,7 +293,12 @@ customer:
 
         .trader-credit-info__overdue {
             color: #d9534f;
+            width: 100%;
             display: none; /* Initially hidden */
+        }
+
+        .trader-credit-info__pending {
+            width: 100%;
         }
     }
 </style>
