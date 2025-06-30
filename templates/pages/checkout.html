@@ -1019,18 +1019,20 @@
                 });
 
 
-                // Hide the payment button if there is an overdue order or low balance
-                ready('#fakeButton', (element) => {
-                    element.remove()
-                });
+                if (hasOverdue || lowBalance) {
+                    // Hide the payment button if there is an overdue order or low balance
+                    ready('#fakeButton', (element) => {
+                        element.remove()
+                    });
 
-                ready('#proceedButton', (element) => {
-                    element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                });
+                    ready('#proceedButton', (element) => {
+                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
+                    });
 
-                ready('#checkoutPaymentContinue', (element) => {
-                    element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                });
+                    ready('#checkoutPaymentContinue', (element) => {
+                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
+                    });
+                }
             }
         }
     } catch (error) {
