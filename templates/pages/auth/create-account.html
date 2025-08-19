@@ -34,18 +34,23 @@
 
 <script>
     jQuery(document).ready(function () {
+        $("#FormField_27").css("display", "none"); // hide store name
+        $("#FormField_26").css("display", "none"); // hide tica number
+        $("#FormField_35").css("display", "none"); // hide loyalty points selector
         $("#FormField_28 input").ready(function () {
+            document.getElementById('FormField[1][28]_0').setAttribute('checked', true);
             $("input").change(function () {
-                if ($(this).val() == "personal") {
+                if ($(this).val() === "personal") {
                     $("#FormField_27").css("display", "none");
-                    $("#FormField_27 input").prop('disabled', true);
                     $("#FormField_26").css("display", "none");
-                    $("#FormField_26 input").prop('disabled', true);
-                } else {
-                    $("#FormField_27").css("display", "block");
-                    $("#FormField_27 input").prop('disabled', false);
+                } else if ($(this).val() === "breeder") {
+                    $("#FormField_27").css("display", "none");
+                    document.querySelector('#FormField_28').insertAdjacentElement('afterend', document.querySelector('#FormField_26'));
                     $("#FormField_26").css("display", "block");
-                    $("#FormField_26 input").prop('disabled', false);
+                } else if ($(this).val() === "trade") {
+                    document.querySelector('#FormField_28').insertAdjacentElement('afterend', document.querySelector('#FormField_27'));
+                    $("#FormField_27").css("display", "block");
+                    $("#FormField_26").css("display", "none");
                 }
             });
         });
