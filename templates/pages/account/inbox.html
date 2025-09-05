@@ -24,6 +24,13 @@
 <div class="account account--fixed">
     <div class="account-body">
         <section class="account-content">
+            {{#if customer_group_name '===' 'Trade TNC'}}
+            <div class="reward-section">
+                <p>
+                    No rewards available for your customer group at this time.
+                </p>
+            </div>
+            {{/if}}
             {{#if customer_group_name '===' 'Trade'}}
             <div class="reward-section">
                 <p>
@@ -33,12 +40,15 @@
             </div>
             {{/if}}
             {{#unless customer_group_name '===' 'Trade'}}
+            {{#unless customer_group_name '===' 'Trade TNC'}}
             <div class="reward-section">
                 <h2>Loyalty points</h2>
                 <p>Purchase goods to earn points for discounts!</p>
                 <p id="loyalty-points-balance">No balance found.</p>
             </div>
-            {{/unless}} {{#if customer_group_name '===' 'Personal'}}
+            {{/unless}}
+            {{/unless}}
+            {{#if customer_group_name '===' 'Personal'}}
             <div class="reward-section">
                 <h2>Birthday gift</h2>
                 <p>Register your cat to receive a 10% discount voucher when it's their birthday! The purrfect gift!</p>
