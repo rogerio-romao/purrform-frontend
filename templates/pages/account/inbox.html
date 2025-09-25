@@ -1,6 +1,8 @@
 {{#partial "page"}} {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
 {{#if customer_group_name '===' 'Trade'}}
 <h1 class="page-heading page-heading--account">Pricelist</h1>
+{{else if customer_group_name '===' 'New Trader'}}
+<h1 class="page-heading page-heading--account">Pricelist</h1>
 {{else}}
 <h1 class="page-heading page-heading--account">Rewards</h1>
 {{/if}}
@@ -8,6 +10,20 @@
 "customerEmail" customer.email}} {{inject "customerName" customer.name}}
 
 {{#if customer_group_name '===' 'Trade'}}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const activeBreadcrumbLi = document.querySelector('.breadcrumb.is-active');
+        const activeBreadcrumbA = activeBreadcrumbLi.querySelector('.breadcrumb-label');
+        const activeBreadcrumbSpan = activeBreadcrumbA.querySelector('span');
+        activeBreadcrumbSpan.textContent = 'Pricelist';
+
+        const navSectionEl = document.querySelector('a.navBar-action[href="/account.php?action=inbox"]');
+        navSectionEl.textContent = 'Pricelist';
+    });
+</script>
+{{/if}}
+
+{{#if customer_group_name '===' 'New Trader'}}
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const activeBreadcrumbLi = document.querySelector('.breadcrumb.is-active');
@@ -39,13 +55,23 @@
                 <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/038b0cc8f9.html" style="border: 0px; width: 100%; height: 500px;"></iframe>
             </div>
             {{/if}}
+            {{#if customer_group_name '===' 'New Trader'}}
+            <div class="reward-section">
+                <p>
+                    Here you can browse our trade catalogue. Press the download button to save a copy to your device.
+                </p>
+                <iframe allowfullscreen="allowfullscreen" allow="clipboard-write" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/924206dbaa.html" style="border: 0px; width: 100%; height: 500px;"></iframe>
+            </div>
+            {{/if}}
             {{#unless customer_group_name '===' 'Trade'}}
             {{#unless customer_group_name '===' 'Trade TNC'}}
+            {{#unless customer_group_name '===' 'New Trader'}}
             <div class="reward-section">
                 <h2>Loyalty points</h2>
                 <p>Purchase goods to earn points for discounts!</p>
                 <p id="loyalty-points-balance">No balance found.</p>
             </div>
+            {{/unless}}
             {{/unless}}
             {{/unless}}
             {{#if customer_group_name '===' 'Personal'}}
