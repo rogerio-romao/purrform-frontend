@@ -833,6 +833,8 @@ p {
                     background-color: $white-color;
 
                     .navPage-subMenu-list {
+                        display: flex;
+                        justify-content: space-between;
                         .navPage-subMenu-item {
                             width: 20%;
                             .navPages-action {
