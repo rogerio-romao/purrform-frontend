@@ -1,5 +1,5 @@
 {
-    "name": "no image on category page",
+    "name": "images in nav menu",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
