@@ -1,5 +1,5 @@
 {
-    "name": "no image on category page",
+    "name": "images in nav menu",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
@@ -91,6 +91,7 @@
         "gallery_size": "300x300",
         "productgallery_size": "500x659",
         "product_size": "500x659",
+        "category_thumb_size": "42x42",
         "productview_thumb_size": "80x80",
         "productthumb_size": "100x100",
         "thumb_size": "100x100",

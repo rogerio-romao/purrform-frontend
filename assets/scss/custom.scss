@@ -756,6 +756,13 @@ p {
                 }
                 @include breakpoint('medium') {
                     display: block;
+
+                    #navPages-support {
+                        .navPage-subMenu-list {
+                            display: grid;
+                            justify-content: center;
+                        }
+                    }
                 }
                 .navPage-subMenu-list {
                     display: grid;
@@ -801,6 +808,15 @@ p {
                 padding: 1rem;
                 text-transform: none;
 
+                img {
+                    width: 36px;
+                    height: 36px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    border: 1px solid currentColor;
+                    margin-right: 0.25rem;
+                }
+
                 &.is-open {
                     .icon {
                         svg {
@@ -838,10 +854,21 @@ p {
                         .navPage-subMenu-item {
                             width: 20%;
                             .navPages-action {
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
                                 border: 0;
                                 color: $nav-hover-text;
                                 padding: 0.5rem;
                                 font-weight: 700;
+
+                                img {
+                                    width: 42px;
+                                    height: 42px;
+                                    object-fit: cover;
+                                    border-radius: 50%;
+                                    border: 1px solid currentColor;
+                                }
                             }
 
                             .navPage-subMenu-action {
