@@ -756,6 +756,13 @@ p {
                 }
                 @include breakpoint('medium') {
                     display: block;
+
+                    #navPages-support {
+                        .navPage-subMenu-list {
+                            display: grid;
+                            justify-content: center;
+                        }
+                    }
                 }
                 .navPage-subMenu-list {
                     display: grid;
