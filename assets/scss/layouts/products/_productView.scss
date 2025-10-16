@@ -2,20 +2,19 @@
 // PRODUCT VIEW (CSS)
 // =============================================================================
 
-
 // Product view layout
 // -----------------------------------------------------------------------------
 
 .productView {
-    @include grid-row($behavior: "nest");
+    @include grid-row($behavior: 'nest');
 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    margin-left: -(spacing("base"));
-    margin-right: -(spacing("base"));
+    margin-left: -(spacing('base'));
+    margin-right: -(spacing('base'));
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: block;
     }
 
@@ -33,20 +32,20 @@
 
 .productView-images {
     @include grid-column(12);
-    padding-left: spacing("base");
-    padding-right: spacing("base");
+    padding-left: spacing('base');
+    padding-right: spacing('base');
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         width: grid-calc(6, $total-columns);
     }
 }
 
 .productView-details {
     @include grid-column(12);
-    padding-left: spacing("base");
-    padding-right: spacing("base");
+    padding-left: spacing('base');
+    padding-right: spacing('base');
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         clear: right;
         float: right;
         width: grid-calc(6, $total-columns);
@@ -63,20 +62,20 @@
 
 .productView-description {
     @include grid-column(12);
-    padding-left: spacing("base");
-    padding-right: spacing("base");
+    padding-left: spacing('base');
+    padding-right: spacing('base');
     position: relative;
     z-index: 1;
 
     .productView-title {
-        border-bottom: container("border");
-        margin-bottom: spacing("base");
-        padding-left: spacing("base");
-        padding-right: spacing("base");
+        border-bottom: container('border');
+        margin-bottom: spacing('base');
+        padding-left: spacing('base');
+        padding-right: spacing('base');
     }
 
     .productView-description {
-        @include breakpoint("medium") {
+        @include breakpoint('medium') {
             clear: both;
             float: none;
             width: 100%;

@@ -97,15 +97,15 @@
 
 
         <!--
-add_to_cart spoofing 
-<a href="/cart.php?action=add&product_id={{id}}" 
+add_to_cart spoofing
+<a href="/cart.php?action=add&product_id={{id}}"
 data-event-type="product-click"
  data-button-type="add-cart"
   class="button"
- > 
+ >
 Add to Cart
 </a>
-<span class="product-status-message aria-description--hidden">{{lang 'category.add_cart_announcement'}}</span> 
+<span class="product-status-message aria-description--hidden">{{lang 'category.add_cart_announcement'}}</span>
 -->
         <!--{{#if brand.name}}
             <p class="card-text" data-test-info-type="brandName">{{brand.name}}</p>
@@ -117,7 +117,7 @@ Add to Cart
             </a>
         </strong>
         </h3>
-        <p class="custom-fields">
+        {{!-- <p class="custom-fields">
             {{#each custom_fields}}
             {{#if name '==' 'CALORIE'}}
             <span>{{value}} </span>
@@ -125,7 +125,7 @@ Add to Cart
             <span>{{value}} </span>
             {{/if}}
             {{/each}}
-        </p>
+        </p> --}}
         <div class="card-text card-price" data-test-info-type="price">
             {{#or customer (unless settings.hide_price_from_guests)}}
             {{> components/products/price price=price}}
@@ -187,7 +187,7 @@ Add to Cart
 
                 {{#if add_to_cart_url }}
                 {{> components/products/quick-add-to-cart with_wallet_buttons=true}}
-              
+
                 {{!--
                 <a href="{{add_to_cart_url}}" data-event-type="product-click" data-button-type="add-cart"
                     class="button  add-to-cart button--small">
@@ -253,3 +253,19 @@ Add to Cart
 
     </div>
 </article>
+
+<style>
+    article.card {
+        border: 1px solid #556153;
+    }
+    .card-button .quick-cart {
+        background-color: #687D69;
+        color: #fff;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+    .card-button .quick-cart:hover {
+        background-color: #556153;
+        color: #fff;
+    }
+</style>
