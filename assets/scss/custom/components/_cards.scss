@@ -1,18 +1,20 @@
 .card {
-  border: 1px solid $white;
-  overflow: hidden;
-  padding: 0.5rem;
-  border-radius: 10px;
-  margin-bottom: 25px;
-*{
-  font-family: "Filson Pro";
-}
-  
+    border: 1px solid $white;
+    min-width: 205px !important;
+    overflow: hidden;
+    padding: 0.5rem;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    * {
+        font-family: 'Filson Pro';
+    }
 
-  &:hover {
-    border: 1px solid $gold-color;
+    &:hover {
+        border: 1px solid $gold-color;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1),
+            0 3px 10px 0 rgba(0, 0, 0, 0.05);
 
-    /* .card-figcaption-button {
+        /* .card-figcaption-button {
       border-color: $secondary-color;
       background-color: $secondary-color;
 
@@ -22,200 +24,207 @@
       }
     }*/
 
-    .card-button {
-      .button--secondary {
-        background-color: $secondary-color !important;
-      }
-      .add-to-cart {
-        background-color: $nav-hover-text !important;
-        color: $white-color !important;
-        svg {
-          path {
-            fill: white !important;
-          }
+        .card-button {
+            .button--secondary {
+                background-color: $secondary-color !important;
+            }
+            .add-to-cart {
+                background-color: $nav-hover-text !important;
+                color: $white-color !important;
+                svg {
+                    path {
+                        fill: white !important;
+                    }
+                }
+            }
         }
-      }
-    }
-  }
-
-  .card-figure {
-    overflow: hidden;
-    position: relative;
-    .card-img-container {
-      &:after {
-        padding-bottom: 115.8%;
-      }
-    }
-  
-  }
-
-  .card-body {
-    text-align: center;
-    display: grid;
-    grid-template-rows: auto 80px auto;
-
-    @include breakpoint("medium") {
-      grid-template-rows: auto 55px auto;
     }
 
-    .card-text {
-      color: $text-color;
-      font-weight: 700;
+    .card-figure {
+        overflow: hidden;
+        position: relative;
+        .card-img-container {
+            &:after {
+                padding-bottom: 70%;
+            }
 
-      span {
-        color: $body-color;
-      }
-    }
-
-    .card-productRating {
-      height: 25px;
-      margin-bottom: 2.5rem;
-
-      @include breakpoint("medium") {
-        margin-bottom: 1rem;
-      }
-    }
-
-    .card-title {
-      margin-bottom: 0;
-      a {
-        color: $text-color;
-      }
-    }
-
-    .custom-fields {
-      //height: 5rem;
-      // border: 1px solid;
-      margin-bottom: 0;
-      font-size: 14px;
-      height: 3.8rem;
-      @include breakpoint("medium") {
-        height: 2.5rem;
-      }
-    }
-
-    .quantity {
-      display: block;
-      margin-top: 0;
-
-      @include breakpoint("medium") {
-        display: flex;
-        margin-top: 1rem;
-        align-items: center;
-        justify-content: center;
-        grid-gap: 0.5rem;
-      }
-
-      .form-field--increments {
-        margin-bottom: 0;
-      }
-
-      .card-figcaption-button {
-        margin-top: 1rem;
-        padding: 1rem 2.2rem 1rem 0.7rem;
-        color: $white-color;
-        background-color: $nav-hover-text;
-        svg {
-          //  fill: red;
+            img {
+                width: 80%;
+                height: auto;
+                transition: all 0.3s ease;
+            }
         }
-        @include breakpoint("medium") {
-          margin-top: 0;
-          background-color: transparent;
-          transition: all 0.15s ease;
-          color: $body-color;
-          &:hover {
-            background-color: $nav-hover-text;
-            color: $white-color;
-          }
-        }
-      }
     }
 
-    .card-button {
-      width: 100%;
-      .button--secondary {
-        // background-color: $secondary-color;
-        background-color: transparent;
-        margin-top: 1rem;
-        transition: all 0.15s ease;
-        color: $body-color;
-        border: 1px solid $input-field;
-
-        @include breakpoint("medium") {
-          color: $body-color;
-          &:hover {
-            background-color: $gold-color !important;
-            color: $white-color !important;
-          }
-        }
-      }
-      .add-to-cart {
-        border: 0;
-        display: flex;
-        grid-gap: 10px;
-        align-items: center;
-        justify-content: center;
+    .card-body {
         text-align: center;
-        margin-top: 1rem;
-        margin-bottom: 0;
-        padding: 1rem 1.5rem;
-        background-color: $nav-hover-text;
-        color: $white-color;
-        svg {
-          //  stroke: $white-color;
-          path {
-            fill: white;
-          }
+        display: grid;
+        grid-template-rows: auto 85px auto;
+
+        // @include breakpoint('medium') {
+        //     grid-template-rows: auto 55px auto;
+        // }
+
+        .card-text {
+            color: $text-color;
+            font-weight: 700;
+
+            span {
+                color: $body-color;
+            }
         }
-        /* background-image: url(https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/-right-icon.png);
+
+        .card-productRating {
+            height: 5px;
+            margin-bottom: 0.5rem;
+
+            @include breakpoint('medium') {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        .card-title {
+            margin-bottom: 0;
+            a {
+                color: $text-color;
+            }
+        }
+
+        .custom-fields {
+            //height: 5rem;
+            // border: 1px solid;
+            margin-bottom: 0;
+            font-size: 14px;
+            height: 3.8rem;
+            @include breakpoint('medium') {
+                height: 2.5rem;
+            }
+        }
+
+        .quantity {
+            display: block;
+            margin-top: 0;
+
+            @include breakpoint('medium') {
+                display: flex;
+                margin-top: 1rem;
+                align-items: center;
+                justify-content: center;
+                grid-gap: 0.5rem;
+            }
+
+            .form-field--increments {
+                margin-bottom: 0;
+            }
+
+            .card-figcaption-button {
+                margin-top: 1rem;
+                padding: 1rem 2.2rem 1rem 0.7rem;
+                color: $white-color;
+                background-color: $nav-hover-text;
+                svg {
+                    //  fill: red;
+                }
+                @include breakpoint('medium') {
+                    margin-top: 0;
+                    background-color: transparent;
+                    transition: all 0.15s ease;
+                    color: $body-color;
+                    &:hover {
+                        background-color: $nav-hover-text;
+                        color: $white-color;
+                    }
+                }
+            }
+        }
+
+        .card-button {
+            width: 100%;
+            margin-top: 1rem;
+            .button--secondary {
+                // background-color: $secondary-color;
+                background-color: transparent;
+                transition: all 0.15s ease;
+                color: $body-color;
+                // border: 1px solid $input-field;
+                height: 75px;
+
+                // @include breakpoint('medium') {
+                //     color: $body-color;
+                //     &:hover {
+                //         background-color: $gold-color !important;
+                //         color: $white-color !important;
+                //     }
+                // }
+            }
+            .add-to-cart {
+                border: 0;
+                display: flex;
+                grid-gap: 10px;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                margin-top: 1rem;
+                margin-bottom: 0;
+                padding: 1rem 1.5rem;
+                background-color: $nav-hover-text;
+                color: $white-color;
+                svg {
+                    //  stroke: $white-color;
+                    path {
+                        fill: white;
+                    }
+                }
+                /* background-image: url(https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/-right-icon.png);
       background-position: 94% center;
       background-repeat: no-repeat;*/
 
-        @include breakpoint("medium") {
-          margin-top: 0;
-          background-color: transparent;
-          color: $body-color;
-          svg {
-            path {
-              fill: #bd9b60;
+                @include breakpoint('medium') {
+                    margin-top: 0;
+                    background-color: transparent;
+                    color: $body-color;
+                    svg {
+                        path {
+                            fill: #bd9b60;
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 }
 
 .similar-by-views {
-  padding-top: 4rem;
+    padding-top: 4rem;
 
-  @include breakpoint("medium") {
-    padding-top: 6rem;
-  }
-
-  h2{
-    font-family: "Filson Pro";
-    color: $headingColor;font-weight: 700;
-    font-size: 28px;
-    @include breakpoint("medium") {
-      font-size: 40px;
+    @include breakpoint('medium') {
+        padding-top: 6rem;
     }
-  }
-  .slick-list {
-    .card {
-      .card-body {
-        grid-template-rows: auto 105px auto !important;
 
-        @include breakpoint("medium") {
-          grid-template-rows: auto 75px auto !important;
+    h2 {
+        font-family: 'Filson Pro';
+        color: $headingColor;
+        font-weight: 700;
+        font-size: 28px;
+        @include breakpoint('medium') {
+            font-size: 40px;
         }
-      }
     }
-  }
+    .slick-list {
+        .card {
+            .card-body {
+                grid-template-rows: auto 105px auto !important;
+
+                @include breakpoint('medium') {
+                    grid-template-rows: auto 75px auto !important;
+                }
+            }
+        }
+    }
 }
 
 .slick-list {
-  .price-section{
-    margin-top: 0.5rem;
-  }
+    .price-section {
+        margin-top: 0.5rem;
+    }
 }
