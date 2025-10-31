@@ -1,5 +1,5 @@
 {
-    "name": "product cards redesign",
+    "name": "cart total preview",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {

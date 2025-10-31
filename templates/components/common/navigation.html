@@ -1,5 +1,5 @@
 <nav class="navUser">
-    
+
     <div class="grid ">
         <a href="#" class="mobileMenu-toggle" data-mobile-menu-toggle="menu">
             <span class="mobileMenu-toggleIcon">Toggle menu</span>
@@ -13,13 +13,13 @@
             {{> components/common/store-logo}}
         </div>
     {{/if}}
-    
+
         {{#or customer (unless settings.hide_price_from_guests)}}
             {{> components/common/currency-selector}}
         {{/or}}
-    
+
         <ul class="navUser-section navUser-section--alt">
-            
+
             {{#if customer.store_credit.value '>' 0}}
                 <li class="navUser-item">
                     <a class="navUser-action navUser-action--storeCredit"
@@ -95,7 +95,7 @@
                  <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M0.617188 0.9C0.617188 0.402944 1.02013 0 1.51719 0H9.61345C10.1105 0 10.5135 0.402944 10.5135 0.9C10.5135 1.39706 10.1105 1.8 9.61345 1.8H2.41719V16.2H9.61719C10.1142 16.2 10.5172 16.6029 10.5172 17.1C10.5172 17.5971 10.1142 18 9.61719 18H1.51719C1.02013 18 0.617188 17.5971 0.617188 17.1V0.9ZM13.0308 4.3136C13.3823 3.96213 13.9521 3.96213 14.3036 4.3136L18.3029 8.31289C18.4953 8.47795 18.6172 8.72287 18.6172 8.99626C18.6172 8.99662 18.6172 8.99697 18.6172 8.99732C18.6179 9.22855 18.53 9.45998 18.3536 9.6364L14.3036 13.6864C13.9521 14.0379 13.3823 14.0379 13.0308 13.6864C12.6793 13.3349 12.6793 12.7651 13.0308 12.4136L15.5481 9.89626H6.01719C5.52013 9.89626 5.11719 9.49332 5.11719 8.99626C5.11719 8.49921 5.52013 8.09626 6.01719 8.09626H15.5407L13.0308 5.5864C12.6793 5.23492 12.6793 4.66508 13.0308 4.3136Z" fill="white"/>
                     </svg>
-                    
+
                  </a>
                     <a class="navUser-action"
                        href="{{urls.auth.logout}}"
@@ -132,13 +132,13 @@
                 <svg><use xlink:href="#icon-cart" />
                 </svg>
                     <p class="pill-container"><span class="countPill cart-quantity"></span><span class="cart-contents"> Items</span></p>
-                    <!--<span class="navUser-item-cartLabel">{{lang 'common.cart'}}</span>-->
-                   <span class="navUser-item-cartLabel">{{cart.grand_total.formatted}}</span>
+                   <span class="navUser-item-cartLabel"></span>
+
                 </a>
                 <div class="dropdown-menu" id="cart-preview-dropdown" data-dropdown-content aria-hidden="true"></div>
             </li>
         </ul>
-      
+
 
 
 </div>
@@ -146,3 +146,83 @@
 {{> components/common/quick-search name='nav-quick-search'}}
 </div>
 </nav>
+
+<script>
+async function getCartTotal() {
+  const cartId = '{{ cart_id }}';
+
+  const query = `
+    query site {
+      site {
+        cart(entityId: "${cartId}") {
+          entityId
+          amountInDisplayCurrency {
+            value
+            currencyCode
+            formattedV2
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch('/graphql', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer {{ settings.storefront_api.token }}`
+      },
+      body: JSON.stringify({
+        query: query,
+        variables: { cartId: cartId }
+      })
+    });
+
+    const result = await response.json();
+    const formattedTotal = result.data.site.cart?.amountInDisplayCurrency?.formattedV2 || '';
+    return formattedTotal;
+  } catch (error) {
+    return null;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    getCartTotal().then(formattedTotal => {
+    document.querySelector('.navUser-item-cartLabel').textContent = formattedTotal;
+    }).catch(error => {
+    console.error('Error getting cart total:', error);
+    document.querySelector('.navUser-item-cartLabel').textContent = '';
+    });
+});
+
+// Select the node that will be observed for mutations
+const targetNode = document.querySelector('.navUser-item--cart');
+
+// Options for the observer (which mutations to observe)
+const config = { attributes: false, childList: true, subtree: true };
+
+// Callback function to execute when mutations are observed
+const callback = (mutationList, observer) => {
+  for (const mutation of mutationList) {
+    if (mutation.type === "childList") {
+      // if the child node that changed is the cart quantity, update the cart total
+      if (mutation.target.classList.contains('countPill')) {
+        getCartTotal().then(formattedTotal => {
+            document.querySelector('.navUser-item-cartLabel').textContent = formattedTotal;
+            }).catch(error => {
+            document.querySelector('.navUser-item-cartLabel').textContent = '';
+            });
+      }
+    }
+  }
+};
+
+// Create an observer instance linked to the callback function
+const observer = new MutationObserver(callback);
+
+// Start observing the target node for configured mutations
+observer.observe(targetNode, config);
+
+</script>
