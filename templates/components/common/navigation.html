@@ -181,19 +181,48 @@ async function getCartTotal() {
     });
 
     const result = await response.json();
-    const formattedTotal = result.data.site.cart.amountInDisplayCurrency.formattedV2;
+    const formattedTotal = result.data.site.cart?.amountInDisplayCurrency?.formattedV2 || '';
     return formattedTotal;
   } catch (error) {
-    console.error('Error fetching cart:', error);
     return null;
   }
 }
 
-// Usage
-getCartTotal().then(formattedTotal => {
-  console.log('Cart total:', formattedTotal);
-  document.querySelector('.navUser-item-cartLabel').textContent = formattedTotal;
-}).catch(error => {
-  console.error('Error getting cart total:', error);
+document.addEventListener('DOMContentLoaded', () => {
+    getCartTotal().then(formattedTotal => {
+    document.querySelector('.navUser-item-cartLabel').textContent = formattedTotal;
+    }).catch(error => {
+    console.error('Error getting cart total:', error);
+    document.querySelector('.navUser-item-cartLabel').textContent = '';
+    });
 });
+
+// Select the node that will be observed for mutations
+const targetNode = document.querySelector('.navUser-item--cart');
+
+// Options for the observer (which mutations to observe)
+const config = { attributes: false, childList: true, subtree: true };
+
+// Callback function to execute when mutations are observed
+const callback = (mutationList, observer) => {
+  for (const mutation of mutationList) {
+    if (mutation.type === "childList") {
+      // if the child node that changed is the cart quantity, update the cart total
+      if (mutation.target.classList.contains('countPill')) {
+        getCartTotal().then(formattedTotal => {
+            document.querySelector('.navUser-item-cartLabel').textContent = formattedTotal;
+            }).catch(error => {
+            document.querySelector('.navUser-item-cartLabel').textContent = '';
+            });
+      }
+    }
+  }
+};
+
+// Create an observer instance linked to the callback function
+const observer = new MutationObserver(callback);
+
+// Start observing the target node for configured mutations
+observer.observe(targetNode, config);
+
 </script>
