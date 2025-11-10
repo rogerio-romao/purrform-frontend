@@ -129,7 +129,7 @@
                    href="{{urls.cart}}"
                    aria-label="{{lang 'cart.nav_aria_label'}}"
                 >
-                <svg><use xlink:href="#icon-cart" />
+                <svg class="cartIcon"><use xlink:href="#icon-cart" />
                 </svg>
                     <p class="pill-container"><span class="countPill cart-quantity"></span><span class="cart-contents"> Items</span></p>
                    <span class="navUser-item-cartLabel"></span>
@@ -209,11 +209,15 @@ const callback = (mutationList, observer) => {
     if (mutation.type === "childList") {
       // if the child node that changed is the cart quantity, update the cart total
       if (mutation.target.classList.contains('countPill')) {
+        document.querySelector('.cartIcon').classList.add('wiggle');
         getCartTotal().then(formattedTotal => {
             document.querySelector('.navUser-item-cartLabel').textContent = formattedTotal;
             }).catch(error => {
             document.querySelector('.navUser-item-cartLabel').textContent = '';
             });
+        setTimeout(() => {
+            document.querySelector('.cartIcon').classList.remove('wiggle');
+        }, 2000);
       }
     }
   }
@@ -226,3 +230,39 @@ const observer = new MutationObserver(callback);
 observer.observe(targetNode, config);
 
 </script>
+
+<style>
+.wiggle {
+    animation: wiggle 2s linear;
+}
+
+@keyframes wiggle {
+    0%, 7% {
+        transform: rotateZ(0);
+        scale: 1;
+    }
+    15% {
+        transform: rotateZ(-15deg);
+    }
+    20% {
+        transform: rotateZ(10deg);
+    }
+    25% {
+        transform: rotateZ(-10deg);
+    }
+    30% {
+        transform: rotateZ(6deg);
+        scale: 1.15;
+    }
+    35% {
+        transform: rotateZ(-4deg);
+    }
+    40%, 100% {
+        transform: rotateZ(0);
+    }
+    70% {
+        scale: 1;
+    }
+
+}
+</style>
