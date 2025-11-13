@@ -124,7 +124,7 @@
         }
 
         // if customer group is trade, hide coupons
-        if ('{{customer_group_name}}' === 'Trade') {
+        if ('{{customer_group_name}}' === 'Trade' || '{{customer_group_name}}' === 'New Trader' || '{{customer_group_name}}' === 'Trade TNC') {
             couponsEl.style.display = 'none';
         }
 
@@ -247,7 +247,8 @@
         "
         >You are currently blocked for shopping. Please contact admin for more info</p>
 </div>
-{{/if}} {{#if customer}} {{#unless customer_group_name '===' 'Trade'}}
+{{/if}} {{#if customer}}
+{{#if customer_group_name '===' 'Personal'}}
 
 <script>
     // Handles the loyalty points
@@ -541,7 +542,301 @@
             });
     }
 </script>
-{{/unless}} {{/if}}
+{{else if customer_group_name '===' 'Breeder'}}
+<script>
+    // Handles the loyalty points
+    const parentSelectorDesktop = '.cart.optimizedCheckout-orderSummary';
+    const parentSelectorMobile =
+        '.cart-modal-body.optimizedCheckout-orderSummary';
+
+    ready(parentSelectorDesktop, (parentElement) => {
+        loyaltyInitialize(parentElement);
+    });
+
+    ready(parentSelectorMobile, (parentElement) => {
+        loyaltyInitialize(parentElement);
+    });
+
+    function loyaltyInitialize(elementToAppend) {
+        // Fetch loyalty points
+        fetchLoyalty().then((points) => {
+            // Create a new div element for displaying loyalty points
+            const pointsDiv = document.createElement('section');
+            const pointsDesc = document.createElement('p');
+            pointsDesc.id = 'pointsDesc';
+            if (points == null) {
+                pointsDesc.innerHTML = "Could not find loyalty points for this account, make sure you are logged in or refresh the page.";
+            } else {
+                pointsDesc.innerHTML = `Loyalty points balance ${points}`;
+            }
+            pointsDiv.appendChild(pointsDesc);
+            pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
+
+            // Create a label and input for entering points to use
+            const label = document.createElement('label');
+            label.setAttribute('for', 'points-input');
+            label.classList.add('loyaltyLabel');
+            pointsDiv.appendChild(label);
+
+            const pointsInput = document.createElement('input');
+            pointsInput.type = 'number';
+            pointsInput.id = 'points-input';
+            pointsInput.min = 0;
+            pointsInput.max = points;
+            pointsInput.placeholder = 'How many?';
+            pointsDiv.appendChild(pointsInput);
+
+            pointsInput.addEventListener('input', () => {
+                if (Number(pointsInput.value) > points) {
+                    pointsInput.value = points;
+                }
+            });
+
+            const confirmButton = document.createElement('button');
+            confirmButton.textContent = 'Apply discount';
+            confirmButton.id = 'loyaltyPointsBtn';
+            confirmButton.className = 'btn btn-primary';
+            pointsDiv.appendChild(confirmButton);
+
+            const cancelButton = document.createElement('button');
+            cancelButton.textContent = 'Cancel discount';
+            cancelButton.id = 'cancelLoyaltyPointsBtn';
+            cancelButton.className = 'btn btn-secondary';
+            cancelButton.style.display = document.querySelector(
+                '[data-test="cart-discount"] [data-test="cart-price-value"]'
+            )
+                ? 'block'
+                : 'none';
+            pointsDiv.appendChild(cancelButton);
+
+            const errorMessage = document.createElement('p');
+            errorMessage.id = 'usedPointsError';
+            errorMessage.classList.add('warning');
+            errorMessage.textContent =
+                'There was an error applying the discount. Please try again later.';
+            errorMessage.style.display = 'none';
+            pointsDiv.appendChild(errorMessage);
+
+            // Mount the entire loyalty points div to the parent element
+            elementToAppend.appendChild(pointsDiv);
+
+            generateNewSummary(points);
+
+            loyaltyPointsBtn.addEventListener('click', () => {
+                if (pointsInput.value === '') {
+                    return;
+                }
+
+                loyaltyPointsBtn.setAttribute('disabled', 'true');
+                loyaltyPointsBtn.textContent = 'Processing';
+
+                fetch(
+                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}&max_points=${points}`
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            // do something here to let the user know the discount failed
+                            throw new Error('Failed to apply discount');
+                        }
+
+                        loyaltyPointsBtn.removeAttribute('disabled');
+                        errorMessage.style.display = 'none';
+                        cancelButton.style.display = 'block';
+                        window.location.reload();
+                    })
+                    .catch((err) => {
+                        // do something here to let the user know the discount failed
+                        loyaltyPointsBtn.removeAttribute('disabled');
+                        loyaltyPointsBtn.textContent = 'Apply discount';
+                        pointsInput.value = '';
+                        errorMessage.style.display = 'block';
+                    });
+            });
+
+            cancelButton.addEventListener('click', () => {
+                cancelButton.setAttribute('disabled', 'true');
+                cancelButton.textContent = 'Removing...';
+                fetch(
+                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=0`
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Failed to remove discount');
+                        }
+                        cancelButton.removeAttribute('disabled');
+                        errorMessage.style.display = 'none';
+                        cancelButton.style.display = 'none';
+                        window.location.reload();
+                    })
+                    .catch((err) => {
+                        // do something here to let the user know the discount failed
+                        cancelButton.removeAttribute('disabled');
+                        cancelButton.textContent = 'Remove Discount';
+                        pointsInput.value = '';
+                        errorMessage.style.display = 'block';
+                    });
+            });
+        });
+    }
+
+    function generateNewSummary(currentUserPoints) {
+        const masterContainer = document.createElement('div');
+        const masterText = document.createElement('p');
+        masterText.classList.add('loyalty-summary');
+        masterText.textContent = 'Loyalty Points Summary';
+        masterContainer.appendChild(masterText);
+
+        const discountEl = document.querySelector(
+            '[data-test="cart-discount"] [data-test="cart-price-value"]'
+        );
+        const subtotalEl = document.querySelector(
+            '[data-test="cart-subtotal"] [data-test="cart-price-value"]'
+        );
+        const couponDiscountEl = document.querySelector(
+            '[data-test="cart-coupon"] [data-test="cart-price-value"]'
+        );
+        const pointsInput = document.getElementById('points-input');
+
+        let discountPriceValue = 0;
+        let discountLoyalPointValue = 0;
+        let earningPriceValue = 0;
+        let earningLoyalPointValue = 0;
+
+        if (discountEl) {
+            // Discount Div
+            const discountContainer = document.createElement('div');
+            discountContainer.classList.add('cart-summaryItem');
+
+            const discountDescription = document.createElement('div');
+            const discountValue = document.createElement('div');
+
+            discountDescription.textContent = 'Points redeemed';
+
+            discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '');
+            discountPriceValue = Math.abs(Number(discountPriceValue));
+            discountLoyalPointValue = Math.floor(discountPriceValue * 100);
+
+            discountValue.textContent = `-${discountLoyalPointValue}`;
+
+            discountContainer.appendChild(discountDescription);
+            discountContainer.appendChild(discountValue);
+            masterContainer.appendChild(discountContainer);
+        }
+        if (subtotalEl) {
+            // Earning Div
+            const earningContainer = document.createElement('div');
+            earningContainer.classList.add('cart-summaryItem');
+
+            const earningDescription = document.createElement('div');
+            const earningValue = document.createElement('div');
+
+            earningDescription.textContent = 'Points earned';
+            earningPriceValue = subtotalEl.innerHTML.replace(/[^\d.-]/g, '');
+            earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
+            if (discountEl) {
+                earningPriceValue = earningPriceValue - discountPriceValue;
+            }
+
+            if (couponDiscountEl) {
+                earningPriceValue -= Math.floor(
+                    Math.abs(
+                        Number(
+                            couponDiscountEl.innerHTML.replace(/[^\d.-]/g, '')
+                        )
+                    )
+                );
+            }
+
+            earningLoyalPointValue = Math.floor(earningPriceValue / 2);
+
+            if (earningLoyalPointValue < 0) {
+                earningLoyalPointValue = 0;
+                earningValue.textContent = `0`;
+            } else {
+                earningValue.textContent = `+${earningLoyalPointValue}`;
+            }
+
+            earningContainer.appendChild(earningDescription);
+            earningContainer.appendChild(earningValue);
+            masterContainer.appendChild(earningContainer);
+        }
+
+        const finalContainer = document.createElement('div');
+        const finalResult = document.createElement('div');
+        const finalResultText = document.createElement('p');
+
+        const finalType = document.createElement('div');
+        const finalTypeText = document.createElement('p');
+        finalTypeText.textContent = 'Estimated total after purchase:';
+
+        if (discountEl) {
+            finalResultText.textContent = `${
+                currentUserPoints +
+                earningLoyalPointValue -
+                discountLoyalPointValue
+            }`;
+        } else {
+            finalResultText.textContent = `${
+                currentUserPoints + earningLoyalPointValue
+            }`;
+        }
+
+        finalType.appendChild(finalTypeText);
+        finalResult.appendChild(finalResultText);
+        finalContainer.appendChild(finalType);
+        finalContainer.appendChild(finalResult);
+        finalContainer.classList.add('cart-resultItem');
+
+        masterContainer.appendChild(finalContainer);
+        // pointsDiv.insertAdjacentHTML('afterend', finalContainer.innerHTML);
+        pointsInput.insertAdjacentHTML('afterend', masterContainer.outerHTML);
+
+        // fix for mobile not showing button
+        const parentSelectorMobile =
+            '.cart-modal-body.optimizedCheckout-orderSummary';
+        if (document.querySelector(parentSelectorMobile)) {
+            const confirmButton = document.querySelector('#loyaltyPointsBtn');
+            confirmButton.focus();
+        }
+    }
+
+    function fetchLoyalty() {
+        return fetch('/graphql', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer {{ settings.storefront_api.token }}',
+            },
+            body: JSON.stringify({
+                query: `
+                    query loyaltyQuery{
+                        customer {
+                            attributes {
+                                attribute(entityId: 1) {
+                                    value
+                                    name
+                                }
+                            }
+                        }
+                    }
+                `,
+            }),
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                const attribute = json.data.customer.attributes.attribute;
+                const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
+                return Number(points);
+            })
+            .catch((error) => {
+                console.error('Error fetching loyalty points:', error);
+                return 0; // Return '0' in case of error
+            });
+    }
+</script>
+{{/if}}
+{{/if}}
 
 <script>
     // ------------------------------------------------------//
@@ -959,6 +1254,170 @@
 </script>
 
  {{#if customer_group_name '===' 'Trade'}}
+<script type="module">
+    let hasOverdue = false;
+    let lowBalance = false;
+
+    try {
+        const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (response.ok) {
+            const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
+            const traderInCreditSystem = traders.find(t => t.bc_customer_email === '{{customer.email}}');
+
+            if (traderInCreditSystem) {
+                // Put the credit balance info before the cart subtotal
+                ready('div[data-test="cart-subtotal"]', (element) => {
+                    element.insertAdjacentHTML(
+                        'beforebegin',
+                        `<div class="creditBalanceInfo">
+                            <div>Credit Balance  </div>
+                            <div class="creditBalanceAmount">£${traderInCreditSystem.current_balance.toFixed(2)}</div>
+                        </div>`
+                    );
+                });
+
+                // Add any overdue / low balance message to the cart total section
+                ready('div[data-test="cart-total"]', (element) => {
+                    hasOverdue = traderInCreditSystem.has_overdue;
+
+                    if (hasOverdue) {
+                        element.insertAdjacentHTML(
+                            'beforeend',
+                            `<div class="credit-balance-message">
+                                You have overdue order(s) unpaid. New orders will not be processed until payment is made. <a href="/account.php?action=order_status">Click here</a> to see the overdue order(s) in your account.
+                            </div>`
+                        );
+                    } else {
+                        const cartTotalText = document.querySelector(
+                            'div[data-test="cart-total"] span[data-test="cart-price-value"]'
+                        ).textContent;
+                        const cartTotal = Number(cartTotalText.replace('£', ''));
+                        lowBalance = cartTotal > traderInCreditSystem.current_balance;
+
+                        if (lowBalance) {
+                            element.insertAdjacentHTML(
+                                'beforeend',
+                                `<div class="credit-balance-message">
+                                    Your cart total exceeds your credit limit. You can either remove some items or pay the balance to process your order.
+                                </div>`
+                            );
+                        }
+
+                    }
+
+                });
+
+
+                if (hasOverdue || lowBalance) {
+                    // Hide the payment button if there is an overdue order or low balance
+                    ready('#fakeButton', (element) => {
+                        element.remove()
+                    });
+
+                    ready('#proceedButton', (element) => {
+                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
+                    });
+
+                    ready('#checkoutPaymentContinue', (element) => {
+                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
+                    });
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching trader data:', error);
+    }
+
+</script>
+{{else if customer_group_name '===' 'New Trader'}}
+<script type="module">
+    let hasOverdue = false;
+    let lowBalance = false;
+
+    try {
+        const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (response.ok) {
+            const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
+            const traderInCreditSystem = traders.find(t => t.bc_customer_email === '{{customer.email}}');
+
+            if (traderInCreditSystem) {
+                // Put the credit balance info before the cart subtotal
+                ready('div[data-test="cart-subtotal"]', (element) => {
+                    element.insertAdjacentHTML(
+                        'beforebegin',
+                        `<div class="creditBalanceInfo">
+                            <div>Credit Balance  </div>
+                            <div class="creditBalanceAmount">£${traderInCreditSystem.current_balance.toFixed(2)}</div>
+                        </div>`
+                    );
+                });
+
+                // Add any overdue / low balance message to the cart total section
+                ready('div[data-test="cart-total"]', (element) => {
+                    hasOverdue = traderInCreditSystem.has_overdue;
+
+                    if (hasOverdue) {
+                        element.insertAdjacentHTML(
+                            'beforeend',
+                            `<div class="credit-balance-message">
+                                You have overdue order(s) unpaid. New orders will not be processed until payment is made. <a href="/account.php?action=order_status">Click here</a> to see the overdue order(s) in your account.
+                            </div>`
+                        );
+                    } else {
+                        const cartTotalText = document.querySelector(
+                            'div[data-test="cart-total"] span[data-test="cart-price-value"]'
+                        ).textContent;
+                        const cartTotal = Number(cartTotalText.replace('£', ''));
+                        lowBalance = cartTotal > traderInCreditSystem.current_balance;
+
+                        if (lowBalance) {
+                            element.insertAdjacentHTML(
+                                'beforeend',
+                                `<div class="credit-balance-message">
+                                    Your cart total exceeds your credit limit. You can either remove some items or pay the balance to process your order.
+                                </div>`
+                            );
+                        }
+
+                    }
+
+                });
+
+
+                if (hasOverdue || lowBalance) {
+                    // Hide the payment button if there is an overdue order or low balance
+                    ready('#fakeButton', (element) => {
+                        element.remove()
+                    });
+
+                    ready('#proceedButton', (element) => {
+                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
+                    });
+
+                    ready('#checkoutPaymentContinue', (element) => {
+                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
+                    });
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching trader data:', error);
+    }
+
+</script>
+{{else if customer_group_name '===' 'Trade TNC'}}
 <script type="module">
     let hasOverdue = false;
     let lowBalance = false;

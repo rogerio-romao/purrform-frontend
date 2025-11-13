@@ -42,6 +42,92 @@
         console.error('Error fetching trader data:', error);
     }
 </script>
+{{else if customer_group_name '===' 'New Trader'}}
+<script type="module">
+    try {
+        const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (response.ok) {
+            const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
+            const traderInCreditSystem = traders.find(t => t.bc_customer_email === '{{customer.email}}');
+
+            if (traderInCreditSystem) {
+                // Update the credit balance display
+                const creditBalanceElement = document.querySelector('.cart-total-credit-balance .cart-total-value');
+                creditBalanceElement.textContent = `£${traderInCreditSystem.current_balance.toFixed(2)}`;
+                const creditBalanceContainer = document.querySelector('.cart-total-credit-balance');
+                creditBalanceContainer.style.display = 'flex';
+
+                const cartTotal = Number('{{cart.grand_total.value}}');
+
+                // Add overdue message if applicable
+                const creditErrorMessageEl = document.querySelector('.credit-balance-message');
+                if (traderInCreditSystem.has_overdue) {
+                    creditErrorMessageEl.innerHTML = '<span>You have overdue order(s) unpaid. New orders will not be processed until payment is made. <a href="/account.php?action=order_status">Click here</a> to see the overdue order(s) in your account.</span>';
+                    creditErrorMessageEl.style.display = 'block';
+                } else if (cartTotal > traderInCreditSystem.current_balance) {
+                    creditErrorMessageEl.textContent = 'Your cart total exceeds your credit limit. You can either remove some items or pay the balance to process your order.';
+                    creditErrorMessageEl.style.display = 'block';
+                }
+
+                const needToDisableCheckout = traderInCreditSystem.has_overdue || cartTotal > traderInCreditSystem.current_balance;
+                const agreeCheckbox = document.querySelector('.validate-cart');
+                agreeCheckbox.parentNode.style.display = needToDisableCheckout ? 'none' : 'block';
+
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching trader data:', error);
+    }
+</script>
+{{else if customer_group_name '===' 'Trade TNC'}}
+<script type="module">
+    try {
+        const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (response.ok) {
+            const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
+            const traderInCreditSystem = traders.find(t => t.bc_customer_email === '{{customer.email}}');
+
+            if (traderInCreditSystem) {
+                // Update the credit balance display
+                const creditBalanceElement = document.querySelector('.cart-total-credit-balance .cart-total-value');
+                creditBalanceElement.textContent = `£${traderInCreditSystem.current_balance.toFixed(2)}`;
+                const creditBalanceContainer = document.querySelector('.cart-total-credit-balance');
+                creditBalanceContainer.style.display = 'flex';
+
+                const cartTotal = Number('{{cart.grand_total.value}}');
+
+                // Add overdue message if applicable
+                const creditErrorMessageEl = document.querySelector('.credit-balance-message');
+                if (traderInCreditSystem.has_overdue) {
+                    creditErrorMessageEl.innerHTML = '<span>You have overdue order(s) unpaid. New orders will not be processed until payment is made. <a href="/account.php?action=order_status">Click here</a> to see the overdue order(s) in your account.</span>';
+                    creditErrorMessageEl.style.display = 'block';
+                } else if (cartTotal > traderInCreditSystem.current_balance) {
+                    creditErrorMessageEl.textContent = 'Your cart total exceeds your credit limit. You can either remove some items or pay the balance to process your order.';
+                    creditErrorMessageEl.style.display = 'block';
+                }
+
+                const needToDisableCheckout = traderInCreditSystem.has_overdue || cartTotal > traderInCreditSystem.current_balance;
+                const agreeCheckbox = document.querySelector('.validate-cart');
+                agreeCheckbox.parentNode.style.display = needToDisableCheckout ? 'none' : 'block';
+
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching trader data:', error);
+    }
+</script>
  {{/if}}
 
  <div data-cart-totals class="cart-free-delivery" style="border: none;">

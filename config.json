@@ -1,5 +1,5 @@
 {
-    "name": "cart icon animation",
+    "name": "fix trader customer groups bug",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
