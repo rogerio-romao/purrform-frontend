@@ -1,5 +1,5 @@
 {
-    "name": "fix trader customer groups bug",
+    "name": "remove product recall link",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
