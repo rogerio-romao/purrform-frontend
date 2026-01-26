@@ -1,5 +1,5 @@
 {
-    "name": "fix footer spacing",
+    "name": "fix multiple pages add to cart issue",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
