@@ -1253,253 +1253,147 @@
     });
 </script>
 
- {{#if customer_group_name '===' 'Trade'}}
 <script type="module">
-    let hasOverdue = false;
-    let lowBalance = false;
+    const customerGroupName = '{{customer_group_name}}';
+    const tradeCustomerGroupNames = ['Trade', 'New Trader', 'Trader TNC'];
+    const isTraderGroup = tradeCustomerGroupNames.includes(customerGroupName);
 
-    try {
-        const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+    if (isTraderGroup) {
+        let hasOverdue = false;
+        let lowBalance = false;
 
-        if (response.ok) {
-            const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
-            const traderInCreditSystem = traders.find(t => t.bc_customer_email === '{{customer.email}}');
+        try {
+            const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
 
-            if (traderInCreditSystem) {
-                // Put the credit balance info before the cart subtotal
-                ready('div[data-test="cart-subtotal"]', (element) => {
-                    element.insertAdjacentHTML(
-                        'beforebegin',
-                        `<div class="creditBalanceInfo">
-                            <div>Credit Balance  </div>
-                            <div class="creditBalanceAmount">£${traderInCreditSystem.current_balance.toFixed(2)}</div>
-                        </div>`
-                    );
-                });
+            if (response.ok) {
+                const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
+                const traderInCreditSystem = traders.find(t => t.bc_customer_email === '{{customer.email}}');
 
-                // Add any overdue / low balance message to the cart total section
-                ready('div[data-test="cart-total"]', (element) => {
-                    hasOverdue = traderInCreditSystem.has_overdue;
-
-                    if (hasOverdue) {
+                if (traderInCreditSystem) {
+                    // Put the credit balance info before the cart subtotal
+                    ready('div[data-test="cart-subtotal"]', (element) => {
                         element.insertAdjacentHTML(
-                            'beforeend',
-                            `<div class="credit-balance-message">
-                                You have overdue order(s) unpaid. New orders will not be processed until payment is made. <a href="/account.php?action=order_status">Click here</a> to see the overdue order(s) in your account.
+                            'beforebegin',
+                            `<div class="creditBalanceInfo">
+                                <div>Credit Balance  </div>
+                                <div class="creditBalanceAmount">£${traderInCreditSystem.current_balance.toFixed(2)}</div>
                             </div>`
                         );
-                    } else {
-                        const cartTotalText = document.querySelector(
-                            'div[data-test="cart-total"] span[data-test="cart-price-value"]'
-                        ).textContent;
-                        const cartTotal = Number(cartTotalText.replace('£', ''));
-                        lowBalance = cartTotal > traderInCreditSystem.current_balance;
+                    });
 
-                        if (lowBalance) {
+                    // Add any overdue / low balance message to the cart total section
+                    ready('div[data-test="cart-total"]', (element) => {
+                        hasOverdue = traderInCreditSystem.has_overdue;
+
+                        if (hasOverdue) {
                             element.insertAdjacentHTML(
                                 'beforeend',
                                 `<div class="credit-balance-message">
-                                    Your cart total exceeds your credit limit. You can either remove some items or pay the balance to process your order.
+                                    You have overdue order(s) unpaid. New orders will not be processed until payment is made. <a href="/account.php?action=order_status">Click here</a> to see the overdue order(s) in your account.
                                 </div>`
                             );
+                        } else {
+                            const cartTotalText = document.querySelector(
+                                'div[data-test="cart-total"] span[data-test="cart-price-value"]'
+                            ).textContent;
+                            const cartTotal = Number(cartTotalText.replace('£', ''));
+                            lowBalance = cartTotal > traderInCreditSystem.current_balance;
+
+                            if (lowBalance) {
+                                element.insertAdjacentHTML(
+                                    'beforeend',
+                                    `<div class="credit-balance-message">
+                                        Your cart total exceeds your credit limit. You can either remove some items or pay the balance to process your order.
+                                    </div>`
+                                );
+                            }
+
                         }
 
-                    }
-
-                });
-
-
-                if (hasOverdue || lowBalance) {
-                    // Hide the payment button if there is an overdue order or low balance
-                    ready('#fakeButton', (element) => {
-                        element.remove()
                     });
 
-                    ready('#proceedButton', (element) => {
-                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                    });
 
-                    ready('#checkoutPaymentContinue', (element) => {
-                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                    });
-                }
-            }
-        }
-    } catch (error) {
-        console.error('Error fetching trader data:', error);
-    }
+                    if (hasOverdue || lowBalance) {
+                        // Hide the payment button if there is an overdue order or low balance
+                        ready('#fakeButton', (element) => {
+                            element.remove()
+                        });
 
-</script>
-{{else if customer_group_name '===' 'New Trader'}}
-<script type="module">
-    let hasOverdue = false;
-    let lowBalance = false;
+                        ready('#proceedButton', (element) => {
+                            element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
+                        });
 
-    try {
-        const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-
-        if (response.ok) {
-            const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
-            const traderInCreditSystem = traders.find(t => t.bc_customer_email === '{{customer.email}}');
-
-            if (traderInCreditSystem) {
-                // Put the credit balance info before the cart subtotal
-                ready('div[data-test="cart-subtotal"]', (element) => {
-                    element.insertAdjacentHTML(
-                        'beforebegin',
-                        `<div class="creditBalanceInfo">
-                            <div>Credit Balance  </div>
-                            <div class="creditBalanceAmount">£${traderInCreditSystem.current_balance.toFixed(2)}</div>
-                        </div>`
-                    );
-                });
-
-                // Add any overdue / low balance message to the cart total section
-                ready('div[data-test="cart-total"]', (element) => {
-                    hasOverdue = traderInCreditSystem.has_overdue;
-
-                    if (hasOverdue) {
-                        element.insertAdjacentHTML(
-                            'beforeend',
-                            `<div class="credit-balance-message">
-                                You have overdue order(s) unpaid. New orders will not be processed until payment is made. <a href="/account.php?action=order_status">Click here</a> to see the overdue order(s) in your account.
-                            </div>`
-                        );
+                        ready('#checkoutPaymentContinue', (element) => {
+                            element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
+                        });
                     } else {
-                        const cartTotalText = document.querySelector(
-                            'div[data-test="cart-total"] span[data-test="cart-price-value"]'
-                        ).textContent;
-                        const cartTotal = Number(cartTotalText.replace('£', ''));
-                        lowBalance = cartTotal > traderInCreditSystem.current_balance;
+                        // change the fakeButton text to Pay Now
+                        ready('#fakeButton', (element) => {
+                            element.innerHTML = 'Pay Now';
+                        });
+                        // add a new button next to the fake button to allow payment on credit
+                        ready('.checkout-step--payment .checkout-form .form-actions', (element) => {
+                            const creditPaymentButton = document.createElement('div');
+                            creditPaymentButton.innerHTML = 'Pay on Credit';
+                            creditPaymentButton.id = 'creditPaymentButton';
 
-                        if (lowBalance) {
-                            element.insertAdjacentHTML(
-                                'beforeend',
-                                `<div class="credit-balance-message">
-                                    Your cart total exceeds your credit limit. You can either remove some items or pay the balance to process your order.
-                                </div>`
-                            );
-                        }
-
-                    }
-
-                });
+                            creditPaymentButton.addEventListener('click', function () {
+                                // 1 - Put the button in loading state and disable the other button
+                                $('#creditPaymentButton').text('Processing...').attr('disabled', 'true');
+                                $('#fakeButton').attr('disabled', 'true');
 
 
-                if (hasOverdue || lowBalance) {
-                    // Hide the payment button if there is an overdue order or low balance
-                    ready('#fakeButton', (element) => {
-                        element.remove()
-                    });
+                                // get cart_id
+                                const cartId = '{{cart_id}}';
 
-                    ready('#proceedButton', (element) => {
-                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                    });
 
-                    ready('#checkoutPaymentContinue', (element) => {
-                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                    });
-                }
-            }
-        }
-    } catch (error) {
-        console.error('Error fetching trader data:', error);
-    }
+                                // 2 - Call the backend to process the credit payment
+                                fetch(`https://purrform-apps-027e.onrender.com/processCreditPayment?cartId=${cartId}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
 
-</script>
-{{else if customer_group_name '===' 'Trade TNC'}}
-<script type="module">
-    let hasOverdue = false;
-    let lowBalance = false;
+                                }).then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    // remove both buttons and put a thank you message
+                                    $('#creditPaymentButton').remove();
+                                    $('#fakeButton').remove();
+                                    // remove any previous error message
+                                    $('.checkout-step--payment .checkout-form .form-actions .credit-balance-message').remove();
+                                    const thankYouMessage = '<div class="credit-balance-message" style="background-color: #d4edda; color: #155724;">Your order has been placed successfully using credit payment. You can navigate away from this page. <a href="https://www.purrform.co.uk">Back to homepage.</a></div>';
+                                    $('.checkout-step--payment .checkout-form .form-actions').append(thankYouMessage);
+                                }).catch(error => {
+                                    // 3 - Show an error message
+                                    $('.checkout-step--payment .checkout-form .form-actions .credit-balance-message').remove();
+                                    const errorMessage = '<div class="credit-balance-message" style="background-color: #f8d7da; color: #721c24;">There was an error processing your credit payment. Please try again or use another payment method.</div>';
+                                    $('.checkout-step--payment .checkout-form .form-actions').append(errorMessage);
+                                    // Re-enable buttons
+                                    $('#creditPaymentButton').text('Pay on Credit').removeAttr('disabled');
+                                    $('#fakeButton').removeAttr('disabled');
+                                })
 
-    try {
-        const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+                            });
 
-        if (response.ok) {
-            const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
-            const traderInCreditSystem = traders.find(t => t.bc_customer_email === '{{customer.email}}');
-
-            if (traderInCreditSystem) {
-                // Put the credit balance info before the cart subtotal
-                ready('div[data-test="cart-subtotal"]', (element) => {
-                    element.insertAdjacentHTML(
-                        'beforebegin',
-                        `<div class="creditBalanceInfo">
-                            <div>Credit Balance  </div>
-                            <div class="creditBalanceAmount">£${traderInCreditSystem.current_balance.toFixed(2)}</div>
-                        </div>`
-                    );
-                });
-
-                // Add any overdue / low balance message to the cart total section
-                ready('div[data-test="cart-total"]', (element) => {
-                    hasOverdue = traderInCreditSystem.has_overdue;
-
-                    if (hasOverdue) {
-                        element.insertAdjacentHTML(
-                            'beforeend',
-                            `<div class="credit-balance-message">
-                                You have overdue order(s) unpaid. New orders will not be processed until payment is made. <a href="/account.php?action=order_status">Click here</a> to see the overdue order(s) in your account.
-                            </div>`
-                        );
-                    } else {
-                        const cartTotalText = document.querySelector(
-                            'div[data-test="cart-total"] span[data-test="cart-price-value"]'
-                        ).textContent;
-                        const cartTotal = Number(cartTotalText.replace('£', ''));
-                        lowBalance = cartTotal > traderInCreditSystem.current_balance;
-
-                        if (lowBalance) {
-                            element.insertAdjacentHTML(
-                                'beforeend',
-                                `<div class="credit-balance-message">
-                                    Your cart total exceeds your credit limit. You can either remove some items or pay the balance to process your order.
-                                </div>`
-                            );
-                        }
+                            element.appendChild(creditPaymentButton);
+                        });
 
                     }
-
-                });
-
-
-                if (hasOverdue || lowBalance) {
-                    // Hide the payment button if there is an overdue order or low balance
-                    ready('#fakeButton', (element) => {
-                        element.remove()
-                    });
-
-                    ready('#proceedButton', (element) => {
-                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                    });
-
-                    ready('#checkoutPaymentContinue', (element) => {
-                        element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                    });
                 }
             }
+        } catch (error) {
+            console.error('Error fetching trader data:', error);
         }
-    } catch (error) {
-        console.error('Error fetching trader data:', error);
     }
-
 </script>
-{{/if}}
+
 
 <style>
     .creditBalanceInfo {
@@ -1615,6 +1509,7 @@
     }
 
     #fakeButton,
+    #creditPaymentButton,
     #proceedButton {
         color: white;
         border: 1px solid #687d6a;
@@ -1635,10 +1530,29 @@
         font-weight: bold;
     }
 
+    #creditPaymentButton {
+        background-color: transparent;
+        color: #687d6a;
+    }
+
+    #creditPaymentButton:hover {
+        background-color: #687d6a;
+        color: white;
+    }
+
     #fakeButton:hover,
     #proceedButton:hover {
         background-color: transparent;
         color: #687d6a;
+    }
+
+    #fakeButton[disabled],
+    #creditPaymentButton[disabled],
+    #proceedButton[disabled] {
+        background-color: #cccccc !important;
+        border-color: #999999 !important;
+        color: #666666 !important;
+        cursor: not-allowed !important;
     }
 
     /* DATE PICKER */
@@ -1804,6 +1718,8 @@
     html .ui-button.ui-state-disabled:active {
         text-align: center;
     }
+
+
 </style>
 
 {{/partial}} {{> layout/empty}}
