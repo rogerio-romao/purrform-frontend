@@ -299,9 +299,13 @@ export default class DietBuilder extends PageManager {
         const input = el('input', {
             id: 'weight_input',
             type: 'number',
-            min: '1',
+            min: '0.5',
             max: '30',
             step: '0.1',
+        });
+
+        const errorMsg = el('p', {
+            className: 'diet-builder-weight__error',
         });
 
         const buttonGroup = el('div', {
@@ -326,14 +330,32 @@ export default class DietBuilder extends PageManager {
         );
 
         // Validate weight input
-        input.addEventListener('input', () => {
-            const val = parseFloat(input.value);
-            const isValid = !Number.isNaN(val) && val >= 0.5 && val <= 30;
-            nextBtn.disabled = !isValid;
-        });
+        const validateWeight = () => {
+            const raw = input.value.trim();
+            if (raw === '') {
+                errorMsg.textContent = 'Please enter your cat\u2019s weight.';
+                errorMsg.style.display = 'block';
+                nextBtn.disabled = true;
+                return;
+            }
+            const val = parseFloat(raw);
+            if (Number.isNaN(val) || val < 0.5 || val > 30) {
+                errorMsg.textContent =
+                    'Please enter a weight between 0.5 and 30 kg.';
+                errorMsg.style.display = 'block';
+                nextBtn.disabled = true;
+                return;
+            }
+            errorMsg.textContent = '';
+            errorMsg.style.display = 'none';
+            nextBtn.disabled = false;
+        };
+
+        input.addEventListener('input', validateWeight);
+        input.addEventListener('blur', validateWeight);
 
         buttonGroup.append(backBtn, nextBtn);
-        inputGroup.append(label, input, buttonGroup);
+        inputGroup.append(label, input, buttonGroup, errorMsg);
         content.append(img, inputGroup);
 
         this.renderStep('How much does your cat weigh?', content);
