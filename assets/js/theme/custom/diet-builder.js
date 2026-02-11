@@ -474,7 +474,9 @@ export default class DietBuilder extends PageManager {
             'Back',
         );
 
-        content.append(img, buttonGroup, backBtn);
+        buttonGroup.appendChild(backBtn);
+
+        content.append(img, buttonGroup);
         this.renderStep('How active is your cat?', content);
     }
 

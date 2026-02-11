@@ -1021,20 +1021,28 @@
         @include breakpoint('medium') {
             width: 371px;
             height: 190px;
-            margin: 25px 0 0 5%;
+            margin: 0;
         }
     }
 
     .diet-builder-activity__buttons {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        gap: 15px;
+
+        @include breakpoint('medium') {
+            align-items: flex-start;
+            margin-top: 0;
+        }
 
         .diet-builder-btn--primary {
-            margin: 10px auto;
+            margin: 0;
+        }
 
-            @include breakpoint('medium') {
-                margin: 20px 0 0 26px;
-            }
+        .diet-builder-btn--secondary {
+            margin: 0;
         }
     }
 
