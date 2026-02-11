@@ -919,6 +919,14 @@
             color: $color-p;
             font-size: 18px;
             padding-left: 15px;
+            appearance: textfield;
+            -moz-appearance: textfield;
+
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
         }
 
         .diet-builder-weight__error {
