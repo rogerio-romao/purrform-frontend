@@ -415,8 +415,8 @@ export default class DietBuilder extends PageManager {
             'Back',
         );
 
-        buttonGroup.append(yesBtn, noBtn);
-        content.append(img, buttonGroup, backBtn);
+        buttonGroup.append(yesBtn, noBtn, backBtn);
+        content.append(img, buttonGroup);
 
         this.renderStep('Is your cat spayed / neutered?', content);
     }
