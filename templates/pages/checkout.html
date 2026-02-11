@@ -1347,24 +1347,30 @@
                                 $('#creditPaymentButton').text('Processing...').attr('disabled', 'true');
                                 $('#fakeButton').attr('disabled', 'true');
 
-                                // TODO: get the data needed for credit payment from the page
-                                // get customer.id and cart_id
-                                const customerId = '{{customer.id}}';
+
+                                // get cart_id
                                 const cartId = '{{cart_id}}';
-                                console.log('Initiating credit payment with customerId:', customerId, 'and cartId:', cartId);
+
 
                                 // 2 - Call the backend to process the credit payment
-                                // TODO: replace the below code with an actual API call to process credit payment and get the real result
-                                let success = Math.random() < 0.5;
-                                if (success) {
+                                fetch(`https://purrform-apps-027e.onrender.com/processCreditPayment?cartId=${cartId}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+
+                                }).then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
                                     // remove both buttons and put a thank you message
                                     $('#creditPaymentButton').remove();
                                     $('#fakeButton').remove();
                                     // remove any previous error message
                                     $('.checkout-step--payment .checkout-form .form-actions .credit-balance-message').remove();
-                                    const thankYouMessage = '<div class="credit-balance-message" style="background-color: #d4edda; color: #155724;">Your order has been placed successfully using credit payment. You can navigate away from this page.</div>';
+                                    const thankYouMessage = '<div class="credit-balance-message" style="background-color: #d4edda; color: #155724;">Your order has been placed successfully using credit payment. You can navigate away from this page. <a href="https://www.purrform.co.uk">Back to homepage.</a></div>';
                                     $('.checkout-step--payment .checkout-form .form-actions').append(thankYouMessage);
-                                } else {
+                                }).catch(error => {
                                     // 3 - Show an error message
                                     $('.checkout-step--payment .checkout-form .form-actions .credit-balance-message').remove();
                                     const errorMessage = '<div class="credit-balance-message" style="background-color: #f8d7da; color: #721c24;">There was an error processing your credit payment. Please try again or use another payment method.</div>';
@@ -1372,7 +1378,7 @@
                                     // Re-enable buttons
                                     $('#creditPaymentButton').text('Pay on Credit').removeAttr('disabled');
                                     $('#fakeButton').removeAttr('disabled');
-                                }
+                                })
 
                             });
 
