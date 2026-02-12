@@ -151,13 +151,27 @@ export default class DietBuilder extends PageManager {
         this.products = { tubs: null, pouches: null };
         this.productPromise = null;
 
+        // All products cache (fetched via GraphQL)
+        this.allProducts = [];
+
         // DOM root
         this.container = null;
+
+        // Fire GraphQL fetch early (before DOM ready)
+        this.allProductsPromise = this.fetchAllProducts();
     }
 
-    onReady() {
+    async onReady() {
         this.container = document.getElementById('diet-builder');
         if (!this.container) return;
+
+        // Resolve the GraphQL product fetch
+        try {
+            this.allProducts = await this.allProductsPromise;
+        } catch (err) {
+            this.allProducts = [];
+        }
+
         this.renderAgeStep();
     }
 
@@ -179,6 +193,94 @@ export default class DietBuilder extends PageManager {
     }
 
     // ── API ──────────────────────────────────────────────────────────
+
+    async fetchAllProducts() {
+        const token = this.context.storefrontAPIToken;
+        if (!token) {
+            return [];
+        }
+
+        const allProducts = [];
+        let hasNextPage = true;
+        let cursor = null;
+
+        while (hasNextPage) {
+            const afterClause = cursor ? `, after: "${cursor}"` : '';
+            const query = `{
+                site {
+                    products(first: 50${afterClause}) {
+                        edges {
+                            node {
+                                entityId
+                                name
+                                path
+                                defaultImage {
+                                    urlOriginal
+                                }
+                                customFields {
+                                    edges {
+                                        node {
+                                            name
+                                            value
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        pageInfo {
+                            hasNextPage
+                            endCursor
+                        }
+                    }
+                }
+            }`;
+
+            try {
+                // eslint-disable-next-line no-await-in-loop
+                const response = await fetch('/graphql', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ query }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(
+                        `GraphQL responded with ${response.status}`,
+                    );
+                }
+
+                // eslint-disable-next-line no-await-in-loop
+                const { data } = await response.json();
+                const { edges, pageInfo } = data.site.products;
+
+                edges.forEach(({ node }) => {
+                    const customFields = {};
+                    node.customFields.edges.forEach(({ node: cf }) => {
+                        customFields[cf.name] = cf.value;
+                    });
+
+                    allProducts.push({
+                        entityId: node.entityId,
+                        name: node.name,
+                        path: node.path,
+                        image: node.defaultImage?.urlOriginal || '',
+                        customFields,
+                    });
+                });
+
+                hasNextPage = pageInfo.hasNextPage;
+                cursor = pageInfo.endCursor;
+            } catch (err) {
+                hasNextPage = false;
+            }
+        }
+
+        return allProducts;
+    }
 
     async fetchProducts(ageNum) {
         const config = AGE_CONFIG[ageNum];
