@@ -1046,6 +1046,70 @@
         }
     }
 
+    // ── Ingredients step ─────────────────────────────────────────
+    .diet-builder-ingredients {
+        margin-top: 35px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .diet-builder-ingredients__grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 2rem;
+
+        @include breakpoint('medium') {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @include breakpoint('large') {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    .diet-builder-ingredients__card {
+        background-color: $color-f-w;
+        border: 2px solid $color-p;
+        border-radius: 12px;
+        padding: 12px 8px;
+        font-size: 15px;
+        font-weight: 600;
+        color: $color-p;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: rgba(104, 125, 106, 0.1);
+        }
+
+        &--selected {
+            background-color: $color-p;
+            color: $color-f-w;
+            border-color: $color-p;
+
+            &:hover {
+                background-color: darken(#687d6a, 8%);
+            }
+        }
+    }
+
+    .diet-builder-ingredients__buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+
+        .diet-builder-btn--primary,
+        .diet-builder-btn--secondary {
+            margin: 0;
+        }
+    }
+
     // ── Results step ─────────────────────────────────────────────
     .diet-builder-results {
         width: 99.4vw;

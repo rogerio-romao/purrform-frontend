@@ -145,6 +145,7 @@ export default class DietBuilder extends PageManager {
             meals: null,
             total: null,
             kcal: null,
+            unwantedIngredients: [],
         };
 
         // Product data (fetched from API)
@@ -184,11 +185,6 @@ export default class DietBuilder extends PageManager {
             }
         });
 
-        console.log(
-            'Unique ingredients across all products:',
-            this.allIngredients,
-        );
-
         this.renderAgeStep();
     }
 
@@ -204,6 +200,7 @@ export default class DietBuilder extends PageManager {
             meals: null,
             total: null,
             kcal: null,
+            unwantedIngredients: [],
         };
         this.products = { tubs: null, pouches: null };
         this.productPromise = null;
@@ -494,9 +491,9 @@ export default class DietBuilder extends PageManager {
         this.state.weight = parseFloat(input.value);
 
         if (flow === 'kitten') {
-            // Kittens skip neutered/activity — go straight to results
+            // Kittens skip neutered/activity — go to ingredients then results
             this.state.activity = 95;
-            this.calculateAndShowResults();
+            this.renderIngredientsStep(flow);
         } else {
             this.renderNeuteredStep(flow);
         }
@@ -554,7 +551,7 @@ export default class DietBuilder extends PageManager {
         if (flow === 'adolescent') {
             // Adolescents skip activity level
             this.state.activity = isNeutered ? 87.5 : 95;
-            this.calculateAndShowResults();
+            this.renderIngredientsStep(flow);
         } else {
             this.renderActivityStep();
         }
@@ -610,10 +607,103 @@ export default class DietBuilder extends PageManager {
     selectActivity(level) {
         const group = this.state.neutered ? 'neutered' : 'intact';
         this.state.activity = ACTIVITY_VALUES[group][level];
+        this.renderIngredientsStep('adult');
+    }
+
+    // ── Step 5: Ingredients ──────────────────────────────────────────
+
+    renderIngredientsStep(flow) {
+        const content = el('div', { className: 'diet-builder-ingredients' });
+
+        const grid = el('div', {
+            className: 'diet-builder-ingredients__grid',
+        });
+
+        for (const ingredient of this.allIngredients) {
+            const isSelected = this.state.unwantedIngredients.includes(
+                String(ingredient),
+            );
+            const card = el(
+                'button',
+                {
+                    className: `diet-builder-ingredients__card${
+                        isSelected
+                            ? ' diet-builder-ingredients__card--selected'
+                            : ''
+                    }`,
+                    onClick: () => {
+                        this.state.unwantedIngredients.push(String(ingredient));
+                        card.classList.toggle(
+                            'diet-builder-ingredients__card--selected',
+                        );
+                    },
+                },
+                String(ingredient),
+            );
+            grid.appendChild(card);
+        }
+
+        const buttonGroup = el('div', {
+            className: 'diet-builder-ingredients__buttons',
+        });
+
+        const backBtn = el(
+            'button',
+            {
+                className: 'diet-builder-btn--secondary',
+                onClick: () => this.goBackFromIngredients(flow),
+            },
+            'Back',
+        );
+
+        const skipBtn = el(
+            'button',
+            {
+                className: 'diet-builder-btn--secondary',
+                onClick: () => {
+                    this.state.unwantedIngredients = [];
+                    this.calculateAndShowResults();
+                },
+            },
+            'Skip',
+        );
+
+        const nextBtn = el(
+            'button',
+            {
+                className: 'diet-builder-btn--primary',
+                onClick: () => this.submitIngredients(),
+            },
+            'Next',
+        );
+
+        buttonGroup.append(backBtn, skipBtn, nextBtn);
+        content.append(grid, buttonGroup);
+
+        this.renderStep('Any ingredients your cat dislikes?', content);
+    }
+
+    submitIngredients() {
+        const cards = document.querySelectorAll(
+            '.diet-builder-ingredients__card--selected',
+        );
+        this.state.unwantedIngredients = [...cards].map(
+            (card) => card.textContent,
+        );
         this.calculateAndShowResults();
     }
 
-    // ── Step 5: Results ──────────────────────────────────────────────
+    goBackFromIngredients(flow) {
+        if (flow === 'kitten') {
+            this.renderWeightStep(flow);
+        } else if (flow === 'adolescent') {
+            this.renderNeuteredStep(flow);
+        } else {
+            this.renderActivityStep();
+        }
+    }
+
+    // ── Step 6: Results ──────────────────────────────────────────────
 
     calculateAndShowResults() {
         const { weight, activity, coef } = this.state;
