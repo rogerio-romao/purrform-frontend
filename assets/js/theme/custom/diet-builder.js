@@ -154,6 +154,9 @@ export default class DietBuilder extends PageManager {
         // All products cache (fetched via GraphQL)
         this.allProducts = [];
 
+        // Unique ingredient names across all products
+        this.allIngredients = new Set();
+
         // DOM root
         this.container = null;
 
@@ -171,6 +174,20 @@ export default class DietBuilder extends PageManager {
         } catch (err) {
             this.allProducts = [];
         }
+
+        // Collect unique ingredient names from all products
+        this.allIngredients = new Set();
+        this.allProducts.forEach((product) => {
+            const ingredients = product.customFields?.Ingredients;
+            if (ingredients) {
+                ingredients.forEach((value) => this.allIngredients.add(value));
+            }
+        });
+
+        console.log(
+            'Unique ingredients across all products:',
+            this.allIngredients,
+        );
 
         this.renderAgeStep();
     }
@@ -190,6 +207,7 @@ export default class DietBuilder extends PageManager {
         };
         this.products = { tubs: null, pouches: null };
         this.productPromise = null;
+        this.allIngredients = new Set();
     }
 
     // ── API ──────────────────────────────────────────────────────────
@@ -260,7 +278,14 @@ export default class DietBuilder extends PageManager {
                 edges.forEach(({ node }) => {
                     const customFields = {};
                     node.customFields.edges.forEach(({ node: cf }) => {
-                        customFields[cf.name] = cf.value;
+                        if (cf.name === 'Ingredient') {
+                            if (!customFields.Ingredients) {
+                                customFields.Ingredients = [];
+                            }
+                            customFields.Ingredients.push(cf.value);
+                        } else {
+                            customFields[cf.name] = cf.value;
+                        }
                     });
 
                     allProducts.push({
