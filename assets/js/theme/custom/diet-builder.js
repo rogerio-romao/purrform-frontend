@@ -298,6 +298,9 @@ export default class DietBuilder extends PageManager {
                         }
                     });
 
+                    // Only include food products (those with Ingredients)
+                    if (!customFields.Ingredients) return;
+
                     allProducts.push({
                         entityId: node.entityId,
                         name: node.name,
@@ -306,6 +309,8 @@ export default class DietBuilder extends PageManager {
                         customFields,
                     });
                 });
+
+                console.log(JSON.stringify(allProducts));
 
                 hasNextPage = pageInfo.hasNextPage;
                 cursor = pageInfo.endCursor;
