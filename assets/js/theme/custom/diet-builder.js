@@ -245,6 +245,13 @@ export default class DietBuilder extends PageManager {
                                 defaultImage {
                                     urlOriginal
                                 }
+                                categories {
+                                    edges {
+                                    node {
+                                        name
+                                    }
+                                    }
+                                }
                                 customFields {
                                     edges {
                                         node {
@@ -286,6 +293,10 @@ export default class DietBuilder extends PageManager {
                 const { edges, pageInfo } = data.site.products;
 
                 edges.forEach(({ node }) => {
+                    const categories = node.categories.edges.map(
+                        (edge) => edge.node.name,
+                    );
+
                     const customFields = {};
                     node.customFields.edges.forEach(({ node: cf }) => {
                         if (cf.name === 'Ingredient') {
@@ -307,10 +318,9 @@ export default class DietBuilder extends PageManager {
                         path: node.path,
                         image: node.defaultImage?.urlOriginal || '',
                         customFields,
+                        categories,
                     });
                 });
-
-                console.log(JSON.stringify(allProducts));
 
                 hasNextPage = pageInfo.hasNextPage;
                 cursor = pageInfo.endCursor;
