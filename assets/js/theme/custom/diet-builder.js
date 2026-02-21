@@ -84,6 +84,17 @@ const CAT_IMAGES = {
         'https://cdn11.bigcommerce.com/s-lh9wfk05w0/product_images/uploaded_images/twocatsgreen.png',
 };
 
+const HEALTH_CONDITIONS = [
+    'Diabetes',
+    'Chin Acne',
+    'Inflammatory Bowel Disease (IBD)',
+    'Stage 1 CKD',
+    'Urinary Tract Conditions',
+    'Dental disease',
+    'Hyperthyroidism',
+    'Obesity',
+];
+
 // ── Helpers ──────────────────────────────────────────────────────────
 
 /**
@@ -146,6 +157,7 @@ export default class DietBuilder extends PageManager {
             total: null,
             kcal: null,
             unwantedIngredients: [],
+            healthConditions: [],
         };
 
         // Product data (fetched from API)
@@ -201,6 +213,7 @@ export default class DietBuilder extends PageManager {
             total: null,
             kcal: null,
             unwantedIngredients: [],
+            healthConditions: [],
         };
         this.products = { tubs: null, pouches: null };
         this.productPromise = null;
@@ -231,6 +244,13 @@ export default class DietBuilder extends PageManager {
                                 path
                                 defaultImage {
                                     urlOriginal
+                                }
+                                categories {
+                                    edges {
+                                    node {
+                                        name
+                                    }
+                                    }
                                 }
                                 customFields {
                                     edges {
@@ -273,6 +293,10 @@ export default class DietBuilder extends PageManager {
                 const { edges, pageInfo } = data.site.products;
 
                 edges.forEach(({ node }) => {
+                    const categories = node.categories.edges.map(
+                        (edge) => edge.node.name,
+                    );
+
                     const customFields = {};
                     node.customFields.edges.forEach(({ node: cf }) => {
                         if (cf.name === 'Ingredient') {
@@ -285,12 +309,16 @@ export default class DietBuilder extends PageManager {
                         }
                     });
 
+                    // Only include food products (those with Ingredients)
+                    if (!customFields.Ingredients) return;
+
                     allProducts.push({
                         entityId: node.entityId,
                         name: node.name,
                         path: node.path,
                         image: node.defaultImage?.urlOriginal || '',
                         customFields,
+                        categories,
                     });
                 });
 
@@ -662,7 +690,7 @@ export default class DietBuilder extends PageManager {
                 className: 'diet-builder-btn--secondary',
                 onClick: () => {
                     this.state.unwantedIngredients = [];
-                    this.calculateAndShowResults();
+                    this.renderHealthStep(flow);
                 },
             },
             'Skip',
@@ -672,7 +700,7 @@ export default class DietBuilder extends PageManager {
             'button',
             {
                 className: 'diet-builder-btn--primary',
-                onClick: () => this.submitIngredients(),
+                onClick: () => this.submitIngredients(flow),
             },
             'Next',
         );
@@ -683,14 +711,14 @@ export default class DietBuilder extends PageManager {
         this.renderStep('Any ingredients your cat dislikes?', content);
     }
 
-    submitIngredients() {
+    submitIngredients(flow) {
         const cards = document.querySelectorAll(
             '.diet-builder-ingredients__card--selected',
         );
         this.state.unwantedIngredients = [...cards].map(
             (card) => card.textContent,
         );
-        this.calculateAndShowResults();
+        this.renderHealthStep(flow);
     }
 
     goBackFromIngredients(flow) {
@@ -703,7 +731,87 @@ export default class DietBuilder extends PageManager {
         }
     }
 
-    // ── Step 6: Results ──────────────────────────────────────────────
+    // ── Step 6: Health Conditions ────────────────────────────────────
+
+    renderHealthStep(flow) {
+        const content = el('div', { className: 'diet-builder-health' });
+
+        const grid = el('div', {
+            className: 'diet-builder-health__grid',
+        });
+
+        const selected = new Set(this.state.healthConditions);
+
+        HEALTH_CONDITIONS.forEach((condition) => {
+            const isSelected = selected.has(condition);
+            const card = el(
+                'button',
+                {
+                    className: `diet-builder-health__card${
+                        isSelected ? ' diet-builder-health__card--selected' : ''
+                    }`,
+                    onClick: () => {
+                        card.classList.toggle(
+                            'diet-builder-health__card--selected',
+                        );
+                    },
+                },
+                condition,
+            );
+            grid.appendChild(card);
+        });
+
+        const buttonGroup = el('div', {
+            className: 'diet-builder-health__buttons',
+        });
+
+        const backBtn = el(
+            'button',
+            {
+                className: 'diet-builder-btn--secondary',
+                onClick: () => this.renderIngredientsStep(flow),
+            },
+            'Back',
+        );
+
+        const skipBtn = el(
+            'button',
+            {
+                className: 'diet-builder-btn--secondary',
+                onClick: () => {
+                    this.state.healthConditions = [];
+                    this.calculateAndShowResults();
+                },
+            },
+            'Skip',
+        );
+
+        const nextBtn = el(
+            'button',
+            {
+                className: 'diet-builder-btn--primary',
+                onClick: () => this.submitHealth(),
+            },
+            'Next',
+        );
+
+        buttonGroup.append(backBtn, skipBtn, nextBtn);
+        content.append(grid, buttonGroup);
+
+        this.renderStep('Does your cat have any health conditions?', content);
+    }
+
+    submitHealth() {
+        const cards = document.querySelectorAll(
+            '.diet-builder-health__card--selected',
+        );
+        this.state.healthConditions = [...cards].map(
+            (card) => card.textContent,
+        );
+        this.calculateAndShowResults();
+    }
+
+    // ── Step 7: Results ──────────────────────────────────────────────
 
     calculateAndShowResults() {
         const { weight, activity, coef } = this.state;
