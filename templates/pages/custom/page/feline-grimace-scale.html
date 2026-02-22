@@ -273,6 +273,7 @@
     background: var(--card);
     border-radius: var(--radius);
     border: 1.5px solid var(--border);
+    margin-bottom: 24px;
     overflow: hidden;
     animation: fadeUp 0.5s 0.4s ease both;
     box-shadow: 0 2px 20px #54605208;
@@ -340,7 +341,8 @@
 
   .total-number {
     font-family: 'Playfair Display', serif;
-    font-size: 4rem;
+    font-size: 3.6rem;
+    margin-right: 3px;
     font-weight: 700;
     line-height: 1;
     min-width: 80px;
@@ -492,7 +494,7 @@
   </header>
 
   <div class="notice">
-    ⚠️ <strong>For owners:</strong> Always consult your vet before administering any medication. Some human pain killers can be fatal to cats.
+    ⚠️ <strong>For owners:</strong> Always consult your vet before administering any medication. Some human pain killers can be fatal to cats. The FGS has been developed and validated for acute pain assessment. If the cat has a chronic condition, the FGS is not reliable.
   </div>
 
   <div class="instructions">
@@ -662,8 +664,8 @@ const units = [
           <circle cx="66" cy="47" r="4.5" fill="#546052" opacity="0.6"/>
           <ellipse cx="55" cy="58" rx="3" ry="2" fill="#546052" opacity="0.55"/>
           <line x1="55" y1="60" x2="55" y2="64" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <ellipse cx="46" cy="66" rx="7" ry="7" fill="white" stroke="#546052" stroke-width="1.3"/>
-          <ellipse cx="64" cy="66" rx="7" ry="7" fill="white" stroke="#546052" stroke-width="1.3"/>
+          <path d="M 41,61 A 7,7 0 1,0 55,61" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
+          <path d="M 55,61 A 7,7 0 1,0 69,61" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
         </svg>`
       },
       {
@@ -676,8 +678,8 @@ const units = [
           <circle cx="66" cy="47" r="4.5" fill="#546052" opacity="0.6"/>
           <ellipse cx="55" cy="58" rx="3" ry="2" fill="#546052" opacity="0.55"/>
           <line x1="55" y1="60" x2="55" y2="64" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <ellipse cx="46" cy="66" rx="6.5" ry="8.5" fill="white" stroke="#546052" stroke-width="1.3"/>
-          <ellipse cx="64" cy="66" rx="6.5" ry="8.5" fill="white" stroke="#546052" stroke-width="1.3"/>
+          <path d="M 40,62 A 9,6 0 1,0 52,62" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
+          <path d="M 58,62 A 9,6 0 1,0 70,62" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
         </svg>`
       },
       {
@@ -689,9 +691,9 @@ const units = [
           <circle cx="44" cy="47" r="4.5" fill="#546052" opacity="0.6"/>
           <circle cx="66" cy="47" r="4.5" fill="#546052" opacity="0.6"/>
           <ellipse cx="55" cy="58" rx="3" ry="2" fill="#546052" opacity="0.55"/>
-          <line x1="55" y1="60" x2="55" y2="63" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <ellipse cx="46" cy="66" rx="5.5" ry="10" fill="white" stroke="#546052" stroke-width="1.3"/>
-          <ellipse cx="64" cy="66" rx="5.5" ry="10" fill="white" stroke="#546052" stroke-width="1.3"/>
+          <line x1="55" y1="60" x2="55" y2="64" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M 39,63 A 10.5,4.5 0 1,0 53,63" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
+          <path d="M 59,63 A 10.5,4.5 0 1,0 71,63" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
         </svg>`
       }
     ]
@@ -836,8 +838,8 @@ function getBadgeLabel(total) {
 function getInterpText(total) {
   if (total === 0) return 'This cat is not in pain. If you are a cat owner and are concerned, please consult your veterinary surgeon.';
   if (total <= 3) return 'This cat is not in pain or has mild pain. Pain should be re-evaluated at regular intervals since FGS scores could increase, and the cat might require analgesics.';
-  if (total <= 8) return 'This cat is likely to be in pain. This score indicates the need for additional analgesia. This decision should be made by a veterinary surgeon based on clinical judgement. If in doubt, reassess in 10–15 minutes.';
-  return 'This cat is likely to be in severe pain. This score indicates the need for additional analgesia. This decision should be made by a veterinary surgeon. If in doubt, reassess in 10–15 minutes.';
+  if (total <= 8) return 'This cat is likely to be in pain. This score indicates the need for additional analgesia. This decision should be made by a veterinary surgeon based on clinical judgement. If in doubt, reassess in 10–15 minutes. Clinical judgement will differentiate if the FGS scores are high due to pain, rather than other factors such as stress, fear or sedation.';
+  return 'This cat is likely to be in severe pain. This score indicates the need for additional analgesia. This decision should be made by a veterinary surgeon. If in doubt, reassess in 10–15 minutes. Clinical judgement will differentiate if the FGS scores are high due to pain, rather than other factors such as stress, fear or sedation.';
 }
 
 function updateScorePanel() {
