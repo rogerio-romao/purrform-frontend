@@ -120,6 +120,15 @@
                     </li>
                     {{/if}}
                     {{/each}}
+                    {{#each pages}}
+                    {{#if name '===' 'Feline Grimace Scale'}}
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                            <strong>{{name}}</strong>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{/each}}
                 </ul>
             </div>
         </li>
