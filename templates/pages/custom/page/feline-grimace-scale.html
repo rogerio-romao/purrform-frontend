@@ -253,6 +253,14 @@
     margin-bottom: 12px;
   }
 
+  .cat-illustration img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    mix-blend-mode: multiply;
+  }
+
   .option-label {
     font-size: 0.8rem;
     font-weight: 600;
@@ -563,48 +571,15 @@ const units = [
     options: [
       {
         score: 0, label: 'Ears facing forward', sublabel: 'Absent',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="55" rx="30" ry="26" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="32,36 22,14 44,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5" stroke-linejoin="round"/>
-          <polygon points="78,36 88,14 66,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5" stroke-linejoin="round"/>
-          <circle cx="44" cy="53" r="5" fill="#546052" opacity="0.7"/>
-          <circle cx="66" cy="53" r="5" fill="#546052" opacity="0.7"/>
-          <path d="M47 66 Q55 72 63 66" stroke="#546052" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <line x1="38" y1="56" x2="24" y2="52" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="38" y1="59" x2="23" y2="59" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="56" x2="86" y2="52" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="59" x2="87" y2="59" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-a-ear-position-0.jpg?t=1771863537" alt="Ear position - absent" loading="lazy">`
       },
       {
         score: 1, label: 'Ears slightly pulled apart', sublabel: 'Moderately present or uncertain',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="55" rx="30" ry="26" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="32,36 16,18 40,32" fill="#edf1ec" stroke="#546052" stroke-width="1.5" stroke-linejoin="round"/>
-          <polygon points="78,36 94,18 70,32" fill="#edf1ec" stroke="#546052" stroke-width="1.5" stroke-linejoin="round"/>
-          <circle cx="44" cy="53" r="5" fill="#546052" opacity="0.7"/>
-          <circle cx="66" cy="53" r="5" fill="#546052" opacity="0.7"/>
-          <path d="M47 66 Q55 71 63 66" stroke="#546052" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <line x1="38" y1="56" x2="24" y2="52" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="38" y1="59" x2="23" y2="59" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="56" x2="86" y2="52" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="59" x2="87" y2="59" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-a-ear-position-1.jpg?t=1771863537" alt="Ear position - moderately present" loading="lazy">`
       },
       {
         score: 2, label: 'Ears rotated outwards', sublabel: 'Markedly present',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="55" rx="30" ry="26" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="30,38 10,30 36,34" fill="#edf1ec" stroke="#546052" stroke-width="1.5" stroke-linejoin="round"/>
-          <polygon points="80,38 100,30 74,34" fill="#edf1ec" stroke="#546052" stroke-width="1.5" stroke-linejoin="round"/>
-          <circle cx="44" cy="53" r="5" fill="#546052" opacity="0.7"/>
-          <circle cx="66" cy="53" r="5" fill="#546052" opacity="0.7"/>
-          <path d="M47 66 Q55 70 63 66" stroke="#546052" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <line x1="38" y1="56" x2="24" y2="52" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="38" y1="59" x2="23" y2="59" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="56" x2="86" y2="52" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="59" x2="87" y2="59" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-a-ear-position-2.jpg?t=1771863538" alt="Ear position - markedly present" loading="lazy">`
       }
     ]
   },
@@ -614,48 +589,15 @@ const units = [
     options: [
       {
         score: 0, label: 'Eyes opened', sublabel: 'Absent',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="52" rx="30" ry="26" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="32,34 22,14 44,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="78,34 88,14 66,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <ellipse cx="42" cy="50" rx="8" ry="8" fill="white" stroke="#546052" stroke-width="1.5"/>
-          <ellipse cx="68" cy="50" rx="8" ry="8" fill="white" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="42" cy="50" r="4" fill="#2a3329"/>
-          <circle cx="68" cy="50" r="4" fill="#2a3329"/>
-          <circle cx="44" cy="48" r="1.5" fill="white"/>
-          <circle cx="70" cy="48" r="1.5" fill="white"/>
-          <path d="M47 65 Q55 70 63 65" stroke="#546052" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-b-orbital-tightening-0.jpg?t=1771863539" alt="Orbital tightening - absent" loading="lazy">`
       },
       {
         score: 1, label: 'Partially closed eyes', sublabel: 'Moderately present or uncertain',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="52" rx="30" ry="26" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="32,34 22,14 44,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="78,34 88,14 66,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <ellipse cx="42" cy="50" rx="8" ry="5.5" fill="white" stroke="#546052" stroke-width="1.5"/>
-          <ellipse cx="68" cy="50" rx="8" ry="5.5" fill="white" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="42" cy="51" r="3.5" fill="#2a3329"/>
-          <circle cx="68" cy="51" r="3.5" fill="#2a3329"/>
-          <line x1="34" y1="45" x2="50" y2="45" stroke="#546052" stroke-width="1.8" stroke-linecap="round"/>
-          <line x1="60" y1="45" x2="76" y2="45" stroke="#546052" stroke-width="1.8" stroke-linecap="round"/>
-          <path d="M47 65 Q55 70 63 65" stroke="#546052" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-b-orbital-tightening-1.jpg?t=1771863539" alt="Orbital tightening - moderately present" loading="lazy">`
       },
       {
         score: 2, label: 'Squinted eyes', sublabel: 'Markedly present',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="52" rx="30" ry="26" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="32,34 22,14 44,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="78,34 88,14 66,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <ellipse cx="42" cy="52" rx="8" ry="3" fill="white" stroke="#546052" stroke-width="1.5"/>
-          <ellipse cx="68" cy="52" rx="8" ry="3" fill="white" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="42" cy="52" r="2" fill="#2a3329"/>
-          <circle cx="68" cy="52" r="2" fill="#2a3329"/>
-          <line x1="34" y1="49" x2="50" y2="49" stroke="#546052" stroke-width="2" stroke-linecap="round"/>
-          <line x1="60" y1="49" x2="76" y2="49" stroke="#546052" stroke-width="2" stroke-linecap="round"/>
-          <path d="M47 66 Q55 70 63 66" stroke="#546052" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-b-orbital-tightening-2.jpg?t=1771863540" alt="Orbital tightening - markedly present" loading="lazy">`
       }
     ]
   },
@@ -665,45 +607,15 @@ const units = [
     options: [
       {
         score: 0, label: 'Relaxed (round shape)', sublabel: 'Absent',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="52" rx="30" ry="26" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="32,34 22,14 44,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="78,34 88,14 66,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="44" cy="47" r="4.5" fill="#546052" opacity="0.6"/>
-          <circle cx="66" cy="47" r="4.5" fill="#546052" opacity="0.6"/>
-          <ellipse cx="55" cy="58" rx="3" ry="2" fill="#546052" opacity="0.55"/>
-          <line x1="55" y1="60" x2="55" y2="64" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M 41,61 A 7,7 0 1,0 55,61" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
-          <path d="M 55,61 A 7,7 0 1,0 69,61" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-c-muzzle-tension-0.jpg?t=1771863541" alt="Muzzle tension - absent" loading="lazy">`
       },
       {
         score: 1, label: 'Mild tension', sublabel: 'Moderately present or uncertain',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="52" rx="30" ry="26" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="32,34 22,14 44,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="78,34 88,14 66,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="44" cy="47" r="4.5" fill="#546052" opacity="0.6"/>
-          <circle cx="66" cy="47" r="4.5" fill="#546052" opacity="0.6"/>
-          <ellipse cx="55" cy="58" rx="3" ry="2" fill="#546052" opacity="0.55"/>
-          <line x1="55" y1="60" x2="55" y2="64" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M 40,62 A 9,6 0 1,0 52,62" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
-          <path d="M 58,62 A 9,6 0 1,0 70,62" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-c-muzzle-tension-1.jpg?t=1771863542" alt="Muzzle tension - moderately present" loading="lazy">`
       },
       {
         score: 2, label: 'Tense (elliptical shape)', sublabel: 'Markedly present',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="52" rx="30" ry="26" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="32,34 22,14 44,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="78,34 88,14 66,30" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="44" cy="47" r="4.5" fill="#546052" opacity="0.6"/>
-          <circle cx="66" cy="47" r="4.5" fill="#546052" opacity="0.6"/>
-          <ellipse cx="55" cy="58" rx="3" ry="2" fill="#546052" opacity="0.55"/>
-          <line x1="55" y1="60" x2="55" y2="64" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M 39,63 A 10.5,4.5 0 1,0 53,63" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
-          <path d="M 59,63 A 10.5,4.5 0 1,0 71,63" fill="#edf1ec" stroke="#546052" stroke-width="1.3" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-c-muzzle-tension-2.jpg?t=1771863542" alt="Muzzle tension - markedly present" loading="lazy">`
       }
     ]
   },
@@ -713,57 +625,15 @@ const units = [
     options: [
       {
         score: 0, label: 'Loose and curved', sublabel: 'Absent',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="52" rx="28" ry="24" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="33,36 24,16 44,32" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="77,36 86,16 66,32" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="44" cy="51" r="4" fill="#546052" opacity="0.6"/>
-          <circle cx="66" cy="51" r="4" fill="#546052" opacity="0.6"/>
-          <path d="M47 64 Q55 69 63 64" stroke="#546052" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <!-- curved whiskers -->
-          <path d="M38 53 Q22 50 10 53" stroke="#546052" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-          <path d="M38 57 Q22 57 10 60" stroke="#546052" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-          <path d="M38 61 Q22 64 10 68" stroke="#546052" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-          <path d="M72 53 Q88 50 100 53" stroke="#546052" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-          <path d="M72 57 Q88 57 100 60" stroke="#546052" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-          <path d="M72 61 Q88 64 100 68" stroke="#546052" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-d-whiskers-change-0.jpg?t=1771863543" alt="Whiskers change - absent" loading="lazy">`
       },
       {
         score: 1, label: 'Slightly curved or straight (closer together)', sublabel: 'Moderately present or uncertain',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="52" rx="28" ry="24" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="33,36 24,16 44,32" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="77,36 86,16 66,32" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="44" cy="51" r="4" fill="#546052" opacity="0.6"/>
-          <circle cx="66" cy="51" r="4" fill="#546052" opacity="0.6"/>
-          <path d="M47 64 Q55 69 63 64" stroke="#546052" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <!-- straighter whiskers -->
-          <line x1="38" y1="54" x2="10" y2="54" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="38" y1="58" x2="10" y2="58" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="38" y1="62" x2="10" y2="63" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="54" x2="100" y2="54" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="58" x2="100" y2="58" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="62" x2="100" y2="63" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-d-whiskers-change-1.jpg?t=1771863544" alt="Whiskers change - moderately present" loading="lazy">`
       },
       {
         score: 2, label: 'Straight and moving forward', sublabel: 'Markedly present',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="52" rx="28" ry="24" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="33,36 24,16 44,32" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="77,36 86,16 66,32" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="44" cy="51" r="4" fill="#546052" opacity="0.6"/>
-          <circle cx="66" cy="51" r="4" fill="#546052" opacity="0.6"/>
-          <path d="M47 64 Q55 69 63 64" stroke="#546052" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <!-- forward-pointing whiskers -->
-          <line x1="38" y1="55" x2="6" y2="51" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="38" y1="58" x2="6" y2="58" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="38" y1="61" x2="6" y2="65" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="55" x2="104" y2="51" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="58" x2="104" y2="58" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-          <line x1="72" y1="61" x2="104" y2="65" stroke="#546052" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-d-whiskers-change-2.jpg?t=1771863545" alt="Whiskers change - markedly present" loading="lazy">`
       }
     ]
   },
@@ -773,44 +643,15 @@ const units = [
     options: [
       {
         score: 0, label: 'Head above the shoulder line', sublabel: 'Absent',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- body -->
-          <ellipse cx="55" cy="72" rx="32" ry="16" fill="#dce6da" stroke="#546052" stroke-width="1.5"/>
-          <!-- head high -->
-          <ellipse cx="55" cy="40" rx="22" ry="20" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="40,26 32,10 50,24" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="70,26 78,10 60,24" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="46" cy="40" r="4" fill="#546052" opacity="0.6"/>
-          <circle cx="64" cy="40" r="4" fill="#546052" opacity="0.6"/>
-          <!-- shoulder line dashes -->
-          <line x1="10" y1="58" x2="100" y2="58" stroke="#aaa" stroke-width="1" stroke-dasharray="4,3"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-e-head-position-0.jpg?t=1771863545" alt="Head position - absent" loading="lazy">`
       },
       {
         score: 1, label: 'Head aligned with the shoulder line', sublabel: 'Moderately present or uncertain',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="72" rx="32" ry="16" fill="#dce6da" stroke="#546052" stroke-width="1.5"/>
-          <!-- head level -->
-          <ellipse cx="55" cy="52" rx="22" ry="20" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="40,38 32,20 50,36" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="70,38 78,20 60,36" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="46" cy="52" r="4" fill="#546052" opacity="0.6"/>
-          <circle cx="64" cy="52" r="4" fill="#546052" opacity="0.6"/>
-          <line x1="10" y1="58" x2="100" y2="58" stroke="#aaa" stroke-width="1" stroke-dasharray="4,3"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-e-head-position-1.jpg?t=1771863546" alt="Head position - moderately present" loading="lazy">`
       },
       {
         score: 2, label: 'Head below the shoulder line or tilted down', sublabel: 'Markedly present',
-        svg: `<svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="55" cy="72" rx="32" ry="14" fill="#dce6da" stroke="#546052" stroke-width="1.5"/>
-          <!-- head low/down -->
-          <ellipse cx="55" cy="66" rx="22" ry="18" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="40,52 33,34 50,50" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <polygon points="70,52 77,34 60,50" fill="#edf1ec" stroke="#546052" stroke-width="1.5"/>
-          <circle cx="46" cy="65" r="4" fill="#546052" opacity="0.6"/>
-          <circle cx="64" cy="65" r="4" fill="#546052" opacity="0.6"/>
-          <line x1="10" y1="58" x2="100" y2="58" stroke="#aaa" stroke-width="1" stroke-dasharray="4,3"/>
-        </svg>`
+        img: `<img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/-e-head-position-2.jpg?t=1771863547" alt="Head position - markedly present" loading="lazy">`
       }
     ]
   }
@@ -922,7 +763,7 @@ function buildUI() {
         ${unit.options.map(opt => `
           <button class="option-btn" data-unit="${unit.id}" data-score="${opt.score}" aria-pressed="false">
             <div class="score-pill">${opt.score}</div>
-            <div class="cat-illustration">${opt.svg}</div>
+            <div class="cat-illustration">${opt.img}</div>
             <div class="option-label">${opt.label}</div>
             <div class="option-sublabel">${opt.sublabel}</div>
           </button>
