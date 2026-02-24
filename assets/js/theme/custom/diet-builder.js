@@ -771,6 +771,12 @@ export default class DietBuilder extends PageManager {
 
         const selected = new Set(this.state.healthConditions);
 
+        const limitMsg = el(
+            'p',
+            { className: 'diet-builder-health__limit-msg' },
+            'You can select a maximum of 2 health conditions. Deselect one to choose another.',
+        );
+
         HEALTH_CONDITIONS.forEach((condition) => {
             const isSelected = selected.has(condition);
             const card = el(
@@ -780,16 +786,22 @@ export default class DietBuilder extends PageManager {
                         isSelected ? ' diet-builder-health__card--selected' : ''
                     }`,
                     onClick: () => {
-                        card.classList.toggle(
-                            'diet-builder-health__card--selected',
-                        );
                         if (this.state.healthConditions.includes(condition)) {
                             this.state.healthConditions =
                                 this.state.healthConditions.filter(
                                     (c) => c !== condition,
                                 );
-                        } else {
+                            card.classList.remove(
+                                'diet-builder-health__card--selected',
+                            );
+                            limitMsg.style.visibility = 'hidden';
+                        } else if (this.state.healthConditions.length < 2) {
                             this.state.healthConditions.push(condition);
+                            card.classList.add(
+                                'diet-builder-health__card--selected',
+                            );
+                        } else {
+                            limitMsg.style.visibility = 'visible';
                         }
                     },
                 },
@@ -833,7 +845,7 @@ export default class DietBuilder extends PageManager {
         );
 
         buttonGroup.append(backBtn, skipBtn, nextBtn);
-        content.append(grid, buttonGroup);
+        content.append(grid, limitMsg, buttonGroup);
 
         this.renderStep('Does your cat have any health conditions?', content);
     }

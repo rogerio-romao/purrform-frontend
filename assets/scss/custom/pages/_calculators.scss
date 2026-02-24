@@ -1193,7 +1193,6 @@
         gap: 12px;
         width: 100%;
         max-width: 600px;
-        margin-bottom: 2rem;
 
         @include breakpoint('medium') {
             grid-template-columns: repeat(3, 1fr);
@@ -1232,6 +1231,13 @@
                 background-color: darken(#687d6a, 8%);
             }
         }
+    }
+
+    .diet-builder-health__limit-msg {
+        visibility: hidden;
+        text-align: center;
+        color: #c0392b;
+        font-size: 0.875rem;
     }
 
     .diet-builder-health__buttons {
