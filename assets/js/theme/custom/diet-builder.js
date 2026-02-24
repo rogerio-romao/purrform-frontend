@@ -783,6 +783,14 @@ export default class DietBuilder extends PageManager {
                         card.classList.toggle(
                             'diet-builder-health__card--selected',
                         );
+                        if (this.state.healthConditions.includes(condition)) {
+                            this.state.healthConditions =
+                                this.state.healthConditions.filter(
+                                    (c) => c !== condition,
+                                );
+                        } else {
+                            this.state.healthConditions.push(condition);
+                        }
                     },
                 },
                 condition,
@@ -831,11 +839,15 @@ export default class DietBuilder extends PageManager {
     }
 
     submitHealth(flow) {
-        const cards = document.querySelectorAll(
-            '.diet-builder-health__card--selected',
+        const beforeHealth = this.state.recommendedProducts.length;
+        this.state.recommendedProducts = this.state.recommendedProducts.filter(
+            (product) =>
+                this.state.healthConditions.every((condition) =>
+                    product.Suitableforcondition.includes(condition),
+                ),
         );
-        this.state.healthConditions = [...cards].map(
-            (card) => card.textContent,
+        console.log(
+            `[diet-builder] recommendedProducts before health filter: ${beforeHealth}, after (conditions: ${this.state.healthConditions.join(', ') || 'none'}): ${this.state.recommendedProducts.length}`,
         );
         this.renderIngredientsStep(flow);
     }
