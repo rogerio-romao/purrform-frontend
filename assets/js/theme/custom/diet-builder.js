@@ -186,15 +186,6 @@ export default class DietBuilder extends PageManager {
             this.allProducts = [];
         }
 
-        // Collect unique ingredient names from all products
-        this.allIngredients = new Set();
-        this.allProducts.forEach((product) => {
-            const ingredients = product.customFields?.Ingredients;
-            if (ingredients) {
-                ingredients.forEach((value) => this.allIngredients.add(value));
-            }
-        });
-
         this.renderAgeStep();
     }
 
@@ -676,11 +667,33 @@ export default class DietBuilder extends PageManager {
     // ── Step 6: Ingredients ──────────────────────────────────────────
 
     renderIngredientsStep(flow) {
+        // Populate allIngredients from current recommendedProducts only
+        this.allIngredients = new Set();
+        this.state.recommendedProducts.forEach((product) => {
+            const ingredients = product.customFields?.Ingredients;
+            if (ingredients) {
+                ingredients.forEach((value) => this.allIngredients.add(value));
+            }
+        });
+
         const content = el('div', { className: 'diet-builder-ingredients' });
+
+        const description = el(
+            'p',
+            { className: 'diet-builder-ingredients__description' },
+            "These are the ingredients found in products suited to your cat. Select any your cat doesn't like.",
+        );
 
         const grid = el('div', {
             className: 'diet-builder-ingredients__grid',
         });
+
+        const limitMsg = el(
+            'p',
+            { className: 'diet-builder-health__limit-msg' },
+            'At least one ingredient must remain unselected to ensure we have options for your cat.',
+        );
+        limitMsg.style.visibility = 'hidden';
 
         for (const ingredient of this.allIngredients) {
             const isSelected = this.state.unwantedIngredients.includes(
@@ -695,10 +708,26 @@ export default class DietBuilder extends PageManager {
                             : ''
                     }`,
                     onClick: () => {
-                        this.state.unwantedIngredients.push(String(ingredient));
-                        card.classList.toggle(
+                        const alreadySelected = card.classList.contains(
                             'diet-builder-ingredients__card--selected',
                         );
+                        if (alreadySelected) {
+                            card.classList.remove(
+                                'diet-builder-ingredients__card--selected',
+                            );
+                            limitMsg.style.visibility = 'hidden';
+                        } else {
+                            const selectedCount = grid.querySelectorAll(
+                                '.diet-builder-ingredients__card--selected',
+                            ).length;
+                            if (selectedCount >= this.allIngredients.size - 1) {
+                                limitMsg.style.visibility = 'visible';
+                                return;
+                            }
+                            card.classList.add(
+                                'diet-builder-ingredients__card--selected',
+                            );
+                        }
                     },
                 },
                 String(ingredient),
@@ -741,9 +770,9 @@ export default class DietBuilder extends PageManager {
         );
 
         buttonGroup.append(backBtn, skipBtn, nextBtn);
-        content.append(grid, buttonGroup);
+        content.append(description, grid, limitMsg, buttonGroup);
 
-        this.renderStep('Any ingredients your cat dislikes?', content);
+        this.renderStep('Which ingredients does your cat dislike?', content);
     }
 
     submitIngredients() {

@@ -1129,7 +1129,6 @@
         gap: 12px;
         width: 100%;
         max-width: 600px;
-        margin-bottom: 2rem;
 
         @include breakpoint('medium') {
             grid-template-columns: repeat(3, 1fr);
