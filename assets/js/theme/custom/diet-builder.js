@@ -159,6 +159,7 @@ export default class DietBuilder extends PageManager {
             kcal: null,
             unwantedIngredients: [],
             healthConditions: [],
+            recommendedProducts: [],
         };
 
         // All products cache (fetched via GraphQL)
@@ -213,6 +214,7 @@ export default class DietBuilder extends PageManager {
             kcal: null,
             unwantedIngredients: [],
             healthConditions: [],
+            recommendedProducts: [],
         };
         this.allIngredients = new Set();
     }
@@ -439,9 +441,9 @@ export default class DietBuilder extends PageManager {
         else ageKey = 5;
 
         let ageGroup;
-        if (ageInMonths < 9) ageGroup = 'kitten';
-        else if (ageInMonths < 120) ageGroup = 'adult';
-        else ageGroup = 'senior';
+        if (ageInMonths < 9) ageGroup = 'Kitten';
+        else if (ageInMonths < 120) ageGroup = 'Adult';
+        else ageGroup = 'Senior';
 
         const config = AGE_CONFIG[ageKey];
 
@@ -454,6 +456,10 @@ export default class DietBuilder extends PageManager {
         if (config.activity !== null) {
             this.state.activity = config.activity;
         }
+
+        this.state.recommendedProducts = this.allProducts.filter((product) =>
+            product.categories.includes(ageGroup),
+        );
 
         this.renderWeightStep(config.flow);
     }
@@ -548,9 +554,9 @@ export default class DietBuilder extends PageManager {
         this.state.weight = parseFloat(input.value);
 
         if (flow === 'kitten') {
-            // Kittens skip neutered/activity — go to ingredients then results
+            // Kittens skip neutered/activity — go to health then ingredients then results
             this.state.activity = 95;
-            this.renderIngredientsStep(flow);
+            this.renderHealthStep(flow);
         } else {
             this.renderNeuteredStep(flow);
         }
@@ -608,7 +614,7 @@ export default class DietBuilder extends PageManager {
         if (flow === 'adolescent') {
             // Adolescents skip activity level
             this.state.activity = isNeutered ? 87.5 : 95;
-            this.renderIngredientsStep(flow);
+            this.renderHealthStep(flow);
         } else {
             this.renderActivityStep();
         }
@@ -664,10 +670,10 @@ export default class DietBuilder extends PageManager {
     selectActivity(level) {
         const group = this.state.neutered ? 'neutered' : 'intact';
         this.state.activity = ACTIVITY_VALUES[group][level];
-        this.renderIngredientsStep('adult');
+        this.renderHealthStep('adult');
     }
 
-    // ── Step 5: Ingredients ──────────────────────────────────────────
+    // ── Step 6: Ingredients ──────────────────────────────────────────
 
     renderIngredientsStep(flow) {
         const content = el('div', { className: 'diet-builder-ingredients' });
@@ -719,7 +725,7 @@ export default class DietBuilder extends PageManager {
                 className: 'diet-builder-btn--secondary',
                 onClick: () => {
                     this.state.unwantedIngredients = [];
-                    this.renderHealthStep(flow);
+                    this.calculateAndShowResults();
                 },
             },
             'Skip',
@@ -740,27 +746,21 @@ export default class DietBuilder extends PageManager {
         this.renderStep('Any ingredients your cat dislikes?', content);
     }
 
-    submitIngredients(flow) {
+    submitIngredients() {
         const cards = document.querySelectorAll(
             '.diet-builder-ingredients__card--selected',
         );
         this.state.unwantedIngredients = [...cards].map(
             (card) => card.textContent,
         );
-        this.renderHealthStep(flow);
+        this.calculateAndShowResults();
     }
 
     goBackFromIngredients(flow) {
-        if (flow === 'kitten') {
-            this.renderWeightStep(flow);
-        } else if (flow === 'adolescent') {
-            this.renderNeuteredStep(flow);
-        } else {
-            this.renderActivityStep();
-        }
+        this.renderHealthStep(flow);
     }
 
-    // ── Step 6: Health Conditions ────────────────────────────────────
+    // ── Step 5: Health Conditions ────────────────────────────────────
 
     renderHealthStep(flow) {
         const content = el('div', { className: 'diet-builder-health' });
@@ -798,7 +798,7 @@ export default class DietBuilder extends PageManager {
             'button',
             {
                 className: 'diet-builder-btn--secondary',
-                onClick: () => this.renderIngredientsStep(flow),
+                onClick: () => this.goBackFromHealth(flow),
             },
             'Back',
         );
@@ -809,7 +809,7 @@ export default class DietBuilder extends PageManager {
                 className: 'diet-builder-btn--secondary',
                 onClick: () => {
                     this.state.healthConditions = [];
-                    this.calculateAndShowResults();
+                    this.renderIngredientsStep(flow);
                 },
             },
             'Skip',
@@ -819,7 +819,7 @@ export default class DietBuilder extends PageManager {
             'button',
             {
                 className: 'diet-builder-btn--primary',
-                onClick: () => this.submitHealth(),
+                onClick: () => this.submitHealth(flow),
             },
             'Next',
         );
@@ -830,14 +830,24 @@ export default class DietBuilder extends PageManager {
         this.renderStep('Does your cat have any health conditions?', content);
     }
 
-    submitHealth() {
+    submitHealth(flow) {
         const cards = document.querySelectorAll(
             '.diet-builder-health__card--selected',
         );
         this.state.healthConditions = [...cards].map(
             (card) => card.textContent,
         );
-        this.calculateAndShowResults();
+        this.renderIngredientsStep(flow);
+    }
+
+    goBackFromHealth(flow) {
+        if (flow === 'kitten') {
+            this.renderWeightStep(flow);
+        } else if (flow === 'adolescent') {
+            this.renderNeuteredStep(flow);
+        } else {
+            this.renderActivityStep();
+        }
     }
 
     // ── Step 7: Results ──────────────────────────────────────────────
