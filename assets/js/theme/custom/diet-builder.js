@@ -148,6 +148,8 @@ export default class DietBuilder extends PageManager {
         // Wizard state
         this.state = {
             age: null,
+            catName: null,
+            ageGroup: null,
             weight: null,
             coef: null,
             activity: null,
@@ -200,6 +202,8 @@ export default class DietBuilder extends PageManager {
     resetState() {
         this.state = {
             age: null,
+            catName: null,
+            ageGroup: null,
             weight: null,
             coef: null,
             activity: null,
@@ -333,7 +337,6 @@ export default class DietBuilder extends PageManager {
         return allProducts;
     }
 
-
     // ── Step Rendering ───────────────────────────────────────────────
 
     clearContainer() {
@@ -360,41 +363,95 @@ export default class DietBuilder extends PageManager {
     // ── Step 1: Age ──────────────────────────────────────────────────
 
     renderAgeStep() {
-        const row = el('div', { className: 'diet-builder-row' });
-
-        Object.entries(AGE_CONFIG).forEach(([num, config], index) => {
-            const imgData = CAT_IMAGES.ages[index];
-            const col = el(
+        const form = el(
+            'form',
+            { className: 'diet-builder-age-form' },
+            el('label', { htmlFor: 'cat-name' }, "What's your cat's name?"),
+            el('input', {
+                type: 'text',
+                id: 'cat-name',
+                name: 'catName',
+                placeholder: 'e.g. Whiskers',
+                required: true,
+            }),
+            el('label', {}, "What's their date of birth?"),
+            el(
                 'div',
-                { className: 'diet-builder-col' },
-                el('img', {
-                    src: imgData.src,
-                    className: imgData.class,
-                    alt: `Cat ${config.label}`,
+                { className: 'diet-builder-dob' },
+                el('input', {
+                    type: 'number',
+                    id: 'dob-day',
+                    name: 'day',
+                    placeholder: 'DD',
+                    min: 1,
+                    max: 31,
+                    required: true,
                 }),
-                el(
-                    'button',
-                    {
-                        className: 'diet-builder-btn--primary',
-                        onClick: () => this.selectAge(Number(num)),
-                    },
-                    config.label,
-                ),
-            );
-            row.appendChild(col);
+                el('input', {
+                    type: 'number',
+                    id: 'dob-month',
+                    name: 'month',
+                    placeholder: 'MM',
+                    min: 1,
+                    max: 12,
+                    required: true,
+                }),
+                el('input', {
+                    type: 'number',
+                    id: 'dob-year',
+                    name: 'year',
+                    placeholder: 'YYYY',
+                    min: 2000,
+                    max: new Date().getFullYear(),
+                    required: true,
+                }),
+            ),
+            el(
+                'button',
+                { type: 'submit', className: 'diet-builder-btn--primary' },
+                'Next',
+            ),
+        );
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.submitAgeForm();
         });
 
-        this.renderStep('How old is your cat?', row);
+        this.renderStep('Tell us about your cat', form);
     }
 
-    selectAge(num) {
-        const config = AGE_CONFIG[num];
-        this.state.age = num;
+    submitAgeForm() {
+        const catName = document.getElementById('cat-name').value.trim();
+        const day = parseInt(document.getElementById('dob-day').value, 10);
+        const month = parseInt(document.getElementById('dob-month').value, 10);
+        const year = parseInt(document.getElementById('dob-year').value, 10);
+
+        const dob = new Date(year, month - 1, day);
+        const ageInMs = Date.now() - dob.getTime();
+        const ageInMonths = ageInMs / (1000 * 60 * 60 * 24 * 30.44);
+
+        let ageKey;
+        if (ageInMonths < 2) ageKey = 1;
+        else if (ageInMonths < 4) ageKey = 2;
+        else if (ageInMonths < 9) ageKey = 3;
+        else if (ageInMonths < 12) ageKey = 4;
+        else ageKey = 5;
+
+        let ageGroup;
+        if (ageInMonths < 9) ageGroup = 'kitten';
+        else if (ageInMonths < 120) ageGroup = 'adult';
+        else ageGroup = 'senior';
+
+        const config = AGE_CONFIG[ageKey];
+
+        this.state.catName = catName;
+        this.state.ageGroup = ageGroup;
+        this.state.age = ageKey;
         this.state.coef = config.coef;
         this.state.meals = config.meals;
 
         if (config.activity !== null) {
-            // Kitten flow: skip weight/neutered/activity, go straight to weight then results
             this.state.activity = config.activity;
         }
 
