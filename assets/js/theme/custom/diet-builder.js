@@ -2,9 +2,7 @@
 import PageManager from '../page-manager';
 
 // ── Constants ────────────────────────────────────────────────────────
-const API_BASE = 'https://purrform-apps-027e.onrender.com';
 const KCAL_PER_KG = 1500;
-const API_TIMEOUT_MS = 20000;
 
 const AGE_CONFIG = {
     1: {
@@ -133,6 +131,7 @@ function calculateRDA(weight, activity, coef) {
     return { total, kcal };
 }
 
+// eslint-disable-next-line no-unused-vars
 function calculateProductGrams(weight, activity, coef, caloriePerKg) {
     const kcalPer1000g = caloriePerKg * 10;
     return Math.round(
@@ -159,10 +158,6 @@ export default class DietBuilder extends PageManager {
             unwantedIngredients: [],
             healthConditions: [],
         };
-
-        // Product data (fetched from API)
-        this.products = { tubs: null, pouches: null };
-        this.productPromise = null;
 
         // All products cache (fetched via GraphQL)
         this.allProducts = [];
@@ -215,8 +210,6 @@ export default class DietBuilder extends PageManager {
             unwantedIngredients: [],
             healthConditions: [],
         };
-        this.products = { tubs: null, pouches: null };
-        this.productPromise = null;
         this.allIngredients = new Set();
     }
 
@@ -312,9 +305,12 @@ export default class DietBuilder extends PageManager {
                     // Only include products marked for the diet builder
                     if (!customFields.Dietbuilder) return;
 
-                    const suitableForCondition = customFields.Suitableforcondition
-                        ? customFields.Suitableforcondition.split(',').map((s) => s.trim()).filter(Boolean)
-                        : [];
+                    const suitableForCondition =
+                        customFields.Suitableforcondition
+                            ? customFields.Suitableforcondition.split(',')
+                                  .map((s) => s.trim())
+                                  .filter(Boolean)
+                            : [];
 
                     allProducts.push({
                         entityId: node.entityId,
@@ -334,38 +330,9 @@ export default class DietBuilder extends PageManager {
             }
         }
 
-        console.log(`Fetched ${allProducts.length} products from GraphQL:`);
-        console.log(JSON.stringify(allProducts, null, 2));
-
         return allProducts;
     }
 
-    async fetchProducts(ageNum) {
-        const config = AGE_CONFIG[ageNum];
-        const url = `${API_BASE}/calculator?age=${ageNum}`;
-
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
-
-        try {
-            const response = await fetch(url, { signal: controller.signal });
-            clearTimeout(timeoutId);
-
-            if (!response.ok) {
-                throw new Error(`API responded with ${response.status}`);
-            }
-
-            const data = await response.json();
-            const key = config.productKey;
-
-            this.products.tubs = data[`${key}_tubs`] || null;
-            this.products.pouches = data[`${key}_pouches`] || null;
-        } catch (_error) {
-            // Silently fail — products section will show "No product found"
-            this.products.tubs = null;
-            this.products.pouches = null;
-        }
-    }
 
     // ── Step Rendering ───────────────────────────────────────────────
 
@@ -425,9 +392,6 @@ export default class DietBuilder extends PageManager {
         this.state.age = num;
         this.state.coef = config.coef;
         this.state.meals = config.meals;
-
-        // Start fetching products in background
-        this.productPromise = this.fetchProducts(num);
 
         if (config.activity !== null) {
             // Kitten flow: skip weight/neutered/activity, go straight to weight then results
@@ -830,218 +794,28 @@ export default class DietBuilder extends PageManager {
     }
 
     renderResultsStep() {
-        const { total, kcal, meals } = this.state;
-
-        const content = el('div', { className: 'diet-builder-results' });
-        const inner = el('div', { className: 'diet-builder-results__inner' });
-
-        // Serving
-        const servingRow = el(
-            'div',
-            { className: 'diet-builder-results__row' },
+        const form = el(
+            'form',
+            { className: 'diet-builder-email-form' },
             el(
-                'p',
-                {},
-                'Serving per day: ',
-                el('span', {}, el('strong', {}, `${total}g`)),
+                'label',
+                { htmlFor: 'diet-builder-email' },
+                'Enter your email to receive your results:',
+            ),
+            el('input', {
+                type: 'email',
+                id: 'diet-builder-email',
+                name: 'email',
+                placeholder: 'your@email.com',
+                required: true,
+            }),
+            el(
+                'button',
+                { type: 'submit', className: 'diet-builder-btn--primary' },
+                'Submit',
             ),
         );
 
-        // Meals
-        const mealsRow = el(
-            'div',
-            { className: 'diet-builder-results__meals' },
-            el('p', {}, meals),
-        );
-
-        // Calories
-        const caloriesRow = el(
-            'div',
-            { className: 'diet-builder-results__row' },
-            el(
-                'p',
-                {},
-                'Daily calorie intake: ',
-                el('span', {}, el('strong', {}, `${kcal} kcal`)),
-            ),
-        );
-
-        // Start Over button
-        const startOverBtn = el(
-            'button',
-            {
-                className: 'diet-builder-btn--secondary',
-                onClick: () => {
-                    this.resetState();
-                    this.renderAgeStep();
-                },
-            },
-            'Start Over',
-        );
-
-        inner.append(servingRow, mealsRow, caloriesRow, startOverBtn);
-        content.appendChild(inner);
-
-        // Products CTA
-        const ctaContainer = el('div', {
-            className: 'diet-builder-cta-container',
-        });
-        const ctaBtn = el(
-            'button',
-            {
-                className:
-                    'diet-builder-cta diet-builder-btn--secondary diet-builder-cta--loading',
-                title: 'loading... please wait',
-                onClick: () => this.showProductModal(),
-            },
-            'View your RDA on our products',
-            el('span', { className: 'diet-builder-spinner' }),
-        );
-        ctaContainer.appendChild(ctaBtn);
-        content.appendChild(ctaContainer);
-
-        // Product modal container
-        const modalContainer = el('div', {
-            id: 'diet-builder-modal',
-            className: 'diet-builder-modal',
-        });
-        const modalInner = el('div', {
-            id: 'diet-builder-modal-content',
-            className: 'diet-builder-modal__inner',
-        });
-        modalContainer.appendChild(modalInner);
-        content.appendChild(modalContainer);
-
-        this.renderStep('Your Recommended Daily Amount (RDA) is...', content);
-
-        // Wait for products to load, then enable the CTA
-        this.enableProductCTA(ctaBtn);
-    }
-
-    async enableProductCTA(ctaBtn) {
-        if (this.productPromise) {
-            await this.productPromise;
-        }
-
-        const loadingSpinner = ctaBtn.querySelector('.diet-builder-spinner');
-        if (loadingSpinner) loadingSpinner.style.display = 'none';
-        ctaBtn.classList.remove('diet-builder-cta--loading');
-        ctaBtn.removeAttribute('title');
-    }
-
-    // ── Product Modal ────────────────────────────────────────────────
-
-    showProductModal() {
-        const modal = document.getElementById('diet-builder-modal');
-        const modalInner = document.getElementById(
-            'diet-builder-modal-content',
-        );
-        if (!modal || !modalInner) return;
-
-        modal.style.display = 'block';
-        modalInner.innerHTML = '';
-
-        const content = el('div', {
-            className: 'diet-builder-modal__content',
-        });
-
-        // Tubs section
-        content.appendChild(
-            this.buildProductSection('450g Tubs', this.products.tubs),
-        );
-        content.appendChild(el('hr'));
-
-        // Pouches section
-        content.appendChild(
-            this.buildProductSection('Pouches', this.products.pouches),
-        );
-        content.appendChild(el('hr'));
-
-        modalInner.appendChild(content);
-    }
-
-    buildProductSection(title, products) {
-        const section = el('div', {
-            className: 'diet-builder-product-section',
-        });
-
-        const titleEl = el(
-            'h1',
-            { className: 'diet-builder-product-section__title' },
-            title,
-        );
-        section.appendChild(titleEl);
-
-        const grid = el('div', {
-            className: 'diet-builder-product-grid',
-        });
-
-        if (!products || products.length === 0) {
-            const emptyMsg = el(
-                'div',
-                { className: 'diet-builder-product-card' },
-                el('p', {}, 'No product found'),
-            );
-            grid.appendChild(emptyMsg);
-        } else {
-            products.forEach((product) => {
-                grid.appendChild(this.buildProductCard(product));
-            });
-        }
-
-        section.appendChild(grid);
-        return section;
-    }
-
-    buildProductCard(product) {
-        const { weight, activity, coef } = this.state;
-        const gramsPerDay = calculateProductGrams(
-            weight,
-            activity,
-            coef,
-            product.calorie,
-        );
-
-        const wrapper = el('div', { className: 'diet-builder-product-card' });
-
-        // Image
-        const imageWrap = el('div', {
-            className: 'diet-builder-product-card__image',
-        });
-        const imgLink = el('a', { href: product.action_url });
-        const img = el('img', {
-            src: product.image,
-            alt: product.name,
-        });
-        imgLink.appendChild(img);
-        imageWrap.appendChild(imgLink);
-
-        // Name
-        const contentWrap = el('div', {
-            className: 'diet-builder-product-card__name',
-        });
-        const nameLink = el('a', { href: product.action_url });
-        const nameP = el('p', {}, product.name);
-        nameLink.appendChild(nameP);
-        contentWrap.appendChild(nameLink);
-
-        // CTA button
-        const ctaWrap = el('div', {
-            className: 'diet-builder-product-card__cta',
-        });
-        const ctaLink = el('a', { href: product.action_url });
-        const ctaBtn = el(
-            'button',
-            {
-                className: 'diet-builder-btn--primary',
-                dataset: { calorie: product.calorie },
-            },
-            `${gramsPerDay}g per day`,
-        );
-        ctaLink.appendChild(ctaBtn);
-        ctaWrap.appendChild(ctaLink);
-
-        wrapper.append(imageWrap, contentWrap, ctaWrap);
-        return wrapper;
+        this.renderStep('Almost done!', form);
     }
 }
