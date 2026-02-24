@@ -359,7 +359,7 @@ export default class DietBuilder extends PageManager {
         const form = el(
             'form',
             { className: 'diet-builder-age-form' },
-            el('label', { htmlFor: 'cat-name' }, "What's your cat's name?"),
+            el('label', { for: 'cat-name' }, "What's your cat's name?"),
             el('input', {
                 type: 'text',
                 id: 'cat-name',
@@ -367,7 +367,7 @@ export default class DietBuilder extends PageManager {
                 placeholder: 'e.g. Whiskers',
                 required: true,
             }),
-            el('label', {}, "What's their date of birth?"),
+            el('p', { className: 'diet-builder-age-form__dob-label' }, "What's their date of birth?"),
             el(
                 'div',
                 { className: 'diet-builder-dob' },
@@ -667,6 +667,38 @@ export default class DietBuilder extends PageManager {
     // ── Step 6: Ingredients ──────────────────────────────────────────
 
     renderIngredientsStep(flow) {
+        // If health conditions wiped out all products, show an error and let
+        // the user go back to health conditions with a clean slate.
+        if (this.state.recommendedProducts.length === 0) {
+            const content = el('div', {
+                className: 'diet-builder-ingredients',
+            });
+            const msg = el(
+                'p',
+                { className: 'diet-builder-ingredients__description' },
+                'Unfortunately, no products match the combination of health conditions you selected. Please go back and adjust your selections.',
+            );
+            const backBtn = el(
+                'button',
+                {
+                    className: 'diet-builder-btn--secondary',
+                    onClick: () => {
+                        this.state.recommendedProducts =
+                            this.allProducts.filter((product) =>
+                                product.categories.includes(
+                                    this.state.ageGroup,
+                                ),
+                            );
+                        this.renderHealthStep(flow);
+                    },
+                },
+                'Back',
+            );
+            content.append(msg, backBtn);
+            this.renderStep('No products available', content);
+            return;
+        }
+
         // Populate allIngredients from current recommendedProducts only
         this.allIngredients = new Set();
         this.state.recommendedProducts.forEach((product) => {
@@ -696,9 +728,7 @@ export default class DietBuilder extends PageManager {
         limitMsg.style.visibility = 'hidden';
 
         for (const ingredient of this.allIngredients) {
-            const isSelected = this.state.unwantedIngredients.includes(
-                String(ingredient),
-            );
+            const isSelected = this.state.unwantedIngredients.includes(ingredient);
             const card = el(
                 'button',
                 {
@@ -715,6 +745,10 @@ export default class DietBuilder extends PageManager {
                             card.classList.remove(
                                 'diet-builder-ingredients__card--selected',
                             );
+                            this.state.unwantedIngredients =
+                                this.state.unwantedIngredients.filter(
+                                    (i) => i !== ingredient,
+                                );
                             limitMsg.style.visibility = 'hidden';
                         } else {
                             const selectedCount = grid.querySelectorAll(
@@ -727,10 +761,11 @@ export default class DietBuilder extends PageManager {
                             card.classList.add(
                                 'diet-builder-ingredients__card--selected',
                             );
+                            this.state.unwantedIngredients.push(ingredient);
                         }
                     },
                 },
-                String(ingredient),
+                ingredient,
             );
             grid.appendChild(card);
         }
@@ -764,7 +799,7 @@ export default class DietBuilder extends PageManager {
             'button',
             {
                 className: 'diet-builder-btn--primary',
-                onClick: () => this.submitIngredients(flow),
+                onClick: () => this.calculateAndShowResults(),
             },
             'Next',
         );
@@ -773,16 +808,6 @@ export default class DietBuilder extends PageManager {
         content.append(description, grid, limitMsg, buttonGroup);
 
         this.renderStep('Which ingredients does your cat dislike?', content);
-    }
-
-    submitIngredients() {
-        const cards = document.querySelectorAll(
-            '.diet-builder-ingredients__card--selected',
-        );
-        this.state.unwantedIngredients = [...cards].map(
-            (card) => card.textContent,
-        );
-        this.calculateAndShowResults();
     }
 
     goBackFromIngredients(flow) {
@@ -880,16 +905,13 @@ export default class DietBuilder extends PageManager {
     }
 
     submitHealth(flow) {
-        const beforeHealth = this.state.recommendedProducts.length;
         this.state.recommendedProducts = this.state.recommendedProducts.filter(
             (product) =>
                 this.state.healthConditions.every((condition) =>
                     product.Suitableforcondition.includes(condition),
                 ),
         );
-        console.log(
-            `[diet-builder] recommendedProducts before health filter: ${beforeHealth}, after (conditions: ${this.state.healthConditions.join(', ') || 'none'}): ${this.state.recommendedProducts.length}`,
-        );
+
         this.renderIngredientsStep(flow);
     }
 

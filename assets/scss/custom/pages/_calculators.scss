@@ -878,15 +878,16 @@
         margin: 2rem auto 0;
         gap: 0.5rem;
 
-        label {
+        label,
+        .diet-builder-age-form__dob-label {
             display: block;
             text-transform: uppercase;
             color: black;
             margin-top: 1rem;
+        }
 
-            &:first-of-type {
-                margin-top: 0;
-            }
+        .diet-builder-age-form__dob-label {
+            margin-bottom: 0;
         }
 
         #cat-name {
