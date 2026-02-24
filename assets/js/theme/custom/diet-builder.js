@@ -232,14 +232,19 @@ export default class DietBuilder extends PageManager {
                                 entityId
                                 name
                                 path
+                                prices {
+                                    price {
+                                    value
+                                    }
+                                }
                                 defaultImage {
                                     urlOriginal
                                 }
                                 categories {
                                     edges {
-                                    node {
-                                        name
-                                    }
+                                        node {
+                                            name
+                                        }
                                     }
                                 }
                                 customFields {
@@ -317,6 +322,7 @@ export default class DietBuilder extends PageManager {
                         customFields,
                         categories,
                         Suitableforcondition: suitableForCondition,
+                        price: node.prices.price.value,
                     });
                 });
 
@@ -367,7 +373,11 @@ export default class DietBuilder extends PageManager {
                 placeholder: 'e.g. Whiskers',
                 required: true,
             }),
-            el('p', { className: 'diet-builder-age-form__dob-label' }, "What's their date of birth?"),
+            el(
+                'p',
+                { className: 'diet-builder-age-form__dob-label' },
+                "What's their date of birth?",
+            ),
             el(
                 'div',
                 { className: 'diet-builder-dob' },
@@ -728,7 +738,8 @@ export default class DietBuilder extends PageManager {
         limitMsg.style.visibility = 'hidden';
 
         for (const ingredient of this.allIngredients) {
-            const isSelected = this.state.unwantedIngredients.includes(ingredient);
+            const isSelected =
+                this.state.unwantedIngredients.includes(ingredient);
             const card = el(
                 'button',
                 {
@@ -936,28 +947,39 @@ export default class DietBuilder extends PageManager {
     }
 
     renderResultsStep() {
-        const form = el(
-            'form',
-            { className: 'diet-builder-email-form' },
+        const content = el(
+            'div',
+            {},
             el(
-                'label',
-                { htmlFor: 'diet-builder-email' },
-                'Enter your email to receive your results:',
+                'pre',
+                {
+                    style: 'background:#f4f4f4;padding:1rem;overflow:auto;font-size:12px;',
+                },
+                JSON.stringify(this.state, null, 2),
             ),
-            el('input', {
-                type: 'email',
-                id: 'diet-builder-email',
-                name: 'email',
-                placeholder: 'your@email.com',
-                required: true,
-            }),
             el(
-                'button',
-                { type: 'submit', className: 'diet-builder-btn--primary' },
-                'Submit',
+                'form',
+                { className: 'diet-builder-email-form' },
+                el(
+                    'label',
+                    { htmlFor: 'diet-builder-email' },
+                    'Enter your email to receive your results:',
+                ),
+                el('input', {
+                    type: 'email',
+                    id: 'diet-builder-email',
+                    name: 'email',
+                    placeholder: 'your@email.com',
+                    required: true,
+                }),
+                el(
+                    'button',
+                    { type: 'submit', className: 'diet-builder-btn--primary' },
+                    'Submit',
+                ),
             ),
         );
 
-        this.renderStep('Almost done!', form);
+        this.renderStep('Almost done!', content);
     }
 }
