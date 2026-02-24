@@ -309,8 +309,12 @@ export default class DietBuilder extends PageManager {
                         }
                     });
 
-                    // Only include food products (those with Ingredients)
-                    if (!customFields.Ingredients) return;
+                    // Only include products marked for the diet builder
+                    if (!customFields.Dietbuilder) return;
+
+                    const suitableForCondition = customFields.Suitableforcondition
+                        ? customFields.Suitableforcondition.split(',').map((s) => s.trim()).filter(Boolean)
+                        : [];
 
                     allProducts.push({
                         entityId: node.entityId,
@@ -319,6 +323,7 @@ export default class DietBuilder extends PageManager {
                         image: node.defaultImage?.urlOriginal || '',
                         customFields,
                         categories,
+                        Suitableforcondition: suitableForCondition,
                     });
                 });
 
@@ -328,6 +333,9 @@ export default class DietBuilder extends PageManager {
                 hasNextPage = false;
             }
         }
+
+        console.log(`Fetched ${allProducts.length} products from GraphQL:`);
+        console.log(JSON.stringify(allProducts, null, 2));
 
         return allProducts;
     }
