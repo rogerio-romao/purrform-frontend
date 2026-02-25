@@ -1027,5 +1027,46 @@ export default class DietBuilder extends PageManager {
         const email = form.querySelector('input[name="email"]').value;
         this.state.email = email;
         console.log(this.state);
+        this.renderSuccessStep();
+    }
+
+    renderSuccessStep() {
+        const catName = this.state.catName || 'your cat';
+        const email = this.state.email;
+
+        const content = el(
+            'div',
+            { className: 'diet-builder-success' },
+            el(
+                'p',
+                { className: 'diet-builder-success__message' },
+                `We\u2019ll send ${catName}\u2019s personalised diet recommendations to ${email} shortly.`,
+            ),
+            el(
+                'div',
+                { className: 'diet-builder-success__links' },
+                el(
+                    'a',
+                    {
+                        href: '/',
+                        className: 'diet-builder-btn--primary',
+                    },
+                    'Visit our store',
+                ),
+                el(
+                    'button',
+                    {
+                        className: 'diet-builder-btn--secondary',
+                        onClick: () => {
+                            this.resetState();
+                            this.renderAgeStep();
+                        },
+                    },
+                    'Start again',
+                ),
+            ),
+        );
+
+        this.renderStep('Check your inbox!', content);
     }
 }

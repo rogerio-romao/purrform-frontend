@@ -1368,6 +1368,37 @@
         }
     }
 
+    // ── Success step ─────────────────────────────────────────────
+    .diet-builder-success {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .diet-builder-success__message {
+        font-size: 18px;
+        max-width: 480px;
+        margin-bottom: 2rem;
+    }
+
+    .diet-builder-success__links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+
+        .diet-builder-btn--primary,
+        .diet-builder-btn--secondary {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+    }
+
     // ── Loading spinner ──────────────────────────────────────────
     .diet-builder-spinner::after {
         content: '';
