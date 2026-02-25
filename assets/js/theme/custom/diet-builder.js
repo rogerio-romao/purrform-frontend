@@ -93,6 +93,41 @@ const HEALTH_CONDITIONS = [
     'Obesity',
 ];
 
+const HEALTH_CONDITIONS_INFO = {
+    Diabetes: {
+        explanation: 'A common hormonal disorder where the body cannot regulate blood sugar effectively. Most frequently seen in overweight, older, or inactive cats.',
+        recommended: 'All Purrform products are suitable — naturally high in protein and low in carbohydrates, helping to support stable blood glucose levels and healthy weight management.',
+    },
+    'Chin Acne': {
+        explanation: 'A skin condition characterised by blackheads, pimples, or inflamed sores on the chin and lips, often linked to overactive sebaceous glands, stress, allergies, or contact irritation.',
+        recommended: 'We recommend plain rabbit, turkey, or quail. These proteins are less likely to trigger food sensitivities. Chicken and beef are more commonly linked to feline food allergies.',
+    },
+    'Inflammatory Bowel Disease (IBD)': {
+        explanation: 'A chronic gastrointestinal condition caused by inflammation of the stomach or intestinal lining, resulting in vomiting, diarrhoea, weight loss, and reduced appetite.',
+        recommended: 'Plain rabbit, turkey, or quail are recommended due to their low allergenic potential. Chicken and beef may aggravate digestive inflammation in affected cats.',
+    },
+    'Stage 1 CKD': {
+        explanation: 'A gradual decline in kidney function, most commonly diagnosed in older cats. Early management can help slow progression and support overall kidney health.',
+        recommended: 'Choose products with low phosphorus levels, such as the venison pouches. Adding a couple of spoons of water to meals can further support kidney function.',
+    },
+    'Urinary Tract Conditions': {
+        explanation: 'Conditions causing discomfort, pain, straining to urinate, or inappropriate urination, often influenced by hydration levels and urinary concentration.',
+        recommended: 'All Purrform products are naturally high in moisture, which helps support urinary health. Adding water to food can further increase fluid intake and help maintain healthy urine dilution.',
+    },
+    'Dental disease': {
+        explanation: 'Includes conditions such as gingivitis, tooth decay, and oral pain, affecting a significant proportion of cats. If left unmanaged, it can impact overall health and wellbeing.',
+        recommended: 'We recommend the 5 Days Fresh range — this complete range does not contain bone and is suitable for cats with dental sensitivities or existing oral discomfort.',
+    },
+    Hyperthyroidism: {
+        explanation: 'Caused by an overactive thyroid gland, commonly resulting in weight loss despite an increased appetite. Most frequently diagnosed in middle-aged to older cats.',
+        recommended: 'A low-iodine diet can help support thyroid management. Chicken and turkey are naturally low in iodine, with rabbit and beef also being suitable protein sources.',
+    },
+    Obesity: {
+        explanation: 'A growing health concern that increases the risk of diabetes, arthritis, and liver disease. Often linked to overfeeding and insufficient activity.',
+        recommended: 'Feeding lean, high-quality proteins can help promote healthy weight loss while maintaining muscle mass and supporting overall metabolic health.',
+    },
+};
+
 // ── Helpers ──────────────────────────────────────────────────────────
 
 /**
@@ -913,6 +948,66 @@ export default class DietBuilder extends PageManager {
 
         buttonGroup.append(backBtn, skipBtn, nextBtn);
         content.append(grid, limitMsg, buttonGroup);
+
+        const infoSection = el('div', { className: 'diet-builder-health__info' });
+        const infoTitle = el(
+            'p',
+            { className: 'diet-builder-health__info-title' },
+            'About these conditions',
+        );
+        infoSection.appendChild(infoTitle);
+
+        HEALTH_CONDITIONS.forEach((condition) => {
+            const info = HEALTH_CONDITIONS_INFO[condition];
+            if (!info) return;
+
+            const item = el('div', { className: 'diet-builder-health__info-item' });
+
+            const header = el('button', {
+                className: 'diet-builder-health__info-header',
+                onClick: () => {
+                    const isOpen = item.classList.contains(
+                        'diet-builder-health__info-item--open',
+                    );
+                    infoSection
+                        .querySelectorAll('.diet-builder-health__info-item--open')
+                        .forEach((openItem) =>
+                            openItem.classList.remove(
+                                'diet-builder-health__info-item--open',
+                            ),
+                        );
+                    if (!isOpen) {
+                        item.classList.add('diet-builder-health__info-item--open');
+                    }
+                },
+            });
+
+            const nameSpan = el('span', {}, condition);
+            const chevron = el(
+                'span',
+                { className: 'diet-builder-health__info-chevron' },
+                '▾',
+            );
+            header.append(nameSpan, chevron);
+
+            const body = el('div', { className: 'diet-builder-health__info-body' });
+            const explanationEl = el(
+                'p',
+                { className: 'diet-builder-health__info-explanation' },
+                info.explanation,
+            );
+            const recommendedEl = el('p', {
+                className: 'diet-builder-health__info-recommended',
+            });
+            const recommendedLabel = el('strong', {}, 'What we recommend: ');
+            recommendedEl.append(recommendedLabel, info.recommended);
+
+            body.append(explanationEl, recommendedEl);
+            item.append(header, body);
+            infoSection.appendChild(item);
+        });
+
+        content.appendChild(infoSection);
 
         this.renderStep('Does your cat have any health conditions?', content);
     }
