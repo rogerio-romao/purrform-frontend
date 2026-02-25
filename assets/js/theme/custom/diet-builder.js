@@ -150,16 +150,17 @@ export default class DietBuilder extends PageManager {
             age: null,
             catName: null,
             ageGroup: null,
-            weight: null,
+            catWeight: null,
             coef: null,
             activity: null,
             neutered: null,
             meals: null,
-            total: null,
+            calculatedRDA: null,
             kcal: null,
             unwantedIngredients: [],
             healthConditions: [],
             recommendedProducts: [],
+            email: null,
         };
 
         // All products cache (fetched via GraphQL)
@@ -206,6 +207,7 @@ export default class DietBuilder extends PageManager {
             unwantedIngredients: [],
             healthConditions: [],
             recommendedProducts: [],
+            email: null,
         };
         this.allIngredients = new Set();
     }
@@ -552,7 +554,7 @@ export default class DietBuilder extends PageManager {
 
     submitWeight(flow) {
         const input = document.getElementById('weight_input');
-        this.state.weight = parseFloat(input.value);
+        this.state.catWeight = parseFloat(input.value);
 
         if (flow === 'kitten') {
             // Kittens skip neutered/activity — go to health then ingredients then results
@@ -939,10 +941,42 @@ export default class DietBuilder extends PageManager {
     // ── Step 7: Results ──────────────────────────────────────────────
 
     calculateAndShowResults() {
-        const { weight, activity, coef } = this.state;
-        const { total, kcal } = calculateRDA(weight, activity, coef);
-        this.state.total = total;
+        const { catWeight, activity, coef } = this.state;
+        const { total, kcal } = calculateRDA(catWeight, activity, coef);
+        this.state.calculatedRDA = total;
         this.state.kcal = kcal;
+        // need to calculate grams for each recommended product based on kcal and product calorie density - each product has a custom field called CALORIE per Product and another called Weight of product which is in grams - so we can calculate calories per kg for each product and then calculate grams needed to meet the RDA kcal
+        for (const product of this.state.recommendedProducts) {
+            const calsPerProduct = Number(
+                product.customFields['CALORIE per Product'],
+            );
+            const prodWeight = Number(
+                product.customFields['Weight of product'],
+            );
+            if (
+                Number.isNaN(calsPerProduct) ||
+                Number.isNaN(prodWeight) ||
+                prodWeight === 0
+            ) {
+                // remove product from recommendations if we can't calculate calorie density
+                this.state.recommendedProducts =
+                    this.state.recommendedProducts.filter((p) => p !== product);
+            } else {
+                product.calorieDensityPer100g =
+                    (calsPerProduct / prodWeight) * 100; // calories per 100g
+                // also calculate the price per day based on the calorieDensityPer100g, the product price, the product weight and the calculated kcal needs
+                const pricePer100g = (product.price / prodWeight) * 100;
+                product.gramsPerDay = calculateProductGrams(
+                    catWeight,
+                    activity,
+                    coef,
+                    product.calorieDensityPer100g,
+                );
+                product.pricePerDay =
+                    (pricePer100g * product.gramsPerDay) / 100;
+            }
+        }
+
         this.renderResultsStep();
     }
 
@@ -980,6 +1014,18 @@ export default class DietBuilder extends PageManager {
             ),
         );
 
+        const form = content.querySelector('.diet-builder-email-form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.submitEmailForm(form);
+        });
+
         this.renderStep('Almost done!', content);
+    }
+
+    submitEmailForm(form) {
+        const email = form.querySelector('input[name="email"]').value;
+        this.state.email = email;
+        console.log(this.state);
     }
 }

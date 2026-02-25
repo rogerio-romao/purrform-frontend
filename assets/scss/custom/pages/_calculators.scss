@@ -906,6 +906,38 @@
         }
     }
 
+    // ── Email form step ──────────────────────────────────────────
+    .diet-builder-email-form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 440px;
+        margin: 2rem auto 0;
+        gap: 0.5rem;
+
+        label {
+            display: block;
+            text-transform: uppercase;
+            color: black;
+            margin-top: 1rem;
+        }
+
+        input[type='email'] {
+            width: 100%;
+            height: 3.5rem;
+            border: 2px solid $input-field;
+            border-radius: 45px;
+            background-color: transparent;
+            color: $color-p;
+            font-size: 18px;
+            padding-left: 20px;
+        }
+
+        .diet-builder-btn--primary {
+            margin: 1rem auto 0;
+        }
+    }
+
     .diet-builder-dob {
         display: flex;
         gap: 12px;
