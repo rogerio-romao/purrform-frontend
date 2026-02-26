@@ -776,7 +776,7 @@ export default class DietBuilder extends PageManager {
         const description = el(
             'p',
             { className: 'diet-builder-ingredients__description' },
-            "These are the ingredients found in products suited to your cat. Select any your cat doesn't like.",
+            "These are the ingredients found in products suited to your cat. Select any your cat doesn't like, and we will exclude products containing those ingredients from your recommendations.",
         );
 
         const grid = el('div', {
