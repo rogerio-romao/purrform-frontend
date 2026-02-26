@@ -8,6 +8,7 @@
         text-align: center;
         margin-bottom: 2rem;
         margin-top: 2rem;
+        max-width: 80ch;
 
         h1 {
             font-family: 'Filson Pro', sans-serif;
@@ -873,5 +874,17 @@
         @include breakpoint('medium') {
             padding: 20px;
         }
+    }
+
+    .diet-builder-success__debug {
+        margin-top: 2rem;
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 600px;
+        text-align: left;
+        font-size: 12px;
+        color: #333;
     }
 }
