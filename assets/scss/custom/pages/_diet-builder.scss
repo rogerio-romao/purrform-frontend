@@ -1,4 +1,35 @@
 // ── Diet Builder ─────────────────────────────────────────────────────
+
+// CSS Variables (matching feline-grimace-scale)
+:root {
+    --db-bg: #f7f4f0;
+    --db-card: #ffffff;
+    --db-purple: #546052;
+    --db-purple-light: #edf1ec;
+    --db-purple-mid: #859e7d;
+    --db-accent: #a8c4a2;
+    --db-text: #2a3329;
+    --db-text-muted: #687e6b;
+    --db-selected: #546052;
+    --db-border: #d4ddd3;
+    --db-radius: 16px;
+    --db-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Import fonts
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+// Full-width wrapper that breaks out of container
+.diet-builder-wrapper {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background: var(--db-bg);
+    min-height: 100vh;
+    position: relative;
+    padding: 2rem 1rem;
+}
+
+// Page container (inside wrapper)
 .diet-builder-page {
     margin-bottom: 3rem;
 
@@ -10,21 +41,34 @@
         margin-top: 2rem;
         max-width: 70ch;
         text-wrap: balance;
+        position: relative;
+        z-index: 1;
+        animation: dbFadeDown 0.6s ease both;
+
+        .diet-builder-heading__icon {
+            font-size: 2.4rem;
+            margin-bottom: 8px;
+            display: block;
+        }
 
         h1 {
-            font-family: 'Filson Pro', sans-serif;
+            font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 36px;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            color: var(--db-purple);
+            line-height: 1.1;
+            letter-spacing: -0.5px;
             margin-bottom: 1rem;
-            color: #546052;
-
-            @include breakpoint('medium') {
-                font-size: 48px;
-            }
         }
 
         p {
-            font-size: 18px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--db-text-muted);
+            line-height: 1.6;
+            max-width: 480px;
+            margin-inline: auto;
         }
     }
 
@@ -32,55 +76,71 @@
     .diet-builder {
         width: 100%;
         padding-top: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .diet-builder-step {
+        animation: dbFadeUp 0.5s ease both;
     }
 
     .diet-builder-step__heading {
-        font-weight: bold;
-        color: $color-p;
-        font-size: 24px;
+        font-family: 'Playfair Display', serif;
+        font-weight: 600;
+        color: var(--db-purple);
+        font-size: 1.5rem;
         text-align: center;
-        margin-bottom: 0;
+        margin-bottom: 1.5rem;
     }
 
     // ── Buttons ──────────────────────────────────────────────────
     .diet-builder-btn--primary {
-        transition: all 0.2s ease;
-        border: 2px solid $headingColor !important;
-        color: #fff;
-        font-size: 18px;
-        font-weight: bold;
+        transition: all var(--db-transition);
+        border: 2px solid var(--db-purple) !important;
+        color: white;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
         text-align: center;
-        display: block;
-        width: 165px;
-        height: 3.5rem;
-        background-color: #687d6a;
-        border-color: black;
-        border-radius: 45px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 120px;
+        height: 3rem;
+        background-color: var(--db-purple);
+        border-radius: var(--db-radius);
+        cursor: pointer;
 
         &:hover {
             background-color: white !important;
-            color: $headingColor !important;
+            color: var(--db-purple) !important;
+            box-shadow: 0 4px 16px rgba(84, 96, 82, 0.2);
+        }
 
-            p {
-                color: $headingColor !important;
-            }
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     }
 
     .diet-builder-btn--secondary {
         background-color: white;
-        font-weight: bold;
-        color: black;
-        border: 2px solid $input-field;
-        transition: all 0.2s ease;
-        border-radius: 45px;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 600;
+        color: var(--db-purple);
+        border: 2px solid var(--db-purple);
+        transition: all var(--db-transition);
+        border-radius: var(--db-radius);
         text-align: center;
-        width: 165px;
-        height: 3.5rem;
-        display: block;
+        min-width: 120px;
+        height: 3rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
 
         &:hover {
-            color: $headingColor;
+            background-color: var(--db-purple-light);
         }
     }
 
@@ -165,8 +225,12 @@
         label,
         .diet-builder-age-form__dob-label {
             display: block;
+            font-family: 'DM Sans', sans-serif;
             text-transform: uppercase;
-            color: black;
+            color: var(--db-text);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
             margin-top: 1rem;
             text-align: center;
         }
@@ -178,16 +242,30 @@
         #cat-name {
             width: 100%;
             height: 3.5rem;
-            border: 2px solid $input-field;
-            border-radius: 45px;
-            background-color: transparent;
-            color: $color-p;
-            font-size: 18px;
-            padding-left: 20px;
+            border: 2px solid var(--db-border);
+            border-radius: var(--db-radius);
+            background-color: var(--db-card);
+            color: var(--db-text);
+            font-size: 1rem;
+            padding: 0 20px;
+            font-family: 'DM Sans', sans-serif;
+            transition:
+                border-color var(--db-transition),
+                box-shadow var(--db-transition);
+
+            &:focus {
+                outline: none;
+                border-color: var(--db-purple);
+                box-shadow: 0 0 0 3px rgba(84, 96, 82, 0.1);
+            }
+
+            &::placeholder {
+                color: var(--db-text-muted);
+            }
         }
 
         .diet-builder-btn--primary {
-            margin: 1rem auto 0;
+            margin: 1.5rem auto 0;
         }
     }
 
@@ -202,8 +280,12 @@
 
         label {
             display: block;
+            font-family: 'DM Sans', sans-serif;
             text-transform: uppercase;
-            color: black;
+            color: var(--db-text);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
             margin-top: 1rem;
             text-align: center;
         }
@@ -211,38 +293,67 @@
         input[type='email'] {
             width: 100%;
             height: 3.5rem;
-            border: 2px solid $input-field;
-            border-radius: 45px;
-            background-color: transparent;
-            color: $color-p;
-            font-size: 18px;
-            padding-left: 20px;
+            border: 2px solid var(--db-border);
+            border-radius: var(--db-radius);
+            background-color: var(--db-card);
+            color: var(--db-text);
+            font-size: 1rem;
+            padding: 0 20px;
+            font-family: 'DM Sans', sans-serif;
+            transition:
+                border-color var(--db-transition),
+                box-shadow var(--db-transition);
+
+            &:focus {
+                outline: none;
+                border-color: var(--db-purple);
+                box-shadow: 0 0 0 3px rgba(84, 96, 82, 0.1);
+            }
+
+            &::placeholder {
+                color: var(--db-text-muted);
+            }
         }
 
         .diet-builder-btn--primary {
-            margin: 1rem auto 0;
+            margin: 1.5rem auto 0;
         }
     }
 
     .diet-builder-dob {
         display: flex;
         gap: 12px;
+        justify-content: center;
 
         input {
             height: 3.5rem;
-            border: 2px solid $input-field;
-            border-radius: 45px;
-            background-color: transparent;
-            color: $color-p;
-            font-size: 18px;
+            border: 2px solid var(--db-border);
+            border-radius: var(--db-radius);
+            background-color: var(--db-card);
+            color: var(--db-text);
+            font-size: 1rem;
             text-align: center;
+            font-family: 'DM Sans', sans-serif;
             appearance: textfield;
             -moz-appearance: textfield;
+            transition:
+                border-color var(--db-transition),
+                box-shadow var(--db-transition);
+
+            &:focus {
+                outline: none;
+                border-color: var(--db-purple);
+                box-shadow: 0 0 0 3px rgba(84, 96, 82, 0.1);
+            }
 
             &::-webkit-outer-spin-button,
             &::-webkit-inner-spin-button {
                 -webkit-appearance: none;
                 margin: 0;
+            }
+
+            &::placeholder {
+                color: var(--db-text-muted);
             }
         }
 
@@ -253,62 +364,71 @@
         }
 
         #dob-year {
-            flex: 1;
+            width: 100px;
         }
     }
 
     // ── Weight step ──────────────────────────────────────────────
     .diet-builder-weight {
-        margin-top: 35px;
-        display: block;
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
 
         @include breakpoint('medium') {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: auto;
-            width: 50%;
+            flex-direction: row;
+            justify-content: center;
+            gap: 3rem;
+            max-width: 700px;
+            margin: 1rem auto 0;
         }
     }
 
     .diet-builder-weight__img {
-        width: 80%;
+        width: 180px;
         height: auto;
-        margin: auto;
-        display: block;
-
-        @include breakpoint('medium') {
-            width: 100%;
-        }
+        flex-shrink: 0;
     }
 
     .diet-builder-weight__input-group {
         display: flex;
         flex-direction: column;
+        width: 100%;
+        max-width: 250px;
 
         .diet-builder-weight__label {
-            margin: 5rem 0 0.5rem;
-            color: black;
-            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--db-text);
+            font-weight: 600;
             text-transform: uppercase;
-
-            @include breakpoint('medium') {
-                margin: 0 0 0.5rem;
-            }
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            text-align: center;
         }
 
         #weight_input {
-            margin: 0.5rem 0 0.5rem;
             width: 100%;
             height: 3.5rem;
-            border: 2px solid $input-field;
-            border-radius: 45px;
-            background-color: transparent;
-            color: $color-p;
-            font-size: 18px;
-            padding-left: 15px;
+            border: 2px solid var(--db-border);
+            border-radius: var(--db-radius);
+            background-color: var(--db-card);
+            color: var(--db-text);
+            font-size: 1.2rem;
+            text-align: center;
+            font-family: 'DM Sans', sans-serif;
             appearance: textfield;
             -moz-appearance: textfield;
+            transition:
+                border-color var(--db-transition),
+                box-shadow var(--db-transition);
+
+            &:focus {
+                outline: none;
+                border-color: var(--db-purple);
+                box-shadow: 0 0 0 3px rgba(84, 96, 82, 0.1);
+            }
 
             &::-webkit-outer-spin-button,
             &::-webkit-inner-spin-button {
@@ -319,127 +439,136 @@
 
         .diet-builder-weight__error {
             display: none;
-            color: #d9534f;
-            font-size: 14px;
-            margin: 0.25rem 0 0.5rem;
+            color: #c0392b;
+            font-size: 0.875rem;
+            margin: 0.5rem 0;
+            text-align: center;
             min-height: 20px;
         }
     }
 
     .diet-builder-weight__buttons {
         display: flex;
-        justify-content: space-between;
-        grid-gap: 10px;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 1.5rem;
+
+        @include breakpoint('medium') {
+            margin-top: 2rem;
+        }
 
         button {
             margin: 0;
-            width: 50%;
+            min-width: 100px;
         }
     }
 
     // ── Neutered step ────────────────────────────────────────────
     .diet-builder-neutered {
-        display: block;
-        margin-top: 35px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 1rem;
 
         @include breakpoint('medium') {
-            display: flex;
             flex-direction: row;
-            align-items: center;
             justify-content: center;
-            gap: 40px;
+            gap: 3rem;
+            max-width: 800px;
+            margin: 1rem auto 0;
         }
     }
 
     .diet-builder-neutered__img {
-        width: 80%;
+        width: 200px;
         height: auto;
-        margin: auto;
-        display: block;
-
-        @include breakpoint('medium') {
-            width: 295px;
-            height: 215px;
-            margin: 0;
-        }
+        flex-shrink: 0;
     }
 
     .diet-builder-neutered__buttons {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 20px;
-        gap: 15px;
+        gap: 12px;
 
         @include breakpoint('medium') {
             align-items: flex-start;
-            margin-top: 0;
         }
 
         .diet-builder-btn--primary {
             margin: 0;
+            min-width: 160px;
         }
 
         .diet-builder-btn--secondary {
             margin: 0;
+            margin-top: 8px;
+            min-width: 160px;
         }
     }
 
     // ── Activity step ────────────────────────────────────────────
     .diet-builder-activity {
-        display: block;
-
-        img {
-            margin: 0;
-        }
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 1rem;
 
         @include breakpoint('medium') {
-            display: flex;
             flex-direction: row;
-            align-items: center;
             justify-content: center;
+            gap: 3rem;
+            max-width: 900px;
+            margin: 1rem auto 0;
         }
     }
 
     .diet-builder-activity__img {
-        width: 100%;
+        width: 250px;
         height: auto;
-        margin: 0;
-
-        @include breakpoint('medium') {
-            width: 371px;
-            height: 190px;
-            margin: 0;
-        }
+        flex-shrink: 0;
     }
 
     .diet-builder-activity__buttons {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 20px;
-        gap: 15px;
+        gap: 12px;
 
         @include breakpoint('medium') {
             align-items: flex-start;
-            margin-top: 0;
         }
 
         .diet-builder-btn--primary {
             margin: 0;
+            min-width: 140px;
         }
 
         .diet-builder-btn--secondary {
             margin: 0;
+            margin-top: 8px;
+            min-width: 140px;
         }
     }
 
     // ── Ingredients step ─────────────────────────────────────────
     .diet-builder-ingredients {
-        margin-top: 35px;
+        margin-top: 1rem;
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        .diet-builder-ingredients__description {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--db-text-muted);
+            font-size: 0.95rem;
+            text-align: center;
+            max-width: 500px;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
     }
 
     .diet-builder-ingredients__grid {
@@ -459,28 +588,30 @@
     }
 
     .diet-builder-ingredients__card {
-        background-color: $color-f-w;
-        border: 2px solid $color-p;
-        border-radius: 12px;
-        padding: 12px 8px;
-        font-size: 15px;
+        background-color: var(--db-card);
+        border: 2px solid var(--db-border);
+        border-radius: var(--db-radius);
+        padding: 16px 12px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.9rem;
         font-weight: 600;
-        color: $color-p;
+        color: var(--db-text);
         text-align: center;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all var(--db-transition);
 
         &:hover {
-            background-color: rgba(104, 125, 106, 0.1);
+            background-color: var(--db-purple-light);
+            border-color: var(--db-purple-mid);
         }
 
         &--selected {
-            background-color: $color-p;
-            color: $color-f-w;
-            border-color: $color-p;
+            background-color: var(--db-purple);
+            color: white;
+            border-color: var(--db-purple);
 
             &:hover {
-                background-color: darken(#687d6a, 8%);
+                background-color: #465444;
             }
         }
     }
@@ -490,6 +621,7 @@
         justify-content: center;
         gap: 15px;
         flex-wrap: wrap;
+        margin-top: 0;
 
         .diet-builder-btn--primary,
         .diet-builder-btn--secondary {
@@ -499,7 +631,7 @@
 
     // ── Health conditions step ───────────────────────────────────
     .diet-builder-health {
-        margin-top: 35px;
+        margin-top: 1rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -522,31 +654,34 @@
     }
 
     .diet-builder-health__card {
-        background-color: $color-f-w;
-        border: 2px solid $color-p;
-        border-radius: 12px;
-        padding: 12px 8px;
+        background-color: var(--db-card);
+        border: 2px solid var(--db-border);
+        border-radius: var(--db-radius);
+        padding: 16px 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.85rem;
         font-weight: 600;
-        color: $color-p;
+        color: var(--db-text);
         text-align: center;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all var(--db-transition);
+        min-height: 60px;
 
         &:hover {
-            background-color: rgba(104, 125, 106, 0.1);
+            background-color: var(--db-purple-light);
+            border-color: var(--db-purple-mid);
         }
 
         &--selected {
-            background-color: $color-p;
-            color: $color-f-w;
-            border-color: $color-p;
+            background-color: var(--db-purple);
+            color: white;
+            border-color: var(--db-purple);
 
             &:hover {
-                background-color: darken(#687d6a, 8%);
+                background-color: #465444;
             }
         }
     }
@@ -556,6 +691,8 @@
         text-align: center;
         color: #c0392b;
         font-size: 0.875rem;
+        margin-top: 1rem;
+        font-family: 'DM Sans', sans-serif;
     }
 
     .diet-builder-health__buttons {
@@ -563,6 +700,7 @@
         justify-content: center;
         gap: 15px;
         flex-wrap: wrap;
+        margin-top: 0;
 
         .diet-builder-btn--primary,
         .diet-builder-btn--secondary {
@@ -891,5 +1029,28 @@
         text-align: left;
         font-size: 12px;
         color: #333;
+    }
+}
+
+// ── Animations ─────────────────────────────────────────────────────
+@keyframes dbFadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes dbFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
