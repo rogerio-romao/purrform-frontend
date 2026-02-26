@@ -847,18 +847,6 @@ export default class DietBuilder extends PageManager {
             'Back',
         );
 
-        const skipBtn = el(
-            'button',
-            {
-                className: 'diet-builder-btn--secondary',
-                onClick: () => {
-                    this.state.unwantedIngredients = [];
-                    this.calculateAndShowResults();
-                },
-            },
-            'Skip',
-        );
-
         const nextBtn = el(
             'button',
             {
@@ -868,7 +856,7 @@ export default class DietBuilder extends PageManager {
             'Next',
         );
 
-        buttonGroup.append(backBtn, skipBtn, nextBtn);
+        buttonGroup.append(backBtn, nextBtn);
         content.append(description, grid, limitMsg, buttonGroup);
 
         this.renderStep('Which ingredients does your cat dislike?', content);
@@ -941,18 +929,6 @@ export default class DietBuilder extends PageManager {
             'Back',
         );
 
-        const skipBtn = el(
-            'button',
-            {
-                className: 'diet-builder-btn--secondary',
-                onClick: () => {
-                    this.state.healthConditions = [];
-                    this.renderIngredientsStep(flow);
-                },
-            },
-            'Skip',
-        );
-
         const nextBtn = el(
             'button',
             {
@@ -962,7 +938,7 @@ export default class DietBuilder extends PageManager {
             'Next',
         );
 
-        buttonGroup.append(backBtn, skipBtn, nextBtn);
+        buttonGroup.append(backBtn, nextBtn);
         content.append(grid, limitMsg, buttonGroup);
 
         const infoSection = el('div', {
@@ -1109,7 +1085,7 @@ export default class DietBuilder extends PageManager {
             el(
                 'label',
                 { htmlFor: 'diet-builder-email' },
-                'Enter your email to receive your results:',
+                'Enter email to receive diet recommendations:',
             ),
             el('input', {
                 type: 'email',
