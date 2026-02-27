@@ -1132,7 +1132,6 @@ export default class DietBuilder extends PageManager {
 
     renderSuccessStep() {
         const catName = this.state.catName || 'your cat';
-        const email = this.state.email;
 
         const content = el(
             'div',
@@ -1140,7 +1139,7 @@ export default class DietBuilder extends PageManager {
             el(
                 'p',
                 { className: 'diet-builder-success__message' },
-                `We\u2019ll send ${catName}\u2019s personalised diet recommendations to ${email} shortly.`,
+                `We\u2019ll send ${catName}\u2019s personalised diet recommendations to ${this.state.payload.email} shortly.`,
             ),
             el(
                 'div',
