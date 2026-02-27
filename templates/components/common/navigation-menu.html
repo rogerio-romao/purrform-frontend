@@ -128,6 +128,13 @@
                         </a>
                     </li>
                     {{/if}}
+                    {{#if name '===' 'Diet Builder'}}
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="{{url}}" aria-label="{{name}}">
+                            <strong>{{name}}</strong>
+                        </a>
+                    </li>
+                    {{/if}}
                     {{/each}}
                 </ul>
             </div>
