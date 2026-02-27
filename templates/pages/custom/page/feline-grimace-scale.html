@@ -6,29 +6,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f7f4f0;
-    --card: #ffffff;
-    --purple: #546052;
-    --purple-light: #edf1ec;
-    --purple-mid: #859E7D;
-    --accent: #a8c4a2;
-    --text: #2a3329;
-    --text-muted: #687E6B;
-    --selected: #546052;
-    --border: #d4ddd3;
-    --score-low: #4caf87;
-    --score-mid: #e8a020;
-    --score-high: #e05555;
-    --radius: 16px;
-    --transition: 0.22s cubic-bezier(0.4,0,0.2,1);
+    --fgs-bg: #f7f4f0;
+    --fgs-card: #ffffff;
+    --fgs-green: #546052;
+    --fgs-green-light: #edf1ec;
+    --fgs-green-mid: #859E7D;
+    --fgs-text: #2a3329;
+    --fgs-text-muted: #687E6B;
+    --fgs-border: #d4ddd3;
+    --fgs-score-low: #4caf87;
+    --fgs-score-mid: #e8a020;
+    --fgs-score-high: #e05555;
+    --fgs-radius: 16px;
+    --fgs-transition: 0.22s cubic-bezier(0.4,0,0.2,1);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    background: var(--fgs-bg);
+    color: var(--fgs-text);
     min-height: 100vh;
   }
 
@@ -75,14 +73,14 @@
     font-family: 'Playfair Display', serif;
     font-size: clamp(1.8rem, 5vw, 2.8rem);
     font-weight: 700;
-    color: var(--purple);
+    color: var(--fgs-green);
     line-height: 1.1;
     letter-spacing: -0.5px;
   }
 
   header p {
     margin-top: 10px;
-    color: var(--text-muted);
+    color: var(--fgs-text-muted);
     font-size: 0.95rem;
     font-weight: 300;
     max-width: 480px;
@@ -104,17 +102,17 @@
   }
 
   .instructions {
-    background: var(--purple-light);
-    border-radius: var(--radius);
+    background: var(--fgs-green-light);
+    border-radius: var(--fgs-radius);
     padding: 18px 22px;
     margin-bottom: 32px;
     font-size: 0.88rem;
-    color: var(--text);
+    color: var(--fgs-text);
     line-height: 1.7;
     animation: fadeDown 0.75s ease both;
   }
 
-  .instructions strong { color: var(--purple); }
+  .instructions strong { color: var(--fgs-green); }
 
   .instructions .wait-list {
     display: flex;
@@ -129,20 +127,20 @@
     padding: 4px 14px;
     font-size: 0.82rem;
     font-weight: 500;
-    color: var(--purple);
-    border: 1.5px solid var(--purple-mid);
+    color: var(--fgs-green);
+    border: 1.5px solid var(--fgs-green-mid);
   }
 
   /* Action Unit Cards */
   .unit-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    border: 1.5px solid var(--border);
+    background: var(--fgs-card);
+    border-radius: var(--fgs-radius);
+    border: 1.5px solid var(--fgs-border);
     margin-bottom: 24px;
     overflow: hidden;
     animation: fadeUp 0.5s ease both;
     box-shadow: 0 2px 20px #54605208;
-    transition: box-shadow var(--transition);
+    transition: box-shadow var(--fgs-transition);
   }
 
   .unit-card:hover { box-shadow: 0 6px 32px #54605214; }
@@ -153,7 +151,7 @@
   .unit-card:nth-child(5) { animation-delay: 0.3s; }
 
   .unit-header {
-    background: var(--purple);
+    background: var(--fgs-green);
     color: white;
     padding: 14px 22px;
     display: flex;
@@ -177,19 +175,19 @@
     padding: 4px 14px;
     font-size: 0.82rem;
     font-weight: 600;
-    transition: background var(--transition);
+    transition: background var(--fgs-transition);
   }
 
   .unit-header .unit-score-badge.selected {
     background: white;
-    color: var(--purple);
+    color: var(--fgs-green);
   }
 
   .options-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--fgs-border);
   }
 
   .option-btn {
@@ -201,8 +199,8 @@
     cursor: pointer;
     border: none;
     background: transparent;
-    transition: background var(--transition);
-    border-right: 1px solid var(--border);
+    transition: background var(--fgs-transition);
+    border-right: 1px solid var(--fgs-border);
     outline: none;
     text-align: center;
     -webkit-tap-highlight-color: transparent;
@@ -210,17 +208,17 @@
 
   .option-btn:last-child { border-right: none; }
 
-  .option-btn:hover { background: var(--purple-light); }
+  .option-btn:hover { background: var(--fgs-green-light); }
 
   .option-btn.selected {
-    background: var(--purple-light);
+    background: var(--fgs-green-light);
   }
 
   .option-btn.selected::after {
     content: '';
     position: absolute;
     inset: 0;
-    border: 2.5px solid var(--purple);
+    border: 2.5px solid var(--fgs-green);
     border-radius: 0;
     pointer-events: none;
   }
@@ -230,19 +228,19 @@
   .score-pill {
     width: 32px; height: 32px;
     border-radius: 50%;
-    border: 2.5px solid var(--border);
+    border: 2.5px solid var(--fgs-border);
     display: flex; align-items: center; justify-content: center;
     font-weight: 700;
     font-size: 0.9rem;
-    color: var(--text-muted);
+    color: var(--fgs-text-muted);
     margin-bottom: 14px;
-    transition: all var(--transition);
+    transition: all var(--fgs-transition);
     background: white;
   }
 
   .option-btn.selected .score-pill {
-    border-color: var(--purple);
-    background: var(--purple);
+    border-color: var(--fgs-green);
+    background: var(--fgs-green);
     color: white;
     transform: scale(1.1);
   }
@@ -264,23 +262,23 @@
   .option-label {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--text);
+    color: var(--fgs-text);
     line-height: 1.3;
     margin-bottom: 4px;
   }
 
   .option-sublabel {
     font-size: 0.72rem;
-    color: var(--text-muted);
+    color: var(--fgs-text-muted);
     line-height: 1.3;
     font-weight: 400;
   }
 
   /* Score Panel */
   .score-panel {
-    background: var(--card);
-    border-radius: var(--radius);
-    border: 1.5px solid var(--border);
+    background: var(--fgs-card);
+    border-radius: var(--fgs-radius);
+    border: 1.5px solid var(--fgs-border);
     margin-bottom: 24px;
     overflow: hidden;
     animation: fadeUp 0.5s 0.4s ease both;
@@ -288,7 +286,7 @@
   }
 
   .score-panel-header {
-    background: var(--text);
+    background: var(--fgs-text);
     color: white;
     padding: 16px 22px;
     display: flex;
@@ -315,7 +313,7 @@
     min-width: 100px;
     text-align: center;
     padding: 12px 8px;
-    border-right: 1px solid var(--border);
+    border-right: 1px solid var(--fgs-border);
   }
 
   .score-item:last-child { border-right: none; }
@@ -325,7 +323,7 @@
     font-weight: 600;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--fgs-text-muted);
     margin-bottom: 6px;
   }
 
@@ -333,8 +331,8 @@
     font-family: 'Playfair Display', serif;
     font-size: 1.6rem;
     font-weight: 700;
-    color: var(--text);
-    transition: all var(--transition);
+    color: var(--fgs-text);
+    transition: all var(--fgs-transition);
   }
 
   .total-section {
@@ -342,7 +340,7 @@
     display: flex;
     align-items: center;
     gap: 24px;
-    border-top: 1.5px solid var(--border);
+    border-top: 1.5px solid var(--fgs-border);
     margin-top: 16px;
     flex-wrap: wrap;
   }
@@ -358,14 +356,14 @@
     transition: color 0.4s ease;
   }
 
-  .total-number.color-0 { color: var(--score-low); }
-  .total-number.color-mild { color: var(--score-low); }
-  .total-number.color-pain { color: var(--score-mid); }
-  .total-number.color-severe { color: var(--score-high); }
+  .total-number.color-0 { color: var(--fgs-score-low); }
+  .total-number.color-mild { color: var(--fgs-score-low); }
+  .total-number.color-pain { color: var(--fgs-score-mid); }
+  .total-number.color-severe { color: var(--fgs-score-high); }
 
   .total-out-of {
     font-size: 1rem;
-    color: var(--text-muted);
+    color: var(--fgs-text-muted);
     font-weight: 300;
     align-self: flex-end;
     padding-bottom: 8px;
@@ -396,7 +394,7 @@
   .interp-text {
     font-size: 0.85rem;
     line-height: 1.6;
-    color: var(--text);
+    color: var(--fgs-text);
     transition: opacity 0.3s ease;
   }
 
@@ -408,14 +406,14 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: var(--fgs-text-muted);
     margin-bottom: 6px;
     font-weight: 500;
   }
 
   .progress-track {
     height: 8px;
-    background: var(--border);
+    background: var(--fgs-border);
     border-radius: 20px;
     overflow: hidden;
   }
@@ -425,11 +423,11 @@
     border-radius: 20px;
     width: 0%;
     transition: width 0.5s cubic-bezier(0.4,0,0.2,1), background 0.4s ease;
-    background: var(--score-low);
+    background: var(--fgs-score-low);
   }
 
-  .progress-fill.color-pain { background: var(--score-mid); }
-  .progress-fill.color-severe { background: var(--score-high); }
+  .progress-fill.color-pain { background: var(--fgs-score-mid); }
+  .progress-fill.color-severe { background: var(--fgs-score-high); }
 
   .cutoff-indicator {
     position: relative;
@@ -443,7 +441,7 @@
     top: 0;
     width: 2px;
     height: 14px;
-    background: var(--score-mid);
+    background: var(--fgs-score-mid);
     border-radius: 2px;
   }
 
@@ -453,7 +451,7 @@
     transform: translateX(-50%);
     top: 0;
     font-size: 0.65rem;
-    color: var(--score-mid);
+    color: var(--fgs-score-mid);
     font-weight: 600;
     white-space: nowrap;
     padding-left: 6px;
@@ -461,7 +459,7 @@
 
   .attribution {
     font-size: 0.65rem;
-    color: var(--text-muted);
+    color: var(--fgs-text-muted);
     text-align: right;
     padding: 0 22px 12px;
     font-style: italic;
@@ -491,7 +489,7 @@
 
   @media (max-width: 600px) {
     .options-row { grid-template-columns: 1fr; }
-    .option-btn { border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; gap: 14px; text-align: left; padding: 16px; }
+    .option-btn { border-right: none; border-bottom: 1px solid var(--fgs-border); flex-direction: row; gap: 14px; text-align: left; padding: 16px; }
     .option-btn:last-child { border-bottom: none; }
     .cat-illustration { width: 70px; height: 60px; margin-bottom: 0; flex-shrink: 0; }
     .score-breakdown { gap: 0; }
@@ -533,7 +531,7 @@ score each FGS action unit. If the cat is doing any of the following, wait until
     <div class="score-breakdown" id="score-breakdown"></div>
     <div class="total-section">
       <div>
-        <div style="font-size:0.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Total</div>
+        <div style="font-size:0.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fgs-text-muted);margin-bottom:4px;">Total</div>
         <div style="display:flex;align-items:flex-end;gap:4px;">
           <div class="total-number color-0" id="total-display">0</div>
           <div class="total-out-of">/ 10</div>
@@ -718,7 +716,7 @@ function updateScorePanel() {
     const el = document.getElementById(`score-val-${id}`);
     if (el) {
       el.textContent = scores[id] !== null ? scores[id] : '—';
-      el.style.color = scores[id] !== null ? 'var(--purple)' : 'var(--text-muted)';
+      el.style.color = scores[id] !== null ? 'var(--fgs-green)' : 'var(--fgs-text-muted)';
     }
   });
 
