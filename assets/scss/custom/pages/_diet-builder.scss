@@ -16,7 +16,7 @@
 }
 
 // Import fonts
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 // Full-width wrapper that breaks out of container
 .diet-builder-wrapper {
@@ -51,7 +51,6 @@
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
             font-weight: 700;
             font-size: clamp(1.8rem, 5vw, 2.8rem);
             color: var(--db-green);
@@ -61,7 +60,6 @@
         }
 
         p {
-            font-family: 'DM Sans', sans-serif;
             font-size: 1rem;
             font-weight: 300;
             color: var(--db-text-muted);
@@ -84,7 +82,6 @@
     }
 
     .diet-builder-step__heading {
-        font-family: 'Playfair Display', serif;
         font-weight: 600;
         color: var(--db-green);
         font-size: 1.5rem;
@@ -97,7 +94,6 @@
         transition: all var(--db-transition);
         border: 2px solid var(--db-green) !important;
         color: white;
-        font-family: 'DM Sans', sans-serif;
         font-size: 1rem;
         font-weight: 600;
         text-align: center;
@@ -124,7 +120,6 @@
 
     .diet-builder-btn--secondary {
         background-color: white;
-        font-family: 'DM Sans', sans-serif;
         font-weight: 600;
         color: var(--db-green);
         border: 2px solid var(--db-green);
@@ -224,7 +219,6 @@
         label,
         .diet-builder-age-form__dob-label {
             display: block;
-            font-family: 'DM Sans', sans-serif;
             text-transform: uppercase;
             color: var(--db-text);
             font-size: 0.8rem;
@@ -247,7 +241,6 @@
             color: var(--db-text);
             font-size: 1rem;
             padding: 0 20px;
-            font-family: 'DM Sans', sans-serif;
             transition:
                 border-color var(--db-transition),
                 box-shadow var(--db-transition);
@@ -279,7 +272,6 @@
 
         label {
             display: block;
-            font-family: 'DM Sans', sans-serif;
             text-transform: uppercase;
             color: var(--db-text);
             font-size: 0.8rem;
@@ -298,7 +290,6 @@
             color: var(--db-text);
             font-size: 1rem;
             padding: 0 20px;
-            font-family: 'DM Sans', sans-serif;
             transition:
                 border-color var(--db-transition),
                 box-shadow var(--db-transition);
@@ -332,7 +323,6 @@
             color: var(--db-text);
             font-size: 1rem;
             text-align: center;
-            font-family: 'DM Sans', sans-serif;
             appearance: textfield;
             -moz-appearance: textfield;
             transition:
@@ -397,7 +387,6 @@
         max-width: 250px;
 
         .diet-builder-weight__label {
-            font-family: 'DM Sans', sans-serif;
             color: var(--db-text);
             font-weight: 600;
             text-transform: uppercase;
@@ -416,7 +405,6 @@
             color: var(--db-text);
             font-size: 1.2rem;
             text-align: center;
-            font-family: 'DM Sans', sans-serif;
             appearance: textfield;
             -moz-appearance: textfield;
             transition:
@@ -560,7 +548,6 @@
         align-items: center;
 
         .diet-builder-ingredients__description {
-            font-family: 'DM Sans', sans-serif;
             color: var(--db-text-muted);
             font-size: 0.95rem;
             text-align: center;
@@ -591,7 +578,6 @@
         border: 2px solid var(--db-border);
         border-radius: var(--db-radius);
         padding: 16px 12px;
-        font-family: 'DM Sans', sans-serif;
         font-size: 0.9rem;
         font-weight: 600;
         color: var(--db-text);
@@ -660,7 +646,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: 'DM Sans', sans-serif;
         font-size: 0.85rem;
         font-weight: 600;
         color: var(--db-text);
@@ -691,7 +676,6 @@
         color: #c0392b;
         font-size: 0.875rem;
         margin-top: 1rem;
-        font-family: 'DM Sans', sans-serif;
     }
 
     .diet-builder-health__buttons {
