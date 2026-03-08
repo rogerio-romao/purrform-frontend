@@ -1110,7 +1110,7 @@ export default class DietBuilder extends PageManager {
         this.renderStep('Almost done!', content);
     }
 
-    submitEmailForm(form) {
+    async submitEmailForm(form) {
         const email = form.querySelector('input[name="email"]').value;
 
         this.state.payload = {
@@ -1127,7 +1127,236 @@ export default class DietBuilder extends PageManager {
             })),
         };
 
-        this.renderSuccessStep();
+        this.renderLoadingStep();
+
+        const success = await this.runKlaviyoSequence(this.state.payload);
+
+        if (success) {
+            this.renderSuccessStep();
+        } else {
+            this.renderErrorStep();
+        }
+    }
+
+    async runKlaviyoSequence(payload) {
+        const publicKey = this.context.klaviyoPublicKey;
+
+        if (!publicKey) {
+            // eslint-disable-next-line no-console
+            console.warn('[DietBuilder] Klaviyo public key not configured — skipping Klaviyo sequence.');
+            return false;
+        }
+
+        const profileId = await this.createKlaviyoProfile(payload.email, publicKey);
+        if (!profileId) return false;
+
+        const subscribed = await this.subscribeToMarketing(profileId, payload.email, publicKey);
+        if (!subscribed) return false;
+
+        return this.sendKlaviyoEvent(payload, publicKey);
+    }
+
+    async createKlaviyoProfile(email, publicKey) {
+        const body = {
+            data: {
+                type: 'profile',
+                attributes: { email },
+            },
+        };
+
+        try {
+            const response = await fetch(
+                `https://a.klaviyo.com/client/profiles/?company_id=${encodeURIComponent(publicKey)}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        accept: 'application/json',
+                        revision: '2025-01-15',
+                        'content-type': 'application/json',
+                    },
+                    body: JSON.stringify(body),
+                },
+            );
+
+            if (!response.ok) {
+                const errors = await response.json();
+                const errorMsg = (errors.errors || [])
+                    .map((e) => `[${e.status} - ${e.title} - ${e.detail}]`)
+                    .join(', ');
+                // eslint-disable-next-line no-console
+                console.error(`[DietBuilder] Error creating Klaviyo profile: ${errorMsg}`);
+                return null;
+            }
+
+            const data = await response.json();
+            // eslint-disable-next-line no-console
+            console.log('[DietBuilder] Klaviyo profile created/found.');
+            return data.data.id;
+        } catch (err) {
+            // eslint-disable-next-line no-console
+            console.error('[DietBuilder] Klaviyo createProfile error:', err);
+            return null;
+        }
+    }
+
+    async subscribeToMarketing(profileId, email, publicKey) {
+        const body = {
+            data: {
+                type: 'subscription',
+                attributes: {
+                    profile: {
+                        data: {
+                            type: 'profile',
+                            id: profileId,
+                            attributes: {
+                                email,
+                                subscriptions: {
+                                    email: {
+                                        marketing: {
+                                            consent: 'SUBSCRIBED',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        try {
+            const response = await fetch(
+                `https://a.klaviyo.com/client/subscriptions/?company_id=${encodeURIComponent(publicKey)}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        accept: 'application/json',
+                        revision: '2025-01-15',
+                        'content-type': 'application/json',
+                    },
+                    body: JSON.stringify(body),
+                },
+            );
+
+            if (!response.ok) {
+                const errors = await response.json();
+                const errorMsg = (errors.errors || [])
+                    .map((e) => `[${e.status} - ${e.title} - ${e.detail}]`)
+                    .join(', ');
+                // eslint-disable-next-line no-console
+                console.error(`[DietBuilder] Error subscribing profile to marketing: ${errorMsg}`);
+                return false;
+            }
+
+            // eslint-disable-next-line no-console
+            console.log('[DietBuilder] Profile subscribed to marketing.');
+            return true;
+        } catch (err) {
+            // eslint-disable-next-line no-console
+            console.error('[DietBuilder] Klaviyo subscribeToMarketing error:', err);
+            return false;
+        }
+    }
+
+    async sendKlaviyoEvent(payload, publicKey) {
+        const body = {
+            data: {
+                type: 'event',
+                attributes: {
+                    metric: {
+                        data: {
+                            type: 'metric',
+                            attributes: {
+                                name: 'Diet Builder Completed',
+                            },
+                        },
+                    },
+                    profile: {
+                        data: {
+                            type: 'profile',
+                            attributes: {
+                                email: payload.email,
+                            },
+                        },
+                    },
+                    properties: {
+                        catName: payload.catName,
+                        calculatedRDA: payload.calculatedRDA,
+                        recommendedProducts: payload.recommendedProducts,
+                    },
+                },
+            },
+        };
+
+        try {
+            const response = await fetch(
+                `https://a.klaviyo.com/client/events/?company_id=${encodeURIComponent(publicKey)}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json',
+                        revision: '2025-01-15',
+                    },
+                    body: JSON.stringify(body),
+                },
+            );
+
+            if (!response.ok) {
+                // eslint-disable-next-line no-console
+                console.error('[DietBuilder] Klaviyo event failed:', response.status, await response.text());
+                return false;
+            }
+
+            // eslint-disable-next-line no-console
+            console.log('[DietBuilder] Klaviyo event sent successfully.');
+            return true;
+        } catch (err) {
+            // eslint-disable-next-line no-console
+            console.error('[DietBuilder] Klaviyo event error:', err);
+            return false;
+        }
+    }
+
+    renderLoadingStep() {
+        const content = el(
+            'div',
+            { className: 'diet-builder-loading' },
+            el('p', { className: 'diet-builder-loading__message' }, 'Sending your results\u2026'),
+        );
+
+        this.renderStep('Almost there!', content);
+    }
+
+    renderErrorStep() {
+        const retry = async () => {
+            this.renderLoadingStep();
+            const success = await this.runKlaviyoSequence(this.state.payload);
+            if (success) {
+                this.renderSuccessStep();
+            } else {
+                this.renderErrorStep();
+            }
+        };
+
+        const content = el(
+            'div',
+            { className: 'diet-builder-error' },
+            el(
+                'p',
+                { className: 'diet-builder-error__message' },
+                'Sorry, we had a problem sending your results. Please try again.',
+            ),
+            el(
+                'button',
+                {
+                    className: 'diet-builder-btn--primary',
+                    onClick: retry,
+                },
+                'Try again',
+            ),
+        );
+
+        this.renderStep('Something went wrong', content);
     }
 
     renderSuccessStep() {

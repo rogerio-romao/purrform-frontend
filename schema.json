@@ -3430,5 +3430,20 @@
         ]
       }
     ]
+  },
+  {
+    "name": "Integrations",
+    "settings": [
+      {
+        "type": "heading",
+        "content": "Klaviyo"
+      },
+      {
+        "type": "text",
+        "label": "Klaviyo Public API Key",
+        "id": "klaviyo_public_key",
+        "default": ""
+      }
+    ]
   }
 ]
