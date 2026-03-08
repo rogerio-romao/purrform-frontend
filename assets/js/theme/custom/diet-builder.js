@@ -1127,8 +1127,6 @@ export default class DietBuilder extends PageManager {
             })),
         };
 
-        this.renderLoadingStep();
-
         const success = await this.runKlaviyoSequence(this.state.payload);
 
         if (success) {
@@ -1139,18 +1137,32 @@ export default class DietBuilder extends PageManager {
     }
 
     async runKlaviyoSequence(payload) {
-        const publicKey = this.context.klaviyoPublicKey;
+        const publicKey = this.context.klaviyoPublicKey || 'WL59HL';
 
         if (!publicKey) {
             // eslint-disable-next-line no-console
-            console.warn('[DietBuilder] Klaviyo public key not configured — skipping Klaviyo sequence.');
+            console.warn(
+                '[DietBuilder] Klaviyo public key not configured — skipping Klaviyo sequence.',
+            );
             return false;
         }
 
-        const profileId = await this.createKlaviyoProfile(payload.email, publicKey);
-        if (!profileId) return false;
+        const profileId = await this.createKlaviyoProfile(
+            payload.email,
+            publicKey,
+        );
+        if (!profileId) {
+            // eslint-disable-next-line no-console
+            console.warn(
+                '[DietBuilder] Could not retrieve profile ID — proceeding by email only.',
+            );
+        }
 
-        const subscribed = await this.subscribeToMarketing(profileId, payload.email, publicKey);
+        const subscribed = await this.subscribeToMarketing(
+            profileId,
+            payload.email,
+            publicKey,
+        );
         if (!subscribed) return false;
 
         return this.sendKlaviyoEvent(payload, publicKey);
@@ -1179,19 +1191,23 @@ export default class DietBuilder extends PageManager {
             );
 
             if (!response.ok) {
-                const errors = await response.json();
+                const errorText = await response.text();
+                const errors = errorText ? JSON.parse(errorText) : {};
                 const errorMsg = (errors.errors || [])
                     .map((e) => `[${e.status} - ${e.title} - ${e.detail}]`)
                     .join(', ');
                 // eslint-disable-next-line no-console
-                console.error(`[DietBuilder] Error creating Klaviyo profile: ${errorMsg}`);
+                console.error(
+                    `[DietBuilder] Error creating Klaviyo profile: ${errorMsg || response.status}`,
+                );
                 return null;
             }
 
-            const data = await response.json();
+            const text = await response.text();
+            const data = text ? JSON.parse(text) : null;
             // eslint-disable-next-line no-console
             console.log('[DietBuilder] Klaviyo profile created/found.');
-            return data.data.id;
+            return data?.data?.id ?? null;
         } catch (err) {
             // eslint-disable-next-line no-console
             console.error('[DietBuilder] Klaviyo createProfile error:', err);
@@ -1207,7 +1223,7 @@ export default class DietBuilder extends PageManager {
                     profile: {
                         data: {
                             type: 'profile',
-                            id: profileId,
+                            ...(profileId && { id: profileId }),
                             attributes: {
                                 email,
                                 subscriptions: {
@@ -1218,6 +1234,14 @@ export default class DietBuilder extends PageManager {
                                     },
                                 },
                             },
+                        },
+                    },
+                },
+                relationships: {
+                    list: {
+                        data: {
+                            type: 'list',
+                            id: 'YmRGYj',
                         },
                     },
                 },
@@ -1239,12 +1263,15 @@ export default class DietBuilder extends PageManager {
             );
 
             if (!response.ok) {
-                const errors = await response.json();
+                const errorText = await response.text();
+                const errors = errorText ? JSON.parse(errorText) : {};
                 const errorMsg = (errors.errors || [])
                     .map((e) => `[${e.status} - ${e.title} - ${e.detail}]`)
                     .join(', ');
                 // eslint-disable-next-line no-console
-                console.error(`[DietBuilder] Error subscribing profile to marketing: ${errorMsg}`);
+                console.error(
+                    `[DietBuilder] Error subscribing profile to marketing: ${errorMsg || response.status}`,
+                );
                 return false;
             }
 
@@ -1253,7 +1280,10 @@ export default class DietBuilder extends PageManager {
             return true;
         } catch (err) {
             // eslint-disable-next-line no-console
-            console.error('[DietBuilder] Klaviyo subscribeToMarketing error:', err);
+            console.error(
+                '[DietBuilder] Klaviyo subscribeToMarketing error:',
+                err,
+            );
             return false;
         }
     }
@@ -1303,7 +1333,11 @@ export default class DietBuilder extends PageManager {
 
             if (!response.ok) {
                 // eslint-disable-next-line no-console
-                console.error('[DietBuilder] Klaviyo event failed:', response.status, await response.text());
+                console.error(
+                    '[DietBuilder] Klaviyo event failed:',
+                    response.status,
+                    await response.text(),
+                );
                 return false;
             }
 
@@ -1317,19 +1351,8 @@ export default class DietBuilder extends PageManager {
         }
     }
 
-    renderLoadingStep() {
-        const content = el(
-            'div',
-            { className: 'diet-builder-loading' },
-            el('p', { className: 'diet-builder-loading__message' }, 'Sending your results\u2026'),
-        );
-
-        this.renderStep('Almost there!', content);
-    }
-
     renderErrorStep() {
         const retry = async () => {
-            this.renderLoadingStep();
             const success = await this.runKlaviyoSequence(this.state.payload);
             if (success) {
                 this.renderSuccessStep();
