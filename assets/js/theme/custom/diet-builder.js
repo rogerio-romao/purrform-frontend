@@ -506,6 +506,7 @@ export default class DietBuilder extends PageManager {
         this.state.age = ageKey;
         this.state.coef = config.coef;
         this.state.meals = config.meals;
+        this.state.flow = config.flow;
 
         if (config.activity !== null) {
             this.state.activity = config.activity;
@@ -1079,29 +1080,69 @@ export default class DietBuilder extends PageManager {
     }
 
     renderResultsStep() {
+        const previewPayload = {
+            catName: this.state.catName,
+            calculatedRDA: this.state.calculatedRDA,
+            recommendedProducts: this.state.recommendedProducts.map((p) => ({
+                name: p.name,
+                image: p.image,
+                price: p.price,
+                path: `https://www.purrform.co.uk${p.path}`,
+                gramsPerDay: p.gramsPerDay,
+                pricePerDay: p.pricePerDay,
+            })),
+        };
+
+        const backBtn = el(
+            'button',
+            {
+                type: 'button',
+                className: 'diet-builder-btn--secondary',
+                onClick: () => this.renderIngredientsStep(this.state.flow),
+            },
+            'Back',
+        );
+
         const content = el(
-            'form',
-            { className: 'diet-builder-email-form' },
+            'div',
+            { className: 'diet-builder-results-step' },
             el(
-                'label',
-                { htmlFor: 'diet-builder-email' },
-                'Enter email to receive diet recommendations:',
+                'form',
+                { className: 'diet-builder-email-form' },
+                el(
+                    'label',
+                    { htmlFor: 'diet-builder-email' },
+                    'Enter email to receive diet recommendations:',
+                ),
+                el('input', {
+                    type: 'email',
+                    id: 'diet-builder-email',
+                    name: 'email',
+                    placeholder: 'your@email.com',
+                    required: true,
+                }),
+                el(
+                    'div',
+                    { className: 'diet-builder-ingredients__buttons' },
+                    backBtn,
+                    el(
+                        'button',
+                        {
+                            type: 'submit',
+                            className: 'diet-builder-btn--primary',
+                        },
+                        'Submit',
+                    ),
+                ),
             ),
-            el('input', {
-                type: 'email',
-                id: 'diet-builder-email',
-                name: 'email',
-                placeholder: 'your@email.com',
-                required: true,
-            }),
             el(
-                'button',
-                { type: 'submit', className: 'diet-builder-btn--primary' },
-                'Submit',
+                'pre',
+                { className: 'diet-builder-results-step__debug' },
+                JSON.stringify(previewPayload, null, 2),
             ),
         );
 
-        const form = content;
+        const form = content.querySelector('form');
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             this.submitEmailForm(form);
@@ -1415,11 +1456,6 @@ export default class DietBuilder extends PageManager {
                     },
                     'Start again',
                 ),
-            ),
-            el(
-                'pre',
-                { className: 'diet-builder-success__debug' },
-                JSON.stringify(this.state.payload, null, 2),
             ),
         );
 
