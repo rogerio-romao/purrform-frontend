@@ -731,6 +731,14 @@ export default class DietBuilder extends PageManager {
     // ── Step 6: Ingredients ──────────────────────────────────────────
 
     renderIngredientsStep(flow) {
+        // Restore products to pre-ingredient-filter state when re-entering this step
+        if (this.state.productsBeforeIngredientFilter) {
+            this.state.recommendedProducts = [
+                ...this.state.productsBeforeIngredientFilter,
+            ];
+            this.state.productsBeforeIngredientFilter = null;
+        }
+
         // If health conditions wiped out all products, show an error and let
         // the user go back to health conditions with a clean slate.
         if (this.state.recommendedProducts.length === 0) {
@@ -1043,6 +1051,11 @@ export default class DietBuilder extends PageManager {
         const { total, kcal } = calculateRDA(catWeight, activity, coef);
         this.state.calculatedRDA = total;
         this.state.kcal = kcal;
+
+        // Snapshot products before ingredient filter so we can restore on back navigation
+        this.state.productsBeforeIngredientFilter = [
+            ...this.state.recommendedProducts,
+        ];
 
         // Filter out products containing any unwanted ingredients
         if (this.state.unwantedIngredients.length > 0) {

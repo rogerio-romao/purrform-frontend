@@ -77,7 +77,20 @@
         z-index: 1;
     }
 
-    .diet-builder-step {
+    .diet-builder-age-form button {
+        opacity: 0.4;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+
+    /* enable only when NO invalid inputs exist */
+    .diet-builder-age-form:not(:has(:invalid)) button {
+        opacity: 1;
+        pointer-events: auto;
+        cursor: pointer;
+    }
+
+    .diet-builder-step:not(:has(.diet-builder-age-form)) {
         animation: dbFadeUp 0.5s ease both;
     }
 
