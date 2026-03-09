@@ -1043,6 +1043,18 @@ export default class DietBuilder extends PageManager {
         const { total, kcal } = calculateRDA(catWeight, activity, coef);
         this.state.calculatedRDA = total;
         this.state.kcal = kcal;
+
+        // Filter out products containing any unwanted ingredients
+        if (this.state.unwantedIngredients.length > 0) {
+            this.state.recommendedProducts =
+                this.state.recommendedProducts.filter((product) => {
+                    const ingredients = product.customFields?.Ingredients ?? [];
+                    return !ingredients.some((ing) =>
+                        this.state.unwantedIngredients.includes(ing),
+                    );
+                });
+        }
+
         // need to calculate grams for each recommended product based on kcal and product calorie density - each product has a custom field called CALORIE per Product and another called Weight of product which is in grams - so we can calculate calories per kg for each product and then calculate grams needed to meet the RDA kcal
         for (const product of this.state.recommendedProducts) {
             const calsPerProduct = Number(
