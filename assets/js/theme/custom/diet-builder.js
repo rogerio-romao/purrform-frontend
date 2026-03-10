@@ -487,6 +487,26 @@ export default class DietBuilder extends PageManager {
         const ageInMs = Date.now() - dob.getTime();
         const ageInMonths = ageInMs / (1000 * 60 * 60 * 24 * 30.44);
 
+        if (ageInMonths < 4) {
+            let errorMsg = document.getElementById('diet-builder-age-error');
+            if (!errorMsg) {
+                errorMsg = el(
+                    'p',
+                    {
+                        id: 'diet-builder-age-error',
+                        className: 'diet-builder-age-form__error',
+                    },
+                    'Our diet builder is designed for cats aged 4 months and older.',
+                );
+                document
+                    .querySelector('.diet-builder-age-form')
+                    .appendChild(errorMsg);
+            }
+            return;
+        }
+
+        document.getElementById('diet-builder-age-error')?.remove();
+
         let ageKey;
         if (ageInMonths < 2) ageKey = 1;
         else if (ageInMonths < 4) ageKey = 2;
