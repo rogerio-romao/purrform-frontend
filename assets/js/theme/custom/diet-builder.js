@@ -395,7 +395,7 @@ export default class DietBuilder extends PageManager {
         this.container.innerHTML = '';
     }
 
-    renderStep(heading, content) {
+    renderStep(heading, content, subHeading = null) {
         this.clearContainer();
         const wrapper = el('div', { className: 'diet-builder-step' });
 
@@ -406,6 +406,15 @@ export default class DietBuilder extends PageManager {
                 heading,
             );
             wrapper.appendChild(headingEl);
+        }
+
+        if (subHeading) {
+            const subHeadingEl = el(
+                'p',
+                { className: 'diet-builder-step__sub-heading' },
+                subHeading,
+            );
+            wrapper.appendChild(subHeadingEl);
         }
 
         wrapper.appendChild(content);
@@ -1040,7 +1049,11 @@ export default class DietBuilder extends PageManager {
 
         content.appendChild(infoSection);
 
-        this.renderStep('Does your cat have any health conditions?', content);
+        this.renderStep(
+            'Does your cat have any health conditions?',
+            content,
+            'Just click next if the cat is healthy. Otherwise click to select up to 2 conditions that apply to your cat and we will tailor the product recommendations accordingly.',
+        );
     }
 
     submitHealth(flow) {
