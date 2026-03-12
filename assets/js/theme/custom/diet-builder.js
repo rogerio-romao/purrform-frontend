@@ -299,13 +299,6 @@ export default class DietBuilder extends PageManager {
         this.container = document.getElementById('diet-builder');
         if (!this.container) return;
 
-        // Resolve the GraphQL product fetch
-        try {
-            this.allProducts = await this.allProductsPromise;
-        } catch (err) {
-            this.allProducts = [];
-        }
-
         this.renderAgeStep();
     }
 
@@ -554,7 +547,7 @@ export default class DietBuilder extends PageManager {
         this.renderStep('Tell us about your cat', form);
     }
 
-    submitAgeForm() {
+    async submitAgeForm() {
         const catName = document.getElementById('cat-name').value.trim();
         const day = parseInt(document.getElementById('dob-day').value, 10);
         const month = parseInt(document.getElementById('dob-month').value, 10);
@@ -571,7 +564,8 @@ export default class DietBuilder extends PageManager {
                     'p',
                     {
                         id: 'diet-builder-age-error',
-                        className: 'diet-builder-age-form__error',
+                        className:
+                            'diet-builder-age-form__error diet-builder-inline-error',
                     },
                     'Our diet builder is designed for cats aged 4 months and older.',
                 );
@@ -609,6 +603,15 @@ export default class DietBuilder extends PageManager {
             this.state.activity = config.activity;
         }
 
+        // Resolve the GraphQL product fetch if it hasn't completed yet
+        if (this.allProducts.length === 0) {
+            try {
+                this.allProducts = await this.allProductsPromise;
+            } catch (err) {
+                this.allProducts = [];
+            }
+        }
+
         this.state.recommendedProducts = this.allProducts.filter((product) =>
             product.categories.includes(ageGroup),
         );
@@ -644,7 +647,7 @@ export default class DietBuilder extends PageManager {
         });
 
         const errorMsg = el('p', {
-            className: 'diet-builder-weight__error',
+            className: 'diet-builder-weight__error diet-builder-inline-error',
         });
 
         const buttonGroup = el('div', {
@@ -844,7 +847,10 @@ export default class DietBuilder extends PageManager {
             });
             const msg = el(
                 'p',
-                { className: 'diet-builder-ingredients__description' },
+                {
+                    className:
+                        'diet-builder-ingredients__description diet-builder-inline-error',
+                },
                 'Unfortunately, no products match the combination of health conditions you selected. Please go back and adjust your selections.',
             );
             const backBtn = el(
@@ -993,7 +999,7 @@ export default class DietBuilder extends PageManager {
 
         const limitMsg = el(
             'p',
-            { className: 'diet-builder-health__limit-msg' },
+            { className: 'diet-builder-health__limit-msg diet-builder-inline-error' },
             'You can select a maximum of 2 health conditions. Deselect one to choose another.',
         );
 

@@ -95,10 +95,6 @@
         cursor: pointer;
     }
 
-    .diet-builder-step:not(:has(.diet-builder-age-form)) {
-        animation: dbFadeUp 0.5s ease both;
-    }
-
     .diet-builder-step__heading {
         font-weight: 600;
         color: var(--db-green);
@@ -716,6 +712,8 @@
         color: #c0392b;
         font-size: 0.875rem;
         margin-top: 1rem;
+        width: fit-content;
+        margin-inline: auto;
     }
 
     .diet-builder-health__buttons {
@@ -937,6 +935,18 @@
             justify-content: center;
             text-decoration: none;
         }
+    }
+
+    // ── Inline error message (shared across steps) ────────────────
+    .diet-builder-inline-error {
+        width: fit-content;
+        padding: 10px;
+        background-color: #f8d7da;
+        color: #721c24;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-top: 1rem;
+        text-align: center;
     }
 
     // ── Error step ───────────────────────────────────────────────
