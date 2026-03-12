@@ -99,12 +99,14 @@ const HEALTH_CONDITIONS_INFO = {
             'A common hormonal disorder where the body cannot regulate blood sugar effectively. Most frequently seen in overweight, older, or inactive cats.',
         recommended:
             'All Purrform products are suitable — naturally high in protein and low in carbohydrates, helping to support stable blood glucose levels and healthy weight management.',
+        readMoreUrl: 'https://www.purrform.co.uk/blog/feline-diabetes/',
     },
     'Chin Acne': {
         explanation:
             'A skin condition characterised by blackheads, pimples, or inflamed sores on the chin and lips, often linked to overactive sebaceous glands, stress, allergies, or contact irritation.',
         recommended:
             'We recommend plain rabbit, turkey, or quail. These proteins are less likely to trigger food sensitivities. Chicken and beef are more commonly linked to feline food allergies.',
+        readMoreUrl: 'https://www.purrform.co.uk/blog/chin-acne-in-cats/',
     },
     'Inflammatory Bowel Disease (IBD)': {
         explanation:
@@ -117,6 +119,8 @@ const HEALTH_CONDITIONS_INFO = {
             'A gradual decline in kidney function, most commonly diagnosed in older cats. Early management can help slow progression and support overall kidney health.',
         recommended:
             'Choose products with low phosphorus levels, such as the venison pouches. Adding a couple of spoons of water to meals can further support kidney function.',
+        readMoreUrl:
+            'https://www.purrform.co.uk/blog/benefits-of-raw-food-for-cats-in-relation-to-kidney-disease/',
     },
     'Urinary Tract Conditions': {
         explanation:
@@ -129,18 +133,23 @@ const HEALTH_CONDITIONS_INFO = {
             'Includes conditions such as gingivitis, tooth decay, and oral pain, affecting a significant proportion of cats. If left unmanaged, it can impact overall health and wellbeing.',
         recommended:
             'We recommend the 5 Days Fresh range — this complete range does not contain bone and is suitable for cats with dental sensitivities or existing oral discomfort.',
+        readMoreUrl:
+            'https://www.purrform.co.uk/blog/understanding-your-cats-teeth/',
     },
     Hyperthyroidism: {
         explanation:
             'Caused by an overactive thyroid gland, commonly resulting in weight loss despite an increased appetite. Most frequently diagnosed in middle-aged to older cats.',
         recommended:
             'A low-iodine diet can help support thyroid management. Chicken and turkey are naturally low in iodine, with rabbit and beef also being suitable protein sources.',
+        readMoreUrl: 'https://www.purrform.co.uk/blog/hyperthyroidism-in-cats/',
     },
     Obesity: {
         explanation:
             'A growing health concern that increases the risk of diabetes, arthritis, and liver disease. Often linked to overfeeding and insufficient activity.',
         recommended:
             'Feeding lean, high-quality proteins can help promote healthy weight loss while maintaining muscle mass and supporting overall metabolic health.',
+        readMoreUrl:
+            'https://www.purrform.co.uk/blog/just-what-is-the-raw-meat-diet-anyway/',
     },
 };
 
@@ -999,7 +1008,10 @@ export default class DietBuilder extends PageManager {
 
         const limitMsg = el(
             'p',
-            { className: 'diet-builder-health__limit-msg diet-builder-inline-error' },
+            {
+                className:
+                    'diet-builder-health__limit-msg diet-builder-inline-error',
+            },
             'You can select a maximum of 2 health conditions. Deselect one to choose another.',
         );
 
@@ -1125,6 +1137,21 @@ export default class DietBuilder extends PageManager {
             recommendedEl.append(recommendedLabel, info.recommended);
 
             body.append(explanationEl, recommendedEl);
+
+            if (info.readMoreUrl) {
+                const readMoreEl = el(
+                    'a',
+                    {
+                        className: 'diet-builder-health__info-read-more',
+                        href: info.readMoreUrl,
+                        target: '_blank',
+                        rel: 'noopener noreferrer',
+                    },
+                    'Read our blog post about this',
+                );
+                body.appendChild(readMoreEl);
+            }
+
             item.append(header, body);
             infoSection.appendChild(item);
         });
