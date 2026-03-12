@@ -190,6 +190,74 @@ function calculateProductGrams(weight, activity, coef, caloriePerKg) {
     );
 }
 
+/**
+ * Selects up to `max` products from `products` for the Klaviyo email payload.
+ *
+ * Selection order:
+ *  1. The product with the lowest pricePerDay.
+ *  2. The product with the highest pricePerDay.
+ *  3-4. Products that introduce the most ingredient variety not yet covered
+ *       by the already-selected products; falls back to a random pick when
+ *       no new ingredients can be added.
+ */
+function selectProductsForKlaviyo(products, max = 4) {
+    if (products.length <= max) return [...products];
+
+    const selected = [];
+    const remaining = [...products];
+
+    const getIngredients = (p) => p.customFields?.Ingredients ?? [];
+
+    // 1. Cheapest product
+    const minIdx = remaining.reduce(
+        (minI, p, i) =>
+            p.pricePerDay < remaining[minI].pricePerDay ? i : minI,
+        0,
+    );
+    selected.push(remaining.splice(minIdx, 1)[0]);
+
+    if (selected.length >= max || remaining.length === 0) return selected;
+
+    // 2. Most expensive product
+    const maxIdx = remaining.reduce(
+        (maxI, p, i) =>
+            p.pricePerDay > remaining[maxI].pricePerDay ? i : maxI,
+        0,
+    );
+    selected.push(remaining.splice(maxIdx, 1)[0]);
+
+    // 3-4. Ingredient variety, then random fallback
+    while (selected.length < max && remaining.length > 0) {
+        const coveredIngredients = new Set(
+            selected.flatMap((p) => getIngredients(p)),
+        );
+
+        const withNewIngredients = remaining.filter((p) =>
+            getIngredients(p).some((i) => !coveredIngredients.has(i)),
+        );
+
+        let pick;
+        if (withNewIngredients.length > 0) {
+            pick = withNewIngredients.reduce((best, p) => {
+                const newCount = getIngredients(p).filter(
+                    (i) => !coveredIngredients.has(i),
+                ).length;
+                const bestCount = getIngredients(best).filter(
+                    (i) => !coveredIngredients.has(i),
+                ).length;
+                return newCount > bestCount ? p : best;
+            });
+        } else {
+            pick = remaining[Math.floor(Math.random() * remaining.length)];
+        }
+
+        selected.push(pick);
+        remaining.splice(remaining.indexOf(pick), 1);
+    }
+
+    return selected;
+}
+
 // ── DietBuilder Class ────────────────────────────────────────────────
 
 export default class DietBuilder extends PageManager {
@@ -395,7 +463,7 @@ export default class DietBuilder extends PageManager {
         this.container.innerHTML = '';
     }
 
-    renderStep(heading, content) {
+    renderStep(heading, content, subHeading = null) {
         this.clearContainer();
         const wrapper = el('div', { className: 'diet-builder-step' });
 
@@ -406,6 +474,15 @@ export default class DietBuilder extends PageManager {
                 heading,
             );
             wrapper.appendChild(headingEl);
+        }
+
+        if (subHeading) {
+            const subHeadingEl = el(
+                'p',
+                { className: 'diet-builder-step__sub-heading' },
+                subHeading,
+            );
+            wrapper.appendChild(subHeadingEl);
         }
 
         wrapper.appendChild(content);
@@ -486,6 +563,26 @@ export default class DietBuilder extends PageManager {
         const dob = new Date(year, month - 1, day);
         const ageInMs = Date.now() - dob.getTime();
         const ageInMonths = ageInMs / (1000 * 60 * 60 * 24 * 30.44);
+
+        if (ageInMonths < 4) {
+            let errorMsg = document.getElementById('diet-builder-age-error');
+            if (!errorMsg) {
+                errorMsg = el(
+                    'p',
+                    {
+                        id: 'diet-builder-age-error',
+                        className: 'diet-builder-age-form__error',
+                    },
+                    'Our diet builder is designed for cats aged 4 months and older.',
+                );
+                document
+                    .querySelector('.diet-builder-age-form')
+                    .appendChild(errorMsg);
+            }
+            return;
+        }
+
+        document.getElementById('diet-builder-age-error')?.remove();
 
         let ageKey;
         if (ageInMonths < 2) ageKey = 1;
@@ -878,6 +975,14 @@ export default class DietBuilder extends PageManager {
     // ── Step 5: Health Conditions ────────────────────────────────────
 
     renderHealthStep(flow) {
+        // Restore products to pre-health-filter state when re-entering this step
+        if (this.state.productsBeforeHealthFilter) {
+            this.state.recommendedProducts = [
+                ...this.state.productsBeforeHealthFilter,
+            ];
+            this.state.productsBeforeHealthFilter = null;
+        }
+
         const content = el('div', { className: 'diet-builder-health' });
 
         const grid = el('div', {
@@ -1020,10 +1125,19 @@ export default class DietBuilder extends PageManager {
 
         content.appendChild(infoSection);
 
-        this.renderStep('Does your cat have any health conditions?', content);
+        this.renderStep(
+            'Does your cat have any health conditions?',
+            content,
+            'Just click next if the cat is healthy. Otherwise click to select up to 2 conditions that apply to your cat and we will tailor the product recommendations accordingly.',
+        );
     }
 
     submitHealth(flow) {
+        // Snapshot products before health filter so we can restore on back navigation
+        this.state.productsBeforeHealthFilter = [
+            ...this.state.recommendedProducts,
+        ];
+
         this.state.recommendedProducts = this.state.recommendedProducts.filter(
             (product) =>
                 this.state.healthConditions.every((condition) =>
@@ -1101,6 +1215,10 @@ export default class DietBuilder extends PageManager {
             }
         }
 
+        this.state.productsForKlaviyo = selectProductsForKlaviyo(
+            this.state.recommendedProducts,
+        );
+
         this.renderResultsStep();
     }
 
@@ -1108,6 +1226,8 @@ export default class DietBuilder extends PageManager {
         const previewPayload = {
             catName: this.state.catName,
             calculatedRDA: this.state.calculatedRDA,
+            recommendedProductsCount: this.state.recommendedProducts.length,
+            productsForKlaviyoCount: this.state.productsForKlaviyo.length,
             recommendedProducts: this.state.recommendedProducts.map((p) => ({
                 name: p.name,
                 image: p.image,
@@ -1115,6 +1235,15 @@ export default class DietBuilder extends PageManager {
                 path: `https://www.purrform.co.uk${p.path}`,
                 gramsPerDay: p.gramsPerDay,
                 pricePerDay: p.pricePerDay,
+            })),
+            productsForKlaviyo: this.state.productsForKlaviyo.map((p) => ({
+                name: p.name,
+                image: p.image,
+                price: p.price,
+                path: `https://www.purrform.co.uk${p.path}`,
+                gramsPerDay: p.gramsPerDay,
+                pricePerDay: p.pricePerDay,
+                ingredients: p.customFields?.Ingredients ?? [],
             })),
         };
 
@@ -1183,7 +1312,7 @@ export default class DietBuilder extends PageManager {
             email,
             catName: this.state.catName,
             calculatedRDA: this.state.calculatedRDA,
-            recommendedProducts: this.state.recommendedProducts.map((p) => ({
+            recommendedProducts: this.state.productsForKlaviyo.map((p) => ({
                 name: p.name,
                 image: p.image,
                 price: p.price,

@@ -44,6 +44,11 @@
         z-index: 1;
         animation: dbFadeDown 0.6s ease both;
 
+        em {
+            color: var(--db-text-muted);
+            font-size: 0.9rem;
+        }
+
         .diet-builder-heading__icon {
             font-size: 2.4rem;
             margin-bottom: 8px;
@@ -99,7 +104,18 @@
         color: var(--db-green);
         font-size: 1.5rem;
         text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .diet-builder-step__sub-heading {
+        color: var(--db-green);
+        font-size: 0.95rem;
+        text-align: center;
         margin-bottom: 1.5rem;
+        width: 100%;
+        max-width: 80ch;
+        margin-inline: auto;
+        text-wrap: balance;
     }
 
     // ── Buttons ──────────────────────────────────────────────────
@@ -271,6 +287,13 @@
 
         .diet-builder-btn--primary {
             margin: 1.5rem auto 0;
+        }
+
+        &__error {
+            color: #c0392b;
+            font-size: 0.875rem;
+            text-align: center;
+            margin-top: 0.5rem;
         }
     }
 
