@@ -907,6 +907,14 @@ export default class DietBuilder extends PageManager {
     // ── Step 5: Health Conditions ────────────────────────────────────
 
     renderHealthStep(flow) {
+        // Restore products to pre-health-filter state when re-entering this step
+        if (this.state.productsBeforeHealthFilter) {
+            this.state.recommendedProducts = [
+                ...this.state.productsBeforeHealthFilter,
+            ];
+            this.state.productsBeforeHealthFilter = null;
+        }
+
         const content = el('div', { className: 'diet-builder-health' });
 
         const grid = el('div', {
@@ -1057,6 +1065,11 @@ export default class DietBuilder extends PageManager {
     }
 
     submitHealth(flow) {
+        // Snapshot products before health filter so we can restore on back navigation
+        this.state.productsBeforeHealthFilter = [
+            ...this.state.recommendedProducts,
+        ];
+
         this.state.recommendedProducts = this.state.recommendedProducts.filter(
             (product) =>
                 this.state.healthConditions.every((condition) =>
