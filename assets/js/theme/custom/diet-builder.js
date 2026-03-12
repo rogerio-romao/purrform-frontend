@@ -190,6 +190,74 @@ function calculateProductGrams(weight, activity, coef, caloriePerKg) {
     );
 }
 
+/**
+ * Selects up to `max` products from `products` for the Klaviyo email payload.
+ *
+ * Selection order:
+ *  1. The product with the lowest pricePerDay.
+ *  2. The product with the highest pricePerDay.
+ *  3-4. Products that introduce the most ingredient variety not yet covered
+ *       by the already-selected products; falls back to a random pick when
+ *       no new ingredients can be added.
+ */
+function selectProductsForKlaviyo(products, max = 4) {
+    if (products.length <= max) return [...products];
+
+    const selected = [];
+    const remaining = [...products];
+
+    const getIngredients = (p) => p.customFields?.Ingredients ?? [];
+
+    // 1. Cheapest product
+    const minIdx = remaining.reduce(
+        (minI, p, i) =>
+            p.pricePerDay < remaining[minI].pricePerDay ? i : minI,
+        0,
+    );
+    selected.push(remaining.splice(minIdx, 1)[0]);
+
+    if (selected.length >= max || remaining.length === 0) return selected;
+
+    // 2. Most expensive product
+    const maxIdx = remaining.reduce(
+        (maxI, p, i) =>
+            p.pricePerDay > remaining[maxI].pricePerDay ? i : maxI,
+        0,
+    );
+    selected.push(remaining.splice(maxIdx, 1)[0]);
+
+    // 3-4. Ingredient variety, then random fallback
+    while (selected.length < max && remaining.length > 0) {
+        const coveredIngredients = new Set(
+            selected.flatMap((p) => getIngredients(p)),
+        );
+
+        const withNewIngredients = remaining.filter((p) =>
+            getIngredients(p).some((i) => !coveredIngredients.has(i)),
+        );
+
+        let pick;
+        if (withNewIngredients.length > 0) {
+            pick = withNewIngredients.reduce((best, p) => {
+                const newCount = getIngredients(p).filter(
+                    (i) => !coveredIngredients.has(i),
+                ).length;
+                const bestCount = getIngredients(best).filter(
+                    (i) => !coveredIngredients.has(i),
+                ).length;
+                return newCount > bestCount ? p : best;
+            });
+        } else {
+            pick = remaining[Math.floor(Math.random() * remaining.length)];
+        }
+
+        selected.push(pick);
+        remaining.splice(remaining.indexOf(pick), 1);
+    }
+
+    return selected;
+}
+
 // ── DietBuilder Class ────────────────────────────────────────────────
 
 export default class DietBuilder extends PageManager {
@@ -1147,6 +1215,10 @@ export default class DietBuilder extends PageManager {
             }
         }
 
+        this.state.productsForKlaviyo = selectProductsForKlaviyo(
+            this.state.recommendedProducts,
+        );
+
         this.renderResultsStep();
     }
 
@@ -1154,6 +1226,8 @@ export default class DietBuilder extends PageManager {
         const previewPayload = {
             catName: this.state.catName,
             calculatedRDA: this.state.calculatedRDA,
+            recommendedProductsCount: this.state.recommendedProducts.length,
+            productsForKlaviyoCount: this.state.productsForKlaviyo.length,
             recommendedProducts: this.state.recommendedProducts.map((p) => ({
                 name: p.name,
                 image: p.image,
@@ -1161,6 +1235,15 @@ export default class DietBuilder extends PageManager {
                 path: `https://www.purrform.co.uk${p.path}`,
                 gramsPerDay: p.gramsPerDay,
                 pricePerDay: p.pricePerDay,
+            })),
+            productsForKlaviyo: this.state.productsForKlaviyo.map((p) => ({
+                name: p.name,
+                image: p.image,
+                price: p.price,
+                path: `https://www.purrform.co.uk${p.path}`,
+                gramsPerDay: p.gramsPerDay,
+                pricePerDay: p.pricePerDay,
+                ingredients: p.customFields?.Ingredients ?? [],
             })),
         };
 
@@ -1229,7 +1312,7 @@ export default class DietBuilder extends PageManager {
             email,
             catName: this.state.catName,
             calculatedRDA: this.state.calculatedRDA,
-            recommendedProducts: this.state.recommendedProducts.map((p) => ({
+            recommendedProducts: this.state.productsForKlaviyo.map((p) => ({
                 name: p.name,
                 image: p.image,
                 price: p.price,
