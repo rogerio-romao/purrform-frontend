@@ -1,19 +1,21 @@
 // ── Feline Grimace Scale ──────────────────────────────────────────────
 
+// CSS Variables — aliased from shared marketing tokens (_marketing-tokens.scss)
+// FGS-specific score colours are defined here only.
 :root {
-    --fgs-bg: #f7f4f0;
-    --fgs-card: #ffffff;
-    --fgs-green: #546052;
-    --fgs-green-light: #edf1ec;
-    --fgs-green-mid: #859e7d;
-    --fgs-text: #2a3329;
-    --fgs-text-muted: #687e6b;
-    --fgs-border: #d4ddd3;
+    --fgs-bg: var(--brand-bg);
+    --fgs-card: var(--brand-card);
+    --fgs-green: var(--brand-green);
+    --fgs-green-light: var(--brand-green-light);
+    --fgs-green-mid: var(--brand-green-mid);
+    --fgs-text: var(--brand-text);
+    --fgs-text-muted: var(--brand-text-muted);
+    --fgs-border: var(--brand-border);
     --fgs-score-low: #4caf87;
     --fgs-score-mid: #e8a020;
     --fgs-score-high: #e05555;
-    --fgs-radius: 16px;
-    --fgs-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    --fgs-radius: var(--brand-radius);
+    --fgs-transition: var(--brand-transition);
 }
 
 .fgs-page {
