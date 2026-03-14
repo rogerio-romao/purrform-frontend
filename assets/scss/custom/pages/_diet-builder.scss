@@ -1,18 +1,18 @@
 // ── Diet Builder ─────────────────────────────────────────────────────
 
-// CSS Variables (matching feline-grimace-scale)
+// CSS Variables — aliased from shared marketing tokens (_marketing-tokens.scss)
 :root {
-    --db-bg: #f7f4f0;
-    --db-card: #ffffff;
-    --db-green: #546052;
-    --db-green-light: #edf1ec;
-    --db-green-mid: #859e7d;
-    --db-text: #2a3329;
-    --db-text-muted: #687e6b;
-    --db-selected: #546052;
-    --db-border: #d4ddd3;
-    --db-radius: 16px;
-    --db-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    --db-bg: var(--brand-bg);
+    --db-card: var(--brand-card);
+    --db-green: var(--brand-green);
+    --db-green-light: var(--brand-green-light);
+    --db-green-mid: var(--brand-green-mid);
+    --db-text: var(--brand-text);
+    --db-text-muted: var(--brand-text-muted);
+    --db-selected: var(--brand-green);
+    --db-border: var(--brand-border);
+    --db-radius: var(--brand-radius);
+    --db-transition: var(--brand-transition);
 }
 
 // Import fonts
