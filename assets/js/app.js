@@ -55,6 +55,8 @@ const pageClasses = {
 const customClasses = {
     'pages/custom/page/diet-builder': () =>
         import('./theme/custom/diet-builder'),
+    'pages/custom/page/feline-grimace-scale': () =>
+        import('./theme/custom/feline-grimace-scale'),
 };
 
 /**
