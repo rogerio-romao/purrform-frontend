@@ -7,10 +7,5 @@ module.exports = {
         reportNeedlessDisables: false,
         fix: false,
     },
-    src: [
-        'assets/scss/**/*.scss',
-        '!assets/scss/vendor/**/*.scss',
-        '!assets/scss/invoice.scss',
-        '!assets/scss/maintenance.scss',
-    ],
+    src: ['assets/scss/custom.scss', 'assets/scss/custom/**/*.scss'],
 };

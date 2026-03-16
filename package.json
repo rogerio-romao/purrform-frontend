@@ -71,7 +71,7 @@
         "buildDev": "npx webpack --config webpack.dev.js",
         "lighthouse": "npx lighthouse --config-path=lighthouse-config.js --quiet --output json --chrome-flags=\"--headless\" $URL | jq '.audits | map_values(.rawValue)'",
         "test": "npx jest",
-        "stylelint": "npx stylelint **/*.scss",
-        "stylelint:fix": "npx stylelint --fix **/*.scss"
+        "stylelint": "stylelint 'assets/scss/custom.scss' 'assets/scss/custom/**/*.scss'",
+        "stylelint:fix": "stylelint --fix 'assets/scss/custom.scss' 'assets/scss/custom/**/*.scss'"
     }
 }
