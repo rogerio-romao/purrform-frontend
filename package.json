@@ -65,8 +65,9 @@
         "webpack-merge": "^5.8.0"
     },
     "scripts": {
+        "cleanup": "node scripts/cleanup-themes.js",
         "start": "stencil start -c 1 -o",
-        "publish": "stencil push -c 1 -a -d",
+        "publish": "npm run cleanup && stencil push -c 1 -a",
         "build": "npx webpack --config webpack.prod.js",
         "buildDev": "npx webpack --config webpack.dev.js",
         "lighthouse": "npx lighthouse --config-path=lighthouse-config.js --quiet --output json --chrome-flags=\"--headless\" $URL | jq '.audits | map_values(.rawValue)'",
