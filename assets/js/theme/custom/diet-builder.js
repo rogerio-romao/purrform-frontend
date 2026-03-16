@@ -113,6 +113,8 @@ const HEALTH_CONDITIONS_INFO = {
             'A chronic gastrointestinal condition caused by inflammation of the stomach or intestinal lining, resulting in vomiting, diarrhoea, weight loss, and reduced appetite.',
         recommended:
             'Plain rabbit, turkey, or quail are recommended due to their low allergenic potential. Chicken and beef may aggravate digestive inflammation in affected cats.',
+        readMoreUrl:
+            'https://www.purrform.co.uk/blog/what-is-digestibility-and-why-is-it-so-important/',
     },
     'Stage 1 CKD': {
         explanation:
@@ -127,6 +129,8 @@ const HEALTH_CONDITIONS_INFO = {
             'Conditions causing discomfort, pain, straining to urinate, or inappropriate urination, often influenced by hydration levels and urinary concentration.',
         recommended:
             'All Purrform products are naturally high in moisture, which helps support urinary health. Adding water to food can further increase fluid intake and help maintain healthy urine dilution.',
+        readMoreUrl:
+            'https://www.purrform.co.uk/blog/-will-purrform-raw-diet-help-prevent-utis/',
     },
     'Dental disease': {
         explanation:
@@ -149,7 +153,7 @@ const HEALTH_CONDITIONS_INFO = {
         recommended:
             'Feeding lean, high-quality proteins can help promote healthy weight loss while maintaining muscle mass and supporting overall metabolic health.',
         readMoreUrl:
-            'https://www.purrform.co.uk/blog/just-what-is-the-raw-meat-diet-anyway/',
+            'https://www.purrform.co.uk/blog/will-purrform-raw-diet-help-with-weight-loss/',
     },
 };
 

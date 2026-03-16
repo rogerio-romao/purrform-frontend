@@ -1,30 +1,24 @@
-var webpack = require('webpack');
+/* eslint-disable no-console */
+
+const webpack = require('webpack');
 
 /**
  * Watch options for the core watcher
  * @type {{files: string[], ignored: string[]}}
  */
-var watchOptions = {
+const watchOptions = {
     // If files in these directories change, reload the page.
-    files: [
-        '/templates',
-        '/lang',
-    ],
+    files: ['/templates', '/lang', '/assets/scss'],
 
-    //Do not watch files in these directories
-    ignored: [
-        '/assets/scss',
-        '/assets/less',
-        '/assets/css',
-        '/assets/dist',
-    ]
+    // Do not watch files in these directories
+    ignored: ['/assets/less', '/assets/css', '/assets/dist'],
 };
 
 /**
  * Watch any custom files and trigger a rebuild
  */
 function development() {
-    var devConfig = require('./webpack.dev.js');
+    const devConfig = require('./webpack.dev.js');
 
     // Rebuild the bundle once at bootup
     webpack(devConfig).watch({}, (err, stats) => {
@@ -33,11 +27,15 @@ function development() {
         }
 
         if (stats.hasErrors()) {
-            console.error(stats.toString({ all: false, errors: true, colors: true }));
+            console.error(
+                stats.toString({ all: false, errors: true, colors: true }),
+            );
         }
 
         if (stats.hasWarnings()) {
-            console.error(stats.toString({ all: false, warnings: true, colors: true }));
+            console.warn(
+                stats.toString({ all: false, warnings: true, colors: true }),
+            );
         }
 
         process.send('reload');
@@ -48,23 +46,24 @@ function development() {
  * Hook into the `stencil bundle` command and build your files before they are packaged as a .zip
  */
 function production() {
-    var prodConfig = require('./webpack.prod.js');
+    const prodConfig = require('./webpack.prod.js');
 
     webpack(prodConfig).run((err, stats) => {
         if (err) {
             console.error(err.message, err.details);
             process.exit(1);
-            return;
         }
-
         if (stats.hasErrors()) {
-            console.error(stats.toString({ all: false, errors: true, colors: true }));
+            console.error(
+                stats.toString({ all: false, errors: true, colors: true }),
+            );
             process.exit(1);
-            return;
         }
 
         if (stats.hasWarnings()) {
-            console.error(stats.toString({ all: false, warnings: true, colors: true }));
+            console.warn(
+                stats.toString({ all: false, warnings: true, colors: true }),
+            );
         }
 
         process.send('done');
@@ -73,7 +72,7 @@ function production() {
 
 if (process.send) {
     // running as a forked worker
-    process.on('message', message => {
+    process.on('message', (message) => {
         if (message === 'development') {
             development();
         }

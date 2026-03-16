@@ -1,5 +1,5 @@
 /assets/js/bundle.js
 /assets/dist
-config.json
 stencil.conf.js
 webpack.conf.js
+*.json
