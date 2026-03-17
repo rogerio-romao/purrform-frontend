@@ -607,6 +607,7 @@ export default class DietBuilder extends PageManager {
 
         this.state.catName = catName;
         this.state.ageGroup = ageGroup;
+        this.state.ageInMonths = ageInMonths;
         this.state.age = ageKey;
         this.state.coef = config.coef;
         this.state.meals = config.meals;
@@ -1348,6 +1349,8 @@ export default class DietBuilder extends PageManager {
         this.state.payload = {
             email,
             catName: this.state.catName,
+            catAgeInMonths: Math.round(this.state.ageInMonths),
+            foodGroup: this.state.ageGroup,
             calculatedRDA: this.state.calculatedRDA,
             recommendedProducts: this.state.productsForKlaviyo.map((p) => ({
                 name: p.name,
@@ -1543,6 +1546,8 @@ export default class DietBuilder extends PageManager {
                     },
                     properties: {
                         catName: payload.catName,
+                        catAgeInMonths: payload.catAgeInMonths,
+                        foodGroup: payload.foodGroup,
                         calculatedRDA: payload.calculatedRDA,
                         recommendedProducts: payload.recommendedProducts,
                     },
