@@ -2,33 +2,28 @@
 // PAGINATION (CSS)
 // =============================================================================
 
-
 // Pagination list items
 // -----------------------------------------------------------------------------
-//
 // 1. Centred list via inline-block. Font-size: 0; to remove white-space.
 // 2. Specificity overrides for Foundation's inadequate selectors.
-//
 // -----------------------------------------------------------------------------
 
 .pagination-list {
     @include clearfix;
 
     font-size: 0; // 1
-    margin-bottom: spacing("single");
+    margin-bottom: spacing('single');
     text-align: center;
 
-    .pagination-item { // 2
+    .pagination-item {
+        // 2
         display: inline-block;
     }
 }
 
-
 // Pagination list items
 // -----------------------------------------------------------------------------
-//
 // 1. Specificity overrides for Foundation's inadequate selectors.
-//
 // -----------------------------------------------------------------------------
 
 .pagination-item {
@@ -44,14 +39,16 @@
         }
     }
 
-    &.pagination-item--current { // 1
+    &.pagination-item--current {
+        // 1
         border-color: $pagination-link-current-borderColor;
         border-radius: $pagination-link-current-borderRadius;
         margin: $pagination-link-current-margin;
     }
 
     &.pagination-item--previous, // 1
-    &.pagination-item--next { // 1
+    &.pagination-item--next {
+        // 1
 
         > a {
             color: $pagination-item-previousNext-color;
@@ -91,7 +88,6 @@
         margin-right: -(remCalc(12px));
     }
 }
-
 
 // Simple/small pagination (Next/Previous arrows are the only way to navigate)
 // -----------------------------------------------------------------------------

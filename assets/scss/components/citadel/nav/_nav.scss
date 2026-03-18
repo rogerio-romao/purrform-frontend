@@ -2,12 +2,9 @@
 // NAV (CSS)
 // =============================================================================
 
-
 // Citadel inline messages
 // -----------------------------------------------------------------------------
-//
 // 1. Remove the margin-left we add to default lists.
-//
 // -----------------------------------------------------------------------------
 
 .navList,
@@ -24,15 +21,11 @@
     font-weight: $navList-action-fontWeight--active;
 }
 
-
 // NavList action checkbox
 // -----------------------------------------------------------------------------
-//
 // Purpose: Display a checkbox next to an actionable link, without actually using
 // a checkbox element.
-//
 // 1. Position checkbox so it is vertically centered
-//
 // -----------------------------------------------------------------------------
 
 .navList-action--checkbox {
@@ -66,14 +59,11 @@
     }
 }
 
-
 // NavList action close
 // -----------------------------------------------------------------------------
-//
 .navList-action-close {
     background: $navList-action-close-background;
     border-radius: $navList-action-close-borderRadius;
-    display: inline-block;
     float: right;
     line-height: 0;
     opacity: 0;
@@ -83,7 +73,8 @@
 
     .icon {
         @include square($navList-action-close-iconSize);
-        fill: stencilColor("color-textLink");
+
+        fill: stencilColor('color-textLink');
     }
 
     .navList-action.is-selected:hover & {
@@ -92,12 +83,11 @@
     }
 }
 
-
 // Page Subnavigation
 // -----------------------------------------------------------------------------
 
 .navBar--sub {
-    margin-bottom: spacing("single") * 3;
+    margin-bottom: spacing('single') * 3;
     text-align: center;
 
     .navBar-section {
@@ -106,38 +96,38 @@
 
     .navBar-item {
         float: none;
-        margin: 0 spacing("half");
+        margin: 0 spacing('half');
 
-        @include breakpoint("medium") {
+        @include breakpoint('medium') {
             display: inline-block;
         }
 
         &.is-active {
-            @include breakpoint("medium") {
-                border-bottom: 1px solid stencilColor("color-textBase");
+            @include breakpoint('medium') {
+                border-bottom: 1px solid stencilColor('color-textBase');
             }
 
             > .navBar-action {
-                color: color("greys", "dark");
+                color: color('greys', 'dark');
             }
         }
 
         &.navBar-item--separate {
-            @include breakpoint("medium") {
-                border-left: 1px solid stencilColor("color-textSecondary");
+            @include breakpoint('medium') {
+                border-left: 1px solid stencilColor('color-textSecondary');
                 margin: 0;
-                padding-left: spacing("half");
+                padding-left: spacing('half');
             }
         }
     }
 
     .navBar-action {
-        color: stencilColor("color-textSecondary");
-        font-size: fontSize("base");
+        color: stencilColor('color-textSecondary');
+        font-size: fontSize('base');
         padding: 0;
 
         &:hover {
-            color: stencilColor("color-textSecondary--hover");
+            color: stencilColor('color-textSecondary--hover');
         }
     }
 }

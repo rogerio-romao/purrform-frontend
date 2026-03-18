@@ -3,7 +3,6 @@ import 'focus-within-polyfill';
 
 import carousel from './common/carousel';
 import './common/select-option-plugin';
-import calculatorDropdown from './custom/calculatorDropdown';
 import descriptionTabs from './custom/descriptionTabs';
 import cartPreview from './global/cart-preview';
 import privacyCookieNotification from './global/cookieNotification';
@@ -31,7 +30,6 @@ export default class Global extends PageManager {
         privacyCookieNotification();
         svgInjector();
         descriptionTabs();
-        calculatorDropdown();
 
         $(() => {
             function handleImageVisibility() {
@@ -96,7 +94,7 @@ export default class Global extends PageManager {
             // Find the related input with class "form-input--incrementTotal"
             const incrementTotalInput = card.find(
                 // eslint-disable-next-line comma-dangle
-                '.form-input--incrementTotal'
+                '.form-input--incrementTotal',
             );
 
             // Update the value of the input with the HTML content of the span

@@ -8,18 +8,17 @@
     max-height: remCalc(64px);
     min-height: remCalc(32px);
     min-width: 90px;
-    padding: spacing("single");
+    padding: spacing('single');
     width: 160px;
-    @if stencilString("applePay-button") == "white" {
+
+    @if stencilString('applePay-button') == 'white' {
         background-color: $applePay-white;
         background-image: -webkit-named-image(apple-pay-logo-black);
-    }
-    @else if stencilString("applePay-button") == "white-border" {
+    } @else if stencilString('applePay-button') == 'white-border' {
         background-color: $applePay-white;
         background-image: -webkit-named-image(apple-pay-logo-black);
         border: 0.5px solid $applePay-black;
-    }
-    @else {
+    } @else {
         background-color: $applePay-black;
         background-image: -webkit-named-image(apple-pay-logo-white);
     }

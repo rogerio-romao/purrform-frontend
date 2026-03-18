@@ -1,9 +1,9 @@
-@mixin addFocusTooltip ($attr: title) {
+@mixin addFocusTooltip($attr: title) {
     &::before {
-        border-color: transparent transparent $focusTooltip-backgroundColor transparent;
+        border-color: transparent transparent $focusTooltip-backgroundColor;
         border-style: solid;
         border-width: remCalc(10px);
-        content: " ";
+        content: ' ';
         position: absolute;
         right: 0;
         top: 50%;

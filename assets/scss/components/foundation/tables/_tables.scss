@@ -2,7 +2,6 @@
 // TABLES (CSS)
 // =============================================================================
 
-
 // Stencil table component additions
 // -----------------------------------------------------------------------------
 
@@ -23,7 +22,7 @@
 }
 
 .table-actions {
-    margin: spacing("single");
+    margin: spacing('single');
     text-align: center;
 
     .form {
@@ -36,32 +35,30 @@
         margin-right: 0;
         width: 100%;
 
-        @include breakpoint("small") {
+        @include breakpoint('small') {
             display: inline-block;
             margin-bottom: 0;
             width: auto;
         }
 
         + .button {
-
-            @include breakpoint("small") {
-                margin-left: spacing("quarter");
+            @include breakpoint('small') {
+                margin-left: spacing('quarter');
             }
         }
     }
 }
 
-
 // Stencil table modifiers
 // -----------------------------------------------------------------------------
 
 .table--line {
-    border-color: container("borderColor");
+    border-color: container('borderColor');
     border-width: 0 0 1px;
 
     .table-thead {
-        background-color: stencilColor("body-bg");
-        border-color: container("borderColor");
+        background-color: stencilColor('body-bg');
+        border-color: container('borderColor');
         border-width: 0 0 1px;
 
         tr {
@@ -69,7 +66,7 @@
                 padding-left: 0;
                 padding-right: 0;
 
-                @include breakpoint("small") {
+                @include breakpoint('small') {
                     text-align: center;
 
                     &:first-child {
@@ -82,21 +79,21 @@
                 }
 
                 + th {
-                    padding-left: spacing("single");
+                    padding-left: spacing('single');
                 }
             }
         }
     }
 
     tr {
-        border-color: container("border");
+        border-color: container('border');
 
         td {
             display: block;
             padding-left: 0;
             padding-right: 0;
 
-            @include breakpoint("small") {
+            @include breakpoint('small') {
                 text-align: center;
 
                 &:first-child {
@@ -109,7 +106,7 @@
             }
 
             + td {
-                padding-left: spacing("single");
+                padding-left: spacing('single');
             }
         }
     }

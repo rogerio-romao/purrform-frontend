@@ -1,9 +1,7 @@
 // =============================================================================
 // CART (CSS)
 // =============================================================================
-//
 // 1. Override server-generated inline-css
-//
 // -----------------------------------------------------------------------------
 
 // Cart variables
@@ -11,16 +9,13 @@
 
 $cart-item-spacing: spacing('single');
 $cart-content-padding-right: 4px;
-
 $cart-thumbnail-maxWidth: remCalc(100px);
 $cart-thumbnail-height: remCalc(100px);
 $cart-thumbnail-maxHeight: 14rem;
 $cart-thumbnail-paddingVertical: 0.5rem;
-
 $cart-item-label-offset: $cart-thumbnail-maxWidth + $cart-item-spacing;
 $card-preview-zoom-bottom-offset: 6rem;
 
-//
 // Shared styles for additional checkout buttons
 // -----------------------------------------------------------------------------
 
@@ -44,12 +39,9 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 // Cart layout
 // -----------------------------------------------------------------------------
-//
 // 1. On mobile and tablet we need to re-structure the table to appear more like
 //    a list, then visually show it as a table on larger screens only.
-//
 // 2. Hide the table headings on mobile and tablet, show them for larger screens.
-//
 // -----------------------------------------------------------------------------
 
 .cart {
@@ -96,6 +88,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
     @include breakpoint('small') {
         @include clearfix;
+
         padding-left: grid-calc(3, $total-columns);
     }
 
@@ -124,6 +117,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 .cart-item-figure {
     @include cart-item-lazy-load-img-placeholder;
+
     float: left;
     margin-bottom: $cart-item-spacing;
     position: relative;
@@ -308,6 +302,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 .cart-totals {
     @include u-listBullets('none');
+
     margin-bottom: $cart-item-spacing;
     text-align: right;
     width: 100%;
@@ -329,6 +324,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 .cart-total {
     @include clearfix;
+
     border-bottom: 0;
 
     @include breakpoint('medium') {
@@ -434,6 +430,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 .coupon-form,
 .cart-gift-certificate-form {
     @include clearfix;
+
     font-size: 0;
     margin-bottom: spacing('base');
 
@@ -509,6 +506,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 .cart-actions {
     @include clearfix;
+
     clear: both;
 
     .button {
@@ -543,9 +541,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 // Cart Preview
 // -----------------------------------------------------------------------------
-//
 // 1. Need to vertically align a block of text
-//
 // -----------------------------------------------------------------------------
 
 .previewCartWrapper {
@@ -555,6 +551,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 .previewCartList {
     @include u-listReset;
+
     border-collapse: collapse;
     display: table;
     table-layout: fixed;
@@ -563,6 +560,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 .previewCartItem {
     @include grid-row;
+
     display: table-row;
     line-height: lineHeight('smaller');
 
@@ -579,14 +577,15 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 .previewCartItem-image {
     @include grid-column(4, $float: false);
-
     @include lazy-loaded-padding('productthumb_size');
+
     padding: 0;
     position: relative;
     text-align: center;
 
     img {
         @include lazy-loaded-img;
+
         max-height: 90%;
     }
 
@@ -603,6 +602,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 .previewCartItem-content {
     @include grid-column(8, $float: false);
+
     padding-left: 0;
 }
 
@@ -629,6 +629,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 .previewCartAction {
     @include grid-row;
+
     border-top: container('border');
     display: block;
 
@@ -682,6 +683,7 @@ $card-preview-zoom-bottom-offset: 6rem;
 
 .previewCart-additionalCheckoutButtons {
     @extend %additionalCheckoutButtons;
+
     padding-bottom: spacing('single');
     padding-right: spacing('single');
 }

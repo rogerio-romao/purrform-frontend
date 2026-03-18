@@ -1,8 +1,7 @@
 // =============================================================================
 // MODAL (CSS)
-//
-// // 1. Fix for content shifted to top in modal window when bottom variant option selected
-// // 2. Icon styles and icon animations moved from the removed "sweetalert2" library
+// 1. Fix for content shifted to top in modal window when bottom variant option selected
+// 2. Icon styles and icon animations moved from the removed "sweetalert2" library
 // =============================================================================
 
 .modal {
@@ -23,7 +22,7 @@
 }
 
 .modal--large {
-    @include breakpoint("large") {
+    @include breakpoint('large') {
         width: $modal-width--large;
     }
 }
@@ -34,33 +33,33 @@
 }
 
 .modal-header-title {
-    font-size: fontSize("large");
+    font-size: fontSize('large');
     text-align: center;
 
-    @include breakpoint("medium") {
-        font-size: fontSize("larger");
+    @include breakpoint('medium') {
+        font-size: fontSize('larger');
     }
 }
 
 .modal-close {
     @include square($reveal-close-height);
-
     @include addFocusTooltip;
-    color: stencilColor("icon-color");
+
+    color: stencilColor('icon-color');
     font-size: 26px;
     line-height: remCalc($reveal-close-height);
     padding: 0;
     position: absolute;
     text-align: center;
     text-decoration: none;
-    z-index: zIndex("high");
+    z-index: zIndex('high');
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         font-size: 32px;
     }
 
     &:hover {
-        color: stencilColor("icon-color-hover");
+        color: stencilColor('icon-color-hover');
     }
 
     &::before {
@@ -87,7 +86,8 @@
     padding: 40px 20px 20px;
     text-align: center;
 
-    .alert-icon { // 2
+    .alert-icon {
+        // 2
         border: 0.25em solid transparent;
         border-radius: 50%;
         box-sizing: content-box;
@@ -135,7 +135,7 @@
         }
     }
 
-    .warning-icon { 
+    .warning-icon {
         animation: animate-icon 0.5s;
         border-color: #facea8;
         color: #f8bb86;
@@ -181,8 +181,9 @@
     opacity: 0;
 }
 
-//Icon animations
-@keyframes animate-icon { // 2
+// Icon animations
+@keyframes animate-icon {
+    // 2
     0% {
         opacity: 0;
         transform: rotateX(100deg);

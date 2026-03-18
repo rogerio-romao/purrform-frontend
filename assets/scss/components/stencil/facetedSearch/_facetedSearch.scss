@@ -2,15 +2,13 @@
 // FACET SEARCH (CSS)
 // =============================================================================
 
-
 // Faceted search toggle
 // -----------------------------------------------------------------------------
-//
 // 1. Do not show if viewport is over "medium" breakpoint
-//
 // -----------------------------------------------------------------------------
 .facetedSearch-toggle {
     @include grid-row;
+
     border: $facetedSearch-toggle-border;
     border-radius: $facetedSearch-toggle-borderRadius;
     border-width: $facetedSearch-toggle-borderWidth;
@@ -18,7 +16,7 @@
     margin-bottom: $facetedSearch-toggle-verticalSpacing;
     padding: $facetedSearch-toggle-padding;
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: none !important; // 1
     }
 
@@ -37,28 +35,27 @@
 
 .facetedSearch-toggle-text {
     @include grid-column(7);
+
     padding: 0;
     text-align: left;
 }
 
 .facetedSearch-toggle-indicator {
     @include grid-column(5);
+
     font-weight: bold;
     padding: 0;
     text-align: right;
 }
 
-
 // Faceted search nav list
 // -----------------------------------------------------------------------------
-//
 // 1. Do not show if viewport is over "medium" breakpoint
-//
 // -----------------------------------------------------------------------------
 .facetedSearch-navList {
     display: none;
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: block !important; // 1
     }
 
@@ -77,18 +74,17 @@
         margin-top: $facetedSearch-toggle-verticalSpacing;
     }
 
-
     .facetedSearch-toggle + &.is-open,
     .sidebarBlock + &.is-open {
         margin-top: -1px;
 
-        @include breakpoint("medium") {
+        @include breakpoint('medium') {
             margin-top: $facetedSearch-toggle-verticalSpacing;
         }
     }
 
     .navList--inner {
-        margin-left: spacing("single");
+        margin-left: spacing('single');
     }
 }
 
@@ -101,17 +97,14 @@
     column-gap: 20px;
 }
 
-
 // Faceted search refine filters
 // -----------------------------------------------------------------------------
-//
 // 1. Only show if viewport is over "medium" breakpoint
-//
 // -----------------------------------------------------------------------------
 .facetedSearch-refineFilters {
     display: none;
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: block; // 1
     }
 }
