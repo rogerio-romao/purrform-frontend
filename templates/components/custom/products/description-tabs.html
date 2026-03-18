@@ -1,0 +1,97 @@
+{{!--
+    Tab layout per category:
+    - Accessories  → Description only (content rendered inline, no JS)
+    - Sanitisers   → Product Overview | Application | Health and Safety
+    - Supplements  → Description | Composition & Nutritional Additives | Analytical Constituents | Instructions for use
+    - Default      → Description | Composition | Analytical Constituents
+
+    Tab shells are empty on render; descriptionTabs.js splits the hidden #_product-description
+    field on "<!-- pagebreak -->" and injects each chunk into the matching tab IDs.
+    Accessories skip this — their description is rendered directly into tab-description.
+
+    Note: Handlebars has no "not contains" helper, so the branching below uses
+    {{#contains ...}}{{else}} as a negation pattern to reach non-matching categories.
+--}}
+<div class="description-container">
+    <ul class="tabs" data-tab>
+        {{!-- Tab 1: shared by all categories; label differs for Sanitisers --}}
+        {{#if product.description}}
+        <li class="tab is-active">
+            {{#contains product.category 'Others/Sanitisers'}}
+            <a class="tab-title" href="#tab-description">Product Overview</a>
+            {{else}}
+            <a class="tab-title" href="#tab-description">{{lang 'products.description'}}</a>
+            {{/contains}}
+            <div class="mobile-description-tab" id="tab-mobile-description"></div>
+        </li>
+        {{/if}}
+
+        {{!-- Remaining tabs: Accessories gets none; others branch by category --}}
+        {{#contains product.category 'Others/Accessories'}}
+        {{else}}
+            {{#contains product.category 'Others/Sanitisers'}}
+            <li class="tab">
+                <a class="tab-title" href="#tab-instructions">Application</a>
+                <div class="mobile-description-tab" id="tab-mobile-instructions"></div>
+            </li>
+            <li class="tab">
+                <a class="tab-title" href="#tab-health-safety">Health and Safety</a>
+                <div class="mobile-description-tab" id="tab-mobile-health-safety"></div>
+            </li>
+            {{else}}
+                {{#contains product.category 'Supplements'}}
+                <li class="tab">
+                    <a class="tab-title" href="#tab-supplements-composition">Composition &amp; Nutritional Additives</a>
+                    <div class="mobile-description-tab" id="tab-mobile-supplements-composition"></div>
+                </li>
+                <li class="tab">
+                    <a class="tab-title" href="#tab-supplements-constituents">Analytical Constituents</a>
+                    <div class="mobile-description-tab" id="tab-mobile-supplements-constituents"></div>
+                </li>
+                <li class="tab">
+                    <a class="tab-title" href="#tab-supplements-instructions">Instructions for use</a>
+                    <div class="mobile-description-tab" id="tab-mobile-supplements-instructions"></div>
+                </li>
+                {{else}}
+                <li class="tab">
+                    <a class="tab-title" href="#tab-composition">Composition</a>
+                    <div class="mobile-description-tab" id="tab-mobile-composition"></div>
+                </li>
+                <li class="tab">
+                    <a class="tab-title" href="#tab-constituents">Analytical Constituents</a>
+                    <div class="mobile-description-tab" id="tab-mobile-constituents"></div>
+                </li>
+                {{/contains}}
+            {{/contains}}
+        {{/contains}}
+    </ul>
+
+    <div class="tabs-contents tabs-contents-desktop">
+        {{!-- tab-description: Accessories render inline; all others are JS-filled shells --}}
+        {{#if product.description}}
+        <div class="tab-content is-active" id="tab-description">
+            {{#contains product.category 'Others/Accessories'}}
+            <div class="description-v1">{{{product.description}}}</div>
+            {{/contains}}
+        </div>
+        {{/if}}
+
+        {{!-- Remaining content shells mirror the tab structure above --}}
+        {{#contains product.category 'Others/Accessories'}}
+        {{else}}
+            {{#contains product.category 'Others/Sanitisers'}}
+            <div class="tab-content" id="tab-instructions"></div>
+            <div class="tab-content" id="tab-health-safety"></div>
+            {{else}}
+                {{#contains product.category 'Supplements'}}
+                <div class="tab-content" id="tab-supplements-composition"></div>
+                <div class="tab-content" id="tab-supplements-constituents"></div>
+                <div class="tab-content" id="tab-supplements-instructions"></div>
+                {{else}}
+                <div class="tab-content" id="tab-composition"></div>
+                <div class="tab-content" id="tab-constituents"></div>
+                {{/contains}}
+            {{/contains}}
+        {{/contains}}
+    </div>
+</div>

@@ -1,104 +1,39 @@
 export default function () {
     $(() => {
-        const descriptionOld =
-            document.getElementsByClassName('description-v1');
-        if ($('#_product-description').length > 0) {
-            // If text is detected within the id _product-description element
-            if (
-                document
-                    .getElementById('_product-description')
-                    .innerHTML.toString()
-                    .indexOf('<!-- pagebreak -->') !== -1
-            ) {
-                const breaks = $('#_product-description')
-                    .html()
-                    .trim()
-                    .split('<!-- pagebreak -->');
-                console.log('description-v2');
-                document.getElementById('tab-description').innerHTML =
-                    breaks[0];
-                document.getElementById('tab-composition').innerHTML =
-                    breaks[1];
-                if (document.getElementById('tab-instructions')) {
-                    document.getElementById('tab-instructions').innerHTML =
-                        breaks[1];
-                }
-                if (document.getElementById('tab-supplements-composition')) {
-                    document.getElementById(
-                        'tab-supplements-composition',
-                    ).innerHTML = breaks[1];
-                }
-                document.getElementById('tab-constituents').innerHTML =
-                    breaks[2];
-                if (document.getElementById('tab-health-safety')) {
-                    document.getElementById('tab-health-safety').innerHTML =
-                        breaks[2];
-                }
-                if (document.getElementById('tab-supplements-constituents')) {
-                    document.getElementById(
-                        'tab-supplements-constituents',
-                    ).innerHTML = breaks[2];
-                }
-                if (document.getElementById('tab-supplements-instructions')) {
-                    document.getElementById(
-                        'tab-supplements-instructions',
-                    ).innerHTML = breaks[3];
-                }
-                /* Mobile tabs content allocation */
-                document.getElementById('tab-mobile-description').innerHTML =
-                    breaks[0];
-                document.getElementById('tab-mobile-composition').innerHTML =
-                    breaks[1];
-                if (document.getElementById('tab-mobile-instructions')) {
-                    document.getElementById(
-                        'tab-mobile-instructions',
-                    ).innerHTML = breaks[1];
-                }
-                if (
-                    document.getElementById(
-                        'tab-mobile-supplements-composition',
-                    )
-                ) {
-                    document.getElementById(
-                        'tab-mobile-supplements-composition',
-                    ).innerHTML = breaks[1];
-                }
-                if (document.getElementById('tab-mobile-constituents')) {
-                    document.getElementById(
-                        'tab-mobile-constituents',
-                    ).innerHTML = breaks[2];
-                }
-                if (document.getElementById('tab-mobile-health-safety')) {
-                    document.getElementById(
-                        'tab-mobile-health-safety',
-                    ).innerHTML = breaks[2];
-                }
-                if (
-                    document.getElementById(
-                        'tab-mobile-supplements-constituents',
-                    )
-                ) {
-                    document.getElementById(
-                        'tab-mobile-supplements-constituents',
-                    ).innerHTML = breaks[2];
-                }
-                if (
-                    document.getElementById(
-                        'tab-mobile-supplements-instructions',
-                    )
-                ) {
-                    document.getElementById(
-                        'tab-mobile-supplements-instructions',
-                    ).innerHTML = breaks[3];
-                }
-            } else {
-                console.log('description-v1');
-                /* If no pagebreak is detected, the description-v1 elements are made visible and the old system is used to display description tab content. */
-                for (let i = 0; i < descriptionOld.length; i++) {
-                    //  descriptionOld[i].style.display = "block";
-                    console.log('test');
-                }
-            }
+        const container = document.getElementById('_product-description');
+        if (!container) return;
+
+        const fill = (id, content) => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = content;
+        };
+
+        if (!container.innerHTML.includes('<!-- pagebreak -->')) {
+            fill('tab-description', container.innerHTML);
+            fill('tab-mobile-description', container.innerHTML);
+            return;
         }
+
+        const breaks = container.innerHTML.trim().split('<!-- pagebreak -->');
+
+        fill('tab-description', breaks[0]);
+        fill('tab-mobile-description', breaks[0]);
+
+        fill('tab-composition', breaks[1]);
+        fill('tab-instructions', breaks[1]);
+        fill('tab-supplements-composition', breaks[1]);
+        fill('tab-mobile-composition', breaks[1]);
+        fill('tab-mobile-instructions', breaks[1]);
+        fill('tab-mobile-supplements-composition', breaks[1]);
+
+        fill('tab-constituents', breaks[2]);
+        fill('tab-health-safety', breaks[2]);
+        fill('tab-supplements-constituents', breaks[2]);
+        fill('tab-mobile-constituents', breaks[2]);
+        fill('tab-mobile-health-safety', breaks[2]);
+        fill('tab-mobile-supplements-constituents', breaks[2]);
+
+        fill('tab-supplements-instructions', breaks[3]);
+        fill('tab-mobile-supplements-instructions', breaks[3]);
     });
 }

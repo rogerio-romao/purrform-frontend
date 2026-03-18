@@ -118,13 +118,6 @@
             <div class="productView-rating">
                 {{#if settings.show_product_rating}}
                     {{> components/products/ratings rating=product.rating}}
-                  <!--  {{#if product.num_reviews '>' 0}}
-                        <a href="{{product.url}}{{#if is_ajax}}#product-reviews{{/if}}" id="productReview_link">
-                            {{lang 'products.reviews.link_to_review' total=product.num_reviews}}
-                        </a>
-                    {{else}}
-                        <span>{{lang 'products.reviews.link_to_review' total=product.num_reviews}}</span>
-                    {{/if}} -->
                 {{/if}}
                 {{#if settings.show_product_reviews}}
                 <span>[{{product.num_reviews}}]</span>
@@ -168,10 +161,6 @@
                     <dt class="productView-info-name">{{lang 'products.condition'}}</dt>
                     <dd class="productView-info-value">{{product.condition}}</dd>
                 {{/if}}
-                <!--{{#if product.availability}}
-                    <dt class="productView-info-name">{{lang 'products.availability'}}</dt>
-                    <dd class="productView-info-value">{{product.availability}}</dd>
-                {{/if}} -->
                 {{#all product.weight theme_settings.show_product_weight}}
                     <dt class="productView-info-name">{{lang 'products.weight'}}</dt>
                     <dd class="productView-info-value" data-product-weight>{{product.weight}}</dd>
@@ -205,10 +194,6 @@
                         {{/if}}
                     </dd>
                 {{/all}}
-               <!-- {{#if product.min_purchase_quantity}}
-                    <dt class="productView-info-name">{{lang 'products.min_purchase_quantity'}}</dt>
-                    <dd class="productView-info-value">{{lang 'products.purchase_units' quantity=product.min_purchase_quantity}} test 1</dd>
-                {{/if}}-->
                 {{#if product.max_purchase_quantity}}
                     <dt class="productView-info-name">{{lang 'products.max_purchase_quantity'}}</dt>
                     <dd class="productView-info-value">{{lang 'products.purchase_units' quantity=product.max_purchase_quantity}} test 2</dd>
@@ -275,15 +260,13 @@
                     </p>
                 </div>
           <div class="purchase-container">
-
-            {{!--{{#if product.availability}} --}}
                <div class="availability-notice">
                 {{#if product.can_purchase}}
                     <p class="available">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.0938 6.17833L7.70217 14.5708L3.33301 10.2017L4.51134 9.02333L7.70217 12.2142L14.9155 5L16.0938 6.17833Z" fill="#687D6A"/>
                     </svg>
-                    <strong>{{lang 'products.available'}}   {{!--{{product.availability}}--}}</strong>
+                    <strong>{{lang 'products.available'}}</strong>
                     </p>
                     {{else}}
                     <p class="not-available">
@@ -292,9 +275,6 @@
                         </p>
                     {{/if}}
                 </div>
-                {{!--{{/if}} --}}
-
-
                 {{> components/products/add-to-cart with_wallet_buttons=false}}
             </div>
             {{#if product.custom_fields }}
@@ -332,58 +312,17 @@
     </section>
 
     <article class="productView-description">
-        {{!-- {{#contains product.description "<p><!-- pagebreak --></p>" }}
-            {{> components/products/description}}
-            <div id="accordion-container"></div>
-
-        {{else}}--}}
-
         <div id="_product-description" style="display: none;">
             {{{product.description}}}
         </div>
         {{#if theme_settings.show_product_details_tabs}}
-
-        {{#contains product.category 'Others/Sanitisers'}}
-        {{> components/custom/products/sanitisers-description-tabs}}
-        {{/contains}}
-
-        {{#contains product.category 'Others/Accessories'}}
-        {{> components/custom/products/accessories-description-tabs}}
-        {{/contains}}
-
-        {{#contains product.category 'Supplements'}}
-        {{> components/custom/products/supplements-description-tabs}}
-        {{/contains}}
-
-        {{!--{{#contains product.title 'Trial Pack'}}
-        {{> components/custom/products/supplements-description-tabs}}
-        {{/contains}}--}}
-
-        {{> components/products/description-tabs}}
+        {{> components/custom/products/description-tabs}}
         {{{region name="product _description"}}}
-
-
-
-
         {{else}}
         {{> components/products/description}}
-
         {{/if}}
-
-        {{!--{{/contains}}--}}
-
-
-         </article>
+    </article>
 </div>
-
-{{!--<article>
-    <h1> new description tester</h1>
-
-    <div class="productView-description-container"{{#if schema}} itemprop="description"{{/if}}>
-        {{> components/products/description}}
-    </div>
-
-</article>--}}
 
 <div id="previewModal" class="modal modal--large" data-reveal>
     {{> components/common/modal/modal-close-btn }}
