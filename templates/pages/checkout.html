@@ -1,15 +1,15 @@
 {{#partial "head"}}
 
-{{{ checkout.checkout_head }}}
-{{{ stylesheet '/assets/css/optimized-checkout.css' }}}
+    {{{ checkout.checkout_head }}}
+    {{{ stylesheet '/assets/css/optimized-checkout.css' }}}
 
-{{ getFontsCollection }}
+    {{ getFontsCollection }}
 
-<script type="text/javascript">
-    window.language = {{{langJson 'optimized_checkout'}}};
-</script>
+    <script type="text/javascript">
+        window.language = {{{langJson 'optimized_checkout' }}};
+    </script>
 
-{{{head.scripts}}}
+    {{{head.scripts}}}
 
 {{/partial}}
 
@@ -17,143 +17,109 @@
 
 {{#partial "page"}}
 
-<!-- UIkit CSS -->
-<link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/css/uikit.min.css"
-/>
-<link rel="stylesheet" href="https://use.typekit.net/drc3iaj.css" />
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/css/uikit.min.css" />
+    <link rel="stylesheet" href="https://use.typekit.net/drc3iaj.css" />
 
-<!-- UIkit JS -->
-<script src="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/js/uikit.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/js/uikit-icons.min.js"></script>
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/js/uikit-icons.min.js"></script>
 
-<!-- CALL MOST RECENT JQUERY LIBRARY -->
-<script
-    src="https://code.jquery.com/jquery-3.6.2.min.js"
-    integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
-    crossorigin="anonymous"
-></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <!-- CALL MOST RECENT JQUERY LIBRARY -->
+    <script src="https://code.jquery.com/jquery-3.6.2.min.js"
+        integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-<link
-    rel="stylesheet"
-    href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-    crossorigin="anonymous"
-/>
-<link
-    rel="stylesheet"
-    href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css"
-/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+    <link rel="stylesheet"
+        href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css" />
 
-{{inject "checkoutId" cart_id}}
+    {{inject "checkoutId" cart_id}}
 
-<script>
-    // This is a custom function to check if an element is ready in the DOM with MutationObserver (no timers)
-    (function (win) {
-        'use strict';
+    <script>
+        // This is a custom function to check if an element is ready in the DOM with MutationObserver (no timers)
+        (function (win) {
+            'use strict';
 
-        var listeners = [],
-            doc = win.document,
-            MutationObserver =
-                win.MutationObserver || win.WebKitMutationObserver,
-            observer;
+            var listeners = [],
+                doc = win.document,
+                MutationObserver =
+                    win.MutationObserver || win.WebKitMutationObserver,
+                observer;
 
-        function ready(selector, fn) {
-            // Store the selector and callback to be monitored
-            listeners.push({
-                selector: selector,
-                fn: fn,
-            });
-            if (!observer) {
-                // Watch for changes in the document
-                observer = new MutationObserver(check);
-                observer.observe(doc.documentElement, {
-                    childList: true,
-                    subtree: true,
+            function ready(selector, fn) {
+                // Store the selector and callback to be monitored
+                listeners.push({
+                    selector: selector,
+                    fn: fn,
                 });
+                if (!observer) {
+                    // Watch for changes in the document
+                    observer = new MutationObserver(check);
+                    observer.observe(doc.documentElement, {
+                        childList: true,
+                        subtree: true,
+                    });
+                }
+                // Check if the element is currently in the DOM
+                check();
             }
-            // Check if the element is currently in the DOM
-            check();
-        }
 
-        function check() {
-            // Check the DOM for elements matching a stored selector
-            for (
-                var i = 0, len = listeners.length, listener, elements;
-                i < len;
-                i++
-            ) {
-                listener = listeners[i];
-                // Query for elements matching the specified selector
-                elements = doc.querySelectorAll(listener.selector);
+            function check() {
+                // Check the DOM for elements matching a stored selector
                 for (
-                    var j = 0, jLen = elements.length, element;
-                    j < jLen;
-                    j++
+                    var i = 0, len = listeners.length, listener, elements;
+                    i < len;
+                    i++
                 ) {
-                    element = elements[j];
-                    // Make sure the callback isn't invoked with the
-                    // same element more than once
-                    if (!element.ready) {
-                        element.ready = true;
-                        // Invoke the callback with the element
-                        listener.fn.call(element, element);
+                    listener = listeners[i];
+                    // Query for elements matching the specified selector
+                    elements = doc.querySelectorAll(listener.selector);
+                    for (
+                        var j = 0, jLen = elements.length, element;
+                        j < jLen;
+                        j++
+                    ) {
+                        element = elements[j];
+                        // Make sure the callback isn't invoked with the
+                        // same element more than once
+                        if (!element.ready) {
+                            element.ready = true;
+                            // Invoke the callback with the element
+                            listener.fn.call(element, element);
+                        }
                     }
                 }
             }
-        }
 
-        // Expose `ready`
-        win.ready = ready;
-    })(this);
-</script>
+            // Expose `ready`
+            win.ready = ready;
+        })(this);
+    </script>
 
-<script>
-    // Handles non-cumulative discounts
-    const couponsElSelector = 'a.redeemable-label';
-    ready(couponsElSelector, (couponsEl) => {
-        // if discount el is present, customer used loyalty points, hide coupons
-        const discountEl = document.querySelector(
-            'div[data-test="cart-discount"]'
-        );
-        if (discountEl) {
-            couponsEl.style.display = 'none';
-        }
+    <script>
+        // Handles non-cumulative discounts
+        const couponsElSelector = 'a.redeemable-label';
+        ready(couponsElSelector, (couponsEl) => {
+            // if discount el is present, customer used loyalty points, hide coupons
+            const discountEl = document.querySelector(
+                'div[data-test="cart-discount"]'
+            );
+            if (discountEl) {
+                couponsEl.style.display = 'none';
+            }
 
-        // if customer group is trade, hide coupons
-        if ('{{customer_group_name}}' === 'Trade' || '{{customer_group_name}}' === 'New Trader' || '{{customer_group_name}}' === 'Trade TNC') {
-            couponsEl.style.display = 'none';
-        }
+            // if customer group is trade, hide coupons
+            if ('{{customer_group_name}}' === 'Trade' || '{{customer_group_name}}' === 'New Trader' || '{{customer_group_name}}' === 'Trade TNC') {
+                couponsEl.style.display = 'none';
+            }
 
-    })
+        })
 
-    const loyaltyElSelector = 'section.loyalty-points';
-    ready(loyaltyElSelector, (loyaltyEl) => {
-        const couponEl = document.querySelector(
-            'div[data-test="cart-coupon"]'
-        );
-
-        if (couponEl) {
-            const label = document.querySelector('.loyaltyLabel');
-            const input = loyaltyEl.querySelector('input');
-            const button = loyaltyEl.querySelector('#loyaltyPointsBtn');
-            label.style.display = 'none';
-            input.style.display = 'none';
-            button.style.display = 'none';
-
-            const removeCouponButton = couponEl.querySelector('a[data-test="cart-price-callback"]');
-            removeCouponButton.addEventListener('click', () => {
-                label.style.display = 'block';
-                input.style.display = 'block';
-                button.style.display = 'block';
-            });
-        }
-
-        // the standalone code above does not work on mobile, this is a fix for mobile
-        const checkForCouponInterval = setInterval(() => {
+        const loyaltyElSelector = 'section.loyalty-points';
+        ready(loyaltyElSelector, (loyaltyEl) => {
             const couponEl = document.querySelector(
                 'div[data-test="cart-coupon"]'
             );
@@ -167,356 +133,370 @@
                 button.style.display = 'none';
 
                 const removeCouponButton = couponEl.querySelector('a[data-test="cart-price-callback"]');
-
                 removeCouponButton.addEventListener('click', () => {
                     label.style.display = 'block';
                     input.style.display = 'block';
                     button.style.display = 'block';
                 });
-
-                clearInterval(checkForCouponInterval);
             }
-        }, 100)
-    })
-</script>
 
-<script>
-    // Handle hidding address creation for breeder group
+            // the standalone code above does not work on mobile, this is a fix for mobile
+            const checkForCouponInterval = setInterval(() => {
+                const couponEl = document.querySelector(
+                    'div[data-test="cart-coupon"]'
+                );
 
-    const parentSelectorShipping = '#checkoutShippingAddress div.dropdownMenu';
-    const parentSelectorBilling = '#checkoutBillingAddress div.dropdownMenu';
+                if (couponEl) {
+                    const label = document.querySelector('.loyaltyLabel');
+                    const input = loyaltyEl.querySelector('input');
+                    const button = loyaltyEl.querySelector('#loyaltyPointsBtn');
+                    label.style.display = 'none';
+                    input.style.display = 'none';
+                    button.style.display = 'none';
 
-    ready(parentSelectorShipping, (parentElement) => {
-        // get the number of children
-        const ul = parentElement.querySelector('ul');
-        const children = ul.children;
-        const customerGroupName = '{{customer_group_name}}';
-        if (customerGroupName === 'Breeder' && children.length > 2) {
-            // hide the first child (add new address)
-            children[0].style.display = 'none';
-        }
-    });
+                    const removeCouponButton = couponEl.querySelector('a[data-test="cart-price-callback"]');
 
-    ready(parentSelectorBilling, (parentElement) => {
-        // get the number of children
-        const ul = parentElement.querySelector('ul');
-        const children = ul.children;
-        const customerGroupName = '{{customer_group_name}}';
-        if (customerGroupName === 'Breeder' && children.length > 2) {
-            // hide the first child (add new address)
-            children[0].style.display = 'none';
-        }
-    });
-</script>
+                    removeCouponButton.addEventListener('click', () => {
+                        label.style.display = 'block';
+                        input.style.display = 'block';
+                        button.style.display = 'block';
+                    });
 
-{{#if customer_group_name '!==' 'trade_blocked'}}
-<div id="optimised_main_chout">
-    <header class="checkoutHeader optimizedCheckout-header">
-        <div class="checkoutHeader-content">
-            <h1 class="is-srOnly">{{lang 'checkout.title'}}</h1>
-            <h2 class="checkoutHeader-heading">
-                <a class="checkoutHeader-link" href="{{urls.home}}">
-                    {{#if checkout.header_image}}
-                    <img
-                        alt="{{settings.store_logo.title}}"
-                        class="checkoutHeader-logo"
-                        id="logoImage"
-                        src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/d-logo.png"
-                        title="{{settings.store_logo.title}}"
-                    />
+                    clearInterval(checkForCouponInterval);
+                }
+            }, 100)
+        })
+    </script>
 
-                    {{ else }}
-                    <span class="header-logo-text">{{settings.store_logo.title}}</span>
-                    {{/if}}
-                </a>
-            </h2>
+    <script>
+        // Handle hidding address creation for breeder group
+
+        const parentSelectorShipping = '#checkoutShippingAddress div.dropdownMenu';
+        const parentSelectorBilling = '#checkoutBillingAddress div.dropdownMenu';
+
+        ready(parentSelectorShipping, (parentElement) => {
+            // get the number of children
+            const ul = parentElement.querySelector('ul');
+            const children = ul.children;
+            const customerGroupName = '{{customer_group_name}}';
+            if (customerGroupName === 'Breeder' && children.length > 2) {
+                // hide the first child (add new address)
+                children[0].style.display = 'none';
+            }
+        });
+
+        ready(parentSelectorBilling, (parentElement) => {
+            // get the number of children
+            const ul = parentElement.querySelector('ul');
+            const children = ul.children;
+            const customerGroupName = '{{customer_group_name}}';
+            if (customerGroupName === 'Breeder' && children.length > 2) {
+                // hide the first child (add new address)
+                children[0].style.display = 'none';
+            }
+        });
+    </script>
+
+    {{#if customer_group_name '!==' 'trade_blocked'}}
+        <div id="optimised_main_chout">
+            <header class="checkoutHeader optimizedCheckout-header">
+                <div class="checkoutHeader-content">
+                    <h1 class="is-srOnly">{{lang 'checkout.title'}}</h1>
+                    <h2 class="checkoutHeader-heading">
+                        <a class="checkoutHeader-link" href="{{urls.home}}">
+                            {{#if checkout.header_image}}
+                                <img alt="{{settings.store_logo.title}}" class="checkoutHeader-logo" id="logoImage"
+                                    src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/d-logo.png"
+                                    title="{{settings.store_logo.title}}" />
+
+                                {{ else }}
+                                <span class="header-logo-text">{{settings.store_logo.title}}</span>
+                            {{/if}}
+                        </a>
+                    </h2>
+                </div>
+            </header>
+            {{{ checkout.checkout_content }}}
         </div>
-    </header>
-    {{{ checkout.checkout_content }}}
-</div>
-{{else}}
-<div class="container" style="height: 200px; display: flex">
-    <p
-        style="
+    {{else}}
+        <div class="container" style="height: 200px; display: flex">
+            <p style="
             margin: 50px auto;
             width: 80%;
             text-align: center;
             border: 1px solid;
             height: 50px;
             padding: 10px 5px;
-        "
-        >You are currently blocked for shopping. Please contact admin for more info</p>
-</div>
-{{/if}} {{#if customer}}
-{{#if customer_group_name '===' 'Personal'}}
+        ">You are currently blocked for shopping. Please contact admin for more info</p>
+        </div>
+    {{/if}} {{#if customer}}
+        {{#if customer_group_name '===' 'Personal'}}
 
-<script>
-    // Handles the loyalty points
-    const parentSelectorDesktop = '.cart.optimizedCheckout-orderSummary';
-    const parentSelectorMobile =
-        '.cart-modal-body.optimizedCheckout-orderSummary';
+            <script>
+                // Handles the loyalty points
+                const parentSelectorDesktop = '.cart.optimizedCheckout-orderSummary';
+                const parentSelectorMobile =
+                    '.cart-modal-body.optimizedCheckout-orderSummary';
 
-    ready(parentSelectorDesktop, (parentElement) => {
-        loyaltyInitialize(parentElement);
-    });
+                ready(parentSelectorDesktop, (parentElement) => {
+                    loyaltyInitialize(parentElement);
+                });
 
-    ready(parentSelectorMobile, (parentElement) => {
-        loyaltyInitialize(parentElement);
-    });
+                ready(parentSelectorMobile, (parentElement) => {
+                    loyaltyInitialize(parentElement);
+                });
 
-    function loyaltyInitialize(elementToAppend) {
-        // Fetch loyalty points
-        fetchLoyalty().then((points) => {
-            // Create a new div element for displaying loyalty points
-            const pointsDiv = document.createElement('section');
-            const pointsDesc = document.createElement('p');
-            pointsDesc.id = 'pointsDesc';
-            if (points == null) {
-                pointsDesc.innerHTML = "Could not find loyalty points for this account, make sure you are logged in or refresh the page.";
-            } else {
-                pointsDesc.innerHTML = `Loyalty points balance ${points}`;
-            }
-            pointsDiv.appendChild(pointsDesc);
-            pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
-
-            // Create a label and input for entering points to use
-            const label = document.createElement('label');
-            label.setAttribute('for', 'points-input');
-            label.classList.add('loyaltyLabel');
-            pointsDiv.appendChild(label);
-
-            const pointsInput = document.createElement('input');
-            pointsInput.type = 'number';
-            pointsInput.id = 'points-input';
-            pointsInput.min = 0;
-            pointsInput.max = points;
-            pointsInput.placeholder = 'How many?';
-            pointsDiv.appendChild(pointsInput);
-
-            pointsInput.addEventListener('input', () => {
-                if (Number(pointsInput.value) > points) {
-                    pointsInput.value = points;
-                }
-            });
-
-            const confirmButton = document.createElement('button');
-            confirmButton.textContent = 'Apply discount';
-            confirmButton.id = 'loyaltyPointsBtn';
-            confirmButton.className = 'btn btn-primary';
-            pointsDiv.appendChild(confirmButton);
-
-            const cancelButton = document.createElement('button');
-            cancelButton.textContent = 'Cancel discount';
-            cancelButton.id = 'cancelLoyaltyPointsBtn';
-            cancelButton.className = 'btn btn-secondary';
-            cancelButton.style.display = document.querySelector(
-                '[data-test="cart-discount"] [data-test="cart-price-value"]'
-            )
-                ? 'block'
-                : 'none';
-            pointsDiv.appendChild(cancelButton);
-
-            const errorMessage = document.createElement('p');
-            errorMessage.id = 'usedPointsError';
-            errorMessage.classList.add('warning');
-            errorMessage.textContent =
-                'There was an error applying the discount. Please try again later.';
-            errorMessage.style.display = 'none';
-            pointsDiv.appendChild(errorMessage);
-
-            // Mount the entire loyalty points div to the parent element
-            elementToAppend.appendChild(pointsDiv);
-
-            generateNewSummary(points);
-
-            loyaltyPointsBtn.addEventListener('click', () => {
-                if (pointsInput.value === '') {
-                    return;
-                }
-
-                loyaltyPointsBtn.setAttribute('disabled', 'true');
-                loyaltyPointsBtn.textContent = 'Processing';
-
-                fetch(
-                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}&max_points=${points}`
-                )
-                    .then((response) => {
-                        if (!response.ok) {
-                            // do something here to let the user know the discount failed
-                            throw new Error('Failed to apply discount');
+                function loyaltyInitialize(elementToAppend) {
+                    // Fetch loyalty points
+                    fetchLoyalty().then((points) => {
+                        // Create a new div element for displaying loyalty points
+                        const pointsDiv = document.createElement('section');
+                        const pointsDesc = document.createElement('p');
+                        pointsDesc.id = 'pointsDesc';
+                        if (points == null) {
+                            pointsDesc.innerHTML = "Could not find loyalty points for this account, make sure you are logged in or refresh the page.";
+                        } else {
+                            pointsDesc.innerHTML = `Loyalty points balance ${points}`;
                         }
+                        pointsDiv.appendChild(pointsDesc);
+                        pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
 
-                        loyaltyPointsBtn.removeAttribute('disabled');
-                        errorMessage.style.display = 'none';
-                        cancelButton.style.display = 'block';
-                        window.location.reload();
-                    })
-                    .catch((err) => {
-                        // do something here to let the user know the discount failed
-                        loyaltyPointsBtn.removeAttribute('disabled');
-                        loyaltyPointsBtn.textContent = 'Apply discount';
-                        pointsInput.value = '';
-                        errorMessage.style.display = 'block';
-                    });
-            });
+                        // Create a label and input for entering points to use
+                        const label = document.createElement('label');
+                        label.setAttribute('for', 'points-input');
+                        label.classList.add('loyaltyLabel');
+                        pointsDiv.appendChild(label);
 
-            cancelButton.addEventListener('click', () => {
-                cancelButton.setAttribute('disabled', 'true');
-                cancelButton.textContent = 'Removing...';
-                fetch(
-                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=0`
-                )
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error('Failed to remove discount');
-                        }
-                        cancelButton.removeAttribute('disabled');
-                        errorMessage.style.display = 'none';
-                        cancelButton.style.display = 'none';
-                        window.location.reload();
-                    })
-                    .catch((err) => {
-                        // do something here to let the user know the discount failed
-                        cancelButton.removeAttribute('disabled');
-                        cancelButton.textContent = 'Remove Discount';
-                        pointsInput.value = '';
-                        errorMessage.style.display = 'block';
-                    });
-            });
-        });
-    }
+                        const pointsInput = document.createElement('input');
+                        pointsInput.type = 'number';
+                        pointsInput.id = 'points-input';
+                        pointsInput.min = 0;
+                        pointsInput.max = points;
+                        pointsInput.placeholder = 'How many?';
+                        pointsDiv.appendChild(pointsInput);
 
-    function generateNewSummary(currentUserPoints) {
-        const masterContainer = document.createElement('div');
-        const masterText = document.createElement('p');
-        masterText.classList.add('loyalty-summary');
-        masterText.textContent = 'Loyalty Points Summary';
-        masterContainer.appendChild(masterText);
+                        pointsInput.addEventListener('input', () => {
+                            if (Number(pointsInput.value) > points) {
+                                pointsInput.value = points;
+                            }
+                        });
 
-        const discountEl = document.querySelector(
-            '[data-test="cart-discount"] [data-test="cart-price-value"]'
-        );
-        const subtotalEl = document.querySelector(
-            '[data-test="cart-subtotal"] [data-test="cart-price-value"]'
-        );
-        const couponDiscountEl = document.querySelector(
-            '[data-test="cart-coupon"] [data-test="cart-price-value"]'
-        );
-        const pointsInput = document.getElementById('points-input');
+                        const confirmButton = document.createElement('button');
+                        confirmButton.textContent = 'Apply discount';
+                        confirmButton.id = 'loyaltyPointsBtn';
+                        confirmButton.className = 'btn btn-primary';
+                        pointsDiv.appendChild(confirmButton);
 
-        let discountPriceValue = 0;
-        let discountLoyalPointValue = 0;
-        let earningPriceValue = 0;
-        let earningLoyalPointValue = 0;
-
-        if (discountEl) {
-            // Discount Div
-            const discountContainer = document.createElement('div');
-            discountContainer.classList.add('cart-summaryItem');
-
-            const discountDescription = document.createElement('div');
-            const discountValue = document.createElement('div');
-
-            discountDescription.textContent = 'Points redeemed';
-
-            discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '');
-            discountPriceValue = Math.abs(Number(discountPriceValue));
-            discountLoyalPointValue = Math.floor(discountPriceValue * 100);
-
-            discountValue.textContent = `-${discountLoyalPointValue}`;
-
-            discountContainer.appendChild(discountDescription);
-            discountContainer.appendChild(discountValue);
-            masterContainer.appendChild(discountContainer);
-        }
-        if (subtotalEl) {
-            // Earning Div
-            const earningContainer = document.createElement('div');
-            earningContainer.classList.add('cart-summaryItem');
-
-            const earningDescription = document.createElement('div');
-            const earningValue = document.createElement('div');
-
-            earningDescription.textContent = 'Points earned';
-            earningPriceValue = subtotalEl.innerHTML.replace(/[^\d.-]/g, '');
-            earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
-            if (discountEl) {
-                earningPriceValue = earningPriceValue - discountPriceValue;
-            }
-
-            if (couponDiscountEl) {
-                earningPriceValue -= Math.floor(
-                    Math.abs(
-                        Number(
-                            couponDiscountEl.innerHTML.replace(/[^\d.-]/g, '')
+                        const cancelButton = document.createElement('button');
+                        cancelButton.textContent = 'Cancel discount';
+                        cancelButton.id = 'cancelLoyaltyPointsBtn';
+                        cancelButton.className = 'btn btn-secondary';
+                        cancelButton.style.display = document.querySelector(
+                            '[data-test="cart-discount"] [data-test="cart-price-value"]'
                         )
-                    )
-                );
-            }
+                            ? 'block'
+                            : 'none';
+                        pointsDiv.appendChild(cancelButton);
 
-            earningLoyalPointValue = Math.floor(earningPriceValue / 2);
+                        const errorMessage = document.createElement('p');
+                        errorMessage.id = 'usedPointsError';
+                        errorMessage.classList.add('warning');
+                        errorMessage.textContent =
+                            'There was an error applying the discount. Please try again later.';
+                        errorMessage.style.display = 'none';
+                        pointsDiv.appendChild(errorMessage);
 
-            if (earningLoyalPointValue < 0) {
-                earningLoyalPointValue = 0;
-                earningValue.textContent = `0`;
-            } else {
-                earningValue.textContent = `+${earningLoyalPointValue}`;
-            }
+                        // Mount the entire loyalty points div to the parent element
+                        elementToAppend.appendChild(pointsDiv);
 
-            earningContainer.appendChild(earningDescription);
-            earningContainer.appendChild(earningValue);
-            masterContainer.appendChild(earningContainer);
-        }
+                        generateNewSummary(points);
 
-        const finalContainer = document.createElement('div');
-        const finalResult = document.createElement('div');
-        const finalResultText = document.createElement('p');
+                        loyaltyPointsBtn.addEventListener('click', () => {
+                            if (pointsInput.value === '') {
+                                return;
+                            }
 
-        const finalType = document.createElement('div');
-        const finalTypeText = document.createElement('p');
-        finalTypeText.textContent = 'Estimated total after purchase:';
+                            loyaltyPointsBtn.setAttribute('disabled', 'true');
+                            loyaltyPointsBtn.textContent = 'Processing';
 
-        if (discountEl) {
-            finalResultText.textContent = `${
-                currentUserPoints +
-                earningLoyalPointValue -
-                discountLoyalPointValue
-            }`;
-        } else {
-            finalResultText.textContent = `${
-                currentUserPoints + earningLoyalPointValue
-            }`;
-        }
+                            fetch(
+                                `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}&max_points=${points}`
+                            )
+                                .then((response) => {
+                                    if (!response.ok) {
+                                        // do something here to let the user know the discount failed
+                                        throw new Error('Failed to apply discount');
+                                    }
 
-        finalType.appendChild(finalTypeText);
-        finalResult.appendChild(finalResultText);
-        finalContainer.appendChild(finalType);
-        finalContainer.appendChild(finalResult);
-        finalContainer.classList.add('cart-resultItem');
+                                    loyaltyPointsBtn.removeAttribute('disabled');
+                                    errorMessage.style.display = 'none';
+                                    cancelButton.style.display = 'block';
+                                    window.location.reload();
+                                })
+                                .catch((err) => {
+                                    // do something here to let the user know the discount failed
+                                    loyaltyPointsBtn.removeAttribute('disabled');
+                                    loyaltyPointsBtn.textContent = 'Apply discount';
+                                    pointsInput.value = '';
+                                    errorMessage.style.display = 'block';
+                                });
+                        });
 
-        masterContainer.appendChild(finalContainer);
-        // pointsDiv.insertAdjacentHTML('afterend', finalContainer.innerHTML);
-        pointsInput.insertAdjacentHTML('afterend', masterContainer.outerHTML);
+                        cancelButton.addEventListener('click', () => {
+                            cancelButton.setAttribute('disabled', 'true');
+                            cancelButton.textContent = 'Removing...';
+                            fetch(
+                                `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=0`
+                            )
+                                .then((response) => {
+                                    if (!response.ok) {
+                                        throw new Error('Failed to remove discount');
+                                    }
+                                    cancelButton.removeAttribute('disabled');
+                                    errorMessage.style.display = 'none';
+                                    cancelButton.style.display = 'none';
+                                    window.location.reload();
+                                })
+                                .catch((err) => {
+                                    // do something here to let the user know the discount failed
+                                    cancelButton.removeAttribute('disabled');
+                                    cancelButton.textContent = 'Remove Discount';
+                                    pointsInput.value = '';
+                                    errorMessage.style.display = 'block';
+                                });
+                        });
+                    });
+                }
 
-        // fix for mobile not showing button
-        const parentSelectorMobile =
-            '.cart-modal-body.optimizedCheckout-orderSummary';
-        if (document.querySelector(parentSelectorMobile)) {
-            const confirmButton = document.querySelector('#loyaltyPointsBtn');
-            confirmButton.focus();
-        }
-    }
+                function generateNewSummary(currentUserPoints) {
+                    const masterContainer = document.createElement('div');
+                    const masterText = document.createElement('p');
+                    masterText.classList.add('loyalty-summary');
+                    masterText.textContent = 'Loyalty Points Summary';
+                    masterContainer.appendChild(masterText);
 
-    function fetchLoyalty() {
-        return fetch('/graphql', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer {{ settings.storefront_api.token }}',
-            },
-            body: JSON.stringify({
-                query: `
+                    const discountEl = document.querySelector(
+                        '[data-test="cart-discount"] [data-test="cart-price-value"]'
+                    );
+                    const subtotalEl = document.querySelector(
+                        '[data-test="cart-subtotal"] [data-test="cart-price-value"]'
+                    );
+                    const couponDiscountEl = document.querySelector(
+                        '[data-test="cart-coupon"] [data-test="cart-price-value"]'
+                    );
+                    const pointsInput = document.getElementById('points-input');
+
+                    let discountPriceValue = 0;
+                    let discountLoyalPointValue = 0;
+                    let earningPriceValue = 0;
+                    let earningLoyalPointValue = 0;
+
+                    if (discountEl) {
+                        // Discount Div
+                        const discountContainer = document.createElement('div');
+                        discountContainer.classList.add('cart-summaryItem');
+
+                        const discountDescription = document.createElement('div');
+                        const discountValue = document.createElement('div');
+
+                        discountDescription.textContent = 'Points redeemed';
+
+                        discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '');
+                        discountPriceValue = Math.abs(Number(discountPriceValue));
+                        discountLoyalPointValue = Math.floor(discountPriceValue * 100);
+
+                        discountValue.textContent = `-${discountLoyalPointValue}`;
+
+                        discountContainer.appendChild(discountDescription);
+                        discountContainer.appendChild(discountValue);
+                        masterContainer.appendChild(discountContainer);
+                    }
+                    if (subtotalEl) {
+                        // Earning Div
+                        const earningContainer = document.createElement('div');
+                        earningContainer.classList.add('cart-summaryItem');
+
+                        const earningDescription = document.createElement('div');
+                        const earningValue = document.createElement('div');
+
+                        earningDescription.textContent = 'Points earned';
+                        earningPriceValue = subtotalEl.innerHTML.replace(/[^\d.-]/g, '');
+                        earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
+                        if (discountEl) {
+                            earningPriceValue = earningPriceValue - discountPriceValue;
+                        }
+
+                        if (couponDiscountEl) {
+                            earningPriceValue -= Math.floor(
+                                Math.abs(
+                                    Number(
+                                        couponDiscountEl.innerHTML.replace(/[^\d.-]/g, '')
+                                    )
+                                )
+                            );
+                        }
+
+                        earningLoyalPointValue = Math.floor(earningPriceValue / 2);
+
+                        if (earningLoyalPointValue < 0) {
+                            earningLoyalPointValue = 0;
+                            earningValue.textContent = `0`;
+                        } else {
+                            earningValue.textContent = `+${earningLoyalPointValue}`;
+                        }
+
+                        earningContainer.appendChild(earningDescription);
+                        earningContainer.appendChild(earningValue);
+                        masterContainer.appendChild(earningContainer);
+                    }
+
+                    const finalContainer = document.createElement('div');
+                    const finalResult = document.createElement('div');
+                    const finalResultText = document.createElement('p');
+
+                    const finalType = document.createElement('div');
+                    const finalTypeText = document.createElement('p');
+                    finalTypeText.textContent = 'Estimated total after purchase:';
+
+                    if (discountEl) {
+                        finalResultText.textContent = `${currentUserPoints +
+                            earningLoyalPointValue -
+                            discountLoyalPointValue
+                            }`;
+                    } else {
+                        finalResultText.textContent = `${currentUserPoints + earningLoyalPointValue
+                            }`;
+                    }
+
+                    finalType.appendChild(finalTypeText);
+                    finalResult.appendChild(finalResultText);
+                    finalContainer.appendChild(finalType);
+                    finalContainer.appendChild(finalResult);
+                    finalContainer.classList.add('cart-resultItem');
+
+                    masterContainer.appendChild(finalContainer);
+                    // pointsDiv.insertAdjacentHTML('afterend', finalContainer.innerHTML);
+                    pointsInput.insertAdjacentHTML('afterend', masterContainer.outerHTML);
+
+                    // fix for mobile not showing button
+                    const parentSelectorMobile =
+                        '.cart-modal-body.optimizedCheckout-orderSummary';
+                    if (document.querySelector(parentSelectorMobile)) {
+                        const confirmButton = document.querySelector('#loyaltyPointsBtn');
+                        confirmButton.focus();
+                    }
+                }
+
+                function fetchLoyalty() {
+                    return fetch('/graphql', {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: 'Bearer {{ settings.storefront_api.token }}',
+                        },
+                        body: JSON.stringify({
+                            query: `
                     query loyaltyQuery{
                         customer {
                             attributes {
@@ -528,288 +508,286 @@
                         }
                     }
                 `,
-            }),
-        })
-            .then((res) => res.json())
-            .then((json) => {
-                const attribute = json.data.customer.attributes.attribute;
-                const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
-                return Number(points);
-            })
-            .catch((error) => {
-                console.error('Error fetching loyalty points:', error);
-                return 0; // Return '0' in case of error
-            });
-    }
-</script>
-{{else if customer_group_name '===' 'Breeder'}}
-<script>
-    // Handles the loyalty points
-    const parentSelectorDesktop = '.cart.optimizedCheckout-orderSummary';
-    const parentSelectorMobile =
-        '.cart-modal-body.optimizedCheckout-orderSummary';
-
-    ready(parentSelectorDesktop, (parentElement) => {
-        loyaltyInitialize(parentElement);
-    });
-
-    ready(parentSelectorMobile, (parentElement) => {
-        loyaltyInitialize(parentElement);
-    });
-
-    function loyaltyInitialize(elementToAppend) {
-        // Fetch loyalty points
-        fetchLoyalty().then((points) => {
-            // Create a new div element for displaying loyalty points
-            const pointsDiv = document.createElement('section');
-            const pointsDesc = document.createElement('p');
-            pointsDesc.id = 'pointsDesc';
-            if (points == null) {
-                pointsDesc.innerHTML = "Could not find loyalty points for this account, make sure you are logged in or refresh the page.";
-            } else {
-                pointsDesc.innerHTML = `Loyalty points balance ${points}`;
-            }
-            pointsDiv.appendChild(pointsDesc);
-            pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
-
-            // Create a label and input for entering points to use
-            const label = document.createElement('label');
-            label.setAttribute('for', 'points-input');
-            label.classList.add('loyaltyLabel');
-            pointsDiv.appendChild(label);
-
-            const pointsInput = document.createElement('input');
-            pointsInput.type = 'number';
-            pointsInput.id = 'points-input';
-            pointsInput.min = 0;
-            pointsInput.max = points;
-            pointsInput.placeholder = 'How many?';
-            pointsDiv.appendChild(pointsInput);
-
-            pointsInput.addEventListener('input', () => {
-                if (Number(pointsInput.value) > points) {
-                    pointsInput.value = points;
-                }
-            });
-
-            const confirmButton = document.createElement('button');
-            confirmButton.textContent = 'Apply discount';
-            confirmButton.id = 'loyaltyPointsBtn';
-            confirmButton.className = 'btn btn-primary';
-            pointsDiv.appendChild(confirmButton);
-
-            const cancelButton = document.createElement('button');
-            cancelButton.textContent = 'Cancel discount';
-            cancelButton.id = 'cancelLoyaltyPointsBtn';
-            cancelButton.className = 'btn btn-secondary';
-            cancelButton.style.display = document.querySelector(
-                '[data-test="cart-discount"] [data-test="cart-price-value"]'
-            )
-                ? 'block'
-                : 'none';
-            pointsDiv.appendChild(cancelButton);
-
-            const errorMessage = document.createElement('p');
-            errorMessage.id = 'usedPointsError';
-            errorMessage.classList.add('warning');
-            errorMessage.textContent =
-                'There was an error applying the discount. Please try again later.';
-            errorMessage.style.display = 'none';
-            pointsDiv.appendChild(errorMessage);
-
-            // Mount the entire loyalty points div to the parent element
-            elementToAppend.appendChild(pointsDiv);
-
-            generateNewSummary(points);
-
-            loyaltyPointsBtn.addEventListener('click', () => {
-                if (pointsInput.value === '') {
-                    return;
-                }
-
-                loyaltyPointsBtn.setAttribute('disabled', 'true');
-                loyaltyPointsBtn.textContent = 'Processing';
-
-                fetch(
-                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}&max_points=${points}`
-                )
-                    .then((response) => {
-                        if (!response.ok) {
-                            // do something here to let the user know the discount failed
-                            throw new Error('Failed to apply discount');
-                        }
-
-                        loyaltyPointsBtn.removeAttribute('disabled');
-                        errorMessage.style.display = 'none';
-                        cancelButton.style.display = 'block';
-                        window.location.reload();
+                        }),
                     })
-                    .catch((err) => {
-                        // do something here to let the user know the discount failed
-                        loyaltyPointsBtn.removeAttribute('disabled');
-                        loyaltyPointsBtn.textContent = 'Apply discount';
-                        pointsInput.value = '';
-                        errorMessage.style.display = 'block';
-                    });
-            });
+                        .then((res) => res.json())
+                        .then((json) => {
+                            const attribute = json.data.customer.attributes.attribute;
+                            const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
+                            return Number(points);
+                        })
+                        .catch((error) => {
+                            console.error('Error fetching loyalty points:', error);
+                            return 0; // Return '0' in case of error
+                        });
+                }
+            </script>
+        {{else if customer_group_name '===' 'Breeder'}}
+            <script>
+                // Handles the loyalty points
+                const parentSelectorDesktop = '.cart.optimizedCheckout-orderSummary';
+                const parentSelectorMobile =
+                    '.cart-modal-body.optimizedCheckout-orderSummary';
 
-            cancelButton.addEventListener('click', () => {
-                cancelButton.setAttribute('disabled', 'true');
-                cancelButton.textContent = 'Removing...';
-                fetch(
-                    `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=0`
-                )
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error('Failed to remove discount');
+                ready(parentSelectorDesktop, (parentElement) => {
+                    loyaltyInitialize(parentElement);
+                });
+
+                ready(parentSelectorMobile, (parentElement) => {
+                    loyaltyInitialize(parentElement);
+                });
+
+                function loyaltyInitialize(elementToAppend) {
+                    // Fetch loyalty points
+                    fetchLoyalty().then((points) => {
+                        // Create a new div element for displaying loyalty points
+                        const pointsDiv = document.createElement('section');
+                        const pointsDesc = document.createElement('p');
+                        pointsDesc.id = 'pointsDesc';
+                        if (points == null) {
+                            pointsDesc.innerHTML = "Could not find loyalty points for this account, make sure you are logged in or refresh the page.";
+                        } else {
+                            pointsDesc.innerHTML = `Loyalty points balance ${points}`;
                         }
-                        cancelButton.removeAttribute('disabled');
-                        errorMessage.style.display = 'none';
-                        cancelButton.style.display = 'none';
-                        window.location.reload();
-                    })
-                    .catch((err) => {
-                        // do something here to let the user know the discount failed
-                        cancelButton.removeAttribute('disabled');
-                        cancelButton.textContent = 'Remove Discount';
-                        pointsInput.value = '';
-                        errorMessage.style.display = 'block';
-                    });
-            });
-        });
-    }
+                        pointsDiv.appendChild(pointsDesc);
+                        pointsDiv.className = 'cart-section optimizedCheckout-orderSummary-cartSection loyalty-points';
 
-    function generateNewSummary(currentUserPoints) {
-        const masterContainer = document.createElement('div');
-        const masterText = document.createElement('p');
-        masterText.classList.add('loyalty-summary');
-        masterText.textContent = 'Loyalty Points Summary';
-        masterContainer.appendChild(masterText);
+                        // Create a label and input for entering points to use
+                        const label = document.createElement('label');
+                        label.setAttribute('for', 'points-input');
+                        label.classList.add('loyaltyLabel');
+                        pointsDiv.appendChild(label);
 
-        const discountEl = document.querySelector(
-            '[data-test="cart-discount"] [data-test="cart-price-value"]'
-        );
-        const subtotalEl = document.querySelector(
-            '[data-test="cart-subtotal"] [data-test="cart-price-value"]'
-        );
-        const couponDiscountEl = document.querySelector(
-            '[data-test="cart-coupon"] [data-test="cart-price-value"]'
-        );
-        const pointsInput = document.getElementById('points-input');
+                        const pointsInput = document.createElement('input');
+                        pointsInput.type = 'number';
+                        pointsInput.id = 'points-input';
+                        pointsInput.min = 0;
+                        pointsInput.max = points;
+                        pointsInput.placeholder = 'How many?';
+                        pointsDiv.appendChild(pointsInput);
 
-        let discountPriceValue = 0;
-        let discountLoyalPointValue = 0;
-        let earningPriceValue = 0;
-        let earningLoyalPointValue = 0;
+                        pointsInput.addEventListener('input', () => {
+                            if (Number(pointsInput.value) > points) {
+                                pointsInput.value = points;
+                            }
+                        });
 
-        if (discountEl) {
-            // Discount Div
-            const discountContainer = document.createElement('div');
-            discountContainer.classList.add('cart-summaryItem');
+                        const confirmButton = document.createElement('button');
+                        confirmButton.textContent = 'Apply discount';
+                        confirmButton.id = 'loyaltyPointsBtn';
+                        confirmButton.className = 'btn btn-primary';
+                        pointsDiv.appendChild(confirmButton);
 
-            const discountDescription = document.createElement('div');
-            const discountValue = document.createElement('div');
-
-            discountDescription.textContent = 'Points redeemed';
-
-            discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '');
-            discountPriceValue = Math.abs(Number(discountPriceValue));
-            discountLoyalPointValue = Math.floor(discountPriceValue * 100);
-
-            discountValue.textContent = `-${discountLoyalPointValue}`;
-
-            discountContainer.appendChild(discountDescription);
-            discountContainer.appendChild(discountValue);
-            masterContainer.appendChild(discountContainer);
-        }
-        if (subtotalEl) {
-            // Earning Div
-            const earningContainer = document.createElement('div');
-            earningContainer.classList.add('cart-summaryItem');
-
-            const earningDescription = document.createElement('div');
-            const earningValue = document.createElement('div');
-
-            earningDescription.textContent = 'Points earned';
-            earningPriceValue = subtotalEl.innerHTML.replace(/[^\d.-]/g, '');
-            earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
-            if (discountEl) {
-                earningPriceValue = earningPriceValue - discountPriceValue;
-            }
-
-            if (couponDiscountEl) {
-                earningPriceValue -= Math.floor(
-                    Math.abs(
-                        Number(
-                            couponDiscountEl.innerHTML.replace(/[^\d.-]/g, '')
+                        const cancelButton = document.createElement('button');
+                        cancelButton.textContent = 'Cancel discount';
+                        cancelButton.id = 'cancelLoyaltyPointsBtn';
+                        cancelButton.className = 'btn btn-secondary';
+                        cancelButton.style.display = document.querySelector(
+                            '[data-test="cart-discount"] [data-test="cart-price-value"]'
                         )
-                    )
-                );
-            }
+                            ? 'block'
+                            : 'none';
+                        pointsDiv.appendChild(cancelButton);
 
-            earningLoyalPointValue = Math.floor(earningPriceValue / 2);
+                        const errorMessage = document.createElement('p');
+                        errorMessage.id = 'usedPointsError';
+                        errorMessage.classList.add('warning');
+                        errorMessage.textContent =
+                            'There was an error applying the discount. Please try again later.';
+                        errorMessage.style.display = 'none';
+                        pointsDiv.appendChild(errorMessage);
 
-            if (earningLoyalPointValue < 0) {
-                earningLoyalPointValue = 0;
-                earningValue.textContent = `0`;
-            } else {
-                earningValue.textContent = `+${earningLoyalPointValue}`;
-            }
+                        // Mount the entire loyalty points div to the parent element
+                        elementToAppend.appendChild(pointsDiv);
 
-            earningContainer.appendChild(earningDescription);
-            earningContainer.appendChild(earningValue);
-            masterContainer.appendChild(earningContainer);
-        }
+                        generateNewSummary(points);
 
-        const finalContainer = document.createElement('div');
-        const finalResult = document.createElement('div');
-        const finalResultText = document.createElement('p');
+                        loyaltyPointsBtn.addEventListener('click', () => {
+                            if (pointsInput.value === '') {
+                                return;
+                            }
 
-        const finalType = document.createElement('div');
-        const finalTypeText = document.createElement('p');
-        finalTypeText.textContent = 'Estimated total after purchase:';
+                            loyaltyPointsBtn.setAttribute('disabled', 'true');
+                            loyaltyPointsBtn.textContent = 'Processing';
 
-        if (discountEl) {
-            finalResultText.textContent = `${
-                currentUserPoints +
-                earningLoyalPointValue -
-                discountLoyalPointValue
-            }`;
-        } else {
-            finalResultText.textContent = `${
-                currentUserPoints + earningLoyalPointValue
-            }`;
-        }
+                            fetch(
+                                `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}&max_points=${points}`
+                            )
+                                .then((response) => {
+                                    if (!response.ok) {
+                                        // do something here to let the user know the discount failed
+                                        throw new Error('Failed to apply discount');
+                                    }
 
-        finalType.appendChild(finalTypeText);
-        finalResult.appendChild(finalResultText);
-        finalContainer.appendChild(finalType);
-        finalContainer.appendChild(finalResult);
-        finalContainer.classList.add('cart-resultItem');
+                                    loyaltyPointsBtn.removeAttribute('disabled');
+                                    errorMessage.style.display = 'none';
+                                    cancelButton.style.display = 'block';
+                                    window.location.reload();
+                                })
+                                .catch((err) => {
+                                    // do something here to let the user know the discount failed
+                                    loyaltyPointsBtn.removeAttribute('disabled');
+                                    loyaltyPointsBtn.textContent = 'Apply discount';
+                                    pointsInput.value = '';
+                                    errorMessage.style.display = 'block';
+                                });
+                        });
 
-        masterContainer.appendChild(finalContainer);
-        // pointsDiv.insertAdjacentHTML('afterend', finalContainer.innerHTML);
-        pointsInput.insertAdjacentHTML('afterend', masterContainer.outerHTML);
+                        cancelButton.addEventListener('click', () => {
+                            cancelButton.setAttribute('disabled', 'true');
+                            cancelButton.textContent = 'Removing...';
+                            fetch(
+                                `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=0`
+                            )
+                                .then((response) => {
+                                    if (!response.ok) {
+                                        throw new Error('Failed to remove discount');
+                                    }
+                                    cancelButton.removeAttribute('disabled');
+                                    errorMessage.style.display = 'none';
+                                    cancelButton.style.display = 'none';
+                                    window.location.reload();
+                                })
+                                .catch((err) => {
+                                    // do something here to let the user know the discount failed
+                                    cancelButton.removeAttribute('disabled');
+                                    cancelButton.textContent = 'Remove Discount';
+                                    pointsInput.value = '';
+                                    errorMessage.style.display = 'block';
+                                });
+                        });
+                    });
+                }
 
-        // fix for mobile not showing button
-        const parentSelectorMobile =
-            '.cart-modal-body.optimizedCheckout-orderSummary';
-        if (document.querySelector(parentSelectorMobile)) {
-            const confirmButton = document.querySelector('#loyaltyPointsBtn');
-            confirmButton.focus();
-        }
-    }
+                function generateNewSummary(currentUserPoints) {
+                    const masterContainer = document.createElement('div');
+                    const masterText = document.createElement('p');
+                    masterText.classList.add('loyalty-summary');
+                    masterText.textContent = 'Loyalty Points Summary';
+                    masterContainer.appendChild(masterText);
 
-    function fetchLoyalty() {
-        return fetch('/graphql', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer {{ settings.storefront_api.token }}',
-            },
-            body: JSON.stringify({
-                query: `
+                    const discountEl = document.querySelector(
+                        '[data-test="cart-discount"] [data-test="cart-price-value"]'
+                    );
+                    const subtotalEl = document.querySelector(
+                        '[data-test="cart-subtotal"] [data-test="cart-price-value"]'
+                    );
+                    const couponDiscountEl = document.querySelector(
+                        '[data-test="cart-coupon"] [data-test="cart-price-value"]'
+                    );
+                    const pointsInput = document.getElementById('points-input');
+
+                    let discountPriceValue = 0;
+                    let discountLoyalPointValue = 0;
+                    let earningPriceValue = 0;
+                    let earningLoyalPointValue = 0;
+
+                    if (discountEl) {
+                        // Discount Div
+                        const discountContainer = document.createElement('div');
+                        discountContainer.classList.add('cart-summaryItem');
+
+                        const discountDescription = document.createElement('div');
+                        const discountValue = document.createElement('div');
+
+                        discountDescription.textContent = 'Points redeemed';
+
+                        discountPriceValue = discountEl.innerHTML.replace(/[^\d.-]/g, '');
+                        discountPriceValue = Math.abs(Number(discountPriceValue));
+                        discountLoyalPointValue = Math.floor(discountPriceValue * 100);
+
+                        discountValue.textContent = `-${discountLoyalPointValue}`;
+
+                        discountContainer.appendChild(discountDescription);
+                        discountContainer.appendChild(discountValue);
+                        masterContainer.appendChild(discountContainer);
+                    }
+                    if (subtotalEl) {
+                        // Earning Div
+                        const earningContainer = document.createElement('div');
+                        earningContainer.classList.add('cart-summaryItem');
+
+                        const earningDescription = document.createElement('div');
+                        const earningValue = document.createElement('div');
+
+                        earningDescription.textContent = 'Points earned';
+                        earningPriceValue = subtotalEl.innerHTML.replace(/[^\d.-]/g, '');
+                        earningPriceValue = Number(earningPriceValue); // Use parseFloat to handle decimal values
+                        if (discountEl) {
+                            earningPriceValue = earningPriceValue - discountPriceValue;
+                        }
+
+                        if (couponDiscountEl) {
+                            earningPriceValue -= Math.floor(
+                                Math.abs(
+                                    Number(
+                                        couponDiscountEl.innerHTML.replace(/[^\d.-]/g, '')
+                                    )
+                                )
+                            );
+                        }
+
+                        earningLoyalPointValue = Math.floor(earningPriceValue / 2);
+
+                        if (earningLoyalPointValue < 0) {
+                            earningLoyalPointValue = 0;
+                            earningValue.textContent = `0`;
+                        } else {
+                            earningValue.textContent = `+${earningLoyalPointValue}`;
+                        }
+
+                        earningContainer.appendChild(earningDescription);
+                        earningContainer.appendChild(earningValue);
+                        masterContainer.appendChild(earningContainer);
+                    }
+
+                    const finalContainer = document.createElement('div');
+                    const finalResult = document.createElement('div');
+                    const finalResultText = document.createElement('p');
+
+                    const finalType = document.createElement('div');
+                    const finalTypeText = document.createElement('p');
+                    finalTypeText.textContent = 'Estimated total after purchase:';
+
+                    if (discountEl) {
+                        finalResultText.textContent = `${currentUserPoints +
+                            earningLoyalPointValue -
+                            discountLoyalPointValue
+                            }`;
+                    } else {
+                        finalResultText.textContent = `${currentUserPoints + earningLoyalPointValue
+                            }`;
+                    }
+
+                    finalType.appendChild(finalTypeText);
+                    finalResult.appendChild(finalResultText);
+                    finalContainer.appendChild(finalType);
+                    finalContainer.appendChild(finalResult);
+                    finalContainer.classList.add('cart-resultItem');
+
+                    masterContainer.appendChild(finalContainer);
+                    // pointsDiv.insertAdjacentHTML('afterend', finalContainer.innerHTML);
+                    pointsInput.insertAdjacentHTML('afterend', masterContainer.outerHTML);
+
+                    // fix for mobile not showing button
+                    const parentSelectorMobile =
+                        '.cart-modal-body.optimizedCheckout-orderSummary';
+                    if (document.querySelector(parentSelectorMobile)) {
+                        const confirmButton = document.querySelector('#loyaltyPointsBtn');
+                        confirmButton.focus();
+                    }
+                }
+
+                function fetchLoyalty() {
+                    return fetch('/graphql', {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: 'Bearer {{ settings.storefront_api.token }}',
+                        },
+                        body: JSON.stringify({
+                            query: `
                     query loyaltyQuery{
                         customer {
                             attributes {
@@ -821,49 +799,49 @@
                         }
                     }
                 `,
-            }),
-        })
-            .then((res) => res.json())
-            .then((json) => {
-                const attribute = json.data.customer.attributes.attribute;
-                const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
-                return Number(points);
-            })
-            .catch((error) => {
-                console.error('Error fetching loyalty points:', error);
-                return 0; // Return '0' in case of error
-            });
-    }
-</script>
-{{/if}}
-{{/if}}
+                        }),
+                    })
+                        .then((res) => res.json())
+                        .then((json) => {
+                            const attribute = json.data.customer.attributes.attribute;
+                            const points = attribute ? attribute.value : '0'; // Default to '0' if attribute is not found
+                            return Number(points);
+                        })
+                        .catch((error) => {
+                            console.error('Error fetching loyalty points:', error);
+                            return 0; // Return '0' in case of error
+                        });
+                }
+            </script>
+        {{/if}}
+    {{/if}}
 
-<script>
-    // ------------------------------------------------------//
-    // change the text on the mobile modal
-    const mobileModalSelector = '.cartDrawer.optimizedCheckout-orderSummary';
-    ready(mobileModalSelector, (mobileModalElement) => {
-        mobileModalElement.querySelector('.cartDrawer-body a').textContent =
-            'Show Details & Rewards';
-    });
+    <script>
+        // ------------------------------------------------------//
+        // change the text on the mobile modal
+        const mobileModalSelector = '.cartDrawer.optimizedCheckout-orderSummary';
+        ready(mobileModalSelector, (mobileModalElement) => {
+            mobileModalElement.querySelector('.cartDrawer-body a').textContent =
+                'Show Details & Rewards';
+        });
 
-    // ------------------------------------------------------//
-    // This  handles 'datepicker' in 'shipping'
-    const shippingSelector = '#checkout-shipping-options';
-    ready(shippingSelector, (shippingOptionsElement) => {
-        createCalendar(shippingOptionsElement);
-    });
+        // ------------------------------------------------------//
+        // This  handles 'datepicker' in 'shipping'
+        const shippingSelector = '#checkout-shipping-options';
+        ready(shippingSelector, (shippingOptionsElement) => {
+            createCalendar(shippingOptionsElement);
+        });
 
-    // Attach the datepicker to the shipping options
-    function createCalendar(parent) {
-        const existingInstructions =
-            document.getElementById('datepicker-hoster');
-        if (existingInstructions) {
-            return;
-        }
+        // Attach the datepicker to the shipping options
+        function createCalendar(parent) {
+            const existingInstructions =
+                document.getElementById('datepicker-hoster');
+            if (existingInstructions) {
+                return;
+            }
 
-        // Define the HTML code for the elements
-        const datePickerHTML = `
+            // Define the HTML code for the elements
+            const datePickerHTML = `
         <div id="datepicker-hoster" class="datepicker">
             <div class="cart-total-label">
                 <strong style="color: #687d6a;">Delivery Date *</strong>
@@ -876,256 +854,256 @@
         </div>
     `;
 
-        parent.insertAdjacentHTML('beforeend', datePickerHTML);
-        getCalendarData();
-    }
+            parent.insertAdjacentHTML('beforeend', datePickerHTML);
+            getCalendarData();
+        }
 
-    // Get data for the calendar
-    function getCalendarData() {
-        // Create calendar and attach date picker logic here
-        let dailyDeliveryLimit = 250;
-        const dailySlotValues = {};
-        const disabledDates = [];
+        // Get data for the calendar
+        function getCalendarData() {
+            // Create calendar and attach date picker logic here
+            let dailyDeliveryLimit = 250;
+            const dailySlotValues = {};
+            const disabledDates = [];
 
-        // get delivery dates from middleware
-        fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                disabledDates.push(...data.unavailableDates);
-                for (const [date, slots] of Object.entries(data.dateSlots)) {
-                    dailySlotValues[date] = slots;
-                }
-                if (data.perDay) {
-                    dailyDeliveryLimit = data.perDay;
-                }
-                attachDatePicker(
-                    dailyDeliveryLimit,
-                    dailySlotValues,
-                    disabledDates
+            // get delivery dates from middleware
+            fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    disabledDates.push(...data.unavailableDates);
+                    for (const [date, slots] of Object.entries(data.dateSlots)) {
+                        dailySlotValues[date] = slots;
+                    }
+                    if (data.perDay) {
+                        dailyDeliveryLimit = data.perDay;
+                    }
+                    attachDatePicker(
+                        dailyDeliveryLimit,
+                        dailySlotValues,
+                        disabledDates
+                    );
+                })
+                .catch((error) => {
+                    console.log('Error calling delivery dates middleware endpoint:', error);
+                    // Handle error if necessary
+                });
+        }
+
+        // Attach the calendar to the datepicker and enable/disable dates
+        function attachDatePicker(
+            dailyDeliveryLimit,
+            dailySlotValues,
+            disabledDates
+        ) {
+            function disableDates(day) {
+                // day gets implicitly passed by jQuery Calendar
+                const selectedShippingMethod = document.querySelector(
+                    '.form-checklist-item--selected'
                 );
-            })
-            .catch((error) => {
-                console.log('Error calling delivery dates middleware endpoint:', error);
-                // Handle error if necessary
-            });
-    }
 
-    // Attach the calendar to the datepicker and enable/disable dates
-    function attachDatePicker(
-        dailyDeliveryLimit,
-        dailySlotValues,
-        disabledDates
-    ) {
-        function disableDates(day) {
-            // day gets implicitly passed by jQuery Calendar
-            const selectedShippingMethod = document.querySelector(
-                '.form-checklist-item--selected'
-            );
-
-            if (!selectedShippingMethod) {
-                return enableWeekdays(day);
-            }
-
-            const isSaturdayDelivery = selectedShippingMethod
-                .querySelector('.shippingOption-desc')
-                .textContent.toLowerCase()
-                .includes('saturday');
-
-            return isSaturdayDelivery
-                ? enableSaturday(day)
-                : enableWeekdays(day);
-        }
-
-        // Disable everything except Saturdays
-        function enableSaturday(day) {
-            const dayBeingCheckedFormatted = $.datepicker.formatDate(
-                'yy-mm-dd',
-                day
-            );
-
-            const dayOfTheWeek = day.getDay();
-            const saturdayDay = 6;
-
-            if (dayOfTheWeek !== saturdayDay) {
-                return [false, '', '']; // disabled boolean, css class, tooltip
-            }
-
-            let slotsForThisDay =
-                dailySlotValues[dayBeingCheckedFormatted] ?? dailyDeliveryLimit;
-            if (slotsForThisDay > dailyDeliveryLimit) {
-                // this should never happen, but just in case
-                slotsForThisDay = dailyDeliveryLimit;
-            }
-
-            // Enable check
-            const isSaturdayEnabled =
-                slotsForThisDay > 0 &&
-                !disabledDates.includes(dayBeingCheckedFormatted);
-
-            return [
-                isSaturdayEnabled,
-                '',
-                `Slots available: ${slotsForThisDay}`,
-            ]; // enabled boolean, css class, tooltip
-        }
-
-        // Enable weekdays
-        function enableWeekdays(day) {
-            const dayBeingCheckedFormatted = $.datepicker.formatDate(
-                'yy-mm-dd',
-                day
-            );
-
-            const dayOfTheWeek = day.getDay();
-            // Disable if 6 (Saturday) 0 (Sunday) or 1 (Monday)
-            if (
-                dayOfTheWeek === 6 ||
-                dayOfTheWeek === 0 ||
-                dayOfTheWeek === 1
-            ) {
-                return [false, '', '']; // disabled boolean, css class, tooltip
-            }
-
-            let slotsForThisDay =
-                dailySlotValues[dayBeingCheckedFormatted] ?? dailyDeliveryLimit;
-            if (slotsForThisDay > dailyDeliveryLimit) {
-                // this should never happen, but just in case
-                slotsForThisDay = dailyDeliveryLimit;
-            }
-
-            const isEnabledDay =
-                slotsForThisDay > 0 &&
-                !disabledDates.includes(dayBeingCheckedFormatted);
-
-            return [isEnabledDay, '', `Slots available: ${slotsForThisDay}`]; // enabled boolean, css class, tooltip
-        }
-
-        $('#datepicker').datepicker({
-            beforeShowDay: disableDates,
-            onClose: function () {
-                const datepicker = document.querySelector('#datepicker');
-                const deliveryDate = datepicker.value;
-                if (deliveryDate) {
-                    sessionStorage.setItem('deliveryDate', deliveryDate);
+                if (!selectedShippingMethod) {
+                    return enableWeekdays(day);
                 }
-            },
-            defaultDate: '+1D',
-            minDate: '+1D',
-            maxDate: '+28D',
-            dateFormat: 'd MM, yy',
-            showOtherMonths: true,
-            firstDay: 1,
-            placeholder: 'Select Date',
-        });
 
-        $('#datepicker').attr('placeholder', 'Select Date');
-    }
+                const isSaturdayDelivery = selectedShippingMethod
+                    .querySelector('.shippingOption-desc')
+                    .textContent.toLowerCase()
+                    .includes('saturday');
 
-    // ------------------------------------------------------//
-    // handle proceed button
-    const proceedButtonSelector = '#proceedButton';
-    ready(proceedButtonSelector, (proceedButton) => {
-        proceedButton.addEventListener('click', function (e) {
-            e.preventDefault();
-            const deliveryDate = sessionStorage.getItem('deliveryDate');
-            const customerMessage = sessionStorage.getItem('customerMessage');
-            const realContinueButton = document.querySelector(
-                '#checkout-shipping-continue'
-            );
-
-            const datepickerErrorElement =
-                document.getElementById('datepicker_err');
-
-            if (!deliveryDate) {
-                datepickerErrorElement.textContent =
-                    'Please select a delivery date before proceeding.';
-                datepickerErrorElement.style.display = 'block';
-                return;
+                return isSaturdayDelivery
+                    ? enableSaturday(day)
+                    : enableWeekdays(day);
             }
-            // Proceed with the form submission
-            datepickerErrorElement.style.display = 'none';
 
-            const selectElement = document.querySelector('#delivery_inst_tag');
-            const selectedValue = selectElement.value;
-            const deliveryInstructions =
-                selectedValue === 'user_instruction' &&
-                customerMessage.length > 0
-                    ? customerMessage
-                    : 'Will be in';
+            // Disable everything except Saturdays
+            function enableSaturday(day) {
+                const dayBeingCheckedFormatted = $.datepicker.formatDate(
+                    'yy-mm-dd',
+                    day
+                );
 
-            const fullInstructions = `${deliveryDate} | ${deliveryInstructions}`;
+                const dayOfTheWeek = day.getDay();
+                const saturdayDay = 6;
 
-            // send the message to the middleware server to store in supabase as a backup if BC fails to store it
-            fetch(
-                `https://purrform-apps-027e.onrender.com/storeCustomerMessage?checkoutId={{cart_id}}&message=${fullInstructions}`,
-                {
-                    method: 'GET',
+                if (dayOfTheWeek !== saturdayDay) {
+                    return [false, '', '']; // disabled boolean, css class, tooltip
+                }
+
+                let slotsForThisDay =
+                    dailySlotValues[dayBeingCheckedFormatted] ?? dailyDeliveryLimit;
+                if (slotsForThisDay > dailyDeliveryLimit) {
+                    // this should never happen, but just in case
+                    slotsForThisDay = dailyDeliveryLimit;
+                }
+
+                // Enable check
+                const isSaturdayEnabled =
+                    slotsForThisDay > 0 &&
+                    !disabledDates.includes(dayBeingCheckedFormatted);
+
+                return [
+                    isSaturdayEnabled,
+                    '',
+                    `Slots available: ${slotsForThisDay}`,
+                ]; // enabled boolean, css class, tooltip
+            }
+
+            // Enable weekdays
+            function enableWeekdays(day) {
+                const dayBeingCheckedFormatted = $.datepicker.formatDate(
+                    'yy-mm-dd',
+                    day
+                );
+
+                const dayOfTheWeek = day.getDay();
+                // Disable if 6 (Saturday) 0 (Sunday) or 1 (Monday)
+                if (
+                    dayOfTheWeek === 6 ||
+                    dayOfTheWeek === 0 ||
+                    dayOfTheWeek === 1
+                ) {
+                    return [false, '', '']; // disabled boolean, css class, tooltip
+                }
+
+                let slotsForThisDay =
+                    dailySlotValues[dayBeingCheckedFormatted] ?? dailyDeliveryLimit;
+                if (slotsForThisDay > dailyDeliveryLimit) {
+                    // this should never happen, but just in case
+                    slotsForThisDay = dailyDeliveryLimit;
+                }
+
+                const isEnabledDay =
+                    slotsForThisDay > 0 &&
+                    !disabledDates.includes(dayBeingCheckedFormatted);
+
+                return [isEnabledDay, '', `Slots available: ${slotsForThisDay}`]; // enabled boolean, css class, tooltip
+            }
+
+            $('#datepicker').datepicker({
+                beforeShowDay: disableDates,
+                onClose: function () {
+                    const datepicker = document.querySelector('#datepicker');
+                    const deliveryDate = datepicker.value;
+                    if (deliveryDate) {
+                        sessionStorage.setItem('deliveryDate', deliveryDate);
+                    }
+                },
+                defaultDate: '+1D',
+                minDate: '+1D',
+                maxDate: '+28D',
+                dateFormat: 'd MM, yy',
+                showOtherMonths: true,
+                firstDay: 1,
+                placeholder: 'Select Date',
+            });
+
+            $('#datepicker').attr('placeholder', 'Select Date');
+        }
+
+        // ------------------------------------------------------//
+        // handle proceed button
+        const proceedButtonSelector = '#proceedButton';
+        ready(proceedButtonSelector, (proceedButton) => {
+            proceedButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                const deliveryDate = sessionStorage.getItem('deliveryDate');
+                const customerMessage = sessionStorage.getItem('customerMessage');
+                const realContinueButton = document.querySelector(
+                    '#checkout-shipping-continue'
+                );
+
+                const datepickerErrorElement =
+                    document.getElementById('datepicker_err');
+
+                if (!deliveryDate) {
+                    datepickerErrorElement.textContent =
+                        'Please select a delivery date before proceeding.';
+                    datepickerErrorElement.style.display = 'block';
+                    return;
+                }
+                // Proceed with the form submission
+                datepickerErrorElement.style.display = 'none';
+
+                const selectElement = document.querySelector('#delivery_inst_tag');
+                const selectedValue = selectElement.value;
+                const deliveryInstructions =
+                    selectedValue === 'user_instruction' &&
+                        customerMessage.length > 0
+                        ? customerMessage
+                        : 'Will be in';
+
+                const fullInstructions = `${deliveryDate} | ${deliveryInstructions}`;
+
+                // send the message to the middleware server to store in supabase as a backup if BC fails to store it
+                fetch(
+                    `https://purrform-apps-027e.onrender.com/storeCustomerMessage?checkoutId={{cart_id}}&message=${fullInstructions}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Failed to store customer message');
+                        }
+                        console.log('Customer message stored successfully');
+                    })
+                    .catch((error) => {
+                        console.error(
+                            'Error storing customer message in supabase:',
+                            error
+                        );
+                    });
+
+                const realCommentsInput = document.querySelector(
+                    'input[name="orderComment"]'
+                );
+
+                // Update the customer message with the delivery instructions
+                fetch(`/api/storefront/checkouts/{{cart_id}}`, {
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                }
-            )
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Failed to store customer message');
-                    }
-                    console.log('Customer message stored successfully');
+                    body: JSON.stringify({
+                        customerMessage: fullInstructions,
+                    }),
                 })
-                .catch((error) => {
-                    console.error(
-                        'Error storing customer message in supabase:',
-                        error
-                    );
-                });
-
-            const realCommentsInput = document.querySelector(
-                'input[name="orderComment"]'
-            );
-
-            // Update the customer message with the delivery instructions
-            fetch(`/api/storefront/checkouts/{{cart_id}}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    customerMessage: fullInstructions,
-                }),
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('PUT request failed');
-                    }
-                    sessionStorage.removeItem('deliveryDate');
-                    sessionStorage.removeItem('customerMessage');
-                    realCommentsInput.value = fullInstructions;
-                    realContinueButton.click();
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    realCommentsInput.value = fullInstructions;
-                });
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('PUT request failed');
+                        }
+                        sessionStorage.removeItem('deliveryDate');
+                        sessionStorage.removeItem('customerMessage');
+                        realCommentsInput.value = fullInstructions;
+                        realContinueButton.click();
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        realCommentsInput.value = fullInstructions;
+                    });
+            });
         });
-    });
 
-    // ------------------------------------------------------//
-    // This handles the delivery details / customer message
-    const deliveryDetailsSelector =
-        'fieldset.form-fieldset[data-test="checkout-shipping-comments"]';
-    ready(deliveryDetailsSelector, (deliveryDetailsElement) => {
-        const existingInstructions =
-            document.getElementById('instruction-wrap');
-        if (existingInstructions) {
-            return;
-        }
+        // ------------------------------------------------------//
+        // This handles the delivery details / customer message
+        const deliveryDetailsSelector =
+            'fieldset.form-fieldset[data-test="checkout-shipping-comments"]';
+        ready(deliveryDetailsSelector, (deliveryDetailsElement) => {
+            const existingInstructions =
+                document.getElementById('instruction-wrap');
+            if (existingInstructions) {
+                return;
+            }
 
-        // generate custom HTML
-        const instructionsDiv = `
+            // generate custom HTML
+            const instructionsDiv = `
         <div id="instruction-wrap" class="delivery_instruction_wrapper">
             <div class="del_cont">
                 <label class="form-legend optimizedCheckout-headingSecondary">Delivery Details</label>
@@ -1140,586 +1118,600 @@
         </div>
         `;
 
-        deliveryDetailsElement.insertAdjacentHTML('afterend', instructionsDiv);
+            deliveryDetailsElement.insertAdjacentHTML('afterend', instructionsDiv);
 
-        const selectElement = document.getElementById('delivery_inst_tag');
-        const textarea = document.getElementById('delivery_user_text');
-        const wordLimit = document.getElementById('word_limit');
+            const selectElement = document.getElementById('delivery_inst_tag');
+            const textarea = document.getElementById('delivery_user_text');
+            const wordLimit = document.getElementById('word_limit');
 
-        selectElement.addEventListener('change', function () {
-            const selectedValue = selectElement.value;
-            if (selectedValue === 'user_instruction') {
-                textarea.style.display = 'block';
-                wordLimit.style.display = 'block';
-                textarea.focus();
-            } else {
-                wordLimit.style.display = 'none';
-                textarea.style.display = 'none';
-            }
-        });
-
-        textarea.addEventListener('input', function () {
-            wordLimit.textContent = `(${50 - textarea.value.length} characters)`;
-            const deliveryInstructions = textarea.value;
-            sessionStorage.setItem('customerMessage', deliveryInstructions);
-        });
-    });
-
-    // ------------------------------------------------------//
-    // This handles the payment continue button
-    const paymentContinueButtonSelector = '#checkout-payment-continue';
-    ready(paymentContinueButtonSelector, (paymentContinueButton) => {
-        if (document.getElementById('fakeButton')) {
-            document.getElementById('fakeButton').remove();
-        }
-        const fakeButton = document.createElement('div');
-        const missingWarn = document.createElement('p');
-        const parent = document.querySelector(
-            '.checkout-step--payment .checkout-form .form-actions'
-        );
-
-        // hide the real button
-        paymentContinueButton.style.display = 'none';
-
-        // Generate placeholder button
-        fakeButton.innerHTML = 'Place Order';
-        fakeButton.id = 'fakeButton';
-        fakeButton.style.display = 'block';
-
-        // Generate warning text
-        missingWarn.classList.add('warning');
-        missingWarn.textContent =
-            "Cannot find delivery date. Please edit your Shipping details above and select a delivery date.";
-        missingWarn.style.display = 'none';
-
-        // Append the button to the body of the HTML document
-        parent.appendChild(missingWarn);
-        parent.appendChild(fakeButton);
-
-        fakeButton.addEventListener('click', async () => {
-            const disabledDates = await fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
-                            .then((response) => {
-                                if (!response.ok) {
-                                    throw new Error('Network response was not ok');
-                                }
-                                return response.json();
-                            })
-                            .then((data) => {
-                                return data.unavailableDates;
-                            })
-                            .catch((error) => {
-                                console.error('Error calling delivery dates middleware endpoint:', error);
-                            });
-
-            fetch(`/api/storefront/checkouts/{{cart_id}}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('GET request failed');
-                    }
-                    return response.json(); // Parse the JSON response
-                })
-                .then((data) => {
-                    const deliveryInstructions = data.customerMessage;
-                    const [selectedDate] = deliveryInstructions.split(' | ')
-                    const maybeDate = new Date(selectedDate) // Ex: 3 April, 2025
-                    const adjustForDaylightDate = new Date(maybeDate.getTime() + 3 * 60 * 60 * 1000);
-                    const formattedDate = adjustForDaylightDate.toISOString().split('T')[0]; // Format the date for comparison
-
-                    if (disabledDates.includes(formattedDate)) {
-                        missingWarn.textContent = 'The selected delivery date is not available. Please click the Edit button on the Shipping section above and then pick an available date on the delivery date calendar.';
-                        missingWarn.style.display = 'block';
-                        return;
-                    }
-
-                    if (deliveryInstructions?.trim()) {
-                        paymentContinueButton.click();
-                    } else {
-                        missingWarn.style.display = 'block';
-                    }
-
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    missingWarn.textContent =
-                        'Something went wrong. Check if you have set a delivery date in the Shipping section above and try again.';
-                    missingWarn.style.display = 'block';
-                });
-        });
-    });
-</script>
-
-<script type="module">
-    const customerGroupName = '{{customer_group_name}}';
-    const tradeCustomerGroupNames = ['Trade', 'New Trader', 'Trader TNC'];
-    const isTraderGroup = tradeCustomerGroupNames.includes(customerGroupName);
-
-    if (isTraderGroup) {
-        let hasOverdue = false;
-        let lowBalance = false;
-
-        try {
-            const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
+            selectElement.addEventListener('change', function () {
+                const selectedValue = selectElement.value;
+                if (selectedValue === 'user_instruction') {
+                    textarea.style.display = 'block';
+                    wordLimit.style.display = 'block';
+                    textarea.focus();
+                } else {
+                    wordLimit.style.display = 'none';
+                    textarea.style.display = 'none';
                 }
             });
 
-            if (response.ok) {
-                const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
-                const traderInCreditSystem = traders.find(t => t.bc_customer_email === '{{customer.email}}');
+            textarea.addEventListener('input', function () {
+                wordLimit.textContent = `(${50 - textarea.value.length} characters)`;
+                const deliveryInstructions = textarea.value;
+                sessionStorage.setItem('customerMessage', deliveryInstructions);
+            });
+        });
 
-                if (traderInCreditSystem) {
-                    // Put the credit balance info before the cart subtotal
-                    ready('div[data-test="cart-subtotal"]', (element) => {
-                        element.insertAdjacentHTML(
-                            'beforebegin',
-                            `<div class="creditBalanceInfo">
+        // ------------------------------------------------------//
+        // This handles the payment continue button
+        const paymentContinueButtonSelector = '#checkout-payment-continue';
+        ready(paymentContinueButtonSelector, (paymentContinueButton) => {
+            if (document.getElementById('fakeButton')) {
+                document.getElementById('fakeButton').remove();
+            }
+            const fakeButton = document.createElement('div');
+            const missingWarn = document.createElement('p');
+            const parent = document.querySelector(
+                '.checkout-step--payment .checkout-form .form-actions'
+            );
+
+            // hide the real button
+            paymentContinueButton.style.display = 'none';
+
+            // Generate placeholder button
+            fakeButton.innerHTML = 'Place Order';
+            fakeButton.id = 'fakeButton';
+            fakeButton.style.display = 'block';
+
+            // Generate warning text
+            missingWarn.classList.add('warning');
+            missingWarn.textContent =
+                "Cannot find delivery date. Please edit your Shipping details above and select a delivery date.";
+            missingWarn.style.display = 'none';
+
+            // Append the button to the body of the HTML document
+            parent.appendChild(missingWarn);
+            parent.appendChild(fakeButton);
+
+            fakeButton.addEventListener('click', async () => {
+                const disabledDates = await fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        return data.unavailableDates;
+                    })
+                    .catch((error) => {
+                        console.error('Error calling delivery dates middleware endpoint:', error);
+                    });
+
+                fetch(`/api/storefront/checkouts/{{cart_id}}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('GET request failed');
+                        }
+                        return response.json(); // Parse the JSON response
+                    })
+                    .then((data) => {
+                        const deliveryInstructions = data.customerMessage;
+                        const [selectedDate] = deliveryInstructions.split(' | ')
+                        const maybeDate = new Date(selectedDate) // Ex: 3 April, 2025
+                        const adjustForDaylightDate = new Date(maybeDate.getTime() + 3 * 60 * 60 * 1000);
+                        const formattedDate = adjustForDaylightDate.toISOString().split('T')[0]; // Format the date for comparison
+
+                        if (disabledDates.includes(formattedDate)) {
+                            missingWarn.textContent = 'The selected delivery date is not available. Please click the Edit button on the Shipping section above and then pick an available date on the delivery date calendar.';
+                            missingWarn.style.display = 'block';
+                            return;
+                        }
+
+                        if (deliveryInstructions?.trim()) {
+                            paymentContinueButton.click();
+                        } else {
+                            missingWarn.style.display = 'block';
+                        }
+
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        missingWarn.textContent =
+                            'Something went wrong. Check if you have set a delivery date in the Shipping section above and try again.';
+                        missingWarn.style.display = 'block';
+                    });
+            });
+        });
+    </script>
+
+    <script type="module">
+        const customerGroupName = '{{customer_group_name}}';
+        const tradeCustomerGroupNames = ['Trade', 'New Trader', 'Trader TNC'];
+        const isTraderGroup = tradeCustomerGroupNames.includes(customerGroupName);
+
+        if (isTraderGroup) {
+            let hasOverdue = false;
+            let lowBalance = false;
+
+            try {
+                const response = await fetch('https://purrform-apps-027e.onrender.com/getCreditSystemTraders', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    const traders = await response.json(); // { bc_customer_email: string, credit_ceiling: number, current_balance: number, has_overdue: boolean, id: number }[]
+                    const traderInCreditSystem = traders.find(t => t.bc_customer_email === '{{customer.email}}');
+
+                    if (traderInCreditSystem) {
+                        // Put the credit balance info before the cart subtotal
+                        ready('div[data-test="cart-subtotal"]', (element) => {
+                            element.insertAdjacentHTML(
+                                'beforebegin',
+                                `<div class="creditBalanceInfo">
                                 <div>Credit Balance  </div>
                                 <div class="creditBalanceAmount">£${traderInCreditSystem.current_balance.toFixed(2)}</div>
                             </div>`
-                        );
-                    });
-
-                    // Add any overdue / low balance message to the cart total section
-                    ready('div[data-test="cart-total"]', (element) => {
-                        hasOverdue = traderInCreditSystem.has_overdue;
-
-                        if (hasOverdue) {
-                            element.insertAdjacentHTML(
-                                'beforeend',
-                                `<div class="credit-balance-message">
-                                    You have overdue order(s) unpaid. New orders will not be processed until payment is made. <a href="/account.php?action=order_status">Click here</a> to see the overdue order(s) in your account.
-                                </div>`
                             );
-                        } else {
-                            const cartTotalText = document.querySelector(
-                                'div[data-test="cart-total"] span[data-test="cart-price-value"]'
-                            ).textContent;
-                            const cartTotal = Number(cartTotalText.replace('£', ''));
-                            lowBalance = cartTotal > traderInCreditSystem.current_balance;
+                        });
 
-                            if (lowBalance) {
+                        // Add any overdue / low balance message to the cart total section
+                        ready('div[data-test="cart-total"]', (element) => {
+                            hasOverdue = traderInCreditSystem.has_overdue;
+
+                            if (hasOverdue) {
                                 element.insertAdjacentHTML(
                                     'beforeend',
                                     `<div class="credit-balance-message">
+                                    You have overdue order(s) unpaid. New orders will not be processed until payment is made. <a href="/account.php?action=order_status">Click here</a> to see the overdue order(s) in your account.
+                                </div>`
+                                );
+                            } else {
+                                const cartTotalText = document.querySelector(
+                                    'div[data-test="cart-total"] span[data-test="cart-price-value"]'
+                                ).textContent;
+                                const cartTotal = Number(cartTotalText.replace('£', ''));
+                                lowBalance = cartTotal > traderInCreditSystem.current_balance;
+
+                                if (lowBalance) {
+                                    element.insertAdjacentHTML(
+                                        'beforeend',
+                                        `<div class="credit-balance-message">
                                         Your cart total exceeds your credit limit. You can either remove some items or pay the balance to process your order.
                                     </div>`
-                                );
+                                    );
+                                }
+
                             }
 
-                        }
-
-                    });
-
-
-                    if (hasOverdue || lowBalance) {
-                        // Hide the payment button if there is an overdue order or low balance
-                        ready('#fakeButton', (element) => {
-                            element.remove()
                         });
 
-                        ready('#proceedButton', (element) => {
-                            element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                        });
 
-                        ready('#checkoutPaymentContinue', (element) => {
-                            element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                        });
-                    } else {
-                        // change the fakeButton text to Pay Now
-                        ready('#fakeButton', (element) => {
-                            element.innerHTML = 'Pay Now';
-                        });
-                        // add a new button next to the fake button to allow payment on credit
-                        ready('.checkout-step--payment .checkout-form .form-actions', (element) => {
-                            const creditPaymentButton = document.createElement('div');
-                            creditPaymentButton.innerHTML = 'Pay on Credit';
-                            creditPaymentButton.id = 'creditPaymentButton';
-
-                            creditPaymentButton.addEventListener('click', function () {
-                                // 1 - Put the button in loading state and disable the other button
-                                $('#creditPaymentButton').text('Processing...').attr('disabled', 'true');
-                                $('#fakeButton').attr('disabled', 'true');
-
-
-                                // get cart_id
-                                const cartId = '{{cart_id}}';
-
-
-                                // 2 - Call the backend to process the credit payment
-                                fetch(`https://purrform-apps-027e.onrender.com/processCreditPayment?cartId=${cartId}`, {
-                                    method: 'GET',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-
-                                }).then(response => {
-                                    if (!response.ok) {
-                                        throw new Error('Network response was not ok');
-                                    }
-                                    // remove both buttons and put a thank you message
-                                    $('#creditPaymentButton').remove();
-                                    $('#fakeButton').remove();
-                                    // remove any previous error message
-                                    $('.checkout-step--payment .checkout-form .form-actions .credit-balance-message').remove();
-                                    const thankYouMessage = '<div class="credit-balance-message" style="background-color: #d4edda; color: #155724;">Your order has been placed successfully using credit payment. You can navigate away from this page. <a href="https://www.purrform.co.uk">Back to homepage.</a></div>';
-                                    $('.checkout-step--payment .checkout-form .form-actions').append(thankYouMessage);
-                                }).catch(error => {
-                                    // 3 - Show an error message
-                                    $('.checkout-step--payment .checkout-form .form-actions .credit-balance-message').remove();
-                                    const errorMessage = '<div class="credit-balance-message" style="background-color: #f8d7da; color: #721c24;">There was an error processing your credit payment. Please try again or use another payment method.</div>';
-                                    $('.checkout-step--payment .checkout-form .form-actions').append(errorMessage);
-                                    // Re-enable buttons
-                                    $('#creditPaymentButton').text('Pay on Credit').removeAttr('disabled');
-                                    $('#fakeButton').removeAttr('disabled');
-                                })
-
+                        if (hasOverdue || lowBalance) {
+                            // Hide the payment button if there is an overdue order or low balance
+                            ready('#fakeButton', (element) => {
+                                element.remove()
                             });
 
-                            element.appendChild(creditPaymentButton);
-                        });
+                            ready('#proceedButton', (element) => {
+                                element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
+                            });
 
+                            ready('#checkoutPaymentContinue', (element) => {
+                                element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
+                            });
+                        } else {
+                            // change the fakeButton text to Pay Now
+                            ready('#fakeButton', (element) => {
+                                element.innerHTML = 'Pay Now';
+                            });
+                            // add a new button next to the fake button to allow payment on credit
+                            ready('.checkout-step--payment .checkout-form .form-actions', (element) => {
+                                const creditPaymentButton = document.createElement('div');
+                                creditPaymentButton.innerHTML = 'Pay on Credit';
+                                creditPaymentButton.id = 'creditPaymentButton';
+
+                                creditPaymentButton.addEventListener('click', function () {
+                                    // 1 - Put the button in loading state and disable the other button
+                                    $('#creditPaymentButton').text('Processing...').attr('disabled', 'true');
+                                    $('#fakeButton').attr('disabled', 'true');
+
+
+                                    // get cart_id
+                                    const cartId = '{{cart_id}}';
+
+
+                                    // 2 - Call the backend to process the credit payment
+                                    fetch(`https://purrform-apps-027e.onrender.com/processCreditPayment?cartId=${cartId}`, {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+
+                                    }).then(response => {
+                                        if (!response.ok) {
+                                            throw new Error('Network response was not ok');
+                                        }
+                                        // remove both buttons and put a thank you message
+                                        $('#creditPaymentButton').remove();
+                                        $('#fakeButton').remove();
+                                        // remove any previous error message
+                                        $('.checkout-step--payment .checkout-form .form-actions .credit-balance-message').remove();
+                                        const thankYouMessage = '<div class="credit-balance-message" style="background-color: #d4edda; color: #155724;">Your order has been placed successfully using credit payment. You can navigate away from this page. <a href="https://www.purrform.co.uk">Back to homepage.</a></div>';
+                                        $('.checkout-step--payment .checkout-form .form-actions').append(thankYouMessage);
+                                    }).catch(error => {
+                                        // 3 - Show an error message
+                                        $('.checkout-step--payment .checkout-form .form-actions .credit-balance-message').remove();
+                                        const errorMessage = '<div class="credit-balance-message" style="background-color: #f8d7da; color: #721c24;">There was an error processing your credit payment. Please try again or use another payment method.</div>';
+                                        $('.checkout-step--payment .checkout-form .form-actions').append(errorMessage);
+                                        // Re-enable buttons
+                                        $('#creditPaymentButton').text('Pay on Credit').removeAttr('disabled');
+                                        $('#fakeButton').removeAttr('disabled');
+                                    })
+
+                                });
+
+                                element.appendChild(creditPaymentButton);
+                            });
+
+                        }
                     }
                 }
+            } catch (error) {
+                console.error('Error fetching trader data:', error);
             }
-        } catch (error) {
-            console.error('Error fetching trader data:', error);
         }
-    }
-</script>
+    </script>
 
 
-<style>
-    .creditBalanceInfo {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 14px;
-        padding-bottom: 4px;
-        border-bottom: 1px solid #dbdada;
-    }
+    <style>
+        .creditBalanceInfo {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #dbdada;
+        }
 
-    .credit-balance-message {
+        .credit-balance-message {
 
-        width: 100%;
-        padding: 10px;
-        background-color: #f8d7da;
-        color: #721c24;
-        border-radius: 4px;
-        font-size: 14px;
-        margin-top: 1rem;
-        text-align: center;
-    }
-    .optimizedCheckout-cart-modal .optimizedCheckout-orderSummary-cartSection {
-        padding: 20px;
-    }
-    .modal-body.cart-modal-body.optimizedCheckout-orderSummary {
-        height: 100vh;
-    }
-    .modal.modal--afterOpen.optimizedCheckout-cart-modal .modal-body {
-        height: auto !important;
-        max-height: 100vh;
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch;
-    }
-    .storeCreditOverlay {
-        z-index: 9 !important;
-    }
-    .loyalty-summary {
-        margin: 10px 0;
-    }
-    .cart-resultItem {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        margin-top: 0.5rem;
-        padding-bottom: 0.2rem;
-    }
-    .cart-resultItem p {
-        font-weight: bold;
-    }
-    .cart-summaryItem {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        border-bottom: 1px solid #333333;
-        margin-top: 0.5rem;
-        padding-bottom: 0.2rem;
-    }
-    #pointsDesc {
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-    #usedPointsDesc {
-        margin: 0;
-    }
-    .btn.btn-primary,
-    .btn.btn-secondary {
-        border: 1px solid #687d6a;
-        border-radius: 32px;
-        font-size: 16px;
-        background-color: #687d6a;
-        -webkit-transition: all 0.15s ease;
-        transition: all 0.15s ease;
-        padding: 16px 13px;
-        color: white;
-        text-transform: uppercase;
-        margin-top: 20px;
-    }
-    .btn.btn-primary:hover,
-    .btn.btn-secondary:hover {
-        background-color: white;
-        color: #687d6a;
-    }
-    .modal.modal--afterOpen.optimizedCheckout-cart-modal .modal-body {
-        box-shadow: none;
-        height: 100%;
-        padding-bottom: 0;
-        overflow-x: auto;
-        overflow-y: auto;
-    }
-    .loyalty-points {
-        display: flex;
-        flex-direction: column;
-        background-color: #ffedcd;
-    }
+            width: 100%;
+            padding: 10px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-top: 1rem;
+            text-align: center;
+        }
 
-    #points-input {
-        border: 1px solid #dbdada;
-        border-radius: 32px;
-        padding: 16px 12px;
-    }
-    fieldset[data-test='checkout-shipping-comments'],
-    #checkout-shipping-continue,
-    input[name='orderComment'],
-    #checkout-payment-continue {
-        display: none;
-    }
-    .warning {
-        color: red !important;
-        border-color: red !important;
-    }
+        .optimizedCheckout-cart-modal .optimizedCheckout-orderSummary-cartSection {
+            padding: 20px;
+        }
 
-    .warning * {
-        color: red !important;
-        border-color: red !important;
-    }
+        .modal-body.cart-modal-body.optimizedCheckout-orderSummary {
+            height: 100vh;
+        }
 
-    #fakeButton,
-    #creditPaymentButton,
-    #proceedButton {
-        color: white;
-        border: 1px solid #687d6a;
-        border-radius: 32px;
-        font-size: 16px;
-        background-color: #687d6a;
-        transition: all 0.15s ease;
-        font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-        font-weight: 500;
-        padding: 14px 24px;
-        text-align: center;
-        width: 100%;
-        margin: 20px 0px;
-        cursor: pointer;
-        vertical-align: baseline;
-        display: inline-block;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
+        .modal.modal--afterOpen.optimizedCheckout-cart-modal .modal-body {
+            height: auto !important;
+            max-height: 100vh;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
 
-    #creditPaymentButton {
-        background-color: transparent;
-        color: #687d6a;
-    }
+        .storeCreditOverlay {
+            z-index: 9 !important;
+        }
 
-    #creditPaymentButton:hover {
-        background-color: #687d6a;
-        color: white;
-    }
+        .loyalty-summary {
+            margin: 10px 0;
+        }
 
-    #fakeButton:hover,
-    #proceedButton:hover {
-        background-color: transparent;
-        color: #687d6a;
-    }
+        .cart-resultItem {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            margin-top: 0.5rem;
+            padding-bottom: 0.2rem;
+        }
 
-    #fakeButton[disabled],
-    #creditPaymentButton[disabled],
-    #proceedButton[disabled] {
-        background-color: #cccccc !important;
-        border-color: #999999 !important;
-        color: #666666 !important;
-        cursor: not-allowed !important;
-    }
+        .cart-resultItem p {
+            font-weight: bold;
+        }
 
-    /* DATE PICKER */
-    .datepicker {
-        z-index: 1;
-    }
+        .cart-summaryItem {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            border-bottom: 1px solid #333333;
+            margin-top: 0.5rem;
+            padding-bottom: 0.2rem;
+        }
 
-    .datepicker .voucher-section .warning #datepicker {
-        border-color: red;
-    }
+        #pointsDesc {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
 
-    .ui-datepicker,
-    .ui-datepicker table,
-    .ui-datepicker tr,
-    .ui-datepicker td,
-    .ui-datepicker th {
-        margin: 0;
-        padding: 0;
-        border: none;
-        border-spacing: 0;
-    }
+        #usedPointsDesc {
+            margin: 0;
+        }
 
-    .ui-datepicker {
-        box-shadow: 0 5px 12px rgb(0 0 0 / 15%);
-        display: none;
-        width: 100%;
-        padding: 15px;
-        cursor: default;
-        text-transform: uppercase;
-        font-family: Filson-Soft;
-        font-size: 24px;
-        background: #fff;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        border-radius: 4px;
-        border: solid 1px #bd9b60;
-    }
+        .btn.btn-primary,
+        .btn.btn-secondary {
+            border: 1px solid #687d6a;
+            border-radius: 32px;
+            font-size: 16px;
+            background-color: #687d6a;
+            -webkit-transition: all 0.15s ease;
+            transition: all 0.15s ease;
+            padding: 16px 13px;
+            color: white;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
 
-    .ui-datepicker .ui-datepicker-header {
-        position: relative;
-        border: 1px solid #bd9b60;
-        background: #bd9b60 !important;
-        font-size: 1.2rem;
-    }
+        .btn.btn-primary:hover,
+        .btn.btn-secondary:hover {
+            background-color: white;
+            color: #687d6a;
+        }
 
-    .ui-datepicker-title {
-        text-align: center;
-        font-family: Filson-Soft;
-    }
+        .modal.modal--afterOpen.optimizedCheckout-cart-modal .modal-body {
+            box-shadow: none;
+            height: 100%;
+            padding-bottom: 0;
+            overflow-x: auto;
+            overflow-y: auto;
+        }
 
-    .ui-datepicker-month {
-        position: relative;
-        padding-right: 15px;
-        color: #fff;
-        font-family: Filson-Soft;
-    }
+        .loyalty-points {
+            display: flex;
+            flex-direction: column;
+            background-color: #ffedcd;
+        }
 
-    /* .ui-datepicker-current-day .ui-state-default {background-color:#687d6a;color: #bd9b60;} */
-    .ui-datepicker-year {
-        padding-left: 8px;
-        color: #fff;
-        font-family: Filson-Soft;
-    }
+        #points-input {
+            border: 1px solid #dbdada;
+            border-radius: 32px;
+            padding: 16px 12px;
+        }
 
-    .ui-datepicker-month:before {
-        display: block;
-        position: absolute;
-        top: 5px;
-        right: 0;
-        width: 5px;
-        height: 5px;
-        content: '';
-        background: #bd9b60;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-    }
+        fieldset[data-test='checkout-shipping-comments'],
+        #checkout-shipping-continue,
+        input[name='orderComment'],
+        #checkout-payment-continue {
+            display: none;
+        }
 
-    .ui-datepicker-prev,
-    .ui-datepicker-next {
-        position: absolute;
-        top: 4px !important;
-        padding: 5px;
-        cursor: pointer;
-    }
+        .warning {
+            color: red !important;
+            border-color: red !important;
+        }
 
-    .ui-datepicker-prev {
-        left: 0;
-        padding-left: 0;
-    }
+        .warning * {
+            color: red !important;
+            border-color: red !important;
+        }
 
-    .ui-datepicker-next {
-        right: 0;
-        padding-right: 0;
-    }
+        #fakeButton,
+        #creditPaymentButton,
+        #proceedButton {
+            color: white;
+            border: 1px solid #687d6a;
+            border-radius: 32px;
+            font-size: 16px;
+            background-color: #687d6a;
+            transition: all 0.15s ease;
+            font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+            font-weight: 500;
+            padding: 14px 24px;
+            text-align: center;
+            width: 100%;
+            margin: 20px 0px;
+            cursor: pointer;
+            vertical-align: baseline;
+            display: inline-block;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
 
-    .ui-state-hover {
-        background: rgba(255, 255, 255, 0.1) !important;
-    }
+        #creditPaymentButton {
+            background-color: transparent;
+            color: #687d6a;
+        }
 
-    .ui-datepicker-calendar th {
-        padding-top: 15px;
-        padding-bottom: 10px;
-        text-align: center;
-        font-weight: normal;
-        color: #a8a8a8;
-        font-size: 1rem;
-    }
+        #creditPaymentButton:hover {
+            background-color: #687d6a;
+            color: white;
+        }
 
-    .ui-datepicker-calendar td {
-        padding: 2px 2px;
-        text-align: center;
-        line-height: 26px;
-    }
+        #fakeButton:hover,
+        #proceedButton:hover {
+            background-color: transparent;
+            color: #687d6a;
+        }
 
-    .ui-datepicker-calendar .ui-state-default {
-        display: block;
-        width: 100%;
-        -webkit-border-radius: 50px;
-        -moz-border-radius: 50px;
-        border-radius: 50px;
-        outline: none;
-        text-decoration: none;
-        color: #000;
-        border: 1px solid transparent;
-    }
+        #fakeButton[disabled],
+        #creditPaymentButton[disabled],
+        #proceedButton[disabled] {
+            background-color: #cccccc !important;
+            border-color: #999999 !important;
+            color: #666666 !important;
+            cursor: not-allowed !important;
+        }
 
-    .ui-datepicker-calendar .ui-state-active {
-        border-color: #bd9b60 !important;
-        background-color: #bd9b60 !important;
-    }
+        /* DATE PICKER */
+        .datepicker {
+            z-index: 1;
+        }
 
-    .ui-datepicker-other-month .ui-state-default {
-        color: #ccc;
-    }
+        .datepicker .voucher-section .warning #datepicker {
+            border-color: red;
+        }
 
-    .ui-datepicker-other-month {
-        opacity: 0 !important;
-    }
+        .ui-datepicker,
+        .ui-datepicker table,
+        .ui-datepicker tr,
+        .ui-datepicker td,
+        .ui-datepicker th {
+            margin: 0;
+            padding: 0;
+            border: none;
+            border-spacing: 0;
+        }
 
-    .ui-datepicker table {
-        margin: 0 auto;
-    }
+        .ui-datepicker {
+            box-shadow: 0 5px 12px rgb(0 0 0 / 15%);
+            display: none;
+            width: 100%;
+            padding: 15px;
+            cursor: default;
+            text-transform: uppercase;
+            font-family: Filson-Soft;
+            font-size: 24px;
+            background: #fff;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            border: solid 1px #bd9b60;
+        }
 
-    .ui-datepicker-week-end .ui-state-default {
-        background-color: #bd9b60 !important;
-        border: 1px solid #bd9b60 !important;
-    }
+        .ui-datepicker .ui-datepicker-header {
+            position: relative;
+            border: 1px solid #bd9b60;
+            background: #bd9b60 !important;
+            font-size: 1.2rem;
+        }
 
-    .ui-widget.ui-widget-content {
-        border: 1px solid #fff !important;
-        max-width: 340px;
-        -webkit-border-radius: 20px;
-        -moz-border-radius: 20px;
-        border-radius: 20px;
-    }
+        .ui-datepicker-title {
+            text-align: center;
+            font-family: Filson-Soft;
+        }
 
-    .ui-state-default,
-    .ui-widget-content .ui-state-default,
-    .ui-widget-header .ui-state-default,
-    .ui-button,
-    html .ui-button.ui-state-disabled:hover,
-    html .ui-button.ui-state-disabled:active {
-        text-align: center;
-    }
+        .ui-datepicker-month {
+            position: relative;
+            padding-right: 15px;
+            color: #fff;
+            font-family: Filson-Soft;
+        }
 
+        /* .ui-datepicker-current-day .ui-state-default {background-color:#687d6a;color: #bd9b60;} */
+        .ui-datepicker-year {
+            padding-left: 8px;
+            color: #fff;
+            font-family: Filson-Soft;
+        }
 
-</style>
+        .ui-datepicker-month:before {
+            display: block;
+            position: absolute;
+            top: 5px;
+            right: 0;
+            width: 5px;
+            height: 5px;
+            content: '';
+            background: #bd9b60;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+        .ui-datepicker-prev,
+        .ui-datepicker-next {
+            position: absolute;
+            top: 4px !important;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .ui-datepicker-prev {
+            left: 0;
+            padding-left: 0;
+        }
+
+        .ui-datepicker-next {
+            right: 0;
+            padding-right: 0;
+        }
+
+        .ui-state-hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .ui-datepicker-calendar th {
+            padding-top: 15px;
+            padding-bottom: 10px;
+            text-align: center;
+            font-weight: normal;
+            color: #a8a8a8;
+            font-size: 1rem;
+        }
+
+        .ui-datepicker-calendar td {
+            padding: 2px 2px;
+            text-align: center;
+            line-height: 26px;
+        }
+
+        .ui-datepicker-calendar .ui-state-default {
+            display: block;
+            width: 100%;
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            border-radius: 50px;
+            outline: none;
+            text-decoration: none;
+            color: #000;
+            border: 1px solid transparent;
+        }
+
+        .ui-datepicker-calendar .ui-state-active {
+            border-color: #bd9b60 !important;
+            background-color: #bd9b60 !important;
+        }
+
+        .ui-datepicker-other-month .ui-state-default {
+            color: #ccc;
+        }
+
+        .ui-datepicker-other-month {
+            opacity: 0 !important;
+        }
+
+        .ui-datepicker table {
+            margin: 0 auto;
+        }
+
+        .ui-datepicker-week-end .ui-state-default {
+            background-color: #bd9b60 !important;
+            border: 1px solid #bd9b60 !important;
+        }
+
+        .ui-widget.ui-widget-content {
+            border: 1px solid #fff !important;
+            max-width: 340px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
+        }
+
+        .ui-state-default,
+        .ui-widget-content .ui-state-default,
+        .ui-widget-header .ui-state-default,
+        .ui-button,
+        html .ui-button.ui-state-disabled:hover,
+        html .ui-button.ui-state-disabled:active {
+            text-align: center;
+        }
+    </style>
 
 {{/partial}} {{> layout/empty}}
