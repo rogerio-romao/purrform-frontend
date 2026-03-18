@@ -743,7 +743,7 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: $color-p;
+        color: $color-brand-primary;
         margin-bottom: 12px;
     }
 
@@ -776,7 +776,7 @@
 
     .diet-builder-health__info-chevron {
         font-size: 16px;
-        color: $color-p;
+        color: $color-brand-primary;
         transition: transform 0.2s ease;
         flex-shrink: 0;
     }
@@ -791,7 +791,7 @@
     .diet-builder-health__info-item--open {
         .diet-builder-health__info-header {
             background-color: rgba(104, 125, 106, 0.1);
-            color: $color-p;
+            color: $color-brand-primary;
         }
 
         .diet-builder-health__info-chevron {

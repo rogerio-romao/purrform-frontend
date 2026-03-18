@@ -1,8 +1,6 @@
 {{#partial "page"}}
 {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
 {{{region name="page_builder_content__above-toggler"}}}
-{{>components/custom/calculator-toggler}}
-{{>components/custom/calculator-toggler-mobile}}
 {{{region name="page_builder_content__below-toggler"}}}
 
 <div class="rawsome-catculator-page">
@@ -396,22 +394,12 @@
 
     const weightInput = () => {
         const weight_input = document.getElementById('weight_input');
-        const re = /^[1-9][0-9]?$/;
-
-        const nextButton = document.querySelector(
+        const nextButton = weight_input.parentElement.querySelector(
             '.rawsome-button--primary'
         );
+        const value = parseFloat(weight_input.value);
 
-        if (weight_input.value && !re.test(weight_input.value)) {
-            nextButton.disabled = true;
-        } else if (weight_input.value && re.test(weight_input.value)) {
-            nextButton.disabled = false;
-        } else {
-            nextButton.disabled = true;
-        }
-
-
-
+        nextButton.disabled = isNaN(value) || value <= 0;
     };
 
     const toKittenPageTwo = () => {

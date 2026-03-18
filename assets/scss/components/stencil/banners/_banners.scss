@@ -2,18 +2,15 @@
 // Banners Component
 // =============================================================================
 
-
 // Banners
 // -----------------------------------------------------------------------------
-//
 // Purpose: Control the look and feel of the top and bottom site banners
-//
 // -----------------------------------------------------------------------------
 
 .banners {
-    background-color: stencilColor("color-primary");
-    color: stencilColor("color-white");
-    padding: spacing("half") 0;
+    background-color: stencilColor('color-primary');
+    color: stencilColor('color-white');
+    padding: spacing('half') 0;
     text-align: center;
 
     p:last-child {
@@ -21,7 +18,7 @@
     }
 
     a {
-        color: color("whites", "bright");
+        color: color('whites', 'bright');
     }
 }
 
@@ -29,6 +26,6 @@
     @include grid-row;
 
     + .banner {
-        margin-top: spacing("single");
+        margin-top: spacing('single');
     }
 }

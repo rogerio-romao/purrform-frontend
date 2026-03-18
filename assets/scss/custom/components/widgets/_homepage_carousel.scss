@@ -155,13 +155,13 @@ $overAll: 568px;
         font-size: 36px;
         line-height: 36px;
         font-weight: 600;
-        color: $color-p;
+        color: $color-brand-primary;
         font-family: 'Filson Pro', sans-serif;
 
         @media only screen and (min-width: 651px) {
             padding: 0;
             text-align: left;
-            color: $color-f-w;
+            color: $color-white;
         }
 
         @media only screen and (min-width: 1251px) {
@@ -182,7 +182,7 @@ $overAll: 568px;
         @media only screen and (min-width: 651px) {
             padding: 0 0 1rem;
             text-align: left;
-            color: $color-f-w;
+            color: $color-white;
             font-size: 25px;
         }
 
@@ -242,7 +242,7 @@ $overAll: 568px;
             height: 12px;
             width: 12px;
             border-color: transparent;
-            background-color: $color-f-w;
+            background-color: $color-white;
 
             &::before,
             &::after {
