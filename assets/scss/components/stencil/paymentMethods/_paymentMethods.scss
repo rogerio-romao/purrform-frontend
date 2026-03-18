@@ -3,7 +3,7 @@
 // =============================================================================
 
 .paymentMethodsTitle {
-    margin: 0 0 spacing("half");
+    margin: 0 0 spacing('half');
     padding: 0;
     text-transform: none;
     width: 100%;
@@ -12,14 +12,14 @@
 .paymentMethodsGrid {
     display: flex;
     flex-wrap: wrap;
-    margin: -(spacing("half"));
-    margin-bottom: spacing("single");
+    margin: -(spacing('half'));
+    margin-bottom: spacing('single');
 
     &-item {
-        padding: spacing("half");
+        padding: spacing('half');
         width: 100%;
 
-        @include breakpoint("small") {
+        @include breakpoint('small') {
             width: grid-calc(6, $total-columns);
         }
     }
@@ -27,7 +27,7 @@
 
 .paymentMethod {
     background-color: #e5e5e5;
-    border: container("border");
+    border: container('border');
     border-radius: remCalc(3px);
     display: flex;
     flex-flow: column nowrap;
@@ -62,29 +62,29 @@
     justify-content: space-between;
 
     &-icon {
-        margin-right: spacing("half");
+        margin-right: spacing('half');
         width: remCalc(28px);
 
-        @include breakpoint("large") {
+        @include breakpoint('large') {
             width: remCalc(42px);
         }
     }
 
     &-title {
-        font-size: fontSize("smallest");
-        font-weight: fontWeight("semibold");
+        font-size: fontSize('smallest');
+        font-weight: fontWeight('semibold');
 
-        @include breakpoint("large") {
-            font-size: fontSize("base");
+        @include breakpoint('large') {
+            font-size: fontSize('base');
         }
     }
 
     &-brand {
-        font-size: fontSize("smallest");
-        font-weight: fontWeight("semibold");
+        font-size: fontSize('smallest');
+        font-weight: fontWeight('semibold');
 
-        @include breakpoint("large") {
-            font-size: fontSize("base");
+        @include breakpoint('large') {
+            font-size: fontSize('base');
         }
     }
 
@@ -92,23 +92,23 @@
         display: flex;
         flex-wrap: nowrap;
         margin-left: auto;
-        padding-left: spacing("half");
+        padding-left: spacing('half');
     }
 
     &-default {
-        fill: color("greys", "dark");
+        fill: color('greys', 'dark');
         height: remCalc(18px);
-        margin-left: spacing("half");
+        margin-left: spacing('half');
         width: remCalc(18px);
 
-        @include breakpoint("large") {
+        @include breakpoint('large') {
             height: remCalc(20px);
             width: remCalc(20px);
         }
     }
 
     &-expiry {
-        font-size: fontSize("smaller");
+        font-size: fontSize('smaller');
         text-transform: capitalize;
     }
 }
@@ -119,28 +119,27 @@
 
     &-label {
         flex: 1;
-        font-weight: fontWeight("semibold");
+        font-weight: fontWeight('semibold');
     }
 
     &-description {
         flex: 2;
-        font-size: fontSize("smallest");
+        font-size: fontSize('smallest');
     }
 }
 
 .newPaymentMethod {
-    align-items: center;
+    place-items: center center;
     display: flex;
     flex-direction: column;
     height: 100%;
-    justify-items: center;
     min-height: remCalc(186px);
     text-decoration: none;
 
     &-icon {
         font-size: 50px;
         line-height: 1;
-        margin: auto 0 spacing("half");
+        margin: auto 0 spacing('half');
     }
 
     &-title {
@@ -153,49 +152,49 @@
 // -----------------------------------------------------------------------------
 
 .paymentMethodForm {
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         max-width: 60%;
     }
 
     &-column {
-        @include breakpoint("small") {
+        @include breakpoint('small') {
             display: flex;
 
             &:first-child .form-field {
-                margin-bottom: spacing("half");
+                margin-bottom: spacing('half');
             }
         }
     }
 
     &-heading {
-        color: color("greys", "darker");
-        font-family: fontFamily("sans");
-        margin-top: spacing("single");
+        color: color('greys', 'darker');
+        font-family: fontFamily('sans');
+        margin-top: spacing('single');
         text-transform: capitalize;
     }
 
     &-subheading {
         display: flex;
-        font-weight: fontWeight("semibold");
+        font-weight: fontWeight('semibold');
     }
 
     &-cards {
-        @include breakpoint("small") {
+        @include breakpoint('small') {
             margin-left: auto;
         }
     }
 
     &-cards-icon {
-        margin-right: spacing("eighth");
+        margin-right: spacing('eighth');
         width: remCalc(34px);
     }
 
     &-inputs {
         position: relative;
 
-        @include breakpoint("small") {
+        @include breakpoint('small') {
             &:last-child {
-                padding-left: spacing("single");
+                padding-left: spacing('single');
                 width: 30%;
             }
 
@@ -211,7 +210,7 @@
         top: remCalc(39px);
 
         &.icon {
-            fill: color("greys", "light");
+            fill: color('greys', 'light');
             height: remCalc(21px);
             width: remCalc(21px);
         }
@@ -220,20 +219,20 @@
     &-details {
         margin-bottom: 0;
 
-        @include breakpoint("small") {
+        @include breakpoint('small') {
             display: inline-block;
-            margin: 0 spacing("double") 0 0;
+            margin: 0 spacing('double') 0 0;
         }
     }
 
     &-details-term {
-        font-weight: fontWeight("normal");
-        margin-bottom: spacing("half");
+        font-weight: fontWeight('normal');
+        margin-bottom: spacing('half');
     }
 
     &-details-description {
-        font-size: fontSize("smaller");
-        font-weight: fontWeight("semibold");
-        letter-spacing: letterSpacing("large");
+        font-size: fontSize('smaller');
+        font-weight: fontWeight('semibold');
+        letter-spacing: letterSpacing('large');
     }
 }
