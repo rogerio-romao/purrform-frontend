@@ -312,10 +312,7 @@
     </section>
 
     <article class="productView-description">
-        <div id="_product-description" style="display: none;">
-            {{{product.description}}}
-        </div>
-        {{#if theme_settings.show_product_details_tabs}}
+{{#if theme_settings.show_product_details_tabs}}
         {{> components/custom/products/description-tabs}}
         {{{region name="product _description"}}}
         {{else}}

@@ -5,8 +5,8 @@
     - Supplements  → Description | Composition & Nutritional Additives | Analytical Constituents | Instructions for use
     - Default      → Description | Composition | Analytical Constituents
 
-    Tab shells are empty on render; descriptionTabs.js splits the hidden #_product-description
-    field on "<!-- pagebreak -->" and injects each chunk into the matching tab IDs.
+    Tab shells are empty on render; product.js receives the description via JS context
+    and splits it on "<!-- pagebreak -->" to inject each chunk into the matching tab IDs.
     Accessories skip this — their description is rendered directly into tab-description.
 
     Note: Handlebars has no "not contains" helper, so the branching below uses
