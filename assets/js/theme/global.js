@@ -3,7 +3,6 @@ import 'focus-within-polyfill';
 
 import carousel from './common/carousel';
 import './common/select-option-plugin';
-import descriptionTabs from './custom/descriptionTabs';
 import cartPreview from './global/cart-preview';
 import privacyCookieNotification from './global/cookieNotification';
 import currencySelector from './global/currency-selector';
@@ -29,7 +28,6 @@ export default class Global extends PageManager {
         mobileMenuToggle();
         privacyCookieNotification();
         svgInjector();
-        descriptionTabs();
 
         $(() => {
             function handleImageVisibility() {

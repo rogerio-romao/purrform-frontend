@@ -19,6 +19,7 @@ export default class Product extends PageManager {
     }
 
     onReady() {
+        this.fillDescriptionTabs();
         // Listen for foundation modal close events to sanitize URL after review.
         $(document).on('close.fndtn.reveal', () => {
             if (
@@ -92,5 +93,43 @@ export default class Product extends PageManager {
         if (this.url.indexOf('#bulk_pricing') !== -1) {
             this.$bulkPricingLink.trigger('click');
         }
+    }
+
+    fillDescriptionTabs() {
+        const { productDescription: description } = this.context;
+        if (!description) return;
+
+        const fill = (id, content) => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = content;
+        };
+
+        if (!description.includes('<!-- pagebreak -->')) {
+            fill('tab-description', description);
+            fill('tab-mobile-description', description);
+            return;
+        }
+
+        const [overview, composition, constituents, instructions] = description.trim().split('<!-- pagebreak -->');
+
+        fill('tab-description', overview);
+        fill('tab-mobile-description', overview);
+
+        fill('tab-composition', composition);
+        fill('tab-instructions', composition);
+        fill('tab-supplements-composition', composition);
+        fill('tab-mobile-composition', composition);
+        fill('tab-mobile-instructions', composition);
+        fill('tab-mobile-supplements-composition', composition);
+
+        fill('tab-constituents', constituents);
+        fill('tab-health-safety', constituents);
+        fill('tab-supplements-constituents', constituents);
+        fill('tab-mobile-constituents', constituents);
+        fill('tab-mobile-health-safety', constituents);
+        fill('tab-mobile-supplements-constituents', constituents);
+
+        fill('tab-supplements-instructions', instructions);
+        fill('tab-mobile-supplements-instructions', instructions);
     }
 }

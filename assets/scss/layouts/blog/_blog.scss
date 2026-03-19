@@ -6,8 +6,6 @@
 // -----------------------------------------------------------------------------
 
 .blog {
-    margin-bottom: spacing('single');
-
     @include breakpoint('medium') {
         margin: auto;
         width: 100%;
@@ -19,22 +17,12 @@
         padding-top: spacing('double');
     }
 
-    .tags {
-        margin-top: spacing('double');
-        text-align: center;
-    }
-
-    .socialLinks {
-        text-align: center;
-    }
-
     .addthis_toolbox {
         margin-top: spacing('double');
     }
 }
 
 .blog-title {
-    font-size: fontSize('large');
     margin: 0 spacing('single') spacing('quarter');
 
     a {
@@ -90,10 +78,6 @@
 
     @include breakpoint('small') {
         width: grid-calc(10, $total-columns);
-    }
-
-    @include breakpoint('medium') {
-        width: grid-calc(8, $total-columns);
     }
 
     @include breakpoint('large') {
