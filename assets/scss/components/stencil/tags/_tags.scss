@@ -1,13 +1,12 @@
 // =============================================================================
 // TAGS (CSS)
 // =============================================================================
-//
 // 1. Set to 0 so that the tags can be centred with an unknown width.
-//
 // -----------------------------------------------------------------------------
 
 .tags {
-    @include u-listBullets("none");
+    @include u-listBullets('none');
+
     font-size: 0; // 1
     text-align: center;
 }

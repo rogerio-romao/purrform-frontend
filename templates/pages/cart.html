@@ -2,28 +2,28 @@
 cart: true
 ---
 {{inject 'cancelButtonText' (lang 'common.cancel')}} {{#partial "page"}}
-{{inject 'invalidEntryMessage' (lang 'cart.invalid_entry_message')}}
-{{inject 'cartId' cart_id}}
+    {{inject 'invalidEntryMessage' (lang 'cart.invalid_entry_message')}}
+    {{inject 'cartId' cart_id}}
 
-<script type="module">
-    const jsContext = JSON.parse({{jsContext}});
-    const cheetahCentreProductId = 639;
-    const variantPrices = {
-        718: 0.50,
-        719: 1.00,
-        720: 2.00
-    };
+    <script type="module">
+        const jsContext = JSON.parse({{ jsContext }});
+        const cheetahCentreProductId = 639;
+        const variantPrices = {
+            718: 0.50,
+            719: 1.00,
+            720: 2.00
+        };
 
-    try {
-        const charityProduct = await fetch('/graphql', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer {{ settings.storefront_api.token }}'
-            },
-            body: JSON.stringify({
-                query: `
+        try {
+            const charityProduct = await fetch('/graphql', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+                },
+                body: JSON.stringify({
+                    query: `
                     query site {
                         site {
                             product(entityId: ${cheetahCentreProductId}) {
@@ -58,48 +58,48 @@ cart: true
                 `
                 })
             })
-            .then(response => response.json())
-            .then(data => data.data.site.product);
+                .then(response => response.json())
+                .then(data => data.data.site.product);
 
-        if (charityProduct) {
-            const charitySection = document.querySelector('.charity-product');
+            if (charityProduct) {
+                const charitySection = document.querySelector('.charity-product');
 
-            const charityTitle = charitySection.querySelector('h4');
-            charityTitle.textContent = charityProduct.name;
+                const charityTitle = charitySection.querySelector('h4');
+                charityTitle.textContent = charityProduct.name;
 
-            const charityImage = charitySection.querySelector('img');
-            // charityImage.src = charityProduct.images.edges[0].node.url;
+                const charityImage = charitySection.querySelector('img');
+                // charityImage.src = charityProduct.images.edges[0].node.url;
 
-            const charityList = charitySection.querySelector('ul');
-            charityProduct.variants.edges.forEach((variant, i) => {
-                const listItem = document.createElement('li');
-                if (i === 0) {
-                    listItem.classList.add('selected');
-                }
-                listItem.dataset.variantId = variant.node.entityId;
-                const price = variantPrices[variant.node.entityId];
-                listItem.textContent = `£${price.toFixed(2)}`;
-                listItem.addEventListener('click', () => {
-                    const selected = charityList.querySelector('.selected');
-                    if (selected) {
-                        selected.classList.remove('selected');
+                const charityList = charitySection.querySelector('ul');
+                charityProduct.variants.edges.forEach((variant, i) => {
+                    const listItem = document.createElement('li');
+                    if (i === 0) {
+                        listItem.classList.add('selected');
                     }
-                    listItem.classList.add('selected');
+                    listItem.dataset.variantId = variant.node.entityId;
+                    const price = variantPrices[variant.node.entityId];
+                    listItem.textContent = `£${price.toFixed(2)}`;
+                    listItem.addEventListener('click', () => {
+                        const selected = charityList.querySelector('.selected');
+                        if (selected) {
+                            selected.classList.remove('selected');
+                        }
+                        listItem.classList.add('selected');
+                    });
+                    charityList.appendChild(listItem);
                 });
-                charityList.appendChild(listItem);
-            });
 
-            charitySection.style.display = 'block';
-            const addToCartButton = document.getElementById('add-charity-product');
-            addToCartButton.addEventListener('click', async () => {
-                const selectedVariant = charityList.querySelector('.selected');
-                const variantId = Number(selectedVariant.dataset.variantId);
+                charitySection.style.display = 'block';
+                const addToCartButton = document.getElementById('add-charity-product');
+                addToCartButton.addEventListener('click', async () => {
+                    const selectedVariant = charityList.querySelector('.selected');
+                    const variantId = Number(selectedVariant.dataset.variantId);
 
-                addToCartButton.disabled = true;
-                addToCartButton.style.cursor = 'not-allowed';
-                addToCartButton.textContent = 'Adding...';
+                    addToCartButton.disabled = true;
+                    addToCartButton.style.cursor = 'not-allowed';
+                    addToCartButton.textContent = 'Adding...';
 
-                const mutation = `
+                    const mutation = `
                     mutation addCartLineItems($addCartLineItemsInput: AddCartLineItemsInput!) {
                         cart {
                             addCartLineItems(input: $addCartLineItemsInput) {
@@ -111,207 +111,233 @@ cart: true
                     }
                 `;
 
-                const variables = {
-                    addCartLineItemsInput: {
-                    cartEntityId: jsContext.cartId,
-                    data: {
-                        lineItems: [
-                        {
-                            quantity: 1,
-                            productEntityId: cheetahCentreProductId,
-                            variantEntityId: variantId
+                    const variables = {
+                        addCartLineItemsInput: {
+                            cartEntityId: jsContext.cartId,
+                            data: {
+                                lineItems: [
+                                    {
+                                        quantity: 1,
+                                        productEntityId: cheetahCentreProductId,
+                                        variantEntityId: variantId
+                                    }
+                                ]
+                            }
                         }
-                        ]
-                    }
-                    }
-                };
+                    };
 
-                const response = await fetch('/graphql', {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer {{ settings.storefront_api.token }}'
-                    },
-                    body: JSON.stringify({
-                        query: mutation,
-                        variables
-                    })
+                    const response = await fetch('/graphql', {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+                        },
+                        body: JSON.stringify({
+                            query: mutation,
+                            variables
+                        })
+                    });
+
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        addToCartButton.disabled = false;
+                        addToCartButton.style.cursor = 'pointer';
+                        addToCartButton.textContent = 'Add to Cart';
+                        console.error('Error adding charity product to cart', response);
+                    }
                 });
-
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    addToCartButton.disabled = false;
-                    addToCartButton.style.cursor = 'pointer';
-                    addToCartButton.textContent = 'Add to Cart';
-                    console.error('Error adding charity product to cart', response);
-                }
-            });
+            }
+        } catch (e) {
+            console.error('Error getting charity product data', e);
         }
-    } catch (e) {
-        console.error('Error getting charity product data', e);
-    }
-</script>
+    </script>
 
-<div class="container" style="padding: 0;">
-<div class="page">
+    <div class="container" style="padding: 0;">
+        <div class="page">
 
-    <main style='color: #687D6A;' class="page-content" data-item-size="{{cart.items.length}}" data-cart data-id="{{cart_id}}" data-customer-grp-id="{{customer_group_id}}">
-        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+            <main style='color: #687D6A;' class="page-content" data-item-size="{{cart.items.length}}" data-cart
+                data-id="{{cart_id}}" data-customer-grp-id="{{customer_group_id}}">
+                {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
 
-        {{> components/cart/page-title}}
+                {{> components/cart/page-title}}
 
-        <section class="charity-product">
-            <h4></h4>
-            <div class="charity-container">
-                <div class="left">
-                    <img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/cheetah-centre-logo-bw-1739357472050.png?t=1739357472" alt="Ann Van Dyk Cheetah Centre logo" width="200">
-                    <a href="/cheetah-sanctuary-donation">Learn more</a>
+                <section class="charity-product">
+                    <h4></h4>
+                    <div class="charity-container">
+                        <div class="left">
+                            <img src="https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/cheetah-centre-logo-bw-1739357472050.png?t=1739357472"
+                                alt="Ann Van Dyk Cheetah Centre logo" width="200">
+                            <a href="/cheetah-sanctuary-donation">Learn more</a>
+                        </div>
+                        <div class="right">
+                            <ul class="charity-variants"></ul>
+                            <button id="add-charity-product">Add to Cart</button>
+                        </div>
+                    </div>
+                </section>
+
+                <div data-cart-status>
+                    {{> components/cart/status-messages}}
                 </div>
-                <div class="right">
-                    <ul class="charity-variants"></ul>
-                    <button id="add-charity-product">Add to Cart</button>
-                </div>
-            </div>
-        </section>
 
-        <div data-cart-status>
-            {{> components/cart/status-messages}}
-        </div>
+                {{#if cart.items.length}}
 
-        {{#if cart.items.length}}
+                    <div class="loadingOverlay"></div>
 
-            <div class="loadingOverlay"></div>
+                    <div data-cart-content>
+                        {{> components/cart/content}}
+                    </div>
 
-            <div data-cart-content>
-                {{> components/cart/content}}
-            </div>
-
-        <div data-cart-totals class="cart-totals-container cart-content-padding-right">
-                {{> components/cart/totals}}
-            </div>
+                    <div data-cart-totals class="cart-totals-container cart-content-padding-right">
+                        {{> components/cart/totals}}
+                    </div>
 
 
-            {{#if cart.show_primary_checkout_button}}
-                <div class="cart-actions">
+                    {{#if cart.show_primary_checkout_button}}
+                        <div class="cart-actions">
 
-                    <a class="button button--secondary" href="/all/">
-                      <i class="icon" aria-hidden="true">
-                        <svg>
-                          <use href="#icon-chevron-left"></use>
-                        </svg>
-                      </i>
-                      {{lang 'cart.added_to_cart.continue_shopping'}}
-                    </a>
-                    <a
-                        id="do_checkout"
-                        class="button button--primary ui-state-disabled"
-                        href="{{urls.checkout.single_address}}"
-                        title="{{lang 'cart.checkout.title'}}"
-                        data-primary-checkout-now-action
-                    >
-                        {{lang 'cart.checkout.button'}}
-                    </a>
-                    {{#if cart.show_multiple_address_shipping}}
-                        <a class="checkoutMultiple" href="{{urls.checkout.multiple_address}}">
-                            {{lang 'cart.preview.checkout_multiple'}}
-                        </a>
+                            <a class="button button--secondary" href="/all/">
+                                <i class="icon" aria-hidden="true">
+                                    <svg>
+                                        <use href="#icon-chevron-left"></use>
+                                    </svg>
+                                </i>
+                                {{lang 'cart.added_to_cart.continue_shopping'}}
+                            </a>
+                            <a id="do_checkout" class="button button--primary ui-state-disabled"
+                                href="{{urls.checkout.single_address}}" title="{{lang 'cart.checkout.title'}}"
+                                data-primary-checkout-now-action>
+                                {{lang 'cart.checkout.button'}}
+                            </a>
+                            {{#if cart.show_multiple_address_shipping}}
+                                <a class="checkoutMultiple" href="{{urls.checkout.multiple_address}}">
+                                    {{lang 'cart.preview.checkout_multiple'}}
+                                </a>
+                            {{/if}}
+                        </div>
+                    {{else}}
+                        <div class="cart-actions">
+                            <a class="button" href="{{urls.home}}"
+                                title="{{lang 'cart.continue_shopping'}}">{{lang 'cart.continue_shopping'}}</a>
+                        </div>
                     {{/if}}
-                </div>
-            {{else}}
-                <div class="cart-actions">
-                    <a class="button" href="{{urls.home}}" title="{{lang 'cart.continue_shopping'}}">{{lang 'cart.continue_shopping'}}</a>
-                </div>
-            {{/if}}
 
-            {{#if cart.additional_checkout_buttons}}
-                <div class="cart-additionalCheckoutButtons">
-                    {{#each cart.additional_checkout_buttons}}
-                        {{{this}}}
-                    {{/each}}
-                </div>
-            {{/if}}
-        {{else}}
-            <h3>{{lang 'cart.checkout.empty_cart'}}</h3>
-            {{{ remote_api_scripts }}}
-        {{/if}}
+                    {{#if cart.additional_checkout_buttons}}
+                        <div class="cart-additionalCheckoutButtons">
+                            {{#each cart.additional_checkout_buttons}}
+                                {{{this}}}
+                            {{/each}}
+                        </div>
+                    {{/if}}
+                {{else}}
+                    <h3>{{lang 'cart.checkout.empty_cart'}}</h3>
+                    {{{ remote_api_scripts }}}
+                {{/if}}
 
-    </main>
-    <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+            </main>
+            <script src="https://code.jquery.com/jquery-3.6.2.min.js"
+                integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
 
-        <div class="modal fade" id="redeem_point" tabindex="-1" aria-labelledby="redeem_point" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content swal2-content">
-                    <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex;">
-                      <div class="swal2-icon-content">!</div>
+            <div class="modal fade" id="redeem_point" tabindex="-1" aria-labelledby="redeem_point"
+                style="display: none;" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content swal2-content">
+                        <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex;">
+                            <div class="swal2-icon-content">!</div>
+                        </div>
+                        <h4 style="text-align:center;margin-bottom:5px;" id="swal2-title">
+                            </h2>
+                            <button type="button" class="swal2-close"
+                                onclick="document.getElementById('redeem_point').style.display='none';">x</button>
+                            <div id="swal2-content" class="swal2-html-container uk-margin-small-bottom"
+                                style="display: block;">Enter the points to redeem:</div>
+                            <input type="number" class="uk-input uk-text-center" id="redeem" name="redeem" min="" max=""
+                                value="" style="max-width:200px;">
                     </div>
-                     <h4 style="text-align:center;margin-bottom:5px;" id="swal2-title"></h2>
-                     <button type="button" class="swal2-close" onclick="document.getElementById('redeem_point').style.display='none';">x</button>
-                    <div id="swal2-content" class="swal2-html-container uk-margin-small-bottom" style="display: block;">Enter the points to redeem:</div>
-                    <input type="number" class="uk-input uk-text-center" id="redeem" name="redeem" min="" max="" value="" style="max-width:200px;">
-                </div>
-                <div class="swal2-footer">
-                    <span style="display:none;" id="total_point"></span>
-                  <a onclick="redeem_loyalty()" style="background-color: #BD9B60 !important; border-color: #BD9B60 !important; border-radius: 50px;font-weight: 500;font-size: 16px;" class="button button--primary">Redeem point &nbsp;</a>
-                 <a onclick="document.getElementById('redeem_point').style.display='none';" style="background-color: #FFF !important; border-color: #BD9B60 !important; border-radius: 50px;font-weight: 500;font-size: 16px;color: #BD9B60;" class="button button--primary">Cancel</a>
+                    <div class="swal2-footer">
+                        <span style="display:none;" id="total_point"></span>
+                        <a onclick="redeem_loyalty()"
+                            style="background-color: #BD9B60 !important; border-color: #BD9B60 !important; border-radius: 50px;font-weight: 500;font-size: 16px;"
+                            class="button button--primary">Redeem point &nbsp;</a>
+                        <a onclick="document.getElementById('redeem_point').style.display='none';"
+                            style="background-color: #FFF !important; border-color: #BD9B60 !important; border-radius: 50px;font-weight: 500;font-size: 16px;color: #BD9B60;"
+                            class="button button--primary">Cancel</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal fade" id="newsletter-box" tabindex="-1" aria-labelledby="redeem_point" style="text-align:center;display: none;box-shadow:0px 0px 39px 9px rgb(0 0 0 / 20%);border-radius:50px" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-header swal2-header" style="background: #687d6a;">
-                    <h2 style="color: #fff;">Claim your free shipping now</h2>
-                    <button type="button" class="swal2-close" onclick="close_nl_box();">x</button>
-                </div>
-                <div class="modal-content swal2-content">
-                    <div class="nl_success_wrapper" style="height: 96px;display:none">
-                        <div class="coupon-message" style="font-size: 18px;padding: 40px 0;"></div>
-                        <input id="nl_continue" class="button button--primary form-prefixPostfix-button--postfix" type="button" value="Continue">
+            <div class="modal fade" id="newsletter-box" tabindex="-1" aria-labelledby="redeem_point"
+                style="text-align:center;display: none;box-shadow:0px 0px 39px 9px rgb(0 0 0 / 20%);border-radius:50px"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-header swal2-header" style="background: #687d6a;">
+                        <h2 style="color: #fff;">Claim your free shipping now</h2>
+                        <button type="button" class="swal2-close" onclick="close_nl_box();">x</button>
                     </div>
-                     <div class="newsletter-wrapper" style="margin: 0 auto;width: 100%;padding: 25px;">
-                      <div class="">
-                          <div class="" style="margin-bottom: 25px;">Subscribe to our newsletter to get free shipping! </div>
-                      </div>
+                    <div class="modal-content swal2-content">
+                        <div class="nl_success_wrapper" style="height: 96px;display:none">
+                            <div class="coupon-message" style="font-size: 18px;padding: 40px 0;"></div>
+                            <input id="nl_continue" class="button button--primary form-prefixPostfix-button--postfix"
+                                type="button" value="Continue">
+                        </div>
+                        <div class="newsletter-wrapper" style="margin: 0 auto;width: 100%;padding: 25px;">
+                            <div class="">
+                                <div class="" style="margin-bottom: 25px;">Subscribe to our newsletter to get free
+                                    shipping! </div>
+                            </div>
 
-                      <div class="form-section">
-                        <form class="form" id="nl_form" style="margin: 0 auto;">
-                          <input type="hidden" name="action" value="subscribe">
-                            <input type="hidden" name="nl_first_name" value="bc">
-                            <input type="hidden" name="authenticity_token" value="e0e91a6b4d5210710b76058e35a23605d327844d2838f440cf0501174cda7753">
-                            <input type="hidden" name="check" value="1">
-                          <input class="form-input" id="nl_email" name="nl_email" type="email" value="" placeholder="Your email address" style="border: 1px solid #687d6a;">
-                          <input id="nl_cta" class="button button--primary form-prefixPostfix-button--postfix" type="button" value="Join Now">
+                            <div class="form-section">
+                                <form class="form" id="nl_form" style="margin: 0 auto;">
+                                    <input type="hidden" name="action" value="subscribe">
+                                    <input type="hidden" name="nl_first_name" value="bc">
+                                    <input type="hidden" name="authenticity_token"
+                                        value="e0e91a6b4d5210710b76058e35a23605d327844d2838f440cf0501174cda7753">
+                                    <input type="hidden" name="check" value="1">
+                                    <input class="form-input" id="nl_email" name="nl_email" type="email" value=""
+                                        placeholder="Your email address" style="border: 1px solid #687d6a;">
+                                    <input id="nl_cta" class="button button--primary form-prefixPostfix-button--postfix"
+                                        type="button" value="Join Now">
 
-                        </form>
-                        <p id="response_api" style="text-align: center;font-size:1.1rem;font-weight:400;color:#bd9b60;"></p>
-                      </div>
+                                </form>
+                                <p id="response_api"
+                                    style="text-align: center;font-size:1.1rem;font-weight:400;color:#bd9b60;"></p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="swal2-footer" style="margin-bottom:25px;">
-                  <div class="foot_data" style="width: 100%;margin: 0 auto;text-align: center;">
-                    <div class="gdpr-field">
-                        <input type="checkbox" id="gdpr_checkbox" name="gdpr_checkbox" class="gdpr-checkbox">
-                        <span class="wcb-gdpr-message">I agree to the <a href="terms-conditions" target="_blank">Terms &amp; Conditions</a> and <a href="privacy-policy" target="_blank">Privacy Policy</a>.</span>
+                    <div class="swal2-footer" style="margin-bottom:25px;">
+                        <div class="foot_data" style="width: 100%;margin: 0 auto;text-align: center;">
+                            <div class="gdpr-field">
+                                <input type="checkbox" id="gdpr_checkbox" name="gdpr_checkbox" class="gdpr-checkbox">
+                                <span class="wcb-gdpr-message">I agree to the <a href="terms-conditions"
+                                        target="_blank">Terms &amp; Conditions</a> and <a href="privacy-policy"
+                                        target="_blank">Privacy Policy</a>.</span>
+                            </div>
+                            <div class="footer-text">No spam email &amp; you can unsubscribe at anytime. Maximum order
+                                £100</div>
+                        </div>
                     </div>
-                    <div class="footer-text">No spam email &amp; you can unsubscribe at anytime. Maximum order £100</div>
-                  </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div style="display:none" id="gift_wrap" class="coupon-box-small-icon-wrap coupon-box-small-icon-position-bottom-left coupon-box-small-icon-hidden-mobile">
-    <div class="coupon-box-small-icon-container">
-        <span id="gift_close" class="coupon-box-small-icon-close button_close_icons-cancel" title="Do not show again"></span>
-        <span id="gift_box" class="coupon-box-small-icon giftbox-gifbox-with-ribbon-on-top"></span>
+    <div style="display:none" id="gift_wrap"
+        class="coupon-box-small-icon-wrap coupon-box-small-icon-position-bottom-left coupon-box-small-icon-hidden-mobile">
+        <div class="coupon-box-small-icon-container">
+            <span id="gift_close" class="coupon-box-small-icon-close button_close_icons-cancel"
+                title="Do not show again"></span>
+            <span id="gift_box" class="coupon-box-small-icon giftbox-gifbox-with-ribbon-on-top"></span>
+        </div>
     </div>
-</div>
 {{/partial}}
 {{> layout/base}}
 
 <style>
+    button.cart-remove {
+        display: flex;
+    }
+
     .charity-product {
         display: none;
         max-width: 420px;
@@ -325,7 +351,7 @@ cart: true
     }
 
     .charity-product h4 {
-        color:#687D6A;
+        color: #687D6A;
         font-weight: 500;
     }
 
@@ -335,14 +361,14 @@ cart: true
         align-items: center;
     }
 
-     .charity-container .left,
-     .charity-container .right {
+    .charity-container .left,
+    .charity-container .right {
         display: flex;
         flex-direction: column;
     }
 
     .charity-container .left {
-    flex: 1;
+        flex: 1;
     }
 
     .charity-container .right {
@@ -391,6 +417,4 @@ cart: true
     #add-charity-product:hover {
         background-color: #5c6e5d;
     }
-
-
 </style>

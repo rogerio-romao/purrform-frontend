@@ -20,6 +20,7 @@ module.exports = {
         'media-feature-range-notation': null,
         'selector-class-pattern': null,
         'selector-id-pattern': null,
+        'scss/at-mixin-pattern': null,
         'scss/dollar-variable-pattern': null,
         'scss/at-mixin-argumentless-call-parentheses': null,
         'scss/percent-placeholder-pattern': null,

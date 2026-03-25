@@ -2,20 +2,18 @@
 // PRODUCT VIEW (CSS)
 // =============================================================================
 
-
 // Container
 // -----------------------------------------------------------------------------
 
 .productView {
-    padding-top: spacing("base");
+    padding-top: spacing('base');
 }
-
 
 // Images
 // -----------------------------------------------------------------------------
 
 .productView-images {
-    margin-bottom: spacing("double");
+    margin-bottom: spacing('double');
 }
 
 .productView-image {
@@ -25,13 +23,13 @@
     margin: auto;
     position: relative;
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         min-height: 366px;
         min-width: inherit;
     }
 
     + .productView-thumbnails {
-        margin-top: spacing("half");
+        margin-top: spacing('half');
     }
 
     @media (min-width: $screen-xxsmall) and (max-width: $screen-medium) {
@@ -40,17 +38,16 @@
 }
 
 .productView-img-container {
+    @include lazy-loaded-padding('product_size');
 
-    @include lazy-loaded-padding("product_size");
     margin: auto;
-    max-width: get-width(stencilString("product_size"));
+    max-width: get-width(stencilString('product_size'));
     position: relative;
     width: 100%;
 
     img {
         @include lazy-loaded-img;
-        /* Object-fit polyfill */
-        font-family: "object-fit: contain;";
+
         height: 100%;
         object-fit: contain;
         width: 100%;
@@ -58,11 +55,11 @@
 }
 
 .productView-thumbnails {
-    @include u-listBullets("none");
-    @include grid-row($behavior: "nest");
+    @include u-listBullets('none');
+    @include grid-row($behavior: 'nest');
 
-    margin-left: -(spacing("quarter"));
-    margin-right: -(spacing("quarter"));
+    margin-left: -(spacing('quarter'));
+    margin-right: -(spacing('quarter'));
 
     &[data-slick] {
         opacity: 0;
@@ -87,27 +84,27 @@
 
     img {
         @include lazy-loaded-img;
-        /* Object-fit polyfill */
-        font-family: "object-fit: contain;";
+
         margin: 0;
         object-fit: contain;
         position: relative;
-        width: get-width(stencilString("productview_thumb_size"));
+        width: get-width(stencilString('productview_thumb_size'));
     }
 }
 
 .productView-thumbnail {
     @include grid-column(3);
-    padding: spacing("quarter");
+
+    padding: spacing('quarter');
     text-align: center;
 
-    @include breakpoint("large") {
+    @include breakpoint('large') {
         width: 20%;
     }
 }
 
 .productView-thumbnail-link {
-    border: container("border");
+    border: container('border');
     box-sizing: content-box;
     display: flex;
     height: 67px;
@@ -115,30 +112,27 @@
     max-width: 75px;
     padding: 2px;
     position: relative;
-   // width: 100%;
 
     &:hover,
     &.is-active {
-        border-color: color("greys", "darker");
+        border-color: color('greys', 'darker');
     }
 }
-
 
 // Details
 // -----------------------------------------------------------------------------
 
 .productView-details {
-    padding-bottom: spacing("single") + spacing("third");
+    padding-bottom: spacing('single') + spacing('third');
 }
-
 
 // Details - Product details
 // -----------------------------------------------------------------------------
 
 .productView-product {
-    @include breakpoint("medium") {
-        border-bottom: container("border");
-        padding-bottom: spacing("single") + spacing("third");
+    @include breakpoint('medium') {
+        border-bottom: container('border');
+        padding-bottom: spacing('single') + spacing('third');
     }
 
     > :last-child {
@@ -147,26 +141,26 @@
 }
 
 .productView-title {
-    font-size: fontSize("small");
-    margin: -(spacing("half")) 0 spacing("quarter");
+    font-size: fontSize('small');
+    margin: -(spacing('half')) 0 spacing('quarter');
 
-    @include breakpoint("medium") {
-        margin-top: spacing("single");
+    @include breakpoint('medium') {
+        margin-top: spacing('single');
     }
 
-    @include breakpoint("large") {
-        font-size: fontSize("largest");
+    @include breakpoint('large') {
+        font-size: fontSize('largest');
     }
 }
 
 .productView-brand {
     color: $productView-brand-link-color;
-    font-size: fontSize("smaller");
-    margin: 0 0 spacing("half");
+    font-size: fontSize('smaller');
+    margin: 0 0 spacing('half');
 
-    @include breakpoint("large") {
-        font-size: fontSize("small");
-        margin: -(spacing("eighth")) 0 spacing("base");
+    @include breakpoint('large') {
+        font-size: fontSize('small');
+        margin: -(spacing('eighth')) 0 spacing('base');
     }
 
     a {
@@ -182,16 +176,16 @@
 // -----------------------------------------------------------------------------
 
 .productView-price {
-    font-size: fontSize("smaller");
-    margin-bottom: spacing("third");
+    font-size: fontSize('smaller');
+    margin-bottom: spacing('third');
 
-    @include breakpoint("medium") {
-        font-size: fontSize("larger");
-        margin-bottom: spacing("base");
+    @include breakpoint('medium') {
+        font-size: fontSize('larger');
+        margin-bottom: spacing('base');
     }
 
     .price-section--saving {
-        font-size: fontSize("smaller");
+        font-size: fontSize('smaller');
     }
 
     abbr {
@@ -202,13 +196,13 @@
 }
 
 .productView-reviewLink {
-    color: stencilColor("color-textSecondary");
+    color: stencilColor('color-textSecondary');
     display: inline-block;
-    margin-left: spacing("quarter");
+    margin-left: spacing('quarter');
     vertical-align: middle;
 
     &:hover {
-        color: stencilColor("color-textSecondary--hover");
+        color: stencilColor('color-textSecondary--hover');
     }
 
     &--new {
@@ -216,22 +210,21 @@
     }
 }
 
-
 // Details - Product Information
 // -----------------------------------------------------------------------------
 
 .productView-info {
     @include clearfix;
-    margin-top: spacing("half");
 
-    @include breakpoint("small") {
+    margin-top: spacing('half');
+
+    @include breakpoint('small') {
         margin-top: 0;
     }
 
     > :first-child {
-
-        @include breakpoint("small") {
-            margin-top: spacing("single");
+        @include breakpoint('small') {
+            margin-top: spacing('single');
         }
     }
 
@@ -244,52 +237,50 @@
 .productView-info-value {
     float: left;
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         float: none;
     }
 }
 
 .productView-info-name {
     clear: both;
-    margin-bottom: spacing("eighth");
-    margin-right: spacing("quarter");
+    margin-bottom: spacing('eighth');
+    margin-right: spacing('quarter');
 
-    @include breakpoint("small") {
-        font-family: fontFamily("headingSans");
-        font-size: fontSize("smallest");
-        font-weight: fontWeight("normal");
+    @include breakpoint('small') {
+        font-family: fontFamily('headingSans');
+        font-size: fontSize('smallest');
+        font-weight: fontWeight('normal');
     }
 }
 
 .productView-info-value {
-    margin-bottom: spacing("quarter");
+    margin-bottom: spacing('quarter');
 
-    @include breakpoint("small") {
-        margin-bottom: spacing("base");
+    @include breakpoint('small') {
+        margin-bottom: spacing('base');
     }
 }
 
-
 // Details - Product options
 // -----------------------------------------------------------------------------
-//
 // 1. Align the product options list item radios vertically.
 // 2. Resetting font due to inline-block whitespace issue.
 // 3. File upload button does not properly display in IE if font-size is 0
-//
 // -----------------------------------------------------------------------------
 
 .productView-options {
     @include clearfix;
-    margin-bottom: spacing("single");
+
+    margin-bottom: spacing('single');
     text-align: center;
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         text-align: left;
     }
 
-    .form-input[type="number"] {
-        @include breakpoint("small") {
+    .form-input[type='number'] {
+        @include breakpoint('small') {
             width: grid-calc(2, $total-columns);
         }
     }
@@ -302,8 +293,8 @@
         }
     }
 
-    input[type="file"] {
-        font-size: fontSize("smallest"); // 3
+    input[type='file'] {
+        font-size: fontSize('smallest'); // 3
     }
 
     .form-field {
@@ -316,10 +307,10 @@
 
         > .form-checkbox + .form-label {
             display: inline-block;
-            margin-left: spacing("single");
+            margin-left: spacing('single');
             width: auto;
 
-            @include breakpoint("small") {
+            @include breakpoint('small') {
                 margin-left: 0;
                 width: 100%;
             }
@@ -341,20 +332,20 @@
         margin-bottom: 1rem;
         width: 100%;
 
-        @include breakpoint("small") {
+        @include breakpoint('small') {
             padding: 0 remCalc(10);
             width: 50%;
         }
 
-        @include breakpoint("medium") {
-            padding-right: spacing("half");
+        @include breakpoint('medium') {
+            padding-right: spacing('half');
             width: 50%;
         }
 
-        @include breakpoint("large") {
+        @include breakpoint('large') {
             display: inline-block;
             margin-top: 1rem;
-            padding-right: spacing("half");
+            padding-right: spacing('half');
             width: 50%;
         }
 
@@ -365,7 +356,7 @@
     }
 
     .add-to-cart-wallet-buttons {
-        margin-top: spacing("half");
+        margin-top: spacing('half');
 
         div[data-smart-button-container-id] {
             line-height: 0;
@@ -378,22 +369,20 @@
         }
 
         button.show-more-button {
-            color: stencilColor("color-textSecondary");
+            color: stencilColor('color-textSecondary');
             display: block;
-            margin-top: spacing("quarter");
-            padding: spacing("quarter") 0;
+            margin-top: spacing('quarter');
+            padding: spacing('quarter') 0;
             text-align: center;
             text-decoration: underline;
-            vertical-align: middle;
             width: 100%;
 
             &:hover {
-                color: stencilColor("color-textSecondary--hover");
+                color: stencilColor('color-textSecondary--hover');
             }
         }
     }
 }
-
 
 // Product list (with images)
 // -----------------------------------------------------------------------------
@@ -433,14 +422,12 @@
     padding-left: $productOptions-list-item-content-paddingLeft;
 }
 
-
 // Share products
 // -----------------------------------------------------------------------------
 
 .shareProduct {
     text-align: center;
 }
-
 
 // EasyZoom settings for zoomable product image
 // -----------------------------------------------------------------------------

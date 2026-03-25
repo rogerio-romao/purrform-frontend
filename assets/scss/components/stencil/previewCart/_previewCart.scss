@@ -1,17 +1,16 @@
 // =============================================================================
 // PREVIEW CART (CSS)
 // =============================================================================
-//
 // 1. Override server-generated inline-css
-//
 // -----------------------------------------------------------------------------
 
 .previewCart {
     @include grid-row;
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         .productView {
             @include grid-column(9);
+
             display: flex;
             margin: 0;
             padding-bottom: 0;
@@ -20,6 +19,7 @@
 
         .productView-image {
             @include grid-column(7);
+
             display: flex;
             flex-direction: column;
         }
@@ -41,13 +41,14 @@
 }
 
 .previewCartCheckout {
-    background: container("fill", "dark");
-    padding: spacing("base");
+    background: container('fill', 'dark');
+    padding: spacing('base');
     text-align: center;
 
-    @include breakpoint("medium") {
-        @include grid-column(3, $float:right);
-        padding: spacing("single");
+    @include breakpoint('medium') {
+        @include grid-column(3, $float: right);
+
+        padding: spacing('single');
     }
 
     .button {
@@ -56,26 +57,26 @@
         width: 100%;
 
         + p {
-            margin-top: spacing("half");
+            margin-top: spacing('half');
         }
 
         &:not(:last-child) {
-            margin-bottom: spacing("half");
+            margin-bottom: spacing('half');
         }
     }
 }
 
 .previewCartCheckout-price {
     display: block;
-    font-size: fontSize("largest");
+    font-size: fontSize('largest');
     font-weight: bold;
     text-align: center;
 }
 
 .previewCartCheckout-subtotal {
     display: block;
-    margin-bottom: spacing("single");
-    margin-top: spacing("single");
+    margin-bottom: spacing('single');
+    margin-top: spacing('single');
 }
 
 .previewCartCheckout-acceleratedCheckoutButtons {
@@ -85,18 +86,18 @@
 .previewCartCheckout-additionalCheckoutButtons {
     p {
         float: none !important; // 1
-        margin: spacing("third") 0;
+        margin: spacing('third') 0;
     }
 
     .CheckoutButton {
-        margin-bottom: spacing("base");
+        margin-bottom: spacing('base');
 
         &:first-child {
-            margin-top: spacing("single");
+            margin-top: spacing('single');
         }
 
         &:last-child {
-            margin-bottom: spacing("single");
+            margin-bottom: spacing('single');
         }
     }
 }
@@ -105,7 +106,7 @@
     display: none;
     text-align: center;
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         display: block;
     }
 }

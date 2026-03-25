@@ -1,11 +1,12 @@
+/* stylelint-disable declaration-no-important -- something overrides it if not using important, still debugging where it comes from */
 // =============================================================================
 // THEME FOCUS (global)
 // =============================================================================
 
-$outline-width:  2px;
-$outline-style:  solid;
-$outline-color:  #0f7fff;
-$outline-offset: 1px;
+$outline-width: 2px;
+$outline-style: solid;
+$outline-color: #333;
+$outline-offset: 2px;
 
 input,
 button,
@@ -13,17 +14,25 @@ textarea,
 select,
 details,
 [href],
-[tabindex]:not([tabindex="-1"]),
-[contenteditable="true"] {        
-    &:focus {
+[tabindex]:not([tabindex='-1']),
+[contenteditable='true'] {
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    &:focus-visible {
         outline: $outline-width $outline-style $outline-color !important;
-        outline-offset: $outline-offset !important;        
+        outline-offset: $outline-offset;
     }
 }
 
 label {
-    input:focus + & {
+    input:focus:not(:focus-visible) + & {
+        outline: none;
+    }
+
+    input:focus-visible + & {
         outline: $outline-width $outline-style $outline-color !important;
-        outline-offset: $outline-offset !important;        
+        outline-offset: $outline-offset;
     }
 }

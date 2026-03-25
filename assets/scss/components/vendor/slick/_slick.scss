@@ -1,24 +1,18 @@
 // SLICK
 // -----------------------------------------------------------------------------
-//
 // Purpose: These are the styles for the base Slick carousel
-//
 // -----------------------------------------------------------------------------
 
-
-//
 // Next and Previous buttons for all carousels
-//
 // Purpose: Override the plugin to give some Stencil styling to the js generated mark-up
-//
 // 1. Set the background again because the plugin sets the full background property on hover
 // 2. Prevent screen flicker when CSS transition is applied
-//
 // -----------------------------------------------------------------------------
 
 .slick-next,
 .slick-prev {
     @include carouselOpaqueBackgrounds($slick-arrow-bgColor);
+
     border: 1px solid $slick-arrow-borderColor;
     height: remCalc(61px);
     margin-top: -(remCalc(15px));
@@ -38,6 +32,7 @@
     &:hover,
     &:focus {
         @include carouselOpaqueBackgrounds($slick-arrow-bgColor); // 1
+
         background-position: 50%;
         background-repeat: no-repeat;
         background-size: 100%;
@@ -47,17 +42,17 @@
 .slick-next {
     right: $slick-arrows-offset;
 
-    @include breakpoint("large") {
-        right: -(spacing("double") + spacing("quarter"));
+    @include breakpoint('large') {
+        right: -(spacing('double') + spacing('quarter'));
     }
 
     &::before {
-        @include carousel-arrow-color( $slick-arrow-color, "next");
+        @include carousel-arrow-color($slick-arrow-color, 'next');
     }
 
     &:hover {
         &::before {
-            @include carousel-arrow-color( $slick-arrow-color-hover, "next");
+            @include carousel-arrow-color($slick-arrow-color-hover, 'next');
         }
     }
 }
@@ -65,17 +60,17 @@
 .slick-prev {
     left: $slick-arrows-offset;
 
-    @include breakpoint("large") {
-        left: -(spacing("double") + spacing("quarter"));
+    @include breakpoint('large') {
+        left: -(spacing('double') + spacing('quarter'));
     }
 
     &::before {
-        @include carousel-arrow-color( $slick-arrow-color, "prev");
+        @include carousel-arrow-color($slick-arrow-color, 'prev');
     }
 
     &:hover {
         &::before {
-            @include carousel-arrow-color( $slick-arrow-color-hover, "prev");
+            @include carousel-arrow-color($slick-arrow-color-hover, 'prev');
         }
     }
 }
@@ -85,26 +80,25 @@
     width: 100%;
 }
 
-
-//
 // Carousel dots
-//
 // Purpose: Stencil overrides for the js generated carousel dots
-//
 // 2. Nesting depth due to plugin css
 // -----------------------------------------------------------------------------
 
-.slick-dots {  // 2
+.slick-dots {
+    // 2
     margin: 0;
 
     li {
         @include square(32px);
+
         margin: 0;
         padding: remCalc(5px);
 
         button,
         button::before {
             @include square(15px);
+
             border-radius: 50%;
         }
 
@@ -137,18 +131,14 @@
             }
         }
     }
-
 }
 
-//
 // Stencil override for product detail page thumbnail dots.
 // -----------------------------------------------------------------------------
 .productView .slick-dots {
     position: relative;
 }
 
-
-//
 // disabled carousel elements
 // -----------------------------------------------------------------------------
 .slick-disabled {
@@ -156,8 +146,6 @@
     opacity: 0.1;
 }
 
-
-//
 // Slick track
 // -----------------------------------------------------------------------------
 .slick-track {
@@ -165,7 +153,6 @@
     perspective: 1000px; // 2
 }
 
-//
 // iOS Safari fix https://github.com/kenwheeler/slick/issues/2834#issuecomment-389590661
 // -----------------------------------------------------------------------------
 div.slick-slider {
@@ -174,7 +161,6 @@ div.slick-slider {
     *width: 100%;
 }
 
-//
 // iOS Safari fix https://github.com/kenwheeler/slick/issues/2156
 // -----------------------------------------------------------------------------
 .slick-slide .card-image,
@@ -182,18 +168,18 @@ div.slick-slider {
     -webkit-touch-callout: default;
 }
 
-//
 // Carousel tooltips for buttons and bullets
 // -----------------------------------------------------------------------------
 
 .carousel-tooltip {
     @include addFocusTooltip($attr: aria-label);
+
     display: none;
     height: 1px;
     margin-top: 10px;
     position: relative;
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         display: block;
     }
 
@@ -250,14 +236,14 @@ div.slick-slider {
     }
 }
 
-//
 // Carousel Play/Pause button
 // -----------------------------------------------------------------------------
 
 .carousel-play-pause-button {
     @include carouselOpaqueBackgrounds($slick-play-pause-button-bgColor);
+
     border: 1px solid $slick-play-pause-button-borderColor;
-    bottom: spacing("third");
+    bottom: spacing('third');
     color: $slick-play-pause-button-color;
     display: none;
     font-size: 14px;
@@ -272,15 +258,15 @@ div.slick-slider {
     text-overflow: ellipsis;
     transition: color 100ms ease-out;
     white-space: nowrap;
-    z-index: zIndex("lowest");
+    z-index: zIndex('lowest');
 
-    @include breakpoint("small") {
+    @include breakpoint('small') {
         font-size: 18px;
         max-width: 150px;
     }
 
-    @include breakpoint("medium") {
-        bottom: spacing("single");
+    @include breakpoint('medium') {
+        bottom: spacing('single');
         left: 25px;
     }
 

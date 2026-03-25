@@ -3,7 +3,7 @@
 // =============================================================================
 
 .search-suggestion {
-    margin-bottom: spacing("single") + spacing("third");
+    margin-bottom: spacing('single') + spacing('third');
 
     > :last-child {
         margin-bottom: 0;
@@ -16,24 +16,24 @@
 }
 
 .advancedSearch-form {
-    margin-bottom: spacing("double");
+    margin-bottom: spacing('double');
 
     .form-row {
-        margin-bottom: -(spacing("single"));
+        margin-bottom: -(spacing('single'));
     }
 }
 
 .quickSearchResults {
-    margin-top: spacing("single");
+    margin-top: spacing('single');
 
-    @include breakpoint("medium") {
+    @include breakpoint('medium') {
         margin-top: 0;
     }
 
     .modal-close {
         display: none;
 
-        @include breakpoint("medium") {
+        @include breakpoint('medium') {
             display: block;
         }
     }
@@ -44,7 +44,7 @@
 }
 
 .advancedSearch-title {
-    margin: 0 0 spacing("single");
+    margin: 0 0 spacing('single');
     text-transform: inherit;
 }
 
@@ -54,41 +54,43 @@
 
         input {
             display: block;
-            padding-left: spacing("single");
+            padding-left: spacing('single');
 
-            @include breakpoint("small") {
+            @include breakpoint('small') {
                 display: inline;
                 width: 6rem;
             }
         }
 
         span {
-            @include breakpoint("small") {
+            @include breakpoint('small') {
                 display: inline;
-                padding-left: spacing("single");
-                padding-right: spacing("single");
+                padding-left: spacing('single');
+                padding-right: spacing('single');
             }
         }
     }
 }
 
 .category-suggestion-list {
-    @include grid-row($behavior: "nest");
+    @include grid-row($behavior: 'nest');
+
     list-style-type: none;
 }
 
 .category-suggestion {
     @include grid-column(4);
-    font-size: fontSize("smaller");
+
+    font-size: fontSize('smaller');
 }
 
 .search-refine {
-    margin-left: spacing("single");
+    margin-left: spacing('single');
 }
 
 .quickSearchMessage {
-    font-size: fontSize("largest");
-    margin: spacing("single") 0 0;
+    font-size: fontSize('largest');
+    margin: spacing('single') 0 0;
     text-align: center;
 }
 

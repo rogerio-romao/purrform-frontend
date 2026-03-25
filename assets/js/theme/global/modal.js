@@ -1,5 +1,5 @@
-import foundation from './foundation';
 import * as focusTrap from 'focus-trap';
+import foundation from './foundation';
 
 const bodyActiveClass = 'has-activeModal';
 const loadingOverlayClass = 'loadingOverlay';
@@ -41,9 +41,7 @@ function getViewportHeight(multipler = 1) {
 function wrapModalBody(content) {
     const $modalBody = $('<div>');
 
-    $modalBody
-        .addClass(modalBodyClass)
-        .html(content);
+    $modalBody.addClass(modalBodyClass).html(content);
 
     return $modalBody;
 }
@@ -98,9 +96,7 @@ function createLoadingOverlay($modal) {
  * @param {string} [options.size]
  */
 export class Modal {
-    constructor($modal, {
-        size = null,
-    } = {}) {
+    constructor($modal, { size = null } = {}) {
         this.$modal = $modal;
         this.$content = createModalContent(this.$modal);
         this.$overlay = createLoadingOverlay(this.$modal);
@@ -119,7 +115,7 @@ export class Modal {
 
         /* STRF-2471 - Multiple Wish Lists - prevents double-firing
          * of foundation.dropdown click.fndtn.dropdown event */
-        this.$modal.on('click', '.dropdown-menu-button', e => {
+        this.$modal.on('click', '.dropdown-menu-button', (e) => {
             e.stopPropagation();
         });
     }
@@ -158,11 +154,7 @@ export class Modal {
         this.$modal.on(ModalEvents.opened, this.onModalOpened);
     }
 
-    open({
-        size,
-        pending = true,
-        clearContent = true,
-    } = {}) {
+    open({ size, pending = true, clearContent = true } = {}) {
         this.pending = pending;
 
         if (size) {
@@ -200,7 +192,9 @@ export class Modal {
     }
 
     setupFocusTrap() {
-        if (!this.$preModalFocusedEl) this.$preModalFocusedEl = $(document.activeElement);
+        if (!this.$preModalFocusedEl) {
+            this.$preModalFocusedEl = $(document.activeElement);
+        }
 
         if (!this.focusTrap) {
             this.focusTrap = focusTrap.createFocusTrap(this.$modal[0], {
@@ -208,9 +202,11 @@ export class Modal {
                 returnFocusOnDeactivate: false,
                 allowOutsideClick: true,
                 fallbackFocus: () => {
-                    const fallbackNode = this.$preModalFocusedEl && this.$preModalFocusedEl.length
-                        ? this.$preModalFocusedEl[0]
-                        : $('[data-header-logo-link]')[0];
+                    const fallbackNode =
+                        this.$preModalFocusedEl &&
+                        this.$preModalFocusedEl.length
+                            ? this.$preModalFocusedEl[0]
+                            : $('[data-header-logo-link]')[0];
 
                     return fallbackNode;
                 },
@@ -224,7 +220,7 @@ export class Modal {
     onModalClose() {
         $('body').removeClass(bodyActiveClass);
 
-       // this.clearContent();
+        // this.clearContent();
     }
 
     onModalClosed() {
@@ -264,21 +260,23 @@ export class Modal {
 export default function modalFactory(selector = '[data-reveal]', options = {}) {
     const $modals = $(selector, options.$context);
 
-    return $modals.map((index, element) => {
-        const $modal = $(element);
-        const instanceKey = 'modalInstance';
-        const cachedModal = $modal.data(instanceKey);
+    return $modals
+        .map((index, element) => {
+            const $modal = $(element);
+            const instanceKey = 'modalInstance';
+            const cachedModal = $modal.data(instanceKey);
 
-        if (cachedModal instanceof Modal) {
-            return cachedModal;
-        }
+            if (cachedModal instanceof Modal) {
+                return cachedModal;
+            }
 
-        const modal = new Modal($modal, options);
+            const modal = new Modal($modal, options);
 
-        $modal.data(instanceKey, modal);
+            $modal.data(instanceKey, modal);
 
-        return modal;
-    }).toArray();
+            return modal;
+        })
+        .toArray();
 }
 
 /*
