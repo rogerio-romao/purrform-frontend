@@ -5,32 +5,26 @@
     padding: 0.5rem;
     border-radius: 10px;
     margin-bottom: 25px;
+
     * {
-        font-family: 'Filson Pro';
+        font-family: 'Filson Pro', sans-serif;
     }
 
     &:hover {
         border: 1px solid $gold-color;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1),
+        box-shadow:
+            0 2px 2px 0 rgba(0, 0, 0, 0.1),
             0 3px 10px 0 rgba(0, 0, 0, 0.05);
-
-        /* .card-figcaption-button {
-      border-color: $secondary-color;
-      background-color: $secondary-color;
-
-      &.add-to-cart {
-        background-color: $nav-hover-text;
-        color: $white-color;
-      }
-    }*/
 
         .card-button {
             .button--secondary {
                 background-color: $secondary-color !important;
             }
+
             .add-to-cart {
                 background-color: $nav-hover-text !important;
                 color: $white-color !important;
+
                 svg {
                     path {
                         fill: white !important;
@@ -43,8 +37,9 @@
     .card-figure {
         overflow: hidden;
         position: relative;
+
         .card-img-container {
-            &:after {
+            &::after {
                 padding-bottom: 70%;
             }
 
@@ -60,10 +55,6 @@
         text-align: center;
         display: grid;
         grid-template-rows: auto 85px auto;
-
-        // @include breakpoint('medium') {
-        //     grid-template-rows: auto 55px auto;
-        // }
 
         .card-text {
             color: $text-color;
@@ -85,17 +76,17 @@
 
         .card-title {
             margin-bottom: 0;
+
             a {
                 color: $text-color;
             }
         }
 
         .custom-fields {
-            //height: 5rem;
-            // border: 1px solid;
             margin-bottom: 0;
             font-size: 14px;
             height: 3.8rem;
+
             @include breakpoint('medium') {
                 height: 2.5rem;
             }
@@ -110,7 +101,7 @@
                 margin-top: 1rem;
                 align-items: center;
                 justify-content: center;
-                grid-gap: 0.5rem;
+                gap: 0.5rem;
             }
 
             .form-field--increments {
@@ -122,14 +113,13 @@
                 padding: 1rem 2.2rem 1rem 0.7rem;
                 color: $white-color;
                 background-color: $nav-hover-text;
-                svg {
-                    //  fill: red;
-                }
+
                 @include breakpoint('medium') {
                     margin-top: 0;
                     background-color: transparent;
                     transition: all 0.15s ease;
                     color: $body-color;
+
                     &:hover {
                         background-color: $nav-hover-text;
                         color: $white-color;
@@ -141,26 +131,18 @@
         .card-button {
             width: 100%;
             margin-top: 1rem;
+
             .button--secondary {
-                // background-color: $secondary-color;
                 background-color: transparent;
                 transition: all 0.15s ease;
                 color: $body-color;
-                // border: 1px solid $input-field;
                 height: 75px;
-
-                // @include breakpoint('medium') {
-                //     color: $body-color;
-                //     &:hover {
-                //         background-color: $gold-color !important;
-                //         color: $white-color !important;
-                //     }
-                // }
             }
+
             .add-to-cart {
                 border: 0;
                 display: flex;
-                grid-gap: 10px;
+                gap: 10px;
                 align-items: center;
                 justify-content: center;
                 text-align: center;
@@ -169,20 +151,18 @@
                 padding: 1rem 1.5rem;
                 background-color: $nav-hover-text;
                 color: $white-color;
+
                 svg {
-                    //  stroke: $white-color;
                     path {
                         fill: white;
                     }
                 }
-                /* background-image: url(https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/-right-icon.png);
-      background-position: 94% center;
-      background-repeat: no-repeat;*/
 
                 @include breakpoint('medium') {
                     margin-top: 0;
                     background-color: transparent;
                     color: $body-color;
+
                     svg {
                         path {
                             fill: #bd9b60;
@@ -202,14 +182,16 @@
     }
 
     h2 {
-        font-family: 'Filson Pro';
+        font-family: 'Filson Pro', sans-serif;
         color: $headingColor;
         font-weight: 700;
         font-size: 28px;
+
         @include breakpoint('medium') {
             font-size: 40px;
         }
     }
+
     .slick-list {
         .card {
             .card-body {

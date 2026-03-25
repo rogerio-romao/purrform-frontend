@@ -4,24 +4,21 @@
 
 .icon--ratingEmpty {
     svg {
-        fill: stencilColor("icon-ratingEmpty");
+        fill: stencilColor('icon-ratingEmpty');
     }
 }
 
 .icon--ratingFull {
     svg {
-        fill: stencilColor("icon-ratingFull");
+        fill: stencilColor('icon-ratingFull');
     }
 }
 
-
 // Small rating
 // -----------------------------------------------------------------------------
-//
 // 1. Vertically aligns stars to container. Icons are off by default.
 //    Icons are all vertically aligned to middle, however middle is not middle,
 //    and therefore need to be adjusted to actually sit at middle.
-//
 // -----------------------------------------------------------------------------
 
 .rating--small {
@@ -29,6 +26,7 @@
 
     .icon {
         @include square(14px);
+
         margin-top: -3px; // 1
     }
 }
