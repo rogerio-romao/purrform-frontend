@@ -1261,30 +1261,6 @@ export default class DietBuilder extends PageManager {
     }
 
     renderResultsStep() {
-        const previewPayload = {
-            catName: this.state.catName,
-            calculatedRDA: this.state.calculatedRDA,
-            recommendedProductsCount: this.state.recommendedProducts.length,
-            productsForKlaviyoCount: this.state.productsForKlaviyo.length,
-            recommendedProducts: this.state.recommendedProducts.map((p) => ({
-                name: p.name,
-                image: p.image,
-                price: p.price,
-                path: `https://www.purrform.co.uk${p.path}`,
-                gramsPerDay: p.gramsPerDay,
-                pricePerDay: p.pricePerDay,
-            })),
-            productsForKlaviyo: this.state.productsForKlaviyo.map((p) => ({
-                name: p.name,
-                image: p.image,
-                price: p.price,
-                path: `https://www.purrform.co.uk${p.path}`,
-                gramsPerDay: p.gramsPerDay,
-                pricePerDay: p.pricePerDay,
-                ingredients: p.customFields?.Ingredients ?? [],
-            })),
-        };
-
         const backBtn = el(
             'button',
             {
@@ -1326,11 +1302,6 @@ export default class DietBuilder extends PageManager {
                         'Submit',
                     ),
                 ),
-            ),
-            el(
-                'pre',
-                { className: 'diet-builder-results-step__debug' },
-                JSON.stringify(previewPayload, null, 2),
             ),
         );
 
