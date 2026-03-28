@@ -1,6 +1,7 @@
 @font-face {
     font-family: 'Filson Pro';
-    src: url('../fonts/FilsonPro-Bold.woff2') format('woff2'),
+    src:
+        url('../fonts/FilsonPro-Bold.woff2') format('woff2'),
         url('../fonts/FilsonPro-Bold.woff') format('woff');
     font-weight: 700;
     font-style: normal;
@@ -9,7 +10,8 @@
 
 @font-face {
     font-family: 'Filson Pro';
-    src: url('../fonts/FilsonPro-Regular.woff2') format('woff2'),
+    src:
+        url('../fonts/FilsonPro-Regular.woff2') format('woff2'),
         url('../fonts/FilsonPro-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
@@ -94,7 +96,13 @@ h1.page-heading {
 }
 
 a {
+    color: #38b6e8;
     text-decoration: none;
+
+    &:hover {
+        color: #1e8fba;
+        text-decoration: underline;
+    }
 }
 
 p {
@@ -2920,7 +2928,9 @@ a.mapplic-zoomout-button {
     font-size: 14px;
     padding: 10px 20px 10px 18px;
     text-decoration: none;
-    transition: border, background-color 0.1s;
+    transition:
+        border,
+        background-color 0.1s;
 }
 
 .mapplic-list-location > a:after {
@@ -3075,7 +3085,9 @@ a.mapplic-zoomout-button {
     margin-top: 4px;
     padding: 4px 8px;
     text-decoration: none;
-    transition: background-color 0.2s, box-shadow 0.2s;
+    transition:
+        background-color 0.2s,
+        box-shadow 0.2s;
 }
 
 .mapplic-popup-link:hover {
