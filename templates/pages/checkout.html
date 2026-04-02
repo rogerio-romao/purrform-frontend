@@ -17,24 +17,14 @@
 
 {{#partial "page"}}
 
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/css/uikit.min.css" />
-    <link rel="stylesheet" href="https://use.typekit.net/drc3iaj.css" />
-
-    <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.14/dist/js/uikit-icons.min.js"></script>
 
     <!-- CALL MOST RECENT JQUERY LIBRARY -->
     <script src="https://code.jquery.com/jquery-3.6.2.min.js"
         integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
-    <link rel="stylesheet"
+     <link rel="stylesheet"
         href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css" />
+
 
     {{inject "checkoutId" cart_id}}
 
@@ -1558,7 +1548,14 @@
             border-color: red;
         }
 
+        #ui-datepicker-div > * {
+            font-family: 'Filson Pro', sans-serif;
+        }
+
         .ui-datepicker,
+        .ui-datepicker-title,
+        .ui-datepicker-month,
+        .ui-datepicker-year,
         .ui-datepicker table,
         .ui-datepicker tr,
         .ui-datepicker td,
@@ -1567,7 +1564,10 @@
             padding: 0;
             border: none;
             border-spacing: 0;
+            font-family: 'Filson Pro', sans-serif;
         }
+
+
 
         .ui-datepicker {
             box-shadow: 0 5px 12px rgb(0 0 0 / 15%);
@@ -1576,7 +1576,7 @@
             padding: 15px;
             cursor: default;
             text-transform: uppercase;
-            font-family: Filson-Soft;
+            font-family: 'Filson Pro', sans-serif;
             font-size: 24px;
             background: #fff;
             -webkit-border-radius: 4px;
@@ -1594,21 +1594,21 @@
 
         .ui-datepicker-title {
             text-align: center;
-            font-family: Filson-Soft;
+            font-family: 'Filson Pro', sans-serif;
         }
 
         .ui-datepicker-month {
             position: relative;
             padding-right: 15px;
             color: #fff;
-            font-family: Filson-Soft;
+            font-family: 'Filson Pro', sans-serif;
         }
 
         /* .ui-datepicker-current-day .ui-state-default {background-color:#687d6a;color: #bd9b60;} */
         .ui-datepicker-year {
             padding-left: 8px;
             color: #fff;
-            font-family: Filson-Soft;
+            font-family: 'Filson Pro', sans-serif;
         }
 
         .ui-datepicker-month:before {

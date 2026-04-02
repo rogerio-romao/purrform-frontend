@@ -1,7 +1,9 @@
 ---
 cart: true
 ---
-{{inject 'cancelButtonText' (lang 'common.cancel')}} {{#partial "page"}}
+
+{{#partial "page"}}
+    {{inject 'cancelButtonText' (lang 'common.cancel')}}
     {{inject 'invalidEntryMessage' (lang 'cart.invalid_entry_message')}}
     {{inject 'cartId' cart_id}}
 
@@ -206,7 +208,7 @@ cart: true
                                 </i>
                                 {{lang 'cart.added_to_cart.continue_shopping'}}
                             </a>
-                            <a id="do_checkout" class="button button--primary ui-state-disabled"
+                            <a id="do_checkout" class="button button--primary"
                                 href="{{urls.checkout.single_address}}" title="{{lang 'cart.checkout.title'}}"
                                 data-primary-checkout-now-action>
                                 {{lang 'cart.checkout.button'}}
@@ -237,36 +239,6 @@ cart: true
                 {{/if}}
 
             </main>
-            <script src="https://code.jquery.com/jquery-3.6.2.min.js"
-                integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
-
-            <div class="modal fade" id="redeem_point" tabindex="-1" aria-labelledby="redeem_point"
-                style="display: none;" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content swal2-content">
-                        <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex;">
-                            <div class="swal2-icon-content">!</div>
-                        </div>
-                        <h4 style="text-align:center;margin-bottom:5px;" id="swal2-title">
-                            </h2>
-                            <button type="button" class="swal2-close"
-                                onclick="document.getElementById('redeem_point').style.display='none';">x</button>
-                            <div id="swal2-content" class="swal2-html-container uk-margin-small-bottom"
-                                style="display: block;">Enter the points to redeem:</div>
-                            <input type="number" class="uk-input uk-text-center" id="redeem" name="redeem" min="" max=""
-                                value="" style="max-width:200px;">
-                    </div>
-                    <div class="swal2-footer">
-                        <span style="display:none;" id="total_point"></span>
-                        <a onclick="redeem_loyalty()"
-                            style="background-color: #BD9B60 !important; border-color: #BD9B60 !important; border-radius: 50px;font-weight: 500;font-size: 16px;"
-                            class="button button--primary">Redeem point &nbsp;</a>
-                        <a onclick="document.getElementById('redeem_point').style.display='none';"
-                            style="background-color: #FFF !important; border-color: #BD9B60 !important; border-radius: 50px;font-weight: 500;font-size: 16px;color: #BD9B60;"
-                            class="button button--primary">Cancel</a>
-                    </div>
-                </div>
-            </div>
 
             <div class="modal fade" id="newsletter-box" tabindex="-1" aria-labelledby="redeem_point"
                 style="text-align:center;display: none;box-shadow:0px 0px 39px 9px rgb(0 0 0 / 20%);border-radius:50px"
@@ -322,14 +294,7 @@ cart: true
             </div>
         </div>
     </div>
-    <div style="display:none" id="gift_wrap"
-        class="coupon-box-small-icon-wrap coupon-box-small-icon-position-bottom-left coupon-box-small-icon-hidden-mobile">
-        <div class="coupon-box-small-icon-container">
-            <span id="gift_close" class="coupon-box-small-icon-close button_close_icons-cancel"
-                title="Do not show again"></span>
-            <span id="gift_box" class="coupon-box-small-icon giftbox-gifbox-with-ribbon-on-top"></span>
-        </div>
-    </div>
+
 {{/partial}}
 {{> layout/base}}
 
