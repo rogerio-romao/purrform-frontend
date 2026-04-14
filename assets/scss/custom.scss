@@ -1257,12 +1257,6 @@ p {
 /************************** Card ************************/
 .productGrid {
     padding-left: 0;
-
-    .product {
-        @media only screen and (max-width: 800px) {
-            padding: 0;
-        }
-    }
 }
 
 /************************** bundle product section ************************/

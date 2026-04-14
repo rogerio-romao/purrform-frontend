@@ -1,9 +1,12 @@
 .card {
-    min-width: 205px;
     overflow: hidden;
     padding: 0.5rem;
     border-radius: 10px;
     margin-bottom: 25px;
+
+    @include breakpoint('small') {
+        min-width: 205px;
+    }
 
     * {
         font-family: 'Filson Pro', sans-serif;

@@ -28,3 +28,4 @@ widget/node_modules
 
 scripts
 cdn-dependencies-audit.md
+.playwright-mcp/
