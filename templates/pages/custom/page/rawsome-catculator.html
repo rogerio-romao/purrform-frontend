@@ -410,13 +410,13 @@
             How much does your cat weigh?
             </p>
         <div class="cat_weight_cal">
-            <img style='width: 250px; height: 215px; margin-left: 15%;' src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/cat-weight.png'/>
+            <img src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/cat-weight.png'/>
             <div style='display: flex; flex-direction: column; width: auto; height: auto;'>
             <p class="cat_weight_p" >kg</p>
-                <input id='weight_input' type="number" min="1" step="1" oninput='weightInput()' style=' margin: 40px 0px 0px 141px; width: 165px; height: 3.5rem; border: 3px solid #687D6A; border-radius: 45px; background-color: #00000000; color: #687D6A; font-size: 18px;'/>
+                <input id='weight_input' type="number" min="1" step="1" oninput='weightInput()'/>
                 <div>
                 <button class="rawsome-button--secondary" onclick='toPageOne()'>Back</button>
-                <button class="rawsome-button--primary" onclick='weight(1)' disabled style='color: #fff; font-size: 18px; font-weight: bold; margin: 20px 0px 0px 141px; text-align: center; width: 165px; height: 3.5rem; background-color: #687D6A; border-color: #00000000; border-radius: 45px;'>Next</button>
+                <button class="rawsome-button--primary" onclick='weight(1)' disabled >Next</button>
             </div>
                 </div>
 
@@ -434,13 +434,13 @@
             How much does your cat weigh?
             </p>
         <div class="cat_weight_cal" >
-            <img style='width: 250px; height: 215px; margin-left: 15%;' src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/cat-weight.png'/>
+            <img src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/cat-weight.png'/>
             <div style='display: flex; flex-direction: column; width: auto; height: auto;'>
             <p class="cat_weight_p" >kg</p>
-                <input id='weight_input' type="number" min="1" step="1" oninput='weightInput()' style=' margin: 40px 0px 0px 141px; width: 165px; height: 3.5rem; border: 3px solid #687D6A; border-radius: 45px; background-color: #00000000; color: #687D6A; font-size: 18px;'/>
+                <input id='weight_input' type="number" min="1" step="1" oninput='weightInput()' />
                 <div>
                 <button class="rawsome-button--secondary"  onclick='toPageOne()' >Back</button>
-                <button class="rawsome-button--primary" disabled onclick='weight(2)' style='color: #fff; font-size: 18px; font-weight: bold; margin: 20px 0px 0px 141px; text-align: center; width: 165px; height: 3.5rem; background-color: #687D6A; border-color: #00000000; border-radius: 45px;'>Next</button>
+                <button class="rawsome-button--primary" disabled onclick='weight(2)' >Next</button>
             </div>
             </div>
 
@@ -746,17 +746,17 @@
         let catculator = document.getElementById('catculator');
         catculator.innerHTML = `
         <div id='catculator' style='width: 100%'>
-        <p style='font-weight: bold; color: #687D6A; font-size: 24px;  ;'>
+        <p style='font-weight: bold; color: #687D6A; font-size: 24px; text-align: center;'>
             How much does your cat weigh?
             </p>
         <div class="cat_weight_cal" >
-            <img style='width: 250px; height: 215px; margin-left: 15%;' src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/cat-weight.png'/>
+            <img src='https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/320w/image-manager/cat-weight.png'/>
             <div style='display: flex; flex-direction: column; width: auto; height: auto;'>
             <p class="cat_weight_p" >kg</p>
-            <input id='weight_input' type="number" min="1" step="1" oninput='weightInput()' style='margin: 40px 0px 0px 141px; width: 165px; height: 3.5rem; border: 3px solid #687D6A; border-radius: 45px; background-color: #00000000; color: #687D6A; font-size: 18px;'/>
+            <input id='weight_input' type="number" min="1" step="1" oninput='weightInput()' />
             <div>
             <button class="rawsome-button--secondary"  onclick='toPageOne()' >Back</button>
-                <button class="rawsome-button--primary" onclick='weight(3)' disabled style='color: #fff; font-size: 18px; font-weight: bold; margin: 20px 0px 0px 141px;  ; width: 165px; height: 3.5rem; background-color: #687D6A; border-color: #00000000; border-radius: 45px;'>Next</button>
+                <button class="rawsome-button--primary" onclick='weight(3)' disabled >Next</button>
             </div>
                 </div>
 

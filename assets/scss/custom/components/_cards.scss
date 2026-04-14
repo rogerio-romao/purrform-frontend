@@ -1,33 +1,35 @@
 .card {
-    border: 1px solid $white;
-    min-width: 205px !important;
     overflow: hidden;
     padding: 0.5rem;
     border-radius: 10px;
     margin-bottom: 25px;
+
+    @include breakpoint('small') {
+        min-width: 205px;
+    }
 
     * {
         font-family: 'Filson Pro', sans-serif;
     }
 
     &:hover {
-        border: 1px solid $gold-color;
+        border: 1px solid $color-gold;
         box-shadow:
             0 2px 2px 0 rgba(0, 0, 0, 0.1),
             0 3px 10px 0 rgba(0, 0, 0, 0.05);
 
         .card-button {
             .button--secondary {
-                background-color: $secondary-color !important;
+                background-color: $color-gold-light;
             }
 
             .add-to-cart {
-                background-color: $nav-hover-text !important;
-                color: $white-color !important;
+                background-color: $color-brand-primary;
+                color: $color-white;
 
                 svg {
                     path {
-                        fill: white !important;
+                        fill: $color-white;
                     }
                 }
             }
@@ -57,11 +59,11 @@
         grid-template-rows: auto 85px auto;
 
         .card-text {
-            color: $text-color;
+            color: $color-brand-dark;
             font-weight: 700;
 
             span {
-                color: $body-color;
+                color: $color-text;
             }
         }
 
@@ -78,7 +80,7 @@
             margin-bottom: 0;
 
             a {
-                color: $text-color;
+                color: $color-brand-dark;
             }
         }
 
@@ -111,18 +113,18 @@
             .card-figcaption-button {
                 margin-top: 1rem;
                 padding: 1rem 2.2rem 1rem 0.7rem;
-                color: $white-color;
-                background-color: $nav-hover-text;
+                color: $color-white;
+                background-color: $color-brand-primary;
 
                 @include breakpoint('medium') {
                     margin-top: 0;
                     background-color: transparent;
                     transition: all 0.15s ease;
-                    color: $body-color;
+                    color: $color-text;
 
                     &:hover {
-                        background-color: $nav-hover-text;
-                        color: $white-color;
+                        background-color: $color-brand-primary;
+                        color: $color-white;
                     }
                 }
             }
@@ -135,7 +137,7 @@
             .button--secondary {
                 background-color: transparent;
                 transition: all 0.15s ease;
-                color: $body-color;
+                color: $color-text;
                 height: 75px;
             }
 
@@ -149,23 +151,23 @@
                 margin-top: 1rem;
                 margin-bottom: 0;
                 padding: 1rem 1.5rem;
-                background-color: $nav-hover-text;
-                color: $white-color;
+                background-color: $color-brand-primary;
+                color: $color-white;
 
                 svg {
                     path {
-                        fill: white;
+                        fill: $color-white;
                     }
                 }
 
                 @include breakpoint('medium') {
                     margin-top: 0;
                     background-color: transparent;
-                    color: $body-color;
+                    color: $color-text;
 
                     svg {
                         path {
-                            fill: #bd9b60;
+                            fill: $color-gold;
                         }
                     }
                 }
@@ -183,30 +185,12 @@
 
     h2 {
         font-family: 'Filson Pro', sans-serif;
-        color: $headingColor;
+        color: $color-brand-primary;
         font-weight: 700;
         font-size: 28px;
 
         @include breakpoint('medium') {
             font-size: 40px;
         }
-    }
-
-    .slick-list {
-        .card {
-            .card-body {
-                grid-template-rows: auto 105px auto !important;
-
-                @include breakpoint('medium') {
-                    grid-template-rows: auto 75px auto !important;
-                }
-            }
-        }
-    }
-}
-
-.slick-list {
-    .price-section {
-        margin-top: 0.5rem;
     }
 }
