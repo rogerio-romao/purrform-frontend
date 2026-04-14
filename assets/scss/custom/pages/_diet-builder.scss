@@ -765,7 +765,7 @@
         cursor: pointer;
         font-size: 14px;
         font-weight: 600;
-        color: $color-f-b;
+        color: $color-text;
         text-align: left;
         transition: background-color 0.15s ease;
 
@@ -806,19 +806,19 @@
 
     .diet-builder-health__info-explanation {
         font-size: 13px;
-        color: $color-f-b;
+        color: $color-text;
         margin-bottom: 10px;
         line-height: 1.5;
     }
 
     .diet-builder-health__info-recommended {
         font-size: 13px;
-        color: $color-f-b;
+        color: $color-text;
         line-height: 1.5;
         margin-bottom: 0;
 
         strong {
-            color: $color-f-b;
+            color: $color-text;
         }
     }
 
