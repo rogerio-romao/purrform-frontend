@@ -90,6 +90,8 @@
     </script>
 
     <script>
+        window.__purrformCheckoutBlocked = false;
+
         // Handles non-cumulative discounts
         const couponsElSelector = 'a.redeemable-label';
         ready(couponsElSelector, (couponsEl) => {
@@ -1086,6 +1088,7 @@
         const deliveryDetailsSelector =
             'fieldset.form-fieldset[data-test="checkout-shipping-comments"]';
         ready(deliveryDetailsSelector, (deliveryDetailsElement) => {
+            if (window.__purrformCheckoutBlocked) return;
             const existingInstructions =
                 document.getElementById('instruction-wrap');
             if (existingInstructions) {
@@ -1137,6 +1140,10 @@
         // This handles the payment continue button
         const paymentContinueButtonSelector = '#checkout-payment-continue';
         ready(paymentContinueButtonSelector, (paymentContinueButton) => {
+            if (window.__purrformCheckoutBlocked) {
+                paymentContinueButton.style.display = 'none';
+                return;
+            }
             if (document.getElementById('fakeButton')) {
                 document.getElementById('fakeButton').remove();
             }
@@ -1287,18 +1294,33 @@
 
 
                         if (hasOverdue || lowBalance) {
-                            // Hide the payment button if there is an overdue order or low balance
-                            ready('#fakeButton', (element) => {
-                                element.remove()
-                            });
+                            window.__purrformCheckoutBlocked = true;
 
-                            ready('#proceedButton', (element) => {
-                                element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                            });
+                            const creditPaymentButton = document.querySelector('#creditPaymentButton');
+                            if (creditPaymentButton) {
+                                creditPaymentButton.disabled = true;
+                                creditPaymentButton.style.display = 'none';
+                                creditPaymentButton.remove();
+                            }
+                            const fakeButton = document.querySelector('#fakeButton');
+                            if (fakeButton) {
+                                fakeButton.disabled = true;
+                                fakeButton.style.display = 'none';
+                                fakeButton.remove();
+                            }
+                            const proceedButton = document.querySelector('#proceedButton');
+                            if (proceedButton) {
+                                proceedButton.disabled = true;
+                                proceedButton.style.display = 'none';
+                                proceedButton.remove();
+                            }
+                            const checkoutContinueButton = document.querySelector('#checkoutPaymentContinue');
+                            if (checkoutContinueButton) {
+                                checkoutContinueButton.disabled = true;
+                                checkoutContinueButton.style.display = 'none';
+                                checkoutContinueButton.remove();
+                            }
 
-                            ready('#checkoutPaymentContinue', (element) => {
-                                element.style.display = hasOverdue || lowBalance ? 'none' : 'block';
-                            });
                         } else {
                             // change the fakeButton text to Pay Now
                             ready('#fakeButton', (element) => {
