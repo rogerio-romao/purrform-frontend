@@ -1,5 +1,5 @@
 {
-    "name": "new badges",
+    "name": "block overdue traders",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
