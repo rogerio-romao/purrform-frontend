@@ -1,4 +1,81 @@
 .dry-matter-basis-calculator-page {
+    .calculator-toggler {
+        margin: 0 auto 2rem;
+        width: 100%;
+        justify-content: space-between;
+        display: none;
+
+        p {
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 0;
+            margin-top: 0;
+
+            a {
+                color: $marketing-brand-text;
+            }
+        }
+
+        p.active {
+            border-bottom: 2px solid $marketing-brand-green;
+            font-weight: 700;
+        }
+
+        @include breakpoint('medium') {
+            width: 35%;
+            display: flex;
+        }
+    }
+
+    // ── Toggler (mobile) ─────────────────────────────────────────
+    .calculator-toggler-mobile {
+        background-color: $marketing-brand-green-light;
+        display: block;
+        width: 100vw;
+        position: relative;
+        left: calc(-50vw + 50%);
+        padding: 1rem 0;
+
+        .inner {
+            margin: auto;
+            width: 92%;
+
+            p {
+                padding: 0.5rem 0.8rem;
+                margin-bottom: 0.2rem;
+
+                a {
+                    color: $marketing-brand-text;
+                }
+            }
+
+            p#toggler-active {
+                background-color: $marketing-brand-card;
+                border-radius: 30px;
+
+                span {
+                    float: right;
+
+                    &.open {
+                        rotate: 180deg;
+                    }
+                }
+            }
+
+            #toggler-dropdown {
+                display: none;
+
+                &.active {
+                    display: block;
+                }
+            }
+        }
+
+        @include breakpoint('medium') {
+            display: none;
+        }
+    }
+
     #dmb-test {
         display: none;
         background-color: $headingColor;

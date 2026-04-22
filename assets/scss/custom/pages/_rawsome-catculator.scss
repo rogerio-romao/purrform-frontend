@@ -1,24 +1,10 @@
 // ── Rawsome Catculator ────────────────────────────────────────────────
 
-// CSS Variables — aliased from shared marketing tokens (_marketing-tokens.scss)
-:root {
-    --rc-bg: var(--brand-bg);
-    --rc-card: var(--brand-card);
-    --rc-green: var(--brand-green);
-    --rc-green-light: var(--brand-green-light);
-    --rc-green-mid: var(--brand-green-mid);
-    --rc-text: var(--brand-text);
-    --rc-text-muted: var(--brand-text-muted);
-    --rc-border: var(--brand-border);
-    --rc-radius: var(--brand-radius);
-    --rc-transition: var(--brand-transition);
-}
-
 // Full-width wrapper that breaks out of container
 .rawsome-catculator-page {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background: var(--rc-bg);
+    background: $marketing-brand-bg;
     min-height: 100vh;
     position: relative;
     padding: 2rem 1rem;
@@ -36,7 +22,7 @@
         h1 {
             font-weight: 700;
             font-size: clamp(1.8rem, 5vw, 2.8rem);
-            color: var(--rc-green);
+            color: $marketing-brand-green;
             line-height: 1.1;
             letter-spacing: -0.5px;
             margin-bottom: 1rem;
@@ -45,7 +31,7 @@
         p {
             font-size: 1rem;
             font-weight: 300;
-            color: var(--rc-text-muted);
+            color: $marketing-brand-text-muted;
             line-height: 1.6;
             max-width: 520px;
             margin-inline: auto;
@@ -66,12 +52,12 @@
             margin-top: 0;
 
             a {
-                color: var(--rc-text);
+                color: $marketing-brand-text;
             }
         }
 
         p.active {
-            border-bottom: 2px solid var(--rc-green);
+            border-bottom: 2px solid $marketing-brand-green;
             font-weight: 700;
         }
 
@@ -83,7 +69,7 @@
 
     // ── Toggler (mobile) ─────────────────────────────────────────
     .calculator-toggler-mobile {
-        background-color: var(--rc-green-light);
+        background-color: $marketing-brand-green-light;
         display: block;
         width: 100vw;
         position: relative;
@@ -99,12 +85,12 @@
                 margin-bottom: 0.2rem;
 
                 a {
-                    color: var(--rc-text);
+                    color: $marketing-brand-text;
                 }
             }
 
             p#toggler-active {
-                background-color: var(--rc-card);
+                background-color: $marketing-brand-card;
                 border-radius: 30px;
 
                 span {
@@ -141,7 +127,7 @@
     // Step heading rendered by JS (renderStep)
     .catculator-step__heading {
         font-weight: 600;
-        color: var(--rc-green);
+        color: $marketing-brand-green;
         font-size: 1.5rem;
         text-align: center;
         margin-bottom: 1.5rem;
@@ -149,22 +135,24 @@
 
     // ── Disclaimer copy ──────────────────────────────────────────
     .calculator-disclaimer {
-        margin: 3rem auto;
+        margin: 4rem auto;
         text-align: center;
         max-width: 640px;
 
         p {
-            color: var(--rc-text-muted);
+            margin-top: 2rem;
+            color: $marketing-brand-text-muted;
             font-size: 0.95rem;
             line-height: 1.6;
+            text-wrap: pretty;
         }
     }
 }
 
 // ── Buttons ──────────────────────────────────────────────────────────
 .rawsome-button--primary {
-    transition: all var(--rc-transition);
-    border: 2px solid var(--rc-green);
+    transition: all $marketing-brand-transition;
+    border: 2px solid $marketing-brand-green;
     color: #fff;
     font-size: 1rem;
     font-weight: 600;
@@ -174,8 +162,8 @@
     justify-content: center;
     min-width: 120px;
     height: 3rem;
-    background-color: var(--rc-green);
-    border-radius: var(--rc-radius);
+    background-color: $marketing-brand-green;
+    border-radius: $marketing-brand-radius;
     cursor: pointer;
     padding: 0 1.25rem;
 
@@ -191,13 +179,13 @@
     }
 
     &:hover {
-        background-color: var(--rc-card);
-        color: var(--rc-green);
+        background-color: $marketing-brand-card;
+        color: $marketing-brand-green;
         box-shadow: 0 4px 16px rgba(84, 96, 82, 0.2);
 
         p,
         a {
-            color: var(--rc-green);
+            color: $marketing-brand-green;
         }
     }
 
@@ -208,12 +196,12 @@
 }
 
 .rawsome-button--secondary {
-    background-color: var(--rc-card);
+    background-color: $marketing-brand-card;
     font-weight: 600;
-    color: var(--rc-green);
-    border: 2px solid var(--rc-green);
-    transition: all var(--rc-transition);
-    border-radius: var(--rc-radius);
+    color: $marketing-brand-green;
+    border: 2px solid $marketing-brand-green;
+    transition: all $marketing-brand-transition;
+    border-radius: $marketing-brand-radius;
     text-align: center;
     min-width: 120px;
     height: 3rem;
@@ -224,7 +212,7 @@
     padding: 0 1.25rem;
 
     &:hover {
-        background-color: var(--rc-green-light);
+        background-color: $marketing-brand-green-light;
     }
 }
 
@@ -251,7 +239,7 @@
     }
 
     .cat_weight_p {
-        color: var(--rc-text);
+        color: $marketing-brand-text;
         font-weight: 600;
         text-transform: uppercase;
         font-size: 0.8rem;
@@ -263,27 +251,25 @@
     #weight_input {
         width: 100%;
         height: 3.5rem;
-        border: 2px solid var(--rc-border);
-        border-radius: var(--rc-radius);
-        background-color: var(--rc-card);
-        color: var(--rc-text);
+        border: 2px solid $marketing-brand-border;
+        border-radius: $marketing-brand-radius;
+        background-color: $marketing-brand-card;
+        color: $marketing-brand-text;
         font-size: 1.2rem;
         text-align: center;
         appearance: textfield;
-        -moz-appearance: textfield;
         transition:
-            border-color var(--rc-transition),
-            box-shadow var(--rc-transition);
+            border-color $marketing-brand-transition,
+            box-shadow $marketing-brand-transition;
 
         &:focus {
             outline: none;
-            border-color: var(--rc-green);
+            border-color: $marketing-brand-green;
             box-shadow: 0 0 0 3px rgba(84, 96, 82, 0.1);
         }
 
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
             margin: 0;
         }
     }
@@ -439,30 +425,34 @@
 .catculator-col__img--kitten {
     width: 75px;
     height: 75px;
-    margin: 75px 0 30px 0;
+    margin: 75px 0 30px;
 }
+
 .catculator-col__img--young {
     width: 125px;
     height: 91px;
-    margin: 59px 0 30px 0;
+    margin: 59px 0 30px;
 }
+
 .catculator-col__img--adolescent {
     height: 106px;
-    margin: 44px 0 30px 0;
+    margin: 44px 0 30px;
 }
+
 .catculator-col__img--preAdult {
     height: 128px;
-    margin: 22px 0 30px 0;
+    margin: 22px 0 30px;
 }
+
 .catculator-col__img--adult {
     width: 90px;
     height: 140px;
-    margin: 10px 0 30px 0;
+    margin: 10px 0 30px;
 }
 
 // ── Results: heading + inner card ────────────────────────────────────
 .recom_daily_amount_heading {
-    color: var(--rc-green);
+    color: $marketing-brand-green;
     font-weight: 700;
     font-size: 1.5rem;
     text-align: center;
@@ -491,26 +481,26 @@
     }
 
     .recom_daily_amount_inner {
-        background-color: var(--rc-card);
+        background-color: $marketing-brand-card;
         margin: auto;
         width: 100%;
-        border-radius: var(--rc-radius);
+        border-radius: $marketing-brand-radius;
         padding: 18px 10px;
 
         .rc_reccoms {
-            background-color: var(--rc-green-light);
+            background-color: $marketing-brand-green-light;
             width: 95%;
             margin: auto;
-            border-radius: var(--rc-radius);
+            border-radius: $marketing-brand-radius;
 
             p {
                 padding: 7px 15px;
-                color: var(--rc-text);
+                color: $marketing-brand-text;
 
                 span {
                     float: right;
                     margin: 0;
-                    color: var(--rc-green);
+                    color: $marketing-brand-green;
 
                     @include breakpoint('medium') {
                         float: none;
@@ -535,7 +525,7 @@
             margin: 10px auto;
 
             p {
-                color: var(--rc-text-muted);
+                color: $marketing-brand-text-muted;
                 text-align: center;
             }
 
@@ -566,7 +556,7 @@
     right: 0;
     left: 0;
     margin: auto;
-    border: 6px solid var(--rc-green);
+    border: 6px solid $marketing-brand-green;
     border-top-color: #bd9b60;
     border-radius: 50%;
     animation: rawsome-button-loading-spinner 1s ease infinite;
@@ -589,6 +579,7 @@
 
 // ── Bottom "product types" info table ────────────────────────────────
 #rawsome-bottom {
+    border-top: 1px solid $marketing-brand-border;
     margin-top: 2rem;
     width: 100vw;
     position: relative;
@@ -610,8 +601,7 @@
             justify-content: center;
             gap: 0.75rem;
             padding: 1.5rem 1rem;
-            background-color: var(--rc-bg);
-            border-radius: var(--rc-radius);
+            border-radius: $marketing-brand-radius;
 
             img {
                 width: auto;
@@ -622,13 +612,13 @@
             h1 {
                 margin: 0.5rem auto;
                 font-size: 1.25rem;
-                color: var(--rc-green);
+                color: $marketing-brand-green;
                 font-weight: 700;
             }
 
             p {
                 margin-bottom: 0.5rem;
-                color: var(--rc-text-muted);
+                color: $marketing-brand-text-muted;
                 font-size: 0.95rem;
             }
 
@@ -681,7 +671,7 @@
 
     #rda-title,
     #swal2-title {
-        color: var(--rc-green);
+        color: $marketing-brand-green;
         text-align: center;
     }
 
@@ -719,14 +709,14 @@
         .product-section__title {
             text-align: center;
             margin-bottom: 1.5rem;
-            color: var(--rc-green);
+            color: $marketing-brand-green;
         }
 
         .wrapper {
             padding: 15px 10px;
-            border-radius: var(--rc-radius);
-            background-color: var(--rc-card);
-            border: 2px solid var(--rc-green);
+            border-radius: $marketing-brand-radius;
+            background-color: $marketing-brand-card;
+            border: 2px solid $marketing-brand-green;
             display: flex;
             flex-direction: column;
 
@@ -746,7 +736,7 @@
                     text-align: center;
                     line-height: 1.2;
                     font-size: 0.875rem;
-                    color: var(--rc-green);
+                    color: $marketing-brand-green;
                 }
             }
 
@@ -758,7 +748,7 @@
                     margin: 0;
                     font-size: 0.8rem;
                     font-weight: 700;
-                    color: var(--rc-green);
+                    color: $marketing-brand-green;
                     letter-spacing: 0.3px;
                 }
             }
