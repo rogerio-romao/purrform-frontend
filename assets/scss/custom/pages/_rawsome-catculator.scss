@@ -462,24 +462,6 @@
 .recom_daily_amount {
     padding: 0;
 
-    .rda_account_btn_container {
-        margin: 1.5rem auto 0;
-        width: 95%;
-        display: flex;
-        justify-content: center;
-
-        .rda_account_btn {
-            margin: auto;
-            width: fit-content;
-            padding-left: 25px;
-            padding-right: 25px;
-        }
-
-        @include breakpoint('medium') {
-            width: 30%;
-        }
-    }
-
     .recom_daily_amount_inner {
         background-color: $marketing-brand-card;
         margin: auto;
@@ -543,6 +525,121 @@
 
         @include breakpoint('medium') {
             width: 30%;
+        }
+    }
+
+    .product-recommendations {
+        margin: 2rem auto 0;
+        width: 100%;
+
+        .product-results-loading {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            min-height: 120px;
+            text-align: center;
+            color: $marketing-brand-text-muted;
+        }
+
+        .button--loading {
+            position: relative;
+            display: block;
+            width: 30px;
+            height: 30px;
+            margin: 0 auto;
+        }
+
+        .product-section {
+            margin-bottom: 2rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 13px;
+
+            @include breakpoint('small') {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            @include breakpoint('medium') {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+            @include breakpoint('large') {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+        }
+
+        .product-section__title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: $marketing-brand-green;
+        }
+
+        .wrapper {
+            padding: 15px 10px;
+            border-radius: $marketing-brand-radius;
+            background-color: $marketing-brand-card;
+            border: 2px solid $marketing-brand-green;
+            display: flex;
+            flex-direction: column;
+
+            .image_wrap img {
+                width: auto;
+                height: 100px;
+                display: block;
+                margin: 0 auto;
+                object-fit: contain;
+            }
+
+            .content_wrap {
+                margin: 0.5rem auto;
+                flex: 1;
+
+                .product-name {
+                    text-align: center;
+                    line-height: 1.2;
+                    font-size: 0.875rem;
+                    color: $marketing-brand-green;
+                }
+            }
+
+            .rda_wrap {
+                text-align: center;
+                padding: 0.4rem 0 0.5rem;
+
+                .rda_label {
+                    margin: 0;
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                    color: $marketing-brand-green;
+                    letter-spacing: 0.3px;
+                }
+            }
+
+            .cta_wrap {
+                margin-top: auto;
+            }
+
+            .rawsome-button--primary {
+                display: block;
+                margin: 1.25rem auto 0;
+                width: 70%;
+                font-size: 0.75rem;
+                height: 2.5rem;
+
+                @include breakpoint('medium') {
+                    font-size: 0.875rem;
+                }
+            }
+
+            @include breakpoint('medium') {
+                padding: 20px;
+            }
         }
     }
 }
@@ -632,145 +729,6 @@
         @include breakpoint('medium') {
             width: 81%;
             grid-template-columns: 1fr 1fr 1fr;
-        }
-    }
-}
-
-// ── Products modal (rendered by JS as #show_RDA) ─────────────────────
-#show_RDA {
-    padding: 0;
-    position: static;
-
-    .modal-header {
-        padding-left: 2.25rem;
-        padding-right: 3.0357rem;
-        border-bottom: none;
-
-        .swal2-close {
-            position: absolute;
-            z-index: 2;
-            top: 0;
-            right: 0;
-            align-items: center;
-            justify-content: center;
-            width: 1.2em;
-            height: 1.2em;
-            padding: 0;
-            overflow: hidden;
-            transition: color 0.1s ease-out;
-            border: none;
-            border-radius: 0;
-            background: 0 0;
-            color: #ccc;
-            font-family: serif;
-            font-size: 2.5em;
-            line-height: 1.2;
-            cursor: pointer;
-        }
-    }
-
-    #rda-title,
-    #swal2-title {
-        color: $marketing-brand-green;
-        text-align: center;
-    }
-
-    hr {
-        border: none;
-        margin: 0;
-    }
-
-    .swal2-content {
-        margin: auto;
-        width: 100%;
-
-        @include breakpoint('medium') {
-            width: 80%;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 13px;
-
-            @include breakpoint('small') {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            @include breakpoint('medium') {
-                grid-template-columns: 1fr 1fr 1fr;
-            }
-
-            @include breakpoint('large') {
-                grid-template-columns: 1fr 1fr 1fr 1fr;
-            }
-        }
-
-        .product-section__title {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: $marketing-brand-green;
-        }
-
-        .wrapper {
-            padding: 15px 10px;
-            border-radius: $marketing-brand-radius;
-            background-color: $marketing-brand-card;
-            border: 2px solid $marketing-brand-green;
-            display: flex;
-            flex-direction: column;
-
-            .image_wrap img {
-                width: auto;
-                height: 100px;
-                display: block;
-                margin: 0 auto;
-                object-fit: contain;
-            }
-
-            .content_wrap {
-                margin: 0.5rem auto;
-                flex: 1;
-
-                .product-name {
-                    text-align: center;
-                    line-height: 1.2;
-                    font-size: 0.875rem;
-                    color: $marketing-brand-green;
-                }
-            }
-
-            .rda_wrap {
-                text-align: center;
-                padding: 0.4rem 0 0.5rem;
-
-                .rda_label {
-                    margin: 0;
-                    font-size: 0.8rem;
-                    font-weight: 700;
-                    color: $marketing-brand-green;
-                    letter-spacing: 0.3px;
-                }
-            }
-
-            .cta_wrap {
-                margin-top: auto;
-            }
-
-            .rawsome-button--primary {
-                margin: 0 auto;
-                width: 100%;
-                font-size: 0.75rem;
-                height: 2.5rem;
-
-                @include breakpoint('medium') {
-                    font-size: 0.875rem;
-                }
-            }
-
-            @include breakpoint('medium') {
-                padding: 20px;
-            }
         }
     }
 }

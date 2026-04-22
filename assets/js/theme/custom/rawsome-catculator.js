@@ -214,6 +214,112 @@ export default class RawsomeCatculator extends PageManager {
         if (content) this.container.appendChild(content);
     }
 
+    _buildProductGrid(products) {
+        if (!products || products.length === 0) {
+            return el(
+                'div',
+                { className: 'wrapper' },
+                el('p', {}, 'No product found'),
+            );
+        }
+
+        const grid = el('div', { className: 'product-grid' });
+        const { weight, activity, coef } = this.state;
+
+        products.forEach((product) => {
+            const grams = calculateProductGrams(
+                weight,
+                activity,
+                coef,
+                product.calorie,
+            );
+            const card = el(
+                'div',
+                { className: 'wrapper' },
+                el(
+                    'div',
+                    { className: 'image_wrap' },
+                    el(
+                        'a',
+                        { href: product.action_url },
+                        el('img', { src: product.image }),
+                    ),
+                ),
+                el(
+                    'div',
+                    { className: 'content_wrap' },
+                    el(
+                        'a',
+                        { href: product.action_url },
+                        el('p', { className: 'product-name' }, product.name),
+                    ),
+                ),
+                el(
+                    'div',
+                    { className: 'rda_wrap' },
+                    el(
+                        'p',
+                        { className: 'rda_label' },
+                        `RDA: ${grams}g per day`,
+                    ),
+                ),
+                el(
+                    'div',
+                    { className: 'cta_wrap' },
+                    el(
+                        'a',
+                        { href: product.action_url },
+                        el(
+                            'button',
+                            { className: 'rawsome-button--primary' },
+                            'View Product',
+                        ),
+                    ),
+                ),
+            );
+            grid.appendChild(card);
+        });
+
+        return grid;
+    }
+
+    _renderProductRecommendations(container) {
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        if (!this.state.productsLoaded) {
+            const loading = el(
+                'div',
+                { className: 'product-results-loading cta--loading' },
+                el('span', { className: 'button--loading' }),
+                el('p', {}, 'Loading recommended products...'),
+            );
+            container.appendChild(loading);
+            return;
+        }
+
+        const { tubs, pouches } = this.state.products;
+
+        const tubsSection = el(
+            'section',
+            { className: 'product-section' },
+            el('h1', { className: 'product-section__title' }, '450g Tubs'),
+            this._buildProductGrid(tubs),
+        );
+
+        const pouchesSection = el(
+            'section',
+            { className: 'product-section' },
+            el('h1', { className: 'product-section__title' }, 'Pouches'),
+            this._buildProductGrid(pouches),
+        );
+
+        container.appendChild(tubsSection);
+        container.appendChild(el('hr', {}));
+        container.appendChild(pouchesSection);
+    }
+
     // ── Steps ────────────────────────────────────────────────────────
 
     renderAgeStep() {
@@ -578,39 +684,16 @@ export default class RawsomeCatculator extends PageManager {
             startOverBtn,
         );
 
-        // "View RDA on products" CTA with loading state
-        const ctaBtn = el(
-            'button',
-            {
-                id: 'show_product_cta',
-                className:
-                    'rda_account_btn rawsome-button--secondary cta--loading',
-                title: 'loading... please wait',
-                onClick: () => this.openProductsModal(),
-            },
-            'View your RDA on our products ',
-            el('span', { className: 'button--loading' }),
-        );
-
-        const ctaContainer = el(
-            'div',
-            { className: 'rda_account_btn_container' },
-            ctaBtn,
-        );
-
-        // Modal container (hidden until CTA clicked)
-        const modalContainer = el('div', {
-            id: 'show_RDA',
-            className: 'swal2-container swal2-center swal2-backdrop-show',
-            hidden: 'hidden',
+        const productsContainer = el('div', {
+            className: 'product-recommendations',
+            id: 'catculator-products',
         });
 
         const outer = el(
             'div',
             { className: 'recom_daily_amount' },
             inner,
-            ctaContainer,
-            modalContainer,
+            productsContainer,
         );
 
         // Heading is rendered separately via renderStep wrapper, but recom_daily_amount_heading
@@ -626,142 +709,17 @@ export default class RawsomeCatculator extends PageManager {
         this.container.appendChild(heading);
         this.container.appendChild(outer);
 
-        // Clear loading state once products are available
+        this._renderProductRecommendations(productsContainer);
+
         if (this._productsPromise) {
             this._productsPromise.then(() => {
-                const btn = this.container.querySelector('#show_product_cta');
-                if (btn) {
-                    btn.classList.remove('cta--loading');
-                    btn.removeAttribute('title');
-                    const spinner = btn.querySelector('.button--loading');
-                    if (spinner) spinner.style.display = 'none';
+                const currentContainer = this.container.querySelector(
+                    '#catculator-products',
+                );
+                if (currentContainer) {
+                    this._renderProductRecommendations(currentContainer);
                 }
             });
-        } else {
-            // No products promise — enable immediately (fallback)
-            ctaBtn.classList.remove('cta--loading');
-            ctaBtn.removeAttribute('title');
-        }
-    }
-
-    openProductsModal() {
-        const modal = this.container.querySelector('#show_RDA');
-        if (!modal) return;
-
-        modal.removeAttribute('hidden');
-        modal.innerHTML = '';
-
-        const { tubs, pouches } = this.state.products;
-        const { weight, activity, coef } = this.state;
-
-        const buildGrid = (products) => {
-            if (!products || products.length === 0) {
-                return el(
-                    'div',
-                    { className: 'wrapper' },
-                    el('p', {}, 'No product found'),
-                );
-            }
-
-            const grid = el('div', { className: 'product-grid' });
-            products.forEach((product) => {
-                const grams = calculateProductGrams(
-                    weight,
-                    activity,
-                    coef,
-                    product.calorie,
-                );
-                const card = el(
-                    'div',
-                    { className: 'wrapper' },
-                    el(
-                        'div',
-                        { className: 'image_wrap' },
-                        el(
-                            'a',
-                            { href: product.action_url },
-                            el('img', { src: product.image }),
-                        ),
-                    ),
-                    el(
-                        'div',
-                        { className: 'content_wrap' },
-                        el(
-                            'a',
-                            { href: product.action_url },
-                            el(
-                                'p',
-                                { className: 'product-name' },
-                                product.name,
-                            ),
-                        ),
-                    ),
-                    el(
-                        'div',
-                        { className: 'rda_wrap' },
-                        el(
-                            'p',
-                            { className: 'rda_label' },
-                            `RDA: ${grams}g per day`,
-                        ),
-                    ),
-                    el(
-                        'div',
-                        { className: 'cta_wrap' },
-                        el(
-                            'a',
-                            { href: product.action_url },
-                            el(
-                                'button',
-                                { className: 'rawsome-button--primary' },
-                                'View Product',
-                            ),
-                        ),
-                    ),
-                );
-                grid.appendChild(card);
-            });
-            return grid;
-        };
-
-        const tubsSection = el(
-            'div',
-            {
-                id: 'swal2-content_tubs',
-                className: 'swal2-html-container tubs',
-            },
-            buildGrid(tubs),
-        );
-
-        const pouchesSection = el(
-            'div',
-            {
-                id: 'swal2-content-pouches',
-                className: 'swal2-html-container tubs',
-            },
-            buildGrid(pouches),
-        );
-
-        const content = el(
-            'div',
-            { className: 'modal-content swal2-content' },
-            el('h1', { className: 'product-section__title' }, '450g Tubs'),
-            tubsSection,
-            el('hr', {}),
-            el('h1', { className: 'product-section__title' }, 'Pouches'),
-            pouchesSection,
-            el('hr', {}),
-        );
-
-        const dialog = el('div', { className: 'modal-dialog' }, content);
-        modal.appendChild(dialog);
-    }
-
-    closeProductsModal() {
-        const modal = this.container.querySelector('#show_RDA');
-        if (modal) {
-            modal.setAttribute('hidden', 'hidden');
-            modal.innerHTML = '';
         }
     }
 }
