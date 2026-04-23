@@ -57,6 +57,10 @@ const customClasses = {
         import('./theme/custom/diet-builder'),
     'pages/custom/page/feline-grimace-scale': () =>
         import('./theme/custom/feline-grimace-scale'),
+    'pages/custom/page/rawsome-catculator': () =>
+        import('./theme/custom/rawsome-catculator'),
+    'pages/custom/page/dry-matter-basis-calculator': () =>
+        import('./theme/custom/dry-matter-basis-calculator'),
 };
 
 /**

@@ -23,3 +23,15 @@ $color-grey-lightest: #f3f2f2;
 $color-gray-lightest: #f3f2f2;
 $color-white: #fff;
 $color-text: #232524;
+
+/* Marketing Pages Tokens */
+$marketing-brand-bg: #f7f4f0;
+$marketing-brand-card: $color-white;
+$marketing-brand-green: $color-brand-dark;
+$marketing-brand-green-light: #edf1ec;
+$marketing-brand-green-mid: #859e7d;
+$marketing-brand-text: #2a3329;
+$marketing-brand-text-muted: $color-brand-primary;
+$marketing-brand-border: #d4ddd3;
+$marketing-brand-radius: 16px;
+$marketing-brand-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);

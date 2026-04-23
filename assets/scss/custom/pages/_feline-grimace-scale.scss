@@ -3,25 +3,15 @@
 // CSS Variables — aliased from shared marketing tokens (_marketing-tokens.scss)
 // FGS-specific score colours are defined here only.
 :root {
-    --fgs-bg: var(--brand-bg);
-    --fgs-card: var(--brand-card);
-    --fgs-green: var(--brand-green);
-    --fgs-green-light: var(--brand-green-light);
-    --fgs-green-mid: var(--brand-green-mid);
-    --fgs-text: var(--brand-text);
-    --fgs-text-muted: var(--brand-text-muted);
-    --fgs-border: var(--brand-border);
     --fgs-score-low: #4caf87;
     --fgs-score-mid: #e8a020;
     --fgs-score-high: #e05555;
-    --fgs-radius: var(--brand-radius);
-    --fgs-transition: var(--brand-transition);
 }
 
 .fgs-page {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background: var(--fgs-bg);
+    background: $marketing-brand-bg;
     min-height: 100vh;
     position: relative;
 
@@ -74,14 +64,14 @@
     h1 {
         font-size: clamp(1.8rem, 5vw, 2.8rem);
         font-weight: 700;
-        color: var(--fgs-green);
+        color: $marketing-brand-green;
         line-height: 1.1;
         letter-spacing: -0.5px;
     }
 
     p {
         margin-top: 10px;
-        color: var(--fgs-text-muted);
+        color: $marketing-brand-text-muted;
         font-size: 0.95rem;
         font-weight: 300;
         max-width: 480px;
@@ -108,17 +98,17 @@
 // ── Instructions ──────────────────────────────────────────────────────
 
 .fgs-instructions {
-    background: var(--fgs-green-light);
-    border-radius: var(--fgs-radius);
+    background: $marketing-brand-green-light;
+    border-radius: $marketing-brand-radius;
     padding: 18px 22px;
     margin-bottom: 32px;
     font-size: 0.88rem;
-    color: var(--fgs-text);
+    color: $marketing-brand-text;
     line-height: 1.7;
     animation: fgsFadeDown 0.75s ease both;
 
     strong {
-        color: var(--fgs-green);
+        color: $marketing-brand-green;
     }
 
     .fgs-wait-list {
@@ -133,8 +123,8 @@
             padding: 4px 14px;
             font-size: 0.82rem;
             font-weight: 500;
-            color: var(--fgs-green);
-            border: 1.5px solid var(--fgs-green-mid);
+            color: $marketing-brand-green;
+            border: 1.5px solid $marketing-brand-green-mid;
         }
     }
 }
@@ -142,14 +132,14 @@
 // ── Action Unit Cards ─────────────────────────────────────────────────
 
 .unit-card {
-    background: var(--fgs-card);
-    border-radius: var(--fgs-radius);
-    border: 1.5px solid var(--fgs-border);
+    background: $marketing-brand-card;
+    border-radius: $marketing-brand-radius;
+    border: 1.5px solid $marketing-brand-border;
     margin-bottom: 24px;
     overflow: hidden;
     animation: fgsFadeUp 0.5s ease both;
     box-shadow: 0 2px 20px #54605208;
-    transition: box-shadow var(--fgs-transition);
+    transition: box-shadow $marketing-brand-transition;
 
     &:hover {
         box-shadow: 0 6px 32px #54605214;
@@ -158,22 +148,26 @@
     &:nth-child(1) {
         animation-delay: 0.1s;
     }
+
     &:nth-child(2) {
         animation-delay: 0.15s;
     }
+
     &:nth-child(3) {
         animation-delay: 0.2s;
     }
+
     &:nth-child(4) {
         animation-delay: 0.25s;
     }
+
     &:nth-child(5) {
         animation-delay: 0.3s;
     }
 }
 
 .unit-header {
-    background: var(--fgs-green);
+    background: $marketing-brand-green;
     color: white;
     padding: 14px 22px;
     display: flex;
@@ -195,11 +189,11 @@
         padding: 4px 14px;
         font-size: 0.82rem;
         font-weight: 600;
-        transition: background var(--fgs-transition);
+        transition: background $marketing-brand-transition;
 
         &.selected {
             background: white;
-            color: var(--fgs-green);
+            color: $marketing-brand-green;
         }
     }
 }
@@ -208,7 +202,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0;
-    border-top: 1px solid var(--fgs-border);
+    border-top: 1px solid $marketing-brand-border;
 }
 
 .option-btn {
@@ -220,8 +214,8 @@
     cursor: pointer;
     border: none;
     background: transparent;
-    transition: background var(--fgs-transition);
-    border-right: 1px solid var(--fgs-border);
+    transition: background $marketing-brand-transition;
+    border-right: 1px solid $marketing-brand-border;
     outline: none;
     text-align: center;
     -webkit-tap-highlight-color: transparent;
@@ -231,24 +225,24 @@
     }
 
     &:hover {
-        background: var(--fgs-green-light);
+        background: $marketing-brand-green-light;
     }
 
     &.selected {
-        background: var(--fgs-green-light);
+        background: $marketing-brand-green-light;
 
         &::after {
             content: '';
             position: absolute;
             inset: 0;
-            border: 2.5px solid var(--fgs-green);
+            border: 2.5px solid $marketing-brand-green;
             border-radius: 0;
             pointer-events: none;
         }
 
         .score-pill {
-            border-color: var(--fgs-green);
-            background: var(--fgs-green);
+            border-color: $marketing-brand-green;
+            background: $marketing-brand-green;
             color: white;
             transform: scale(1.1);
         }
@@ -259,15 +253,15 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    border: 2.5px solid var(--fgs-border);
+    border: 2.5px solid $marketing-brand-border;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
     font-size: 0.9rem;
-    color: var(--fgs-text-muted);
+    color: $marketing-brand-text-muted;
     margin-bottom: 14px;
-    transition: all var(--fgs-transition);
+    transition: all $marketing-brand-transition;
     background: white;
 }
 
@@ -288,14 +282,14 @@
 .option-label {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--fgs-text);
+    color: $marketing-brand-text;
     line-height: 1.3;
     margin-bottom: 4px;
 }
 
 .option-sublabel {
     font-size: 0.72rem;
-    color: var(--fgs-text-muted);
+    color: $marketing-brand-text-muted;
     line-height: 1.3;
     font-weight: 400;
 }
@@ -303,9 +297,9 @@
 // ── Score Panel ───────────────────────────────────────────────────────
 
 .score-panel {
-    background: var(--fgs-card);
-    border-radius: var(--fgs-radius);
-    border: 1.5px solid var(--fgs-border);
+    background: $marketing-brand-card;
+    border-radius: $marketing-brand-radius;
+    border: 1.5px solid $marketing-brand-border;
     margin-bottom: 24px;
     overflow: hidden;
     animation: fgsFadeUp 0.5s 0.4s ease both;
@@ -313,7 +307,7 @@
 }
 
 .score-panel-header {
-    background: var(--fgs-text);
+    background: $marketing-brand-text;
     color: white;
     padding: 16px 22px;
     display: flex;
@@ -339,7 +333,7 @@
     min-width: 100px;
     text-align: center;
     padding: 12px 8px;
-    border-right: 1px solid var(--fgs-border);
+    border-right: 1px solid $marketing-brand-border;
 
     &:last-child {
         border-right: none;
@@ -351,15 +345,15 @@
     font-weight: 600;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--fgs-text-muted);
+    color: $marketing-brand-text-muted;
     margin-bottom: 6px;
 }
 
 .score-item-value {
     font-size: 1.6rem;
     font-weight: 700;
-    color: var(--fgs-text);
-    transition: all var(--fgs-transition);
+    color: $marketing-brand-text;
+    transition: all $marketing-brand-transition;
 }
 
 .total-section {
@@ -367,7 +361,7 @@
     display: flex;
     align-items: center;
     gap: 24px;
-    border-top: 1.5px solid var(--fgs-border);
+    border-top: 1.5px solid $marketing-brand-border;
     margin-top: 16px;
     flex-wrap: wrap;
 }
@@ -384,12 +378,15 @@
     &.color-0 {
         color: var(--fgs-score-low);
     }
+
     &.color-mild {
         color: var(--fgs-score-low);
     }
+
     &.color-pain {
         color: var(--fgs-score-mid);
     }
+
     &.color-severe {
         color: var(--fgs-score-high);
     }
@@ -400,7 +397,7 @@
     font-weight: 600;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--fgs-text-muted);
+    color: $marketing-brand-text-muted;
     margin-bottom: 4px;
 }
 
@@ -412,7 +409,7 @@
 
 .total-out-of {
     font-size: 1rem;
-    color: var(--fgs-text-muted);
+    color: $marketing-brand-text-muted;
     font-weight: 300;
     align-self: flex-end;
     padding-bottom: 8px;
@@ -440,10 +437,12 @@
         background: #e8f5ef;
         color: #2d7a59;
     }
+
     &.badge-pain {
         background: #fff3e0;
         color: #b56b00;
     }
+
     &.badge-severe {
         background: #fde8e8;
         color: #c0392b;
@@ -453,7 +452,7 @@
 .interp-text {
     font-size: 0.85rem;
     line-height: 1.6;
-    color: var(--fgs-text);
+    color: $marketing-brand-text;
     transition: opacity 0.3s ease;
 }
 
@@ -467,14 +466,14 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.75rem;
-    color: var(--fgs-text-muted);
+    color: $marketing-brand-text-muted;
     margin-bottom: 6px;
     font-weight: 500;
 }
 
 .progress-track {
     height: 8px;
-    background: var(--fgs-border);
+    background: $marketing-brand-border;
     border-radius: 20px;
     overflow: hidden;
 }
@@ -491,6 +490,7 @@
     &.color-pain {
         background: var(--fgs-score-mid);
     }
+
     &.color-severe {
         background: var(--fgs-score-high);
     }
@@ -526,7 +526,7 @@
 
 .fgs-attribution {
     font-size: 0.65rem;
-    color: var(--fgs-text-muted);
+    color: $marketing-brand-text-muted;
     text-align: right;
     padding: 0 22px 12px;
     font-style: italic;
@@ -539,6 +539,7 @@
         opacity: 0;
         transform: translateY(-16px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -550,6 +551,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -560,9 +562,11 @@
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.15);
     }
+
     100% {
         transform: scale(1);
     }
@@ -581,7 +585,7 @@
 
     .option-btn {
         border-right: none;
-        border-bottom: 1px solid var(--fgs-border);
+        border-bottom: 1px solid $marketing-brand-border;
         flex-direction: row;
         gap: 14px;
         text-align: left;
