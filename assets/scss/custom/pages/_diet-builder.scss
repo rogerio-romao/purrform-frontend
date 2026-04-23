@@ -1,20 +1,5 @@
 // ── Diet Builder ─────────────────────────────────────────────────────
 
-// CSS Variables — aliased from shared marketing tokens (_marketing-tokens.scss)
-:root {
-    --db-bg: var(--brand-bg);
-    --db-card: var(--brand-card);
-    --db-green: var(--brand-green);
-    --db-green-light: var(--brand-green-light);
-    --db-green-mid: var(--brand-green-mid);
-    --db-text: var(--brand-text);
-    --db-text-muted: var(--brand-text-muted);
-    --db-selected: var(--brand-green);
-    --db-border: var(--brand-border);
-    --db-radius: var(--brand-radius);
-    --db-transition: var(--brand-transition);
-}
-
 // Import fonts
 // @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
@@ -22,7 +7,7 @@
 .diet-builder-wrapper {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background: var(--db-bg);
+    background: $marketing-brand-bg;
     min-height: 100vh;
     position: relative;
     padding: 2rem 1rem;
@@ -45,7 +30,7 @@
         animation: dbFadeDown 0.6s ease both;
 
         em {
-            color: var(--db-text-muted);
+            color: $marketing-brand-text-muted;
             font-size: 0.9rem;
         }
 
@@ -58,7 +43,7 @@
         h1 {
             font-weight: 700;
             font-size: clamp(1.8rem, 5vw, 2.8rem);
-            color: var(--db-green);
+            color: $marketing-brand-green;
             line-height: 1.1;
             letter-spacing: -0.5px;
             margin-bottom: 1rem;
@@ -67,7 +52,7 @@
         p {
             font-size: 1rem;
             font-weight: 300;
-            color: var(--db-text-muted);
+            color: $marketing-brand-text-muted;
             line-height: 1.6;
             max-width: 480px;
             margin-inline: auto;
@@ -97,14 +82,14 @@
 
     .diet-builder-step__heading {
         font-weight: 600;
-        color: var(--db-green);
+        color: $marketing-brand-green;
         font-size: 1.5rem;
         text-align: center;
         margin-bottom: 0.5rem;
     }
 
     .diet-builder-step__sub-heading {
-        color: var(--db-green);
+        color: $marketing-brand-green;
         font-size: 0.95rem;
         text-align: center;
         margin-bottom: 1.5rem;
@@ -116,8 +101,8 @@
 
     // ── Buttons ──────────────────────────────────────────────────
     .diet-builder-btn--primary {
-        transition: all var(--db-transition);
-        border: 2px solid var(--db-green) !important;
+        transition: all $marketing-brand-transition;
+        border: 2px solid $marketing-brand-green;
         color: white;
         font-size: 1rem;
         font-weight: 600;
@@ -127,13 +112,13 @@
         justify-content: center;
         min-width: 120px;
         height: 3rem;
-        background-color: var(--db-green);
-        border-radius: var(--db-radius);
+        background-color: $marketing-brand-green;
+        border-radius: $marketing-brand-radius;
         cursor: pointer;
 
         &:hover {
-            background-color: white !important;
-            color: var(--db-green) !important;
+            background-color: white;
+            color: $marketing-brand-green;
             box-shadow: 0 4px 16px rgba(84, 96, 82, 0.2);
         }
 
@@ -146,10 +131,10 @@
     .diet-builder-btn--secondary {
         background-color: white;
         font-weight: 600;
-        color: var(--db-green);
-        border: 2px solid var(--db-green);
-        transition: all var(--db-transition);
-        border-radius: var(--db-radius);
+        color: $marketing-brand-green;
+        border: 2px solid $marketing-brand-green;
+        transition: all $marketing-brand-transition;
+        border-radius: $marketing-brand-radius;
         text-align: center;
         min-width: 120px;
         height: 3rem;
@@ -159,7 +144,7 @@
         cursor: pointer;
 
         &:hover {
-            background-color: var(--db-green-light);
+            background-color: $marketing-brand-green-light;
         }
     }
 
@@ -218,12 +203,12 @@
 
     .diet-builder-col__img--adolescent {
         height: 106px;
-        margin: 44px 0 30px 0;
+        margin: 44px 0 30px;
     }
 
     .diet-builder-col__img--preAdult {
         height: 128px;
-        margin: 22px 0 30px 0;
+        margin: 22px 0 30px;
     }
 
     .diet-builder-col__img--adult {
@@ -245,7 +230,7 @@
         .diet-builder-age-form__dob-label {
             display: block;
             text-transform: uppercase;
-            color: var(--db-text);
+            color: $marketing-brand-text;
             font-size: 0.8rem;
             font-weight: 600;
             letter-spacing: 1px;
@@ -260,24 +245,24 @@
         #cat-name {
             width: 100%;
             height: 3.5rem;
-            border: 2px solid var(--db-border);
-            border-radius: var(--db-radius);
-            background-color: var(--db-card);
-            color: var(--db-text);
+            border: 2px solid $marketing-brand-border;
+            border-radius: $marketing-brand-radius;
+            background-color: $marketing-brand-card;
+            color: $marketing-brand-text;
             font-size: 1rem;
             padding: 0 20px;
             transition:
-                border-color var(--db-transition),
-                box-shadow var(--db-transition);
+                border-color $marketing-brand-transition,
+                box-shadow $marketing-brand-transition;
 
             &:focus {
                 outline: none;
-                border-color: var(--db-green);
+                border-color: $marketing-brand-green;
                 box-shadow: 0 0 0 3px rgba(84, 96, 82, 0.1);
             }
 
             &::placeholder {
-                color: var(--db-text-muted);
+                color: $marketing-brand-text-muted;
             }
         }
 
@@ -309,7 +294,7 @@
         label {
             display: block;
             text-transform: uppercase;
-            color: var(--db-text);
+            color: $marketing-brand-text;
             font-size: 0.8rem;
             font-weight: 600;
             letter-spacing: 1px;
@@ -320,24 +305,24 @@
         input[type='email'] {
             width: 100%;
             height: 3.5rem;
-            border: 2px solid var(--db-border);
-            border-radius: var(--db-radius);
-            background-color: var(--db-card);
-            color: var(--db-text);
+            border: 2px solid $marketing-brand-border;
+            border-radius: $marketing-brand-radius;
+            background-color: $marketing-brand-card;
+            color: $marketing-brand-text;
             font-size: 1rem;
             padding: 0 20px;
             transition:
-                border-color var(--db-transition),
-                box-shadow var(--db-transition);
+                border-color $marketing-brand-transition,
+                box-shadow $marketing-brand-transition;
 
             &:focus {
                 outline: none;
-                border-color: var(--db-green);
+                border-color: $marketing-brand-green;
                 box-shadow: 0 0 0 3px rgba(84, 96, 82, 0.1);
             }
 
             &::placeholder {
-                color: var(--db-text-muted);
+                color: $marketing-brand-text-muted;
             }
         }
 
@@ -353,32 +338,31 @@
 
         input {
             height: 3.5rem;
-            border: 2px solid var(--db-border);
-            border-radius: var(--db-radius);
-            background-color: var(--db-card);
-            color: var(--db-text);
+            border: 2px solid $marketing-brand-border;
+            border-radius: $marketing-brand-radius;
+            background-color: $marketing-brand-card;
+            color: $marketing-brand-text;
             font-size: 1rem;
             text-align: center;
             appearance: textfield;
-            -moz-appearance: textfield;
             transition:
-                border-color var(--db-transition),
-                box-shadow var(--db-transition);
+                border-color $marketing-brand-transition,
+                box-shadow $marketing-brand-transition;
 
             &:focus {
                 outline: none;
-                border-color: var(--db-green);
+                border-color: $marketing-brand-green;
                 box-shadow: 0 0 0 3px rgba(84, 96, 82, 0.1);
             }
 
             &::-webkit-outer-spin-button,
             &::-webkit-inner-spin-button {
-                -webkit-appearance: none;
+                appearance: none;
                 margin: 0;
             }
 
             &::placeholder {
-                color: var(--db-text-muted);
+                color: $marketing-brand-text-muted;
             }
         }
 
@@ -423,7 +407,7 @@
         max-width: 250px;
 
         .diet-builder-weight__label {
-            color: var(--db-text);
+            color: $marketing-brand-text;
             font-weight: 600;
             text-transform: uppercase;
             font-size: 0.8rem;
@@ -435,27 +419,26 @@
         #weight_input {
             width: 100%;
             height: 3.5rem;
-            border: 2px solid var(--db-border);
-            border-radius: var(--db-radius);
-            background-color: var(--db-card);
-            color: var(--db-text);
+            border: 2px solid $marketing-brand-border;
+            border-radius: $marketing-brand-radius;
+            background-color: $marketing-brand-card;
+            color: $marketing-brand-text;
             font-size: 1.2rem;
             text-align: center;
             appearance: textfield;
-            -moz-appearance: textfield;
             transition:
-                border-color var(--db-transition),
-                box-shadow var(--db-transition);
+                border-color $marketing-brand-transition,
+                box-shadow $marketing-brand-transition;
 
             &:focus {
                 outline: none;
-                border-color: var(--db-green);
+                border-color: $marketing-brand-green;
                 box-shadow: 0 0 0 3px rgba(84, 96, 82, 0.1);
             }
 
             &::-webkit-outer-spin-button,
             &::-webkit-inner-spin-button {
-                -webkit-appearance: none;
+                appearance: none;
                 margin: 0;
             }
         }
@@ -584,7 +567,7 @@
         align-items: center;
 
         .diet-builder-ingredients__description {
-            color: var(--db-text-muted);
+            color: $marketing-brand-text-muted;
             font-size: 0.95rem;
             text-align: center;
             max-width: 500px;
@@ -610,26 +593,26 @@
     }
 
     .diet-builder-ingredients__card {
-        background-color: var(--db-card);
-        border: 2px solid var(--db-border);
-        border-radius: var(--db-radius);
+        background-color: $marketing-brand-card;
+        border: 2px solid $marketing-brand-border;
+        border-radius: $marketing-brand-radius;
         padding: 16px 12px;
         font-size: 0.9rem;
         font-weight: 600;
-        color: var(--db-text);
+        color: $marketing-brand-text;
         text-align: center;
         cursor: pointer;
-        transition: all var(--db-transition);
+        transition: all $marketing-brand-transition;
 
         &:hover {
-            background-color: var(--db-green-light);
-            border-color: var(--db-green-mid);
+            background-color: $marketing-brand-green-light;
+            border-color: $marketing-brand-green-mid;
         }
 
         &--selected {
-            background-color: var(--db-green);
+            background-color: $marketing-brand-green;
             color: white;
-            border-color: var(--db-green);
+            border-color: $marketing-brand-green;
 
             &:hover {
                 background-color: #465444;
@@ -675,30 +658,30 @@
     }
 
     .diet-builder-health__card {
-        background-color: var(--db-card);
-        border: 2px solid var(--db-border);
-        border-radius: var(--db-radius);
+        background-color: $marketing-brand-card;
+        border: 2px solid $marketing-brand-border;
+        border-radius: $marketing-brand-radius;
         padding: 16px 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--db-text);
+        color: $marketing-brand-text;
         text-align: center;
         cursor: pointer;
-        transition: all var(--db-transition);
+        transition: all $marketing-brand-transition;
         min-height: 60px;
 
         &:hover {
-            background-color: var(--db-green-light);
-            border-color: var(--db-green-mid);
+            background-color: $marketing-brand-green-light;
+            border-color: $marketing-brand-green-mid;
         }
 
         &--selected {
-            background-color: var(--db-green);
+            background-color: $marketing-brand-green;
             color: white;
-            border-color: var(--db-green);
+            border-color: $marketing-brand-green;
 
             &:hover {
                 background-color: #465444;
@@ -1031,7 +1014,7 @@
     .diet-builder-product-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-gap: 13px;
+        gap: 13px;
 
         @include breakpoint('medium') {
             grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -1091,6 +1074,7 @@
         opacity: 0;
         transform: translateY(-16px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1102,6 +1086,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
