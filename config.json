@@ -1,5 +1,5 @@
 {
-    "name": "block overdue traders",
+    "name": "calculator pages redone",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
