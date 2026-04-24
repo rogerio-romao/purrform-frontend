@@ -404,12 +404,12 @@ p {
         display: flex;
         justify-content: right;
         align-items: center;
+        gap: clamp(0.25rem, 2vw, 2rem);
 
         .navUser-item,
         .navPages-item {
             @include breakpoint('medium') {
                 padding-left: 34px;
-                margin-left: 2rem;
             }
 
             color: $white-color;
