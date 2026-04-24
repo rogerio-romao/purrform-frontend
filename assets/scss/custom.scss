@@ -407,7 +407,7 @@ p {
         display: flex;
         justify-content: right;
         align-items: center;
-        gap: clamp(0.2rem, 1.5vw, 2rem);
+        gap: clamp(0.25rem, 2vw, 2rem);
 
         .navUser-item,
         .navPages-item {
@@ -515,6 +515,7 @@ p {
 
                 @include breakpoint('medium') {
                     width: auto;
+                    padding-left: 0;
                 }
 
                 * {
