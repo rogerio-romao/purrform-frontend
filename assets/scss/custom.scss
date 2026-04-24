@@ -404,7 +404,7 @@ p {
         display: flex;
         justify-content: right;
         align-items: center;
-        gap: clamp(0.25rem, 2vw, 2rem);
+        gap: clamp(0.2rem, 1.5vw, 2rem);
 
         .navUser-item,
         .navPages-item {
@@ -481,6 +481,13 @@ p {
                         position: relative;
                         top: 4px;
                         right: 5px;
+                    }
+                }
+
+                @media (min-width: 801px) and (max-width: 1023px) {
+                    a:not(.icon-container),
+                    .navUser-or {
+                        display: none;
                     }
                 }
             }
@@ -579,6 +586,12 @@ p {
                     .cart-contents {
                         display: none;
 
+                        @include breakpoint('medium') {
+                            display: inline;
+                        }
+                    }
+
+                    .navUser-item-cartLabel {
                         @include breakpoint('medium') {
                             display: inline;
                         }
