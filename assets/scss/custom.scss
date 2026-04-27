@@ -349,25 +349,8 @@ p {
     }
 }
 
-/************************ Header navUser ****************************/
+/************************ Header navUser — see assets/scss/custom/components/_navigation.scss ****************************/
 
-.navUser {
-    border-bottom: 4px solid $green-light;
-
-    .navUser-item--account {
-        border-right: 1px solid $white-color;
-
-        @include breakpoint('medium') {
-            display: flex;
-        }
-
-        svg {
-            display: block;
-        }
-    }
-}
-
-.navUser,
 .navPages {
     background-color: $headingColor;
     position: static;
@@ -402,225 +385,18 @@ p {
         }
     }
 
-    .navUser-section,
     .navPages-list {
         display: flex;
         justify-content: right;
         align-items: center;
         gap: clamp(0.25rem, 2vw, 2rem);
 
-        .navUser-item,
         .navPages-item {
             @include breakpoint('medium') {
                 padding-left: 34px;
             }
 
             color: $white-color;
-
-            &.navUser-item--contact {
-                background: url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/need-help.png')
-                    left center no-repeat;
-                padding: 1rem 0 1rem 34px;
-
-                @include breakpoint('medium') {
-                    padding-bottom: 0;
-                    padding-top: 0;
-                }
-
-                span {
-                    font-weight: 400;
-                }
-
-                .navUser-action {
-                    display: inline-block;
-                    font-weight: 700;
-                    color: $secondary-color;
-                }
-            }
-
-            &.navUser-item--search {
-                background: url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/search.png')
-                    left center no-repeat;
-            }
-
-            &.navUser-item--account {
-                z-index: 9;
-
-                a,
-                .navUser-or {
-                    display: none;
-
-                    &.icon-container {
-                        position: fixed;
-                        display: flex;
-                        align-items: center;
-                    }
-                }
-
-                @include breakpoint('medium') {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    border-right: none;
-                    padding: 0;
-
-                    a,
-                    .navUser-or {
-                        display: inline-flex;
-                        align-items: center;
-
-                        &.icon-container {
-                            position: relative;
-                        }
-                    }
-
-                    .logout-icon {
-                        margin-left: 1rem;
-                    }
-                }
-
-                @media (min-width: 801px) and (max-width: 900px) {
-                    a:not(.icon-container),
-                    .navUser-or {
-                        display: none;
-                    }
-                }
-            }
-
-            .navUser-action {
-                color: $white-color;
-                text-transform: none;
-                font-weight: 700;
-                padding: 0;
-
-                svg {
-                    fill: none;
-                    stroke: none;
-                }
-
-                @include breakpoint('medium') {
-                    font-weight: 400;
-                }
-            }
-
-            .navUser-or {
-                color: $white-color;
-                margin: -0.25rem;
-            }
-
-            &.navUser-item--cart {
-                display: flex;
-                align-items: center;
-                width: 65px;
-
-                @include breakpoint('medium') {
-                    width: auto;
-                    padding-left: 0;
-                }
-
-                * {
-                    font-size: 16px;
-                    font-weight: 400;
-                }
-
-                p {
-                    margin-bottom: 0;
-                    margin-top: 0;
-                }
-
-                a {
-                    background-color: transparent;
-                    border-radius: 30px;
-                    padding: 0.5rem 1rem;
-                    display: flex;
-                    position: relative;
-                    z-index: 999;
-                    align-items: center;
-                    color: $text-color;
-
-                    @include breakpoint('medium') {
-                        background-color: $white-color;
-                        display: flex;
-                    }
-
-                    span {
-                        padding: 0 0.2rem;
-                    }
-
-                    .countPill {
-                        background-color: $secondary-color;
-                        color: $text-color;
-                        display: none;
-                        font-size: 12px;
-                        position: relative;
-                        bottom: 10px;
-                        right: 5px;
-
-                        @include breakpoint('medium') {
-                            background-color: transparent;
-                            display: inline-block;
-                            position: static;
-                            font-size: 16px;
-                        }
-                    }
-
-                    .countPill--positive {
-                        display: inline-block;
-                    }
-
-                    svg {
-                        width: 20px;
-                        height: 18px;
-                        stroke: $white-color;
-                        overflow: visible;
-
-                        @include breakpoint('medium') {
-                            stroke: none;
-                        }
-                    }
-
-                    .cart-contents {
-                        display: none;
-
-                        @include breakpoint('medium') {
-                            display: inline;
-                        }
-                    }
-
-                    .navUser-item-cartLabel {
-                        @include breakpoint('medium') {
-                            display: inline;
-                        }
-                    }
-                }
-
-                #cart-preview-dropdown {
-                    top: 64px !important;
-                }
-            }
-        }
-    }
-
-    .dropdown--quickSearch {
-        @include breakpoint('medium') {
-            top: 74px !important;
-            background-color: $light-BgColor;
-        }
-
-        .form {
-            width: auto;
-        }
-
-        .form-input {
-            border-radius: 30px;
-            border: 1px solid $input-field;
-            font-size: 1rem;
-            max-width: 560px;
-            padding-left: 2.5rem;
-            background: $white-color
-                url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/drop-search-icon.png?')
-                15px center no-repeat;
-            color: $input-field-text;
         }
     }
 }
