@@ -52,17 +52,20 @@
                 </li>
                 <li class="navUser-item navUser-item--divider">|</li>
             {{/if}}
-            <li class="navUser-item navUser-item--contact"><span>{{lang 'common.need_help'}}</span> <a class="navUser-action" href="/contact-us/">{{lang 'common.contact'}}</a></li>
+
             <li class="navUser-item navUser-item--search">
-                <button class="navUser-action navUser-action--quickSearch"
-                   type="button"
+                <a class="navUser-action navUser-action--quickSearch"
+                   href="{{urls.search}}"
                    id="quick-search-expand"
                    data-search="quickSearch"
                    aria-controls="quickSearch"
                    aria-label="{{lang 'common.search'}}"
                 >
+                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.1172 2C6.69893 2 3.11719 5.58172 3.11719 10C3.11719 14.4183 6.69893 18 11.1172 18C13.0071 18 14.7438 17.3349 16.1122 16.2271L20.4101 20.525C20.8006 20.9156 21.4338 20.9156 21.8243 20.525C22.2149 20.1345 22.2149 19.5013 21.8243 19.1108L17.5265 14.8129C18.6342 13.4445 19.2991 11.7078 19.2991 10C19.2991 5.58172 15.7354 2 11.1172 2ZM5.11719 10C5.11719 6.68629 7.80348 4 11.1172 4C14.4309 4 17.1172 6.68629 17.1172 10C17.1172 13.3137 14.4309 16 11.1172 16C7.80348 16 5.11719 13.3137 5.11719 10Z" fill="white"/>
+                    </svg>
                     {{lang 'common.search'}}
-                </button>
+                </a>
             </li>
             {{!--#if settings.gift_certificates_enabled}}
                 <li class="navUser-item">
@@ -149,40 +152,43 @@
 
 <script>
 async function getCartTotal() {
-  const cartId = '{{ cart_id }}';
+  try {
+    const cartsResponse = await fetch('/api/storefront/carts', {
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    });
+    if (!cartsResponse.ok) return '';
+    const carts = await cartsResponse.json();
+    const cartId = Array.isArray(carts) && carts.length ? carts[0].id : '';
+    if (!cartId) return '';
 
-  const query = `
-    query site {
-      site {
-        cart(entityId: "${cartId}") {
-          entityId
-          amountInDisplayCurrency {
-            value
-            currencyCode
-            formattedV2
+    const query = `
+      query site {
+        site {
+          cart(entityId: "${cartId}") {
+            entityId
+            amountInDisplayCurrency {
+              value
+              currencyCode
+              formattedV2
+            }
           }
         }
       }
-    }
-  `;
+    `;
 
-  try {
     const response = await fetch('/graphql', {
       method: 'POST',
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer {{ settings.storefront_api.token }}`
+        'Authorization': `Bearer {{ settings.storefront_api.token }}`,
       },
-      body: JSON.stringify({
-        query: query,
-        variables: { cartId: cartId }
-      })
+      body: JSON.stringify({ query }),
     });
 
     const result = await response.json();
-    const formattedTotal = result.data.site.cart?.amountInDisplayCurrency?.formattedV2 || '';
-    return formattedTotal;
+    return result.data.site.cart?.amountInDisplayCurrency?.formattedV2 || '';
   } catch (error) {
     return null;
   }

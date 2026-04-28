@@ -1,0 +1,230 @@
+// Styles for templates/components/common/navigation.html
+// (the top-of-page user nav: search, login/register, cart pill)
+
+.navUser {
+    background-color: $headingColor;
+    border-bottom: 4px solid $green-light;
+    position: static;
+    transform: none;
+
+    @include breakpoint('medium') {
+        padding: 1rem 3px 1rem 15px;
+    }
+
+    .container {
+        padding: 0;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 3fr 1fr;
+
+        @include breakpoint('medium') {
+            grid-template-columns: 1fr 3fr;
+        }
+    }
+
+    .header-logo {
+        margin: 0;
+        max-height: 42px;
+
+        .header-logo__link {
+            width: 100%;
+
+            @include breakpoint('medium') {
+                width: auto;
+            }
+        }
+    }
+
+    // Right-side flex row — gap controls all spacing between items
+    .navUser-section {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: clamp(0.5rem, 2vw, 2rem);
+
+        .navUser-item {
+            color: $white-color;
+            display: none;
+
+            @include breakpoint('medium') {
+                display: flex;
+                align-items: center;
+            }
+
+            // Search: inline SVG icon + text link
+            &.navUser-item--search {
+                gap: 0.5rem;
+
+                a.navUser-action--quickSearch {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+            }
+
+            // Account: icon-container SVG + text links — uniform flex+gap
+            &.navUser-item--account {
+                gap: 0.5rem;
+                z-index: 9;
+                border-right: 1px solid $white-color;
+
+                @include breakpoint('medium') {
+                    border-right: none;
+                }
+
+                // Hide text links on mobile, show on desktop
+                a,
+                .navUser-or {
+                    display: none;
+
+                    @include breakpoint('medium') {
+                        display: inline-flex;
+                        align-items: center;
+                    }
+                }
+
+                // Icon always visible as flex child
+                a.icon-container {
+                    display: flex;
+                    align-items: center;
+
+                    @include breakpoint('medium') {
+                        position: relative;
+                    }
+                }
+
+                .logout-icon {
+                    @include breakpoint('medium') {
+                        display: inline-flex;
+                        align-items: center;
+                    }
+                }
+
+                @media (min-width: 801px) and (max-width: 900px) {
+                    a:not(.icon-container),
+                    .navUser-or {
+                        display: none;
+                    }
+                }
+            }
+
+            // Cart: white pill wrapping icon + text
+            &.navUser-item--cart {
+                display: flex;
+
+                p {
+                    margin: 0;
+                }
+
+                * {
+                    font-size: 16px;
+                    font-weight: 400;
+                }
+
+                a {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.5rem 0.75rem;
+                    border-radius: 30px;
+                    color: $text-color;
+                    background-color: transparent;
+                    position: relative;
+                    z-index: 999;
+
+                    @include breakpoint('medium') {
+                        background-color: $white-color;
+                    }
+
+                    svg {
+                        width: 20px;
+                        height: 18px;
+                        flex-shrink: 0;
+                        stroke: $white-color;
+                        overflow: visible;
+
+                        @include breakpoint('medium') {
+                            stroke: none;
+                        }
+                    }
+
+                    .countPill {
+                        display: none;
+                        font-size: 16px;
+                        background-color: transparent;
+                        color: $text-color;
+
+                        @include breakpoint('medium') {
+                            display: inline-block;
+                        }
+                    }
+
+                    .countPill--positive {
+                        display: inline-block;
+                    }
+
+                    .cart-contents {
+                        display: none;
+
+                        @include breakpoint('medium') {
+                            display: inline;
+                        }
+                    }
+
+                    .navUser-item-cartLabel {
+                        display: none;
+
+                        @include breakpoint('medium') {
+                            display: inline;
+                        }
+                    }
+                }
+
+                #cart-preview-dropdown {
+                    top: 64px !important;
+                }
+            }
+
+            .navUser-action {
+                color: $white-color;
+                text-transform: none;
+                font-weight: 400;
+                padding: 0;
+
+                svg {
+                    fill: none;
+                    stroke: none;
+                }
+            }
+
+            .navUser-or {
+                color: $white-color;
+                margin: 0;
+            }
+        }
+    }
+
+    .dropdown--quickSearch {
+        @include breakpoint('medium') {
+            top: 74px !important;
+            background-color: $light-BgColor;
+        }
+
+        .form {
+            width: auto;
+        }
+
+        .form-input {
+            border-radius: 30px;
+            border: 1px solid $input-field;
+            font-size: 1rem;
+            max-width: 560px;
+            padding-left: 2.5rem;
+            background: $white-color
+                url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/drop-search-icon.png?')
+                15px center no-repeat;
+            color: $input-field-text;
+        }
+    }
+}

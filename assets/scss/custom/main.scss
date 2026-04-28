@@ -10,6 +10,7 @@
 @import 'pages/account';
 
 /* Components */
+@import 'components/navigation';
 @import 'components/widgets/homepage_carousel';
 @import 'components/accountsReward';
 @import 'components/widgets/3-column';
@@ -20,7 +21,3 @@
 
 /* Layouts */
 @import 'layouts/footer';
-
-.previewCartCheckout .previewCartCheckout-additionalCheckoutButtons {
-    display: none !important;
-}

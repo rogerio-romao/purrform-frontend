@@ -349,22 +349,8 @@ p {
     }
 }
 
-/************************ Header navUser ****************************/
+/************************ Header navUser — see assets/scss/custom/components/_navigation.scss ****************************/
 
-.navUser {
-    border-bottom: 4px solid $green-light;
-
-    .navUser-item--account {
-        display: block !important;
-        border-right: 1px solid $white-color;
-
-        svg {
-            display: block !important;
-        }
-    }
-}
-
-.navUser,
 .navPages {
     background-color: $headingColor;
     position: static;
@@ -399,219 +385,18 @@ p {
         }
     }
 
-    .navUser-section,
     .navPages-list {
         display: flex;
         justify-content: right;
         align-items: center;
+        gap: clamp(0.25rem, 2vw, 2rem);
 
-        .navUser-item,
         .navPages-item {
             @include breakpoint('medium') {
                 padding-left: 34px;
-                margin-left: 2rem;
             }
 
             color: $white-color;
-
-            &.navUser-item--contact {
-                background: url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/need-help.png')
-                    left center no-repeat;
-                padding: 1rem 0 1rem 34px;
-
-                @include breakpoint('medium') {
-                    padding-bottom: 0;
-                    padding-top: 0;
-                }
-
-                span {
-                    font-weight: 400;
-                }
-
-                .navUser-action {
-                    display: inline-block;
-                    font-weight: 700;
-                    color: $secondary-color;
-                }
-            }
-
-            &.navUser-item--search {
-                background: url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/search.png')
-                    left center no-repeat;
-            }
-
-            &.navUser-item--account {
-                display: block !important;
-                z-index: 9;
-                padding: 1rem 1rem 0.5rem 34px;
-                height: 100%;
-
-                a,
-                .navUser-or {
-                    display: none;
-
-                    &.icon-container {
-                        position: fixed;
-                        display: inline-block;
-
-                        svg {
-                            position: relative;
-                            right: 20px;
-                        }
-                    }
-                }
-
-                @include breakpoint('medium') {
-                    border-right: none;
-                    padding: 0 0 10px 34px;
-
-                    a,
-                    .navUser-or {
-                        display: inline-block;
-
-                        &.icon-container {
-                            position: relative;
-                            top: 7px;
-                            left: 15px;
-                        }
-                    }
-
-                    .logout-icon {
-                        margin-left: 2rem;
-                        position: relative;
-                        top: 4px;
-                        right: 5px;
-                    }
-                }
-            }
-
-            .navUser-action {
-                color: $white-color;
-                text-transform: none;
-                font-weight: 700;
-                padding: 0;
-
-                svg {
-                    fill: none;
-                    stroke: none;
-                }
-
-                @include breakpoint('medium') {
-                    font-weight: 400;
-                }
-            }
-
-            .navUser-or {
-                color: $white-color;
-                margin: -0.25rem;
-            }
-
-            &.navUser-item--cart {
-                display: flex;
-                align-items: center;
-                width: 65px;
-
-                @include breakpoint('medium') {
-                    width: auto;
-                }
-
-                * {
-                    font-size: 16px;
-                    font-weight: 400;
-                }
-
-                p {
-                    margin-bottom: 0;
-                    margin-top: 0;
-                }
-
-                a {
-                    background-color: transparent;
-                    border-radius: 30px;
-                    padding: 0.5rem 1rem;
-                    display: flex;
-                    position: relative;
-                    z-index: 999;
-                    align-items: center;
-                    color: $text-color;
-
-                    @include breakpoint('medium') {
-                        background-color: $white-color;
-                        display: flex;
-                    }
-
-                    span {
-                        padding: 0 0.2rem;
-                    }
-
-                    .countPill {
-                        background-color: $secondary-color;
-                        color: $text-color;
-                        display: none;
-                        font-size: 12px;
-                        position: relative;
-                        bottom: 10px;
-                        right: 5px;
-
-                        @include breakpoint('medium') {
-                            background-color: transparent;
-                            display: inline-block;
-                            position: static;
-                            font-size: 16px;
-                        }
-                    }
-
-                    .countPill--positive {
-                        display: inline-block;
-                    }
-
-                    svg {
-                        width: 20px;
-                        height: 18px;
-                        stroke: $white-color;
-                        overflow: visible;
-
-                        @include breakpoint('medium') {
-                            stroke: none;
-                        }
-                    }
-
-                    .cart-contents {
-                        display: none;
-
-                        @include breakpoint('medium') {
-                            display: inline;
-                        }
-                    }
-                }
-
-                #cart-preview-dropdown {
-                    top: 64px !important;
-                }
-            }
-        }
-    }
-
-    .dropdown--quickSearch {
-        @include breakpoint('medium') {
-            top: 74px !important;
-            background-color: $light-BgColor;
-        }
-
-        .form {
-            width: auto;
-        }
-
-        .form-input {
-            border-radius: 30px;
-            border: 1px solid $input-field;
-            font-size: 1rem;
-            max-width: 560px;
-            padding-left: 2.5rem;
-            background: $white-color
-                url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/drop-search-icon.png?')
-                15px center no-repeat;
-            color: $input-field-text;
         }
     }
 }
@@ -805,21 +590,52 @@ p {
             }
 
             &.navUser-item--account {
-                display: block !important;
+                display: flex !important;
+                align-items: center;
+                gap: 0.25rem;
                 z-index: 999;
-                padding-left: 40px;
+                padding: 1rem 1rem 1rem 40px;
                 background: url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/account.png')
                     10px center no-repeat;
 
                 a,
                 .navUser-or {
                     display: inline-block;
+                    color: $white-color;
+                }
+
+                .navUser-or {
+                    margin: 0 4px;
                 }
 
                 a {
+                    text-transform: none;
+                    padding: 0;
+
                     &::after {
                         display: none;
                     }
+                }
+            }
+
+            &.navUser-item--contact {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                padding: 1rem 1rem 1rem 40px;
+                background: url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/need-help.png')
+                    left center no-repeat;
+
+                span {
+                    color: $white-color;
+                    font-weight: 700;
+                }
+
+                a.navUser-action {
+                    text-transform: none;
+                    padding: 0;
+                    color: $secondary-color;
+                    font-weight: 700;
                 }
             }
 
