@@ -9,6 +9,12 @@
     });
 </script>
 {{/if}}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const newsletterField = document.querySelector('.form-field[data-type="ReceiveMarketingEmails"]');
+        if (newsletterField) newsletterField.remove();
+    });
+</script>
 <div class="account account--fixed">
     {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
     <h2 class="page-heading page-heading--account">{{lang 'account.settings.heading' }}</h2>
