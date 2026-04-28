@@ -8,7 +8,7 @@
     transform: none;
 
     @include breakpoint('medium') {
-        padding: 1rem 15px;
+        padding: 1rem 3px 1rem 15px;
     }
 
     .container {
@@ -36,93 +36,68 @@
         }
     }
 
+    // Right-side flex row — gap controls all spacing between items
     .navUser-section {
         display: flex;
-        justify-content: right;
+        justify-content: flex-end;
         align-items: center;
-        gap: clamp(0.25rem, 2vw, 2rem);
+        gap: clamp(0.5rem, 2vw, 2rem);
 
         .navUser-item {
-            @include breakpoint('medium') {
-                padding-left: 34px;
-            }
-
             color: $white-color;
+            display: none;
 
-            &.navUser-item--contact {
-                background: url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/need-help.png')
-                    left center no-repeat;
-                padding: 1rem 0 1rem 34px;
-
-                @include breakpoint('medium') {
-                    padding-bottom: 0;
-                    padding-top: 0;
-                }
-
-                span {
-                    font-weight: 400;
-                }
-
-                .navUser-action {
-                    display: inline-block;
-                    font-weight: 700;
-                    color: $secondary-color;
-                }
+            @include breakpoint('medium') {
+                display: flex;
+                align-items: center;
             }
 
+            // Search: inline SVG icon + text link
             &.navUser-item--search {
-                background: none;
+                gap: 0.5rem;
 
-                @include breakpoint('medium') {
+                a.navUser-action--quickSearch {
                     display: flex;
                     align-items: center;
                     gap: 0.5rem;
-                    padding-left: 0;
-
-                    &::before {
-                        content: '';
-                        display: block;
-                        width: 24px;
-                        height: 24px;
-                        background: url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/search.png') center / contain no-repeat;
-                    }
                 }
             }
 
+            // Account: icon-container SVG + text links — uniform flex+gap
             &.navUser-item--account {
+                gap: 0.5rem;
                 z-index: 9;
                 border-right: 1px solid $white-color;
 
+                @include breakpoint('medium') {
+                    border-right: none;
+                }
+
+                // Hide text links on mobile, show on desktop
                 a,
                 .navUser-or {
                     display: none;
 
-                    &.icon-container {
-                        position: fixed;
-                        display: flex;
+                    @include breakpoint('medium') {
+                        display: inline-flex;
                         align-items: center;
                     }
                 }
 
-                @include breakpoint('medium') {
+                // Icon always visible as flex child
+                a.icon-container {
                     display: flex;
                     align-items: center;
-                    gap: 0.5rem;
-                    border-right: none;
-                    padding: 0;
 
-                    a,
-                    .navUser-or {
+                    @include breakpoint('medium') {
+                        position: relative;
+                    }
+                }
+
+                .logout-icon {
+                    @include breakpoint('medium') {
                         display: inline-flex;
                         align-items: center;
-
-                        &.icon-container {
-                            position: relative;
-                        }
-                    }
-
-                    .logout-icon {
-                        margin-left: 1rem;
                     }
                 }
 
@@ -134,36 +109,12 @@
                 }
             }
 
-            .navUser-action {
-                color: $white-color;
-                text-transform: none;
-                font-weight: 700;
-                padding: 0;
-
-                svg {
-                    fill: none;
-                    stroke: none;
-                }
-
-                @include breakpoint('medium') {
-                    font-weight: 400;
-                }
-            }
-
-            .navUser-or {
-                color: $white-color;
-                margin: -0.25rem;
-            }
-
+            // Cart: white pill wrapping icon + text
             &.navUser-item--cart {
                 display: flex;
-                align-items: center;
-                width: 65px;
 
-                @include breakpoint('medium') {
-                    width: auto;
-                    padding-left: 0;
-                    margin-right: -0.75rem;
+                p {
+                    margin: 0;
                 }
 
                 * {
@@ -171,56 +122,46 @@
                     font-weight: 400;
                 }
 
-                p {
-                    margin-bottom: 0;
-                    margin-top: 0;
-                }
-
                 a {
-                    background-color: transparent;
-                    border-radius: 30px;
-                    padding: 0.5rem 0.75rem;
                     display: flex;
-                    position: relative;
-                    z-index: 999;
                     align-items: center;
                     gap: 0.5rem;
+                    padding: 0.5rem 0.75rem;
+                    border-radius: 30px;
                     color: $text-color;
+                    background-color: transparent;
+                    position: relative;
+                    z-index: 999;
 
                     @include breakpoint('medium') {
                         background-color: $white-color;
                     }
 
-                    .countPill {
-                        background-color: $secondary-color;
-                        color: $text-color;
-                        display: none;
-                        font-size: 12px;
-                        position: relative;
-                        bottom: 10px;
-                        right: 5px;
-
-                        @include breakpoint('medium') {
-                            background-color: transparent;
-                            display: inline-block;
-                            position: static;
-                            font-size: 16px;
-                        }
-                    }
-
-                    .countPill--positive {
-                        display: inline-block;
-                    }
-
                     svg {
                         width: 20px;
                         height: 18px;
+                        flex-shrink: 0;
                         stroke: $white-color;
                         overflow: visible;
 
                         @include breakpoint('medium') {
                             stroke: none;
                         }
+                    }
+
+                    .countPill {
+                        display: none;
+                        font-size: 16px;
+                        background-color: transparent;
+                        color: $text-color;
+
+                        @include breakpoint('medium') {
+                            display: inline-block;
+                        }
+                    }
+
+                    .countPill--positive {
+                        display: inline-block;
                     }
 
                     .cart-contents {
@@ -232,6 +173,8 @@
                     }
 
                     .navUser-item-cartLabel {
+                        display: none;
+
                         @include breakpoint('medium') {
                             display: inline;
                         }
@@ -241,6 +184,23 @@
                 #cart-preview-dropdown {
                     top: 64px !important;
                 }
+            }
+
+            .navUser-action {
+                color: $white-color;
+                text-transform: none;
+                font-weight: 400;
+                padding: 0;
+
+                svg {
+                    fill: none;
+                    stroke: none;
+                }
+            }
+
+            .navUser-or {
+                color: $white-color;
+                margin: 0 1px;
             }
         }
     }
