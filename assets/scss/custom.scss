@@ -590,21 +590,52 @@ p {
             }
 
             &.navUser-item--account {
-                display: block !important;
+                display: flex !important;
+                align-items: center;
+                gap: 0.25rem;
                 z-index: 999;
-                padding-left: 40px;
+                padding: 1rem 1rem 1rem 40px;
                 background: url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/account.png')
                     10px center no-repeat;
 
                 a,
                 .navUser-or {
                     display: inline-block;
+                    color: $white-color;
+                }
+
+                .navUser-or {
+                    margin: 0 4px;
                 }
 
                 a {
+                    text-transform: none;
+                    padding: 0;
+
                     &::after {
                         display: none;
                     }
+                }
+            }
+
+            &.navUser-item--contact {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                padding: 1rem 1rem 1rem 40px;
+                background: url('https://cdn11.bigcommerce.com/s-lh9wfk05w0/images/stencil/original/image-manager/need-help.png')
+                    left center no-repeat;
+
+                span {
+                    color: $white-color;
+                    font-weight: 700;
+                }
+
+                a.navUser-action {
+                    text-transform: none;
+                    padding: 0;
+                    color: $secondary-color;
+                    font-weight: 700;
                 }
             }
 
