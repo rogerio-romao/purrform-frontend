@@ -15,6 +15,56 @@
         if (newsletterField) newsletterField.remove();
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const section = document.querySelector('.unsubscribe-section');
+        const button = section && section.querySelector('.unsubscribe-button');
+        const feedback = section && section.querySelector('.unsubscribe-feedback');
+        if (!section || !button || !feedback) return;
+
+        const email = '{{customer.email}}';
+        if (!email) return;
+
+        const BACKEND = 'https://purrform-apps-027e.onrender.com';
+
+        try {
+            const res = await fetch(`${BACKEND}/checkMarketingSubscription?customerEmail=${encodeURIComponent(email)}`, {
+                method: 'GET',
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            if (data.subscribed !== true) return;
+            section.classList.add('is-visible');
+        } catch {
+            return;
+        }
+
+        button.addEventListener('click', async () => {
+            button.disabled = true;
+            feedback.classList.remove('is-visible');
+            feedback.textContent = '';
+
+            try {
+                const res = await fetch(`${BACKEND}/unsubscribeFromMarketing?customerEmail=${encodeURIComponent(email)}`, {
+                    method: 'GET',
+                });
+                if (!res.ok) {
+                    const msg = await res.text();
+                    feedback.textContent = msg || 'Sorry, we could not unsubscribe you. Please try again later.';
+                    feedback.classList.add('is-visible');
+                    button.disabled = false;
+                    return;
+                }
+                section.innerHTML = '<p>You have been unsubscribed from our marketing emails.</p>';
+            } catch (err) {
+                console.error('Unsubscribe request failed:', err);
+                feedback.textContent = 'Sorry, we could not unsubscribe you. Please try again later.';
+                feedback.classList.add('is-visible');
+                button.disabled = false;
+            }
+        });
+    });
+</script>
 <div class="account account--fixed">
     {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
     <h2 class="page-heading page-heading--account">{{lang 'account.settings.heading' }}</h2>
