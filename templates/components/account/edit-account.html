@@ -35,7 +35,7 @@
                 <input aria-labelledby="account_phone_id" aria-live="polite" type="text" class="form-input"
                     name="account_phone" id="account_phone" value="{{forms.edit_account.phone}}">
             </div>
-            
+
             {{#each forms.edit_account.fields}}
             {{{dynamicComponent 'components/common/forms'}}}
             {{/each}}
@@ -46,4 +46,30 @@
         <button class="button button--primary">{{lang 'account.settings.update_details'}}</button>
     </div>
 </form>
+<div class="unsubscribe-section">
+    <p>You are currently subscribed to our marketing emails. If you wish to unsubscribe, please click the button below.</p>
+    <button type="button" class="button button--secondary unsubscribe-button">Unsubscribe</button>
+    <p class="unsubscribe-feedback" role="status" aria-live="polite"></p>
+</div>
 
+<style>
+.unsubscribe-section {
+    border-top: 1px solid #000;
+    padding-block: 20px;
+    margin-top: 40px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.unsubscribe-section.is-visible {
+    display: flex;
+}
+.unsubscribe-feedback {
+    display: none;
+    color: red;
+}
+.unsubscribe-feedback.is-visible {
+    display: block;
+}
+</style>
