@@ -926,16 +926,9 @@
         }
     }
 
-    // ── Inline error message (shared across steps) ────────────────
+    // ── Inline error message — style lives in components/_utilities.scss ─
     .diet-builder-inline-error {
-        width: fit-content;
-        padding: 10px;
-        background-color: #f8d7da;
-        color: #721c24;
-        border-radius: 4px;
-        font-size: 14px;
-        margin-top: 1rem;
-        text-align: center;
+        @extend %inline-error;
     }
 
     // ── Error step ───────────────────────────────────────────────

@@ -1,0 +1,14 @@
+%inline-error {
+    width: fit-content;
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.inline-error {
+    @extend %inline-error;
+}

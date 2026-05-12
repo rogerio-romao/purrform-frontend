@@ -78,7 +78,6 @@
             <div class="reward-section">
                 <h2>Birthday gift</h2>
                 <p>Register your cat to receive a 10% discount voucher when it's their birthday! The purrfect gift!</p>
-                <div class="birthday-error"></div>
                 <div class="household-question">
                     How many cats do you have in your household?
                     <div>
@@ -134,6 +133,19 @@
                                     required
                                 />
                             </div>
+                            <div class="gdpr-field">
+                                <input
+                                    type="checkbox"
+                                    id="birthday-gdpr-checkbox"
+                                    class="gdpr-checkbox"
+                                />
+                                <label
+                                    for="birthday-gdpr-checkbox"
+                                    class="gdpr-message"
+                                    >I agree to receive marketing emails from Purrform, including a birthday discount voucher for my cat. I can unsubscribe at any time.</label
+                                >
+                            </div>
+                            <div class="birthday-error"></div>
                             <button
                                 class="button button--primary add-cat-btn"
                                 type="submit"
@@ -152,11 +164,23 @@
                     >Refer a friend and they will receive a 15% discount. When they place their first order, you will receive a 10% discount.</p
                 >
                 <form id="friend-referral-form">
-                    <p id="friendError"></p>
                     <label class="form-label" for="reward-friend-refer-email"
                         >Email Address</label
                     >
                     <input type="email" id="reward-friend-refer-email" />
+                    <div class="gdpr-field">
+                        <input
+                            type="checkbox"
+                            id="referral-gdpr-checkbox"
+                            class="gdpr-checkbox"
+                        />
+                        <label
+                            for="referral-gdpr-checkbox"
+                            class="gdpr-message"
+                            >I agree to receive marketing emails from Purrform, including referral reward notifications. I can unsubscribe at any time.</label
+                        >
+                    </div>
+                    <p id="friendError"></p>
                     <button class="button button--primary" type="submit"
                         >Submit</button
                     >
@@ -194,11 +218,23 @@
                     code as a reward.</p
                 >
                 <form id="breeder-referral-form">
-                    <p id="breederError"></p>
                     <label class="form-label" for="reward-breeder-refer-email"
                         >Email Address</label
                     >
                     <input type="email" id="reward-breeder-refer-email" />
+                    <div class="gdpr-field">
+                        <input
+                            type="checkbox"
+                            id="breeder-gdpr-checkbox"
+                            class="gdpr-checkbox"
+                        />
+                        <label
+                            for="breeder-gdpr-checkbox"
+                            class="gdpr-message"
+                            >I agree to receive marketing emails from Purrform, including breeder referral reward notifications. I can unsubscribe at any time.</label
+                        >
+                    </div>
+                    <p id="breederError"></p>
                     <button class="button button--primary" type="submit"
                         >Submit</button
                     >
@@ -255,9 +291,18 @@
         e.preventDefault();
         e.submitter.classList.add('disabled')
 
+        const breederConsent = document.querySelector('#breeder-gdpr-checkbox').checked;
+
         if (breederReferralInput.value.trim() === "") {
-            errorMsg.textContent = "Error: Field is empty";
-            errorMsg.style.color = "red";
+            errorMsg.textContent = "The email field cannot be empty.";
+            setTimeout(function() {
+                e.submitter.classList.remove('disabled')
+            }, 750);
+            return;
+        }
+
+        if (!breederConsent) {
+            errorMsg.textContent = "Please confirm you agree to receive marketing emails to submit a referral.";
             setTimeout(function() {
                 e.submitter.classList.remove('disabled')
             }, 750);
@@ -273,13 +318,11 @@
         .then(async (response) => {
             if (!response.ok) {
                 const message = await response.text()
-                errorMsg.style.color = "red";
+                errorMsg.classList.remove('success');
                 errorMsg.textContent = message
-
             } else {
-                errorMsg.style.color = "initial";
-                errorMsg.style.fontWeight = "bold";
-                errorMsg.textContent = "Referral succesful - 10% discount code sent to customer.";
+                errorMsg.classList.add('success');
+                errorMsg.textContent = "Referral successful - 10% discount code sent to customer.";
                 breederReferralInput.value = "";
             }
             setTimeout(function() {
@@ -383,9 +426,18 @@
         e.preventDefault();
         e.submitter.classList.add('disabled')
 
+        const referralConsent = document.querySelector('#referral-gdpr-checkbox').checked;
+
         if (friendReferralInput.value.trim() === "") {
             friendErrorMsg.textContent = "Error: Field is empty";
-            friendErrorMsg.style.color = "red";
+            setTimeout(function() {
+                e.submitter.classList.remove('disabled')
+            }, 750);
+            return;
+        }
+
+        if (!referralConsent) {
+            friendErrorMsg.textContent = "Please confirm you agree to receive marketing emails to submit a referral.";
             setTimeout(function() {
                 e.submitter.classList.remove('disabled')
             }, 750);
@@ -405,19 +457,19 @@
         .then(async (response) => {
             if (!response.ok) {
                 const message = await response.text()
-                friendErrorMsg.style.color = "red";
+                friendErrorMsg.classList.remove('success');
                 friendErrorMsg.textContent = message
             } else {
-                friendErrorMsg.textContent = "Referral succesful";
+                friendErrorMsg.classList.add('success');
+                friendErrorMsg.textContent = "Referral successful";
                 friendReferralInput.value = "";
-                friendErrorMsg.style.color = "initial";
             }
             setTimeout(function() {
                 e.submitter.classList.remove('disabled')
             }, 750);
         })
         .catch(err => {
-            friendErrorMsg.style.color = "red";
+            friendErrorMsg.classList.remove('success');
             friendErrorMsg.textContent = err.message
             setTimeout(function() {
                 e.submitter.classList.remove('disabled')
@@ -707,6 +759,7 @@
         const catBirthday = document.querySelector(
             '#reward-cat-birthday'
         ).value;
+        const marketingConsent = document.querySelector('#birthday-gdpr-checkbox').checked;
 
         if (
             catName.trim() === '' ||
@@ -716,6 +769,16 @@
         ) {
             birthdayErrorDiv.style.display = 'block';
             birthdayErrorDiv.textContent = 'Please fill in all fields.';
+            addBtn.textContent = 'Add Cat';
+            addBtn.classList.remove('disabled');
+            return;
+        }
+
+        if (!marketingConsent) {
+            birthdayErrorDiv.style.display = 'block';
+            birthdayErrorDiv.textContent = 'Please confirm you agree to receive marketing emails to register for the birthday discount.';
+            addBtn.textContent = 'Add Cat';
+            addBtn.classList.remove('disabled');
             return;
         }
 
