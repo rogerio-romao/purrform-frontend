@@ -329,6 +329,28 @@
         .diet-builder-btn--primary {
             margin: 1.5rem auto 0;
         }
+
+        .diet-builder-email-form__gdpr {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+
+            input[type='checkbox'] {
+                flex-shrink: 0;
+                margin-top: 0.1rem;
+            }
+        }
+
+        .diet-builder-email-form__gdpr-label {
+            text-transform: none;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: normal;
+            letter-spacing: normal;
+            line-height: 1.4;
+            margin-top: 0;
+        }
     }
 
     .diet-builder-dob {

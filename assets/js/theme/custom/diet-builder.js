@@ -1291,6 +1291,27 @@ export default class DietBuilder extends PageManager {
                 }),
                 el(
                     'div',
+                    { className: 'diet-builder-email-form__gdpr' },
+                    el('input', {
+                        type: 'checkbox',
+                        id: 'diet-builder-gdpr-checkbox',
+                        className: 'diet-builder-email-form__gdpr-checkbox',
+                    }),
+                    el(
+                        'label',
+                        {
+                            for: 'diet-builder-gdpr-checkbox',
+                            className: 'diet-builder-email-form__gdpr-label',
+                        },
+                        'I would like to receive newsletters, product updates, and special offers from Purrform via email. ',
+                        el('br', {}),
+                        'By checking this box, you consent to our processing of your data in accordance with our ',
+                        el('a', { href: '/privacy-policy/', target: '_blank' }, 'Privacy Policy'),
+                        '. You can withdraw your consent at any time by clicking the unsubscribe link in any email.',
+                    ),
+                ),
+                el(
+                    'div',
                     { className: 'diet-builder-ingredients__buttons' },
                     backBtn,
                     el(
@@ -1315,6 +1336,22 @@ export default class DietBuilder extends PageManager {
     }
 
     async submitEmailForm(form) {
+        document.getElementById('diet-builder-email-error')?.remove();
+
+        const consentBox = form.querySelector('#diet-builder-gdpr-checkbox');
+        if (!consentBox.checked) {
+            const errorMsg = el(
+                'p',
+                {
+                    id: 'diet-builder-email-error',
+                    className: 'diet-builder-email-form__error diet-builder-inline-error',
+                },
+                'Please confirm you agree to receive marketing emails to receive your diet recommendations.',
+            );
+            form.appendChild(errorMsg);
+            return;
+        }
+
         const email = form.querySelector('input[name="email"]').value;
 
         this.state.payload = {
