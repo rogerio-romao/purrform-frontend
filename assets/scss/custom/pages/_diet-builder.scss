@@ -329,6 +329,28 @@
         .diet-builder-btn--primary {
             margin: 1.5rem auto 0;
         }
+
+        .diet-builder-email-form__gdpr {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+
+            input[type='checkbox'] {
+                flex-shrink: 0;
+                margin-top: 0.1rem;
+            }
+        }
+
+        .diet-builder-email-form__gdpr-label {
+            text-transform: none;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: normal;
+            letter-spacing: normal;
+            line-height: 1.4;
+            margin-top: 0;
+        }
     }
 
     .diet-builder-dob {
@@ -926,16 +948,9 @@
         }
     }
 
-    // ── Inline error message (shared across steps) ────────────────
+    // ── Inline error message — style lives in components/_utilities.scss ─
     .diet-builder-inline-error {
-        width: fit-content;
-        padding: 10px;
-        background-color: #f8d7da;
-        color: #721c24;
-        border-radius: 4px;
-        font-size: 14px;
-        margin-top: 1rem;
-        text-align: center;
+        @extend %inline-error;
     }
 
     // ── Error step ───────────────────────────────────────────────
