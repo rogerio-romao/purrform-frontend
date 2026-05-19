@@ -15,7 +15,7 @@
 }
 
 .fresh-hero__inner {
-  max-width: 1200px;
+  max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 24px;
@@ -70,4 +70,44 @@
   font-size: 32px;
   font-weight: 700;
   line-height: 1.15;
+}
+
+@media (min-width: 801px) {
+  .fresh-hero__inner {
+    position: relative;
+    flex-direction: column;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .fresh-hero__image-wrap {
+    width: 100%;
+    margin-left: 0;
+    min-height: 520px;
+  }
+
+  .fresh-hero__image-placeholder {
+    min-height: 520px;
+  }
+
+  .fresh-hero__text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px clamp(24px, 4vw, 56px);
+  }
+
+  .fresh-hero__heading-light {
+    font-size: clamp(16px, 1.8vw, 22px);
+  }
+
+  .fresh-hero__heading-bold {
+    font-size: clamp(26px, 3vw, 40px);
+  }
+
 }
