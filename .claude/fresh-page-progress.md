@@ -8,11 +8,11 @@ Legend: [ ] not started · [~] in progress · [x] approved
 
 ## Sections (mobile → desktop per section)
 
-- [~] 1. Hero (sage-green band, headline + lifestyle photo)
+- [x] 1. Hero (sage-green band, headline + lifestyle photo)
+  - [x] mobile
+  - [x] desktop
+- [~] 2. Intro copy (cream bg, single paragraph)
   - [~] mobile
-  - [ ] desktop
-- [ ] 2. Intro copy (cream bg, single paragraph)
-  - [ ] mobile
   - [ ] desktop
 - [ ] 3. Exclusive Early Bird Offer (green card, two gold CTAs, bird/tree art)
   - [ ] mobile

@@ -72,7 +72,36 @@
   line-height: 1.15;
 }
 
+/* ── 2. INTRO COPY ────────────────────────────────────────── */
+
+.fresh-intro {
+  background-color: $marketing-brand-bg;
+  padding: 48px 24px;
+}
+
+.fresh-intro__inner {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fresh-intro__copy {
+  font-size: 16px;
+  line-height: 1.7;
+  color: $marketing-brand-text;
+  text-align: center;
+  margin-bottom: 0;
+}
+
 @media (min-width: 801px) {
+  .fresh-intro {
+    padding: 72px 24px;
+  }
+
+  .fresh-intro__copy {
+    font-size: 18px;
+  }
+
   .fresh-hero__inner {
     position: relative;
     flex-direction: column;
