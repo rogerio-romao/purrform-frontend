@@ -72,6 +72,122 @@
   line-height: 1.15;
 }
 
+/* ── 5. WHAT MAKES PURRFORM FRESH DIFFERENT ──────────────── */
+
+.fresh-different {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background-color: $color-brand-dark;
+  padding: 56px 0 56px;
+}
+
+.fresh-different__inner {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fresh-different__heading {
+  font-size: 24px;
+  font-weight: 700;
+  color: $color-white;
+  text-align: left;
+  margin-bottom: 48px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Horizontal scroll track on mobile */
+.fresh-different__cards {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 56px 24px 32px;
+  /* hide scrollbar */
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Each card: fixed width so 1.1 cards peek on mobile */
+.fresh-different__card {
+  flex: 0 0 82vw;
+  max-width: 320px;
+  scroll-snap-align: start;
+  position: relative;
+  background-color: $color-brand-dark;
+  border: 1.5px solid $color-gold;
+  border-radius: $marketing-brand-radius;
+  padding: 72px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 12px;
+}
+
+/* Badge pops out above the card top edge.
+   The wrap clips the badge to a circle; a sibling pseudo on the card paints
+   the dark-green mask ring so it layers above the card border. */
+.fresh-different__badge-wrap {
+  position: absolute;
+  top: -52px;
+  left: 16px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.fresh-different__badge {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Ring drawn on the card, layered above the border, behind the badge.
+   Default fits badges 2 & 3 (large circular PNGs). */
+.fresh-different__card::before {
+  content: '';
+  position: absolute;
+  top: -57px;
+  left: 9px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background-color: $color-brand-dark;
+  z-index: 1;
+}
+
+/* Badge 1 is a smaller rectangular PNG — needs a tighter ring */
+.fresh-different__card--first::before {
+  top: -51px;
+  left: 19px;
+  width: 90px;
+  height: 90px;
+}
+
+.fresh-different__card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: $color-white;
+  margin-bottom: 0;
+}
+
+.fresh-different__card-body {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba($color-white, 0.85);
+  margin-bottom: 0;
+}
+
 /* ── 4. ABOUT PURRFORM ────────────────────────────────────── */
 
 .fresh-about {

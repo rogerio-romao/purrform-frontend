@@ -17,11 +17,11 @@ Legend: [ ] not started · [~] in progress · [x] approved
 - [x] 3. Exclusive Early Bird Offer (green card, two gold CTAs, bird/tree art)
   - [x] mobile
   - [x] desktop
-- [~] 4. About Purrform (green band, cat icon + copy)
+- [x] 4. About Purrform (green band, cat icon + copy)
+  - [x] mobile
+  - [x] desktop
+- [~] 5. What Makes Purrform Fresh Different (3 gold-border cards w/ badge PNGs)
   - [~] mobile
-  - [ ] desktop
-- [ ] 5. What Makes Purrform Fresh Different (3 gold-border cards w/ badge PNGs)
-  - [ ] mobile
   - [ ] desktop
 - [ ] 6. Health Benefits of Fresh Cat Food (green band, 2 cards, scroll-snap on mobile)
   - [ ] mobile
