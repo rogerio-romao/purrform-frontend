@@ -72,6 +72,99 @@
   line-height: 1.15;
 }
 
+/* ── 3. EXCLUSIVE EARLY BIRD OFFER ───────────────────────── */
+
+.fresh-offer {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background-color: $color-brand-dark;
+}
+
+.fresh-offer__card {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.fresh-offer__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fresh-offer__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba($color-white, 0.6);
+  margin-bottom: 0;
+}
+
+.fresh-offer__subtitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: $color-white;
+  line-height: 1.2;
+  margin-bottom: 0;
+}
+
+.fresh-offer__cta {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 16px 24px;
+  border-radius: 100px;
+  text-decoration: none;
+  background-color: $color-gold-light;
+  color: $color-brand-dark;
+  transition: opacity $marketing-brand-transition;
+
+  &:hover {
+    opacity: 0.85;
+    text-decoration: none;
+    color: $color-brand-dark;
+  }
+}
+
+.fresh-offer__divider {
+  font-size: 13px;
+  color: rgba($color-white, 0.65);
+  margin-bottom: 0;
+}
+
+.fresh-offer__notice {
+  font-size: 13px;
+  font-style: italic;
+  color: rgba($color-white, 0.55);
+  margin-bottom: 0;
+}
+
+.fresh-offer__visual {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.fresh-offer__placeholder {
+  width: 100%;
+  min-height: 240px;
+  background-color: #4a5e4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: rgba($color-white, 0.5);
+  text-align: center;
+  padding: 16px;
+}
+
 /* ── 2. INTRO COPY ────────────────────────────────────────── */
 
 .fresh-intro {
@@ -94,6 +187,35 @@
 }
 
 @media (min-width: 801px) {
+  .fresh-offer__card {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+  }
+
+  .fresh-offer__content {
+    flex: 1;
+    padding: 64px 56px;
+    justify-content: center;
+  }
+
+  .fresh-offer__subtitle {
+    font-size: 32px;
+  }
+
+  .fresh-offer__visual {
+    flex: 1;
+    width: auto;
+    margin-left: 0;
+    min-height: 480px;
+  }
+
+  .fresh-offer__placeholder {
+    height: 100%;
+    min-height: 480px;
+  }
+
   .fresh-intro {
     padding: 72px 24px;
   }
