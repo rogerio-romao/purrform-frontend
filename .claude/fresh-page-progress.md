@@ -14,11 +14,11 @@ Legend: [ ] not started · [~] in progress · [x] approved
 - [x] 2. Intro copy (cream bg, single paragraph)
   - [x] mobile
   - [x] desktop
-- [~] 3. Exclusive Early Bird Offer (green card, two gold CTAs, bird/tree art)
+- [x] 3. Exclusive Early Bird Offer (green card, two gold CTAs, bird/tree art)
+  - [x] mobile
+  - [x] desktop
+- [~] 4. About Purrform (green band, cat icon + copy)
   - [~] mobile
-  - [ ] desktop
-- [ ] 4. About Purrform (green band, cat icon + copy)
-  - [ ] mobile
   - [ ] desktop
 - [ ] 5. What Makes Purrform Fresh Different (3 gold-border cards w/ badge PNGs)
   - [ ] mobile
