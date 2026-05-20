@@ -1,7 +1,7 @@
 import PageManager from '../page-manager';
 
 const MOBILE_MAX = 800;
-const AUTOPLAY_DELAY = 4000;
+const AUTOPLAY_DELAY = 10000;
 
 export default class Fresh extends PageManager {
     onReady() {
@@ -25,6 +25,7 @@ export default class Fresh extends PageManager {
         };
 
         const startAutoplay = () => {
+            clearInterval(intervalId);
             intervalId = setInterval(() => {
                 goTo((currentIndex + 1) % slideCount);
             }, AUTOPLAY_DELAY);
