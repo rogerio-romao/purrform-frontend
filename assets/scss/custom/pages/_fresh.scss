@@ -483,11 +483,20 @@
     font-size: clamp(26px, 3vw, 40px);
   }
 
+  .fresh-different {
+    padding: 56px 0 72px;
+  }
+
+  .fresh-different__heading {
+    padding-left: 56px;
+    padding-right: 56px;
+  }
+
   /* Section 5 desktop — static 3-up row */
   .fresh-different__carousel {
     overflow: visible;
-    padding-top: 48px;
-    margin-top: -48px;
+    padding: 48px 56px 0;
+    margin-top: 0;
   }
 
   .fresh-different__cards {
@@ -499,6 +508,12 @@
   .fresh-different__slide {
     flex: 1 1 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fresh-different__slide .fresh-different__card {
+    flex: 1 1 auto;
   }
 
   .fresh-different__dots {
