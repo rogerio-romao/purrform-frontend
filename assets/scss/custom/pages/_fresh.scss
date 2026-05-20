@@ -262,8 +262,8 @@
 .fresh-benefits__track-wrap {
     flex: 1;
     overflow: hidden;
-    padding: 12px 0;
-    margin: -12px 0;
+    padding: 16px 12px;
+    margin: -16px -12px;
 }
 
 .fresh-benefits__track {
@@ -281,7 +281,7 @@
 .fresh-benefits__card {
     background-color: $color-white;
     border-radius: $marketing-brand-radius;
-    box-shadow: 6px 4px 20px rgba(0, 0, 0, 0.12);
+    filter: drop-shadow(6px 7px 6px #00000043);
     padding: 28px 24px;
     display: flex;
     flex-direction: column;
