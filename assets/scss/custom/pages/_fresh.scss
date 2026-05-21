@@ -27,28 +27,26 @@
 .fresh-hero__image-wrap {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    overflow: hidden;
-    min-height: 260px;
+    height: 320px;
+    background-color: $color-brand-dark;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
-.fresh-hero__image-placeholder {
-    width: 100%;
-    min-height: 260px;
-    background-color: #4a5e4b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    color: rgba($color-white, 0.5);
-    text-align: center;
-    padding: 16px;
+.fresh-hero__image {
+    height: 100%;
+    width: auto;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    flex-shrink: 0;
 }
 
 .fresh-hero__text {
-    padding-top: 20px;
+    padding-top: 12px;
     padding-bottom: 40px;
 }
 
@@ -61,13 +59,13 @@
 }
 
 .fresh-hero__heading-light {
-    font-size: 22px;
+    font-size: clamp(16px, 5vw, 24px);
     font-weight: 400;
     line-height: 1.4;
 }
 
 .fresh-hero__heading-bold {
-    font-size: 32px;
+    font-size: clamp(22px, 6.5vw, 32px);
     font-weight: 700;
     line-height: 1.15;
 }
@@ -77,7 +75,7 @@
 .fresh-different {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background-color: $color-brand-dark;
+    background-color: $color-brand-primary;
     padding: 56px 0 72px;
 }
 
@@ -148,7 +146,7 @@
 
 .fresh-different__card {
     position: relative;
-    background-color: $color-brand-dark;
+    background-color: $color-brand-primary;
     border: 1.5px solid $color-gold;
     border-radius: $marketing-brand-radius;
     padding: 64px 20px 28px;
@@ -189,7 +187,7 @@
     width: 110px;
     height: 110px;
     border-radius: 50%;
-    background-color: $color-brand-dark;
+    background-color: $color-brand-primary;
     z-index: 1;
 }
 
@@ -332,36 +330,50 @@
 /* ── 4. ABOUT PURRFORM ────────────────────────────────────── */
 
 .fresh-about {
-    background-color: $marketing-brand-green-mid;
+    position: relative;
+    background-color: #9aab94;
+    background-image:
+        linear-gradient(135deg, #92a48a 25%, transparent 25%),
+        linear-gradient(225deg, #92a48a 25%, transparent 25%),
+        linear-gradient(45deg, #92a48a 25%, transparent 25%),
+        linear-gradient(315deg, #92a48a 25%, #9aab94 25%);
+    background-position:
+        8px 0,
+        8px 0,
+        0 0,
+        0 0;
+    background-size: 16px 16px;
+    background-repeat: repeat;
     padding: 56px 24px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.15);
+        pointer-events: none;
+    }
 }
 
 .fresh-about__inner {
+    position: relative;
+    z-index: 1;
     max-width: 1600px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 32px;
 }
 
 .fresh-about__icon {
     flex-shrink: 0;
 }
 
-.fresh-about__icon-placeholder {
-    width: 140px;
-    height: 180px;
-    background-color: $marketing-brand-green-light;
-    border-radius: $marketing-brand-radius;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: $marketing-brand-text-muted;
-    text-align: center;
-    padding: 12px;
+.fresh-about__icon-img {
+    width: 200px;
+    display: block;
+    margin-left: -40px;
 }
 
 .fresh-about__copy {
@@ -372,7 +384,7 @@
 }
 
 .fresh-about__heading {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 700;
     margin-bottom: 20px;
 }
@@ -392,7 +404,7 @@
 .fresh-offer {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background-color: $color-brand-dark;
+    background-color: $color-brand-primary;
 }
 
 .fresh-offer__card {
@@ -412,78 +424,71 @@
 }
 
 .fresh-offer__label {
-    font-size: 11px;
+    font-size: clamp(26px, calc(20.7px + 1.41vw), 32px);
     font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba($color-white, 0.6);
+    color: $color-white;
     margin-bottom: 0;
 }
 
 .fresh-offer__subtitle {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 600;
     color: $color-white;
-    line-height: 1.2;
     margin-bottom: 0;
 }
 
 .fresh-offer__cta {
     display: block;
     text-align: center;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 700;
-    letter-spacing: 0.06em;
     text-transform: uppercase;
     padding: 16px 24px;
-    border-radius: 100px;
+    border-radius: 18px;
     text-decoration: none;
-    background-color: $color-gold-light;
-    color: $color-brand-dark;
+    background-color: #f2ecce;
+    color: $color-brand-primary;
     transition: opacity $marketing-brand-transition;
 
     &:hover {
-        opacity: 0.85;
+        opacity: 0.95;
         text-decoration: none;
         color: $color-brand-dark;
     }
 }
 
 .fresh-offer__divider {
-    font-size: 13px;
-    color: rgba($color-white, 0.65);
+    font-size: 15px;
+    color: $color-white;
     margin-bottom: 0;
 }
 
 .fresh-offer__notice {
-    font-size: 13px;
-    font-style: italic;
-    color: rgba($color-white, 0.55);
+    font-size: 15px;
+    font-weight: 600;
+    color: $color-white;
     margin-bottom: 0;
 }
 
 .fresh-offer__visual {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-}
-
-.fresh-offer__placeholder {
-    width: 100%;
-    min-height: 240px;
-    background-color: #4a5e4b;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
-    color: rgba($color-white, 0.5);
-    text-align: center;
-    padding: 16px;
+}
+
+.fresh-offer__image {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* ── 2. INTRO COPY ────────────────────────────────────────── */
 
 .fresh-intro {
-    background-color: $marketing-brand-bg;
+    background-color: #eaeaea;
     padding: 48px 24px;
 }
 
@@ -494,9 +499,9 @@
 }
 
 .fresh-intro__copy {
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.7;
-    color: $marketing-brand-text;
+    color: $color-brand-primary;
     text-align: center;
     margin-bottom: 0;
 }
@@ -515,10 +520,6 @@
         justify-content: center;
     }
 
-    .fresh-offer__subtitle {
-        font-size: 32px;
-    }
-
     .fresh-offer__visual {
         flex: 1;
         width: auto;
@@ -526,9 +527,11 @@
         min-height: 480px;
     }
 
-    .fresh-offer__placeholder {
+    .fresh-offer__image {
+        width: 100%;
         height: 100%;
-        min-height: 480px;
+        object-fit: cover;
+        object-position: center;
     }
 
     .fresh-about {
@@ -538,12 +541,15 @@
     .fresh-about__inner {
         flex-direction: row;
         align-items: flex-start;
-        gap: 64px;
+        gap: 40px;
     }
 
-    .fresh-about__icon-placeholder {
-        width: 200px;
-        height: 260px;
+    .fresh-about__icon-img {
+        width: 360px;
+    }
+
+    .fresh-about__copy {
+        max-width: 65%;
     }
 
     .fresh-about__heading {
@@ -587,16 +593,16 @@
         width: 50%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        padding: 40px clamp(24px, 4vw, 56px);
+        justify-content: flex-start;
+        padding: 14px clamp(24px, 4vw, 56px) 30px;
     }
 
     .fresh-hero__heading-light {
-        font-size: clamp(16px, 1.8vw, 22px);
+        font-size: clamp(21px, 1.8vw, 26px);
     }
 
     .fresh-hero__heading-bold {
-        font-size: clamp(26px, 3vw, 40px);
+        font-size: clamp(30px, 3vw, 40px);
     }
 
     .fresh-different {
