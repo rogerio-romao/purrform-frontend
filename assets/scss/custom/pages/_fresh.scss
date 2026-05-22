@@ -495,7 +495,7 @@
 .fresh-inside {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background-color: $color-white;
+    background-color: $color-brand-primary;
     padding: 56px 0;
 }
 
@@ -509,7 +509,7 @@
 .fresh-inside__heading {
     font-size: 24px;
     font-weight: 700;
-    color: $color-brand-primary;
+    color: $color-white;
     text-align: center;
     margin-bottom: 16px;
 }
@@ -517,7 +517,7 @@
 .fresh-inside__intro {
     font-size: 18px;
     line-height: 1.7;
-    color: $color-brand-primary;
+    color: $color-white;
     text-align: center;
     max-width: 800px;
     margin: 0 auto 12px;
@@ -525,7 +525,7 @@
 
 .fresh-inside__hint {
     font-size: 15px;
-    color: $color-brand-primary;
+    color: rgba($color-white, 0.8);
     text-align: center;
     margin-bottom: 32px;
     font-style: italic;
@@ -631,9 +631,9 @@
     flex-direction: column;
     gap: 10px;
     background-color: $color-white;
-    border: 1.5px solid $color-gold;
-    border-radius: $marketing-brand-radius;
-    padding: 24px 20px;
+    border: none;
+    border-radius: 44px;
+    padding: 20px 24px 24px;
     box-sizing: border-box;
 
     &.is-visible {
@@ -644,7 +644,7 @@
 .fresh-inside__card-title {
     font-size: 20px;
     font-weight: 700;
-    color: $color-brand-primary;
+    color: $color-gold;
     margin-bottom: 0;
 }
 
@@ -656,7 +656,8 @@
 }
 
 .fresh-inside__card-body {
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 600;
     line-height: 1.6;
     color: $color-brand-primary;
     margin-bottom: 0;
@@ -671,9 +672,10 @@
     gap: 6px;
 
     li {
-        font-size: 16px;
+        font-size: 14px;
+        font-weight: 600;
         line-height: 1.6;
-        color: $color-brand-primary;
+        color: $color-gold;
     }
 }
 
@@ -867,8 +869,7 @@
         display: flex;
         position: absolute;
         width: 300px;
-        background-color: $color-white;
-        filter: drop-shadow(4px 6px 5px #2b302a2a);
+        filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.35));
 
         /* 1 — High quality animal protein: top-left */
         &#inside-protein {
