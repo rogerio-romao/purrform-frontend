@@ -7,6 +7,7 @@ export default class Fresh extends PageManager {
     onReady() {
         this.initDifferentCarousel();
         this.initBenefitsCarousel();
+        this.initInsideSection();
     }
 
     initDifferentCarousel() {
@@ -130,5 +131,25 @@ export default class Fresh extends PageManager {
         });
 
         init();
+    }
+
+    initInsideSection() {
+        const section = document.querySelector('.fresh-inside');
+        if (!section) return;
+
+        const pluses = Array.from(section.querySelectorAll('.fresh-inside__plus'));
+        const cards = Array.from(section.querySelectorAll('.fresh-inside__card'));
+        if (!pluses.length || !cards.length) return;
+
+        const show = (targetId) => {
+            cards.forEach(c => c.classList.toggle('is-visible', c.dataset.card === targetId));
+            pluses.forEach(p => p.classList.toggle('is-active', p.dataset.target === targetId));
+        };
+
+        pluses.forEach(p => {
+            p.addEventListener('click', () => show(p.dataset.target));
+        });
+
+        show(pluses[0].dataset.target);
     }
 }

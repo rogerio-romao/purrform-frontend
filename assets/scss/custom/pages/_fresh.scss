@@ -490,6 +490,193 @@
     margin-bottom: 0;
 }
 
+/* ── 7. WHAT'S INSIDE EVERY MEAL ─────────────────────────── */
+
+.fresh-inside {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $color-white;
+    padding: 56px 0;
+}
+
+.fresh-inside__inner {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+}
+
+.fresh-inside__heading {
+    font-size: 24px;
+    font-weight: 700;
+    color: $color-brand-primary;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.fresh-inside__intro {
+    font-size: 18px;
+    line-height: 1.7;
+    color: $color-brand-primary;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 12px;
+}
+
+.fresh-inside__hint {
+    font-size: 15px;
+    color: $color-brand-primary;
+    text-align: center;
+    margin-bottom: 32px;
+    font-style: italic;
+}
+
+/* Image + icon column sit side by side; card sits below the whole row */
+.fresh-inside__layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.fresh-inside__image-row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 420px;
+}
+
+.fresh-inside__image-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.fresh-inside__image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Vertical columns of plus icons flanking the image.
+   .fresh-inside__icons__spacer elements at top and bottom consume 15%
+   of the column height each, pushing the outermost buttons inwards. */
+.fresh-inside__icons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    width: 36px;
+}
+
+.fresh-inside__icons-spacer {
+    flex: 0 0 15%;
+}
+
+.fresh-inside__plus {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid $color-white;
+    background-color: $color-gold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    transition: background-color $marketing-brand-transition, box-shadow $marketing-brand-transition;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    padding: 0;
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        background-color: $color-white;
+        border-radius: 2px;
+    }
+
+    &::before {
+        width: 14px;
+        height: 2px;
+    }
+
+    &::after {
+        width: 2px;
+        height: 14px;
+    }
+
+    &:hover {
+        background-color: $color-brand-dark;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    &.is-active {
+        background-color: $color-brand-dark;
+        box-shadow: 0 0 0 3px rgba($color-gold, 0.4);
+    }
+}
+
+.fresh-inside__cards {
+    width: 100%;
+    max-width: 420px;
+    margin-top: 0;
+}
+
+.fresh-inside__card {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    background-color: $color-white;
+    border: 1.5px solid $color-gold;
+    border-radius: $marketing-brand-radius;
+    padding: 24px 20px;
+    box-sizing: border-box;
+
+    &.is-visible {
+        display: flex;
+    }
+}
+
+.fresh-inside__card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: $color-brand-primary;
+    margin-bottom: 0;
+}
+
+.fresh-inside__card-tagline {
+    font-size: 15px;
+    font-style: italic;
+    color: $color-brand-primary;
+    margin-bottom: 0;
+}
+
+.fresh-inside__card-body {
+    font-size: 16px;
+    line-height: 1.6;
+    color: $color-brand-primary;
+    margin-bottom: 0;
+}
+
+.fresh-inside__card-list {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    li {
+        font-size: 16px;
+        line-height: 1.6;
+        color: $color-brand-primary;
+    }
+}
+
 @media (min-width: 801px) {
     .fresh-offer__card {
         flex-direction: row;
@@ -622,5 +809,96 @@
 
     .fresh-benefits__card-title {
         font-size: 20px;
+    }
+
+    /* Section 7 tablet — slightly wider image row */
+    .fresh-inside__image-row,
+    .fresh-inside__cards {
+        max-width: 480px;
+    }
+}
+
+@media (min-width: 1261px) {
+    /* Section 7 — switch to static scattered layout */
+
+    .fresh-inside {
+        padding: 80px 0;
+    }
+
+    .fresh-inside__hint {
+        display: none;
+    }
+
+    .fresh-inside__layout {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+        min-height: 760px;
+        display: block;
+    }
+
+    .fresh-inside__image-row {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 340px;
+        max-width: none;
+        margin: 0;
+        gap: 0;
+    }
+
+    .fresh-inside__icons {
+        display: none;
+    }
+
+    .fresh-inside__plus {
+        display: none;
+    }
+
+    .fresh-inside__cards {
+        position: absolute;
+        inset: 0;
+        max-width: none;
+        margin-top: 0;
+    }
+
+    .fresh-inside__card {
+        display: flex;
+        position: absolute;
+        width: 300px;
+        background-color: $color-white;
+        filter: drop-shadow(4px 6px 5px #2b302a2a);
+
+        /* 1 — High quality animal protein: top-left */
+        &#inside-protein {
+            top: 0;
+            left: 0;
+        }
+
+        /* 2 — Nutrient-rich meat and offal: top-right */
+        &#inside-offal {
+            top: 0;
+            right: 0;
+        }
+
+        /* 3 — Essential Vitamins & Minerals: mid-right */
+        &#inside-vitamins {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+
+        /* 4 — Natural Fats: bottom-right */
+        &#inside-fats {
+            bottom: 0;
+            right: 0;
+        }
+
+        /* 5 — What We Never Include: bottom-left */
+        &#inside-never {
+            bottom: 0;
+            left: 0;
+        }
     }
 }
