@@ -141,13 +141,59 @@ export default class Fresh extends PageManager {
         const cards = Array.from(section.querySelectorAll('.fresh-inside__card'));
         if (!pluses.length || !cards.length) return;
 
-        const show = (targetId) => {
-            cards.forEach(c => c.classList.toggle('is-visible', c.dataset.card === targetId));
+        const closeButtons = Array.from(section.querySelectorAll('.fresh-inside__card-close'));
+        let transitioning = false;
+
+        const showImmediate = (targetId) => {
+            cards.forEach(c => {
+                const isTarget = c.dataset.card === targetId;
+                c.classList.toggle('is-visible', isTarget);
+                c.classList.toggle('is-animating-in', isTarget);
+                c.classList.remove('is-animating-out');
+            });
             pluses.forEach(p => p.classList.toggle('is-active', p.dataset.target === targetId));
+        };
+
+        const show = (targetId) => {
+            if (transitioning) return;
+            const current = cards.find(c => c.classList.contains('is-visible'));
+
+            if (!current || current.dataset.card === targetId) {
+                showImmediate(targetId);
+                return;
+            }
+
+            transitioning = true;
+            current.classList.add('is-animating-out');
+
+            current.addEventListener('transitionend', () => {
+                current.classList.remove('is-visible', 'is-animating-out');
+                showImmediate(targetId);
+                transitioning = false;
+            }, { once: true });
+        };
+
+        const hide = () => {
+            if (transitioning) return;
+            const current = cards.find(c => c.classList.contains('is-visible'));
+            if (!current) return;
+
+            transitioning = true;
+            current.classList.add('is-animating-out');
+
+            current.addEventListener('transitionend', () => {
+                current.classList.remove('is-visible', 'is-animating-out');
+                pluses.forEach(p => p.classList.remove('is-active'));
+                transitioning = false;
+            }, { once: true });
         };
 
         pluses.forEach(p => {
             p.addEventListener('click', () => show(p.dataset.target));
+        });
+
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', hide);
         });
 
         show(pluses[0].dataset.target);

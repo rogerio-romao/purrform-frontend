@@ -635,9 +635,61 @@
     border-radius: 44px;
     padding: 20px 24px 24px;
     box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
 
     &.is-visible {
         display: flex;
+    }
+
+    &.is-animating-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    &.is-animating-out {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.fresh-inside__card-close {
+    align-self: flex-end;
+    margin-top: auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background-color: $color-brand-primary;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    padding: 0;
+    transition: background-color $marketing-brand-transition;
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 2px;
+        background-color: $color-white;
+        border-radius: 2px;
+    }
+
+    &::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    &:hover {
+        background-color: $color-gold;
     }
 }
 
