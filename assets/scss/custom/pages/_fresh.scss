@@ -110,38 +110,14 @@
     will-change: transform;
 }
 
-/* Dot navigation */
-.fresh-different__dots {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 24px;
-    padding-bottom: 8px;
-}
 
-.fresh-different__dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid rgba($color-white, 0.5);
-    background: transparent;
-    padding: 0;
-    cursor: pointer;
-    transition:
-        border-color $marketing-brand-transition,
-        background-color $marketing-brand-transition;
-
-    &.is-active {
-        border-color: $color-gold;
-        background-color: $color-gold;
-    }
-}
-
-/* Slide wrapper — exactly one viewport width, provides side gutters */
+/* Slide wrapper — width set by JS (perView), provides side gutters */
 .fresh-different__slide {
-    flex: 0 0 100%;
+    flex-shrink: 0;
     box-sizing: border-box;
-    padding: 0 20px;
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
 }
 
 .fresh-different__card {
@@ -155,6 +131,7 @@
     align-items: flex-start;
     text-align: left;
     gap: 8px;
+    flex: 1 1 auto;
 }
 
 /* Badge pops out above the card top edge.
@@ -191,14 +168,6 @@
     z-index: 1;
 }
 
-/* Badge 1 — smaller rectangular PNG, tighter ring */
-.fresh-different__card--first::before {
-    top: -27px;
-    left: 19px;
-    width: 90px;
-    height: 90px;
-}
-
 .fresh-different__card-title {
     font-size: 20px;
     font-weight: 700;
@@ -211,6 +180,21 @@
     line-height: 1.6;
     color: rgba($color-white, 0.85);
     margin-bottom: 0;
+}
+
+.fresh-different__card-list {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    li {
+        font-size: 16px;
+        line-height: 1.6;
+        color: rgba($color-white, 0.85);
+    }
 }
 
 /* ── 6. HEALTH BENEFITS ───────────────────────────────────── */
@@ -612,34 +596,6 @@
     .fresh-different__heading {
         padding-left: 56px;
         padding-right: 56px;
-    }
-
-    /* Section 5 desktop — static 3-up row */
-    .fresh-different__carousel {
-        overflow: visible;
-        padding: 48px 56px 0;
-        margin-top: 0;
-    }
-
-    .fresh-different__cards {
-        gap: 24px;
-        transform: none;
-        transition: none;
-    }
-
-    .fresh-different__slide {
-        flex: 1 1 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .fresh-different__slide .fresh-different__card {
-        flex: 1 1 auto;
-    }
-
-    .fresh-different__dots {
-        display: none;
     }
 
     /* Section 6 desktop — wider padding, intro text larger */
