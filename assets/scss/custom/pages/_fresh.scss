@@ -110,7 +110,6 @@
     will-change: transform;
 }
 
-
 /* Slide wrapper — width set by JS (perView), provides side gutters */
 .fresh-different__slide {
     flex-shrink: 0;
@@ -316,27 +315,9 @@
 .fresh-about {
     position: relative;
     background-color: #9aab94;
-    background-image:
-        linear-gradient(135deg, #92a48a 25%, transparent 25%),
-        linear-gradient(225deg, #92a48a 25%, transparent 25%),
-        linear-gradient(45deg, #92a48a 25%, transparent 25%),
-        linear-gradient(315deg, #92a48a 25%, #9aab94 25%);
-    background-position:
-        8px 0,
-        8px 0,
-        0 0,
-        0 0;
-    background-size: 16px 16px;
+    background-image: url('../img/fresh/wavy-line.webp');
     background-repeat: repeat;
     padding: 56px 24px;
-
-    &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.15);
-        pointer-events: none;
-    }
 }
 
 .fresh-about__inner {
@@ -587,7 +568,9 @@
     justify-content: center;
     flex-shrink: 0;
     position: relative;
-    transition: background-color $marketing-brand-transition, box-shadow $marketing-brand-transition;
+    transition:
+        background-color $marketing-brand-transition,
+        box-shadow $marketing-brand-transition;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     padding: 0;
 
@@ -633,11 +616,14 @@
     background-color: $color-white;
     border: none;
     border-radius: 44px;
-    padding: 20px 24px 24px;
+    padding: 10px 16px 40px;
+    position: relative;
     box-sizing: border-box;
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
 
     &.is-visible {
         display: flex;
@@ -655,18 +641,17 @@
 }
 
 .fresh-inside__card-close {
-    align-self: flex-end;
-    margin-top: auto;
+    position: absolute;
+    bottom: 16px;
+    right: 20px;
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    border: none;
-    background-color: $color-brand-primary;
+    border: 2px solid $color-brand-primary;
+    background-color: $color-white;
     cursor: pointer;
-    flex-shrink: 0;
-    position: relative;
     padding: 0;
-    transition: background-color $marketing-brand-transition;
+    transition: border-color $marketing-brand-transition;
 
     &::before,
     &::after {
@@ -676,8 +661,9 @@
         left: 50%;
         width: 12px;
         height: 2px;
-        background-color: $color-white;
+        background-color: $color-brand-primary;
         border-radius: 2px;
+        transition: background-color $marketing-brand-transition;
     }
 
     &::before {
@@ -689,7 +675,12 @@
     }
 
     &:hover {
-        background-color: $color-gold;
+        border-color: $color-gold;
+
+        &::before,
+        &::after {
+            background-color: $color-gold;
+        }
     }
 }
 
