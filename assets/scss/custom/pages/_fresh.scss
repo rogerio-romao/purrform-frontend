@@ -998,3 +998,92 @@
         display: none;
     }
 }
+
+/* ── 8. AND THAT'S NOT ALL... ────────────────────────────── */
+
+.fresh-more {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $marketing-brand-green-mid;
+    padding: 56px 24px;
+}
+
+.fresh-more__inner {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.fresh-more__heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: $color-white;
+    margin-bottom: 16px;
+}
+
+.fresh-more__copy {
+    max-width: 800px;
+    margin: 0 0 32px;
+
+    p {
+        font-size: 15px;
+        line-height: 1.4;
+        color: $color-white;
+        font-weight: 400;
+        margin-bottom: 10px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.fresh-more__copy p.fresh-more__copy-bold {
+    font-weight: 700;
+}
+
+.fresh-more__tagline {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 800;
+    font-style: normal;
+    color: $color-brand-primary;
+    background-color: $color-white;
+    border-radius: 24px;
+    padding: 14px 32px;
+    margin-bottom: 32px;
+}
+
+.fresh-more__packs {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    max-width: 320px;
+}
+
+.fresh-more__pack img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.fresh-more__support {
+    font-size: 15px;
+    color: $color-white;
+    margin-bottom: 0;
+}
+
+.fresh-more__email {
+    color: $color-white;
+    text-decoration: underline;
+    transition: color $marketing-brand-transition;
+
+    &:hover,
+    &:focus {
+        color: $color-gold-light;
+    }
+}

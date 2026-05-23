@@ -20,17 +20,17 @@ Legend: [ ] not started · [~] in progress · [x] approved
 - [x] 4. About Purrform (green band, cat icon + copy)
   - [x] mobile
   - [x] desktop
-- [~] 5. What Makes Purrform Fresh Different (3 gold-border cards w/ badge PNGs)
+- [x] 5. What Makes Purrform Fresh Different (3 gold-border cards w/ badge PNGs)
+  - [x] mobile
+  - [x] desktop
+- [x] 6. Health Benefits of Fresh Cat Food (green band, 2 cards, scroll-snap on mobile)
+  - [x] mobile
+  - [x] desktop
+- [x] 7. What's Inside Every Meal (cream bg, pouch + callout pills)
+  - [x] mobile
+  - [x] desktop
+- [~] 8. And that's not all... (green band, 4-pack row, support line)
   - [~] mobile
-  - [ ] desktop
-- [ ] 6. Health Benefits of Fresh Cat Food (green band, 2 cards, scroll-snap on mobile)
-  - [ ] mobile
-  - [ ] desktop
-- [ ] 7. What's Inside Every Meal (cream bg, pouch + callout pills)
-  - [ ] mobile
-  - [ ] desktop
-- [ ] 8. And that's not all... (green band, 4-pack row, support line)
-  - [ ] mobile
   - [ ] desktop
 - [ ] 9. £25 Trial Pack signup form (gold band, Klaviyo embed)
   - [ ] mobile
