@@ -7,6 +7,10 @@
     margin-left: calc(-50vw + 50%);
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* ── 1. HERO ──────────────────────────────────────────────── */
 
 .fresh-hero {
