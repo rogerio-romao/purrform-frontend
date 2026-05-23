@@ -887,7 +887,7 @@
         position: relative;
         max-width: 1400px;
         margin: 0 auto;
-        min-height: 900px;
+        min-height: 920px;
         display: block;
     }
 
@@ -920,7 +920,7 @@
     .fresh-inside__cards .fresh-inside__card {
         display: flex;
         position: absolute;
-        width: 360px;
+        width: 340px;
         opacity: 1;
         transform: none;
         transition: none;
@@ -928,32 +928,32 @@
 
         /* 1 — High quality animal protein: top-left */
         &#inside-protein {
-            top: 0;
-            left: 60px;
+            top: 177px;
+            right: calc(50% + 206px);
         }
 
         /* 2 — Nutrient-rich meat and offal: top-right */
         &#inside-offal {
-            top: 0;
-            right: 60px;
+            top: 124px;
+            left: calc(50% + 206px);
         }
 
         /* 3 — Essential Vitamins & Minerals: mid-right */
         &#inside-vitamins {
-            top: calc(50% - 80px);
-            right: 60px;
+            top: 417px;
+            left: calc(50% + 206px);
         }
 
         /* 4 — Natural Fats: bottom-right */
         &#inside-fats {
-            bottom: 0;
-            right: 60px;
+            top: 665px;
+            left: calc(50% + 206px);
         }
 
         /* 5 — What We Never Include: bottom-left */
         &#inside-never {
-            bottom: 0;
-            left: 60px;
+            top: 544px;
+            right: calc(50% + 206px);
         }
     }
 
