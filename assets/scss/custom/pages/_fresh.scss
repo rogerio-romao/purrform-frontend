@@ -1058,11 +1058,14 @@
 .fresh-more__packs {
     list-style: none;
     padding: 0;
-    margin: 0 0 32px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    max-width: 320px;
+    margin: -16px -24px 8px;
+    display: flex;
+    justify-content: center;
+}
+
+.fresh-more__pack {
+    flex: 0 0 30%;
+    margin: 0 -4%;
 }
 
 .fresh-more__pack img {
