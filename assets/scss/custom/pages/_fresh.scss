@@ -861,6 +861,7 @@
     .fresh-inside__cards {
         max-width: 480px;
     }
+
 }
 
 @media (min-width: 1261px) {
@@ -1088,5 +1089,70 @@
     &:hover,
     &:focus {
         color: $color-gold-light;
+    }
+}
+
+/* ── 8. AND THAT'S NOT ALL — desktop ── */
+
+@media (min-width: 1024px) {
+    .fresh-more {
+        padding: 64px 80px;
+    }
+
+    .fresh-more__inner {
+        max-width: none;
+        text-align: left;
+    }
+
+    .fresh-more__heading {
+        font-size: 40px;
+    }
+
+    .fresh-more__copy {
+        margin-bottom: 16px;
+        max-width: none;
+
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+    }
+
+    .fresh-more__row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        margin-top: 16px;
+        margin-bottom: 24px;
+    }
+
+    .fresh-more__tagline {
+        flex-shrink: 0;
+        font-size: 20px;
+        padding: 18px 40px;
+        margin-bottom: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .fresh-more__packs {
+        margin: -8px 0;
+        max-width: none;
+        flex-direction: row;
+        flex: 0 0 auto;
+        justify-content: center;
+    }
+
+    .fresh-more__pack {
+        flex: 0 0 auto;
+        width: 140px;
+        margin: 0 -12px;
+    }
+
+    .fresh-more__support {
+        margin-top: 0;
+        font-size: 16px;
     }
 }
