@@ -7,6 +7,7 @@ export default class Fresh extends PageManager {
     onReady() {
         this.initDifferentCarousel();
         this.initBenefitsCarousel();
+        this.initInsideSection();
     }
 
     initDifferentCarousel() {
@@ -14,25 +15,45 @@ export default class Fresh extends PageManager {
         if (!carousel) return;
 
         const track = carousel.querySelector('.fresh-different__cards');
-        const cards = Array.from(carousel.querySelectorAll('.fresh-different__slide'));
-        const dots = Array.from(carousel.querySelectorAll('.fresh-different__dot'));
-        const slideCount = cards.length;
+        const originalSlides = Array.from(track.querySelectorAll('.fresh-different__slide'));
+        const slideCount = originalSlides.length;
         let currentIndex = 0;
+        let perView = 1;
         let intervalId = null;
         let resizeTimer = null;
 
-        const isMobile = () => window.innerWidth <= MOBILE_MAX;
+        // Append clones so the loop can wrap seamlessly
+        originalSlides.forEach(s => track.appendChild(s.cloneNode(true)));
 
-        const goTo = (index) => {
-            currentIndex = index;
-            track.style.transform = `translateX(-${index * 100}%)`;
-            dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+        const getPerView = () => {
+            if (window.innerWidth > 1260) return 3;
+            if (window.innerWidth > MOBILE_MAX) return 2;
+            return 1;
         };
+
+        const slideWidth = () => 100 / perView;
+
+        const setTransition = (on) => {
+            track.style.transition = on ? 'transform 0.4s ease' : 'none';
+        };
+
+        const goTo = (index, animate = true) => {
+            currentIndex = index;
+            setTransition(animate);
+            track.style.transform = `translateX(-${currentIndex * slideWidth()}%)`;
+        };
+
+        // After the transition to a clone finishes, silently snap back to the real slide
+        track.addEventListener('transitionend', () => {
+            if (currentIndex >= slideCount) {
+                goTo(currentIndex - slideCount, false);
+            }
+        });
 
         const startAutoplay = () => {
             clearInterval(intervalId);
             intervalId = setInterval(() => {
-                goTo((currentIndex + 1) % slideCount);
+                goTo(currentIndex + 1);
             }, AUTOPLAY_DELAY);
         };
 
@@ -41,45 +62,26 @@ export default class Fresh extends PageManager {
             intervalId = null;
         };
 
-        const resetAutoplay = () => {
-            stopAutoplay();
+        const init = () => {
+            perView = getPerView();
+            const allSlides = Array.from(track.querySelectorAll('.fresh-different__slide'));
+            allSlides.forEach(s => { s.style.flex = `0 0 ${slideWidth()}%`; });
+            // Clamp index into the real range on breakpoint change
+            currentIndex = currentIndex % slideCount;
+            goTo(currentIndex, false);
+            clearInterval(intervalId);
             startAutoplay();
         };
 
-        const initCarousel = () => {
-            goTo(0);
-            startAutoplay();
-        };
-
-        const destroyCarousel = () => {
-            stopAutoplay();
-            track.style.transform = '';
-            dots.forEach((dot, i) => dot.classList.toggle('is-active', i === 0));
-        };
-
-        dots.forEach((dot, i) => {
-            dot.addEventListener('click', () => {
-                if (!isMobile()) return;
-                goTo(i);
-                resetAutoplay();
-            });
-        });
-
-        carousel.addEventListener('mouseenter', () => { if (isMobile()) stopAutoplay(); });
-        carousel.addEventListener('mouseleave', () => { if (isMobile()) startAutoplay(); });
+        carousel.addEventListener('mouseenter', stopAutoplay);
+        carousel.addEventListener('mouseleave', startAutoplay);
 
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                if (isMobile()) {
-                    initCarousel();
-                } else {
-                    destroyCarousel();
-                }
-            }, 150);
+            resizeTimer = setTimeout(init, 150);
         });
 
-        if (isMobile()) initCarousel();
+        init();
     }
 
     initBenefitsCarousel() {
@@ -129,5 +131,71 @@ export default class Fresh extends PageManager {
         });
 
         init();
+    }
+
+    initInsideSection() {
+        const section = document.querySelector('.fresh-inside');
+        if (!section) return;
+
+        const pluses = Array.from(section.querySelectorAll('.fresh-inside__plus'));
+        const cards = Array.from(section.querySelectorAll('.fresh-inside__card'));
+        if (!pluses.length || !cards.length) return;
+
+        const closeButtons = Array.from(section.querySelectorAll('.fresh-inside__card-close'));
+        let transitioning = false;
+
+        const showImmediate = (targetId) => {
+            cards.forEach(c => {
+                const isTarget = c.dataset.card === targetId;
+                c.classList.toggle('is-visible', isTarget);
+                c.classList.toggle('is-animating-in', isTarget);
+                c.classList.remove('is-animating-out');
+            });
+            pluses.forEach(p => p.classList.toggle('is-active', p.dataset.target === targetId));
+        };
+
+        const show = (targetId) => {
+            if (transitioning) return;
+            const current = cards.find(c => c.classList.contains('is-visible'));
+
+            if (!current || current.dataset.card === targetId) {
+                showImmediate(targetId);
+                return;
+            }
+
+            transitioning = true;
+            current.classList.add('is-animating-out');
+
+            current.addEventListener('transitionend', () => {
+                current.classList.remove('is-visible', 'is-animating-out');
+                showImmediate(targetId);
+                transitioning = false;
+            }, { once: true });
+        };
+
+        const hide = () => {
+            if (transitioning) return;
+            const current = cards.find(c => c.classList.contains('is-visible'));
+            if (!current) return;
+
+            transitioning = true;
+            current.classList.add('is-animating-out');
+
+            current.addEventListener('transitionend', () => {
+                current.classList.remove('is-visible', 'is-animating-out');
+                pluses.forEach(p => p.classList.remove('is-active'));
+                transitioning = false;
+            }, { once: true });
+        };
+
+        pluses.forEach(p => {
+            p.addEventListener('click', () => show(p.dataset.target));
+        });
+
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', hide);
+        });
+
+        show(pluses[0].dataset.target);
     }
 }

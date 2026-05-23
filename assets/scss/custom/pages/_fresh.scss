@@ -110,38 +110,13 @@
     will-change: transform;
 }
 
-/* Dot navigation */
-.fresh-different__dots {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 24px;
-    padding-bottom: 8px;
-}
-
-.fresh-different__dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid rgba($color-white, 0.5);
-    background: transparent;
-    padding: 0;
-    cursor: pointer;
-    transition:
-        border-color $marketing-brand-transition,
-        background-color $marketing-brand-transition;
-
-    &.is-active {
-        border-color: $color-gold;
-        background-color: $color-gold;
-    }
-}
-
-/* Slide wrapper — exactly one viewport width, provides side gutters */
+/* Slide wrapper — width set by JS (perView), provides side gutters */
 .fresh-different__slide {
-    flex: 0 0 100%;
+    flex-shrink: 0;
     box-sizing: border-box;
-    padding: 0 20px;
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
 }
 
 .fresh-different__card {
@@ -155,6 +130,7 @@
     align-items: flex-start;
     text-align: left;
     gap: 8px;
+    flex: 1 1 auto;
 }
 
 /* Badge pops out above the card top edge.
@@ -191,14 +167,6 @@
     z-index: 1;
 }
 
-/* Badge 1 — smaller rectangular PNG, tighter ring */
-.fresh-different__card--first::before {
-    top: -27px;
-    left: 19px;
-    width: 90px;
-    height: 90px;
-}
-
 .fresh-different__card-title {
     font-size: 20px;
     font-weight: 700;
@@ -211,6 +179,21 @@
     line-height: 1.6;
     color: rgba($color-white, 0.85);
     margin-bottom: 0;
+}
+
+.fresh-different__card-list {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    li {
+        font-size: 16px;
+        line-height: 1.6;
+        color: rgba($color-white, 0.85);
+    }
 }
 
 /* ── 6. HEALTH BENEFITS ───────────────────────────────────── */
@@ -332,27 +315,9 @@
 .fresh-about {
     position: relative;
     background-color: #9aab94;
-    background-image:
-        linear-gradient(135deg, #92a48a 25%, transparent 25%),
-        linear-gradient(225deg, #92a48a 25%, transparent 25%),
-        linear-gradient(45deg, #92a48a 25%, transparent 25%),
-        linear-gradient(315deg, #92a48a 25%, #9aab94 25%);
-    background-position:
-        8px 0,
-        8px 0,
-        0 0,
-        0 0;
-    background-size: 16px 16px;
+    background-image: url('../img/fresh/wavy-line.webp');
     background-repeat: repeat;
     padding: 56px 24px;
-
-    &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.15);
-        pointer-events: none;
-    }
 }
 
 .fresh-about__inner {
@@ -506,6 +471,257 @@
     margin-bottom: 0;
 }
 
+/* ── 7. WHAT'S INSIDE EVERY MEAL ─────────────────────────── */
+
+.fresh-inside {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $color-brand-primary;
+    padding: 56px 0;
+}
+
+.fresh-inside__inner {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+}
+
+.fresh-inside__heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: $color-white;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.fresh-inside__intro {
+    font-size: 18px;
+    line-height: 1.45;
+    color: $color-white;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+.fresh-inside__hint {
+    font-size: 15px;
+    color: rgba($color-white, 0.8);
+    text-align: center;
+    margin-bottom: 56px;
+    font-style: italic;
+}
+
+/* Image + icon column sit side by side; card sits below the whole row */
+.fresh-inside__layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.fresh-inside__image-row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 420px;
+}
+
+.fresh-inside__image-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.fresh-inside__image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Vertical columns of plus icons flanking the image.
+   .fresh-inside__icons__spacer elements at top and bottom consume 15%
+   of the column height each, pushing the outermost buttons inwards. */
+.fresh-inside__icons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    width: 36px;
+}
+
+.fresh-inside__icons-spacer {
+    flex: 0 0 15%;
+}
+
+.fresh-inside__plus {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid $color-white;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    transition:
+        background-color $marketing-brand-transition,
+        box-shadow $marketing-brand-transition;
+    box-shadow: none;
+    padding: 0;
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        background-color: $color-white;
+        border-radius: 2px;
+    }
+
+    &::before {
+        width: 14px;
+        height: 2px;
+    }
+
+    &::after {
+        width: 2px;
+        height: 14px;
+    }
+
+    &:hover {
+        background-color: $color-gold;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    &.is-active {
+        background-color: $color-brand-dark;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+}
+
+.fresh-inside__cards {
+    width: 100%;
+    max-width: 420px;
+    margin-top: 0;
+}
+
+.fresh-inside__card {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    background-color: $color-white;
+    border: none;
+    border-radius: 44px;
+    padding: 10px 16px 60px;
+    position: relative;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+
+    &.is-visible {
+        display: flex;
+    }
+
+    &.is-animating-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    &.is-animating-out {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.fresh-inside__card-close {
+    position: absolute;
+    bottom: 16px;
+    right: 20px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid $color-brand-primary;
+    background-color: $color-white;
+    cursor: pointer;
+    padding: 0;
+    transition: border-color $marketing-brand-transition;
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 14px;
+        height: 3px;
+        background-color: $color-brand-primary;
+        border-radius: 2px;
+        transition: background-color $marketing-brand-transition;
+    }
+
+    &::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    &:hover {
+        border-color: $color-gold;
+
+        &::before,
+        &::after {
+            background-color: $color-gold;
+        }
+    }
+}
+
+.fresh-inside__card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: $color-gold;
+    margin-bottom: 0;
+}
+
+.fresh-inside__card-tagline {
+    font-size: 15px;
+    font-style: italic;
+    color: $color-brand-primary;
+    margin-bottom: 0;
+}
+
+.fresh-inside__card-body {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.6;
+    color: $color-brand-primary;
+    margin-bottom: 0;
+}
+
+.fresh-inside__card-list {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    li {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.6;
+        color: $color-gold;
+    }
+}
+
 @media (min-width: 801px) {
     .fresh-offer__card {
         flex-direction: row;
@@ -614,34 +830,6 @@
         padding-right: 56px;
     }
 
-    /* Section 5 desktop — static 3-up row */
-    .fresh-different__carousel {
-        overflow: visible;
-        padding: 48px 56px 0;
-        margin-top: 0;
-    }
-
-    .fresh-different__cards {
-        gap: 24px;
-        transform: none;
-        transition: none;
-    }
-
-    .fresh-different__slide {
-        flex: 1 1 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .fresh-different__slide .fresh-different__card {
-        flex: 1 1 auto;
-    }
-
-    .fresh-different__dots {
-        display: none;
-    }
-
     /* Section 6 desktop — wider padding, intro text larger */
     .fresh-benefits {
         padding: 80px 0;
@@ -666,5 +854,376 @@
 
     .fresh-benefits__card-title {
         font-size: 20px;
+    }
+
+    /* Section 7 tablet — slightly wider image row */
+    .fresh-inside__image-row,
+    .fresh-inside__cards {
+        max-width: 480px;
+    }
+}
+
+@media (min-width: 1261px) {
+    /* Section 7 — switch to static scattered layout */
+
+    .fresh-inside {
+        padding: 80px 0;
+    }
+
+    .fresh-inside__inner {
+        padding: 0 56px;
+    }
+
+    .fresh-inside__heading {
+        font-size: 34px;
+    }
+
+    .fresh-inside__intro {
+        max-width: 75%;
+        margin-bottom: 64px;
+    }
+
+    .fresh-inside__hint {
+        display: none;
+    }
+
+    .fresh-inside__layout {
+        position: relative;
+        max-width: 1400px;
+        margin: 0 auto;
+        min-height: 920px;
+        display: block;
+        background-color: #687e6b;
+        background-image: url('../img/fresh/wavy-line.webp');
+        background-repeat: repeat;
+        border-radius: 48px;
+        overflow: hidden;
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 320px;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 320' preserveAspectRatio='none'><path d='M0,160 C200,30 400,290 700,160 C1000,30 1200,290 1400,160 L1400,320 L0,320 Z' fill='%23899789'/></svg>");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 0;
+        }
+    }
+
+    .fresh-inside__image-row {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 380px;
+        max-width: none;
+        margin: 0;
+        gap: 0;
+        z-index: 1;
+    }
+
+    .fresh-inside__icons {
+        display: none;
+    }
+
+    .fresh-inside__plus {
+        display: none;
+    }
+
+    .fresh-inside__cards {
+        position: absolute;
+        inset: 0;
+        max-width: none;
+        margin-top: 0;
+    }
+
+    .fresh-inside__cards .fresh-inside__card {
+        display: flex;
+        position: absolute;
+        width: 340px;
+        opacity: 1;
+        transform: none;
+        transition: none;
+        filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.35));
+        z-index: 1;
+
+        /* 1 — High quality animal protein: top-left */
+        &#inside-protein {
+            top: 177px;
+            right: calc(50% + 206px);
+        }
+
+        /* 2 — Nutrient-rich meat and offal: top-right */
+        &#inside-offal {
+            top: 124px;
+            left: calc(50% + 206px);
+        }
+
+        /* 3 — Essential Vitamins & Minerals: mid-right */
+        &#inside-vitamins {
+            top: 417px;
+            left: calc(50% + 206px);
+        }
+
+        /* 4 — Natural Fats: bottom-right */
+        &#inside-fats {
+            top: 665px;
+            left: calc(50% + 206px);
+        }
+
+        /* 5 — What We Never Include: bottom-left */
+        &#inside-never {
+            top: 544px;
+            right: calc(50% + 206px);
+        }
+    }
+
+    .fresh-inside__card {
+        padding-bottom: 40px;
+    }
+
+    .fresh-inside__card-body {
+        line-height: 1.4;
+    }
+
+    .fresh-inside__card-list li {
+        line-height: 1.4;
+    }
+
+    .fresh-inside__card-close {
+        display: none;
+    }
+}
+
+/* ── 8. AND THAT'S NOT ALL... ────────────────────────────── */
+
+.fresh-more {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $marketing-brand-green-mid;
+    padding: 56px 24px;
+}
+
+.fresh-more__inner {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.fresh-more__heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: $color-white;
+    margin-bottom: 16px;
+}
+
+.fresh-more__copy {
+    max-width: 800px;
+    margin: 0 0 32px;
+
+    p {
+        font-size: 15px;
+        line-height: 1.4;
+        color: $color-white;
+        font-weight: 400;
+        margin-bottom: 10px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.fresh-more__copy p.fresh-more__copy-bold {
+    font-weight: 700;
+}
+
+.fresh-more__tagline {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 800;
+    font-style: normal;
+    color: $color-brand-primary;
+    background-color: $color-white;
+    border-radius: 24px;
+    padding: 14px 32px;
+    margin-bottom: 32px;
+}
+
+.fresh-more__packs {
+    list-style: none;
+    padding: 0;
+    margin: -16px -24px 8px;
+    display: flex;
+    justify-content: center;
+}
+
+.fresh-more__pack {
+    flex: 0 0 30%;
+    margin: 0 -4%;
+}
+
+.fresh-more__pack img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.fresh-more__support {
+    font-size: 15px;
+    color: $color-white;
+    margin-bottom: 0;
+}
+
+.fresh-more__email {
+    color: $color-white;
+    text-decoration: underline;
+    transition: color $marketing-brand-transition;
+
+    &:hover,
+    &:focus {
+        color: $color-gold-light;
+    }
+}
+
+/* ── 8. AND THAT'S NOT ALL — desktop ── */
+
+@media (min-width: 1024px) {
+    .fresh-more {
+        padding: 64px 80px;
+    }
+
+    .fresh-more__inner {
+        max-width: none;
+        text-align: left;
+    }
+
+    .fresh-more__heading {
+        font-size: 40px;
+    }
+
+    .fresh-more__copy {
+        margin-bottom: 16px;
+        max-width: none;
+
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+    }
+
+    .fresh-more__row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        margin-top: 16px;
+        margin-bottom: 24px;
+    }
+
+    .fresh-more__tagline {
+        flex-shrink: 0;
+        font-size: 20px;
+        padding: 18px 40px;
+        margin-bottom: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .fresh-more__packs {
+        margin: -8px 0;
+        max-width: none;
+        flex-direction: row;
+        flex: 0 0 auto;
+        justify-content: center;
+    }
+
+    .fresh-more__pack {
+        flex: 0 0 auto;
+        width: 140px;
+        margin: 0 -12px;
+    }
+
+    .fresh-more__support {
+        margin-top: 0;
+        font-size: 16px;
+    }
+}
+
+// ─── Section 9: £25 Trial Pack signup ────────────────────────────────────────
+
+.fresh-signup {
+    background-color: $color-white;
+    padding: 56px 24px 64px;
+    text-align: center;
+}
+
+.fresh-signup__inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.fresh-signup__card {
+    background-color: $color-brand-primary;
+    border-radius: $marketing-brand-radius;
+    padding: 32px 24px;
+    margin-bottom: 28px;
+}
+
+.fresh-signup__heading {
+    font-size: 26px;
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.fresh-signup__heading-sub {
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+    color: $color-white;
+    margin-top: 6px;
+}
+
+.fresh-signup__copy {
+    font-size: 15px;
+    color: $color-brand-primary;
+    line-height: 1.65;
+    margin-bottom: 32px;
+}
+
+.fresh-signup__form {
+    width: 100%;
+}
+
+@media (min-width: 801px) {
+    .fresh-signup {
+        padding: 80px 40px 88px;
+    }
+
+    .fresh-signup__card {
+        padding: 40px 48px;
+        margin-bottom: 32px;
+    }
+
+    .fresh-signup__heading {
+        font-size: 34px;
+    }
+
+    .fresh-signup__heading-sub {
+        display: inline;
+        font-size: 28px;
+    }
+
+    .fresh-signup__copy {
+        font-size: 17px;
     }
 }
