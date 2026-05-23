@@ -561,7 +561,7 @@
     height: 36px;
     border-radius: 50%;
     border: 2px solid $color-white;
-    background-color: $color-gold;
+    background-color: transparent;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -571,7 +571,7 @@
     transition:
         background-color $marketing-brand-transition,
         box-shadow $marketing-brand-transition;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: none;
     padding: 0;
 
     &::before,
@@ -593,13 +593,13 @@
     }
 
     &:hover {
-        background-color: $color-brand-dark;
+        background-color: $color-gold;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     &.is-active {
         background-color: $color-brand-dark;
-        box-shadow: 0 0 0 3px rgba($color-gold, 0.4);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     }
 }
 
@@ -616,7 +616,7 @@
     background-color: $color-white;
     border: none;
     border-radius: 44px;
-    padding: 10px 16px 40px;
+    padding: 10px 16px 60px;
     position: relative;
     box-sizing: border-box;
     opacity: 0;
@@ -659,8 +659,8 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 12px;
-        height: 2px;
+        width: 14px;
+        height: 3px;
         background-color: $color-brand-primary;
         border-radius: 2px;
         transition: background-color $marketing-brand-transition;
@@ -870,6 +870,10 @@
         padding: 80px 0;
     }
 
+    .fresh-inside__inner {
+        padding: 0 56px;
+    }
+
     .fresh-inside__heading {
         font-size: 34px;
     }
@@ -889,6 +893,25 @@
         margin: 0 auto;
         min-height: 920px;
         display: block;
+        background-color: #687e6b;
+        background-image: url('../img/fresh/wavy-line.webp');
+        background-repeat: repeat;
+        border-radius: 48px;
+        overflow: hidden;
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 320px;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 320' preserveAspectRatio='none'><path d='M0,160 C200,30 400,290 700,160 C1000,30 1200,290 1400,160 L1400,320 L0,320 Z' fill='%23899789'/></svg>");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 0;
+        }
     }
 
     .fresh-inside__image-row {
@@ -900,6 +923,7 @@
         max-width: none;
         margin: 0;
         gap: 0;
+        z-index: 1;
     }
 
     .fresh-inside__icons {
@@ -925,6 +949,7 @@
         transform: none;
         transition: none;
         filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.35));
+        z-index: 1;
 
         /* 1 — High quality animal protein: top-left */
         &#inside-protein {
