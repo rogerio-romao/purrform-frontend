@@ -861,7 +861,6 @@
     .fresh-inside__cards {
         max-width: 480px;
     }
-
 }
 
 @media (min-width: 1261px) {
@@ -1154,5 +1153,77 @@
     .fresh-more__support {
         margin-top: 0;
         font-size: 16px;
+    }
+}
+
+// ─── Section 9: £25 Trial Pack signup ────────────────────────────────────────
+
+.fresh-signup {
+    background-color: $color-white;
+    padding: 56px 24px 64px;
+    text-align: center;
+}
+
+.fresh-signup__inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.fresh-signup__card {
+    background-color: $color-brand-primary;
+    border-radius: $marketing-brand-radius;
+    padding: 32px 24px;
+    margin-bottom: 28px;
+}
+
+.fresh-signup__heading {
+    font-size: 26px;
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.fresh-signup__heading-sub {
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+    color: $color-white;
+    margin-top: 6px;
+}
+
+.fresh-signup__copy {
+    font-size: 15px;
+    color: $color-brand-primary;
+    line-height: 1.65;
+    margin-bottom: 32px;
+}
+
+.fresh-signup__form {
+    width: 100%;
+}
+
+@media (min-width: 801px) {
+    .fresh-signup {
+        padding: 80px 40px 88px;
+    }
+
+    .fresh-signup__card {
+        padding: 40px 48px;
+        margin-bottom: 32px;
+    }
+
+    .fresh-signup__heading {
+        font-size: 34px;
+    }
+
+    .fresh-signup__heading-sub {
+        display: inline;
+        font-size: 28px;
+    }
+
+    .fresh-signup__copy {
+        font-size: 17px;
     }
 }
