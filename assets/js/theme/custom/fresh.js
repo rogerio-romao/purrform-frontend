@@ -38,7 +38,8 @@ export default class Fresh extends PageManager {
         };
 
         const goTo = (index, animate = true) => {
-            currentIndex = index;
+            // Wrap into the clone range [0, slideCount*2) so translateX is always valid
+            currentIndex = ((index % (slideCount * 2)) + slideCount * 2) % (slideCount * 2);
             setTransition(animate);
             track.style.transform = `translateX(-${currentIndex * slideWidth()}%)`;
         };
