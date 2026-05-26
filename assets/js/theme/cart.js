@@ -1,21 +1,23 @@
-import PageManager from "./page-manager";
-import { bind, debounce } from "lodash";
-import checkIsGiftCertValid from "./common/gift-certificate-validator";
-import { createTranslationDictionary } from "./common/utils/translations-utils";
-import utils from "@bigcommerce/stencil-utils";
-import ShippingEstimator from "./cart/shipping-estimator";
-import { defaultModal, showAlertModal, ModalEvents } from "./global/modal";
-import CartItemDetails from "./common/cart-item-details";
+import utils from '@bigcommerce/stencil-utils';
+import { bind, debounce } from 'lodash';
+import ShippingEstimator from './cart/shipping-estimator';
+import CartItemDetails from './common/cart-item-details';
+import checkIsGiftCertValid from './common/gift-certificate-validator';
+import { createTranslationDictionary } from './common/utils/translations-utils';
+import { defaultModal, ModalEvents, showAlertModal } from './global/modal';
+import PageManager from './page-manager';
 
 export default class Cart extends PageManager {
     onReady() {
         this.$modal = null;
-        this.$cartPageContent = $("[data-cart]");
-        this.$cartContent = $("[data-cart-content]");
-        this.$cartMessages = $("[data-cart-status]");
-        this.$cartTotals = $("[data-cart-totals]");
-        this.$cartAdditionalCheckoutBtns = $("[data-cart-additional-checkout-buttons]");
-        this.$overlay = $("[data-cart] .loadingOverlay").hide(); // TODO: temporary until roper pulls in his cart components
+        this.$cartPageContent = $('[data-cart]');
+        this.$cartContent = $('[data-cart-content]');
+        this.$cartMessages = $('[data-cart-status]');
+        this.$cartTotals = $('[data-cart-totals]');
+        this.$cartAdditionalCheckoutBtns = $(
+            '[data-cart-additional-checkout-buttons]',
+        );
+        this.$overlay = $('[data-cart] .loadingOverlay').hide(); // TODO: temporary until roper pulls in his cart components
         this.$activeCartItemId = null;
         this.$activeCartItemBtnAction = null;
 
@@ -25,22 +27,23 @@ export default class Cart extends PageManager {
 
     setApplePaySupport() {
         if (window.ApplePaySession) {
-            this.$cartPageContent.addClass("apple-pay-supported");
+            this.$cartPageContent.addClass('apple-pay-supported');
         }
     }
 
     cartUpdate($target) {
-        const itemId = $target.data("cartItemid");
+        const itemId = $target.data('cartItemid');
         this.$activeCartItemId = itemId;
-        this.$activeCartItemBtnAction = $target.data("action");
+        this.$activeCartItemBtnAction = $target.data('action');
 
         const $el = $(`#qty-${itemId}`);
         const oldQty = parseInt($el.val(), 10);
-        const maxQty = parseInt($el.data("quantityMax"), 10);
-        const minQty = parseInt($el.data("quantityMin"), 10);
-        const minError = $el.data("quantityMinError");
-        const maxError = $el.data("quantityMaxError");
-        const newQty = $target.data("action") === "inc" ? oldQty + 1 : oldQty - 1;
+        const maxQty = parseInt($el.data('quantityMax'), 10);
+        const minQty = parseInt($el.data('quantityMin'), 10);
+        const minError = $el.data('quantityMinError');
+        const maxError = $el.data('quantityMaxError');
+        const newQty =
+            $target.data('action') === 'inc' ? oldQty + 1 : oldQty - 1;
         // Does not quality for min/max quantity
         if (newQty < minQty) {
             return showAlertModal(minError);
@@ -53,26 +56,26 @@ export default class Cart extends PageManager {
         utils.api.cart.itemUpdate(itemId, newQty, (err, response) => {
             this.$overlay.hide();
 
-            if (response.data.status === "succeed") {
+            if (response.data.status === 'succeed') {
                 // if the quantity is changed "1" from "0", we have to remove the row.
                 const remove = newQty === 0;
 
                 this.refreshContent(remove);
             } else {
                 $el.val(oldQty);
-                showAlertModal(response.data.errors.join("\n"));
+                showAlertModal(response.data.errors.join('\n'));
             }
         });
     }
 
     cartUpdateQtyTextChange($target, preVal = null) {
-        const itemId = $target.data("cartItemid");
+        const itemId = $target.data('cartItemid');
         const $el = $(`#qty-${itemId}`);
-        const maxQty = parseInt($el.data("quantityMax"), 10);
-        const minQty = parseInt($el.data("quantityMin"), 10);
+        const maxQty = parseInt($el.data('quantityMax'), 10);
+        const minQty = parseInt($el.data('quantityMin'), 10);
         const oldQty = preVal !== null ? preVal : minQty;
-        const minError = $el.data("quantityMinError");
-        const maxError = $el.data("quantityMaxError");
+        const minError = $el.data('quantityMinError');
+        const maxError = $el.data('quantityMaxError');
         const newQty = parseInt(Number($el.val()), 10);
         let invalidEntry;
 
@@ -81,7 +84,10 @@ export default class Cart extends PageManager {
             invalidEntry = $el.val();
             $el.val(oldQty);
             return showAlertModal(
-                this.context.invalidEntryMessage.replace("[ENTRY]", invalidEntry)
+                this.context.invalidEntryMessage.replace(
+                    '[ENTRY]',
+                    invalidEntry,
+                ),
             );
         } else if (newQty < minQty) {
             $el.val(oldQty);
@@ -95,7 +101,7 @@ export default class Cart extends PageManager {
         utils.api.cart.itemUpdate(itemId, newQty, (err, response) => {
             this.$overlay.hide();
 
-            if (response.data.status === "succeed") {
+            if (response.data.status === 'succeed') {
                 // if the quantity is changed "1" from "0", we have to remove the row.
                 const remove = newQty === 0;
 
@@ -103,7 +109,7 @@ export default class Cart extends PageManager {
             } else {
                 $el.val(oldQty);
 
-                return showAlertModal(response.data.errors.join("\n"));
+                return showAlertModal(response.data.errors.join('\n'));
             }
         });
     }
@@ -111,11 +117,11 @@ export default class Cart extends PageManager {
     cartRemoveItem(itemId) {
         this.$overlay.show();
         utils.api.cart.itemRemove(itemId, (err, response) => {
-            if (response.data.status === "succeed") {
+            if (response.data.status === 'succeed') {
                 this.refreshContent(true);
             } else {
                 this.$overlay.hide();
-                showAlertModal(response.data.errors.join("\n"));
+                showAlertModal(response.data.errors.join('\n'));
             }
         });
     }
@@ -125,45 +131,56 @@ export default class Cart extends PageManager {
         const modal = defaultModal();
 
         if (this.$modal === null) {
-            this.$modal = $("#modal");
+            this.$modal = $('#modal');
         }
 
         const options = {
-            template: "cart/modals/configure-product",
+            template: 'cart/modals/configure-product',
         };
 
         modal.open();
-        this.$modal.find(".modal-content").addClass("hide-content");
+        this.$modal.find('.modal-content').addClass('hide-content');
 
-        utils.api.productAttributes.configureInCart(itemId, options, (err, response) => {
-            modal.updateContent(response.content);
-            const optionChangeHandler = () => {
-                const $productOptionsContainer = $(
-                    "[data-product-attributes-wrapper]",
-                    this.$modal
-                );
-                const modalBodyReservedHeight = $productOptionsContainer.outerHeight();
+        utils.api.productAttributes.configureInCart(
+            itemId,
+            options,
+            (err, response) => {
+                modal.updateContent(response.content);
+                const optionChangeHandler = () => {
+                    const $productOptionsContainer = $(
+                        '[data-product-attributes-wrapper]',
+                        this.$modal,
+                    );
+                    const modalBodyReservedHeight =
+                        $productOptionsContainer.outerHeight();
 
-                if ($productOptionsContainer.length && modalBodyReservedHeight) {
-                    $productOptionsContainer.css("height", modalBodyReservedHeight);
+                    if (
+                        $productOptionsContainer.length &&
+                        modalBodyReservedHeight
+                    ) {
+                        $productOptionsContainer.css(
+                            'height',
+                            modalBodyReservedHeight,
+                        );
+                    }
+                };
+
+                if (this.$modal.hasClass('open')) {
+                    optionChangeHandler();
+                } else {
+                    this.$modal.one(ModalEvents.opened, optionChangeHandler);
                 }
-            };
 
-            if (this.$modal.hasClass("open")) {
-                optionChangeHandler();
-            } else {
-                this.$modal.one(ModalEvents.opened, optionChangeHandler);
-            }
+                this.productDetails = new CartItemDetails(this.$modal, context);
 
-            this.productDetails = new CartItemDetails(this.$modal, context);
+                this.bindGiftWrappingForm();
+            },
+        );
 
-            this.bindGiftWrappingForm();
-        });
-
-        utils.hooks.on("product-option-change", (event, currentTarget) => {
-            const $form = $(currentTarget).find("form");
-            const $submit = $("input.button", $form);
-            const $messageBox = $(".alertMessageBox");
+        utils.hooks.on('product-option-change', (event, currentTarget) => {
+            const $form = $(currentTarget).find('form');
+            const $submit = $('input.button', $form);
+            const $messageBox = $('.alertMessageBox');
 
             utils.api.productAttributes.optionChange(
                 productId,
@@ -177,34 +194,36 @@ export default class Cart extends PageManager {
                     }
 
                     if (data.purchasing_message) {
-                        $("p.alertBox-message", $messageBox).text(data.purchasing_message);
-                        $submit.prop("disabled", true);
+                        $('p.alertBox-message', $messageBox).text(
+                            data.purchasing_message,
+                        );
+                        $submit.prop('disabled', true);
                         $messageBox.show();
                     } else {
-                        $submit.prop("disabled", false);
+                        $submit.prop('disabled', false);
                         $messageBox.hide();
                     }
 
                     if (!data.purchasable || !data.instock) {
-                        $submit.prop("disabled", true);
+                        $submit.prop('disabled', true);
                     } else {
-                        $submit.prop("disabled", false);
+                        $submit.prop('disabled', false);
                     }
-                }
+                },
             );
         });
     }
 
     refreshContent(remove) {
-        const $cartItemsRows = $("[data-item-row]", this.$cartContent);
-        const $cartPageTitle = $("[data-cart-page-title]");
+        const $cartItemsRows = $('[data-item-row]', this.$cartContent);
+        const $cartPageTitle = $('[data-cart-page-title]');
         const options = {
             template: {
-                content: "cart/content",
-                totals: "cart/totals",
-                pageTitle: "cart/page-title",
-                statusMessages: "cart/status-messages",
-                additionalCheckoutButtons: "cart/additional-checkout-buttons",
+                content: 'cart/content',
+                totals: 'cart/totals',
+                pageTitle: 'cart/page-title',
+                statusMessages: 'cart/status-messages',
+                additionalCheckoutButtons: 'cart/additional-checkout-buttons',
             },
         };
 
@@ -219,51 +238,70 @@ export default class Cart extends PageManager {
             this.$cartContent.html(response.content);
             this.$cartTotals.html(response.totals);
             this.$cartMessages.html(response.statusMessages);
-            this.$cartAdditionalCheckoutBtns.html(response.additionalCheckoutButtons);
+            this.$cartAdditionalCheckoutBtns.html(
+                response.additionalCheckoutButtons,
+            );
 
             $cartPageTitle.replaceWith(response.pageTitle);
             this.bindEvents();
             this.$overlay.hide();
 
-            const quantity = $("[data-cart-quantity]", this.$cartContent).data("cartQuantity") || 0;
+            const quantity =
+                $('[data-cart-quantity]', this.$cartContent).data(
+                    'cartQuantity',
+                ) || 0;
 
-            $("body").trigger("cart-quantity-update", quantity);
+            $('body').trigger('cart-quantity-update', quantity);
 
-            $(`[data-cart-itemid='${this.$activeCartItemId}']`, this.$cartContent)
+            $(
+                `[data-cart-itemid='${this.$activeCartItemId}']`,
+                this.$cartContent,
+            )
                 .filter(`[data-action='${this.$activeCartItemBtnAction}']`)
-                .trigger("focus");
+                .trigger('focus');
         });
     }
 
     bindCartEvents() {
-        let goldNumber = document.querySelector("#target-gold");
-        const checkoutButton = document.querySelector("#do_checkout");
-        if (goldNumber.innerHTML.trim() === "10" || goldNumber.innerHTML.trim() === "0") {
-            checkoutButton.classList.remove("quantity-disabled");
+        const checkoutStatusEl = document.querySelector(
+            '#cart-min-quantity-status',
+        );
+        const checkoutButton = document.querySelector('#do_checkout');
+        if (
+            checkoutStatusEl.innerHTML.trim() === '10' ||
+            checkoutStatusEl.innerHTML.trim() === '0'
+        ) {
+            checkoutButton.classList.remove('quantity-disabled');
         } else {
-            checkoutButton.classList.add("quantity-disabled");
+            checkoutButton.classList.add('quantity-disabled');
         }
         // Get the checkbox element
-        var checkbox = document.querySelector(".validate-cart");
-        checkbox.addEventListener("change", function () {
+        const checkbox = document.querySelector('.validate-cart');
+        checkbox.addEventListener('change', () => {
             if (checkbox.checked) {
-                checkoutButton.classList.remove("ui-state-disabled");
+                checkoutButton.classList.remove('ui-state-disabled');
             } else {
-                checkoutButton.classList.add("ui-state-disabled");
+                checkoutButton.classList.add('ui-state-disabled');
             }
         });
 
         const debounceTimeout = 400;
-        const cartUpdate = bind(debounce(this.cartUpdate, debounceTimeout), this);
+        const cartUpdate = bind(
+            debounce(this.cartUpdate, debounceTimeout),
+            this,
+        );
         const cartUpdateQtyTextChange = bind(
             debounce(this.cartUpdateQtyTextChange, debounceTimeout),
-            this
+            this,
         );
-        const cartRemoveItem = bind(debounce(this.cartRemoveItem, debounceTimeout), this);
+        const cartRemoveItem = bind(
+            debounce(this.cartRemoveItem, debounceTimeout),
+            this,
+        );
         let preVal;
 
         // cart update
-        $("[data-cart-update]", this.$cartContent).on("click", (event) => {
+        $('[data-cart-update]', this.$cartContent).on('click', (event) => {
             const $target = $(event.currentTarget);
 
             event.preventDefault();
@@ -273,8 +311,8 @@ export default class Cart extends PageManager {
         });
 
         // cart qty manually updates
-        $(".cart-item-qty-input", this.$cartContent)
-            .on("focus", function onQtyFocus() {
+        $('.cart-item-qty-input', this.$cartContent)
+            .on('focus', function onQtyFocus() {
                 preVal = this.value;
             })
             .change((event) => {
@@ -285,11 +323,11 @@ export default class Cart extends PageManager {
                 cartUpdateQtyTextChange($target, preVal);
             });
 
-        $(".cart-remove", this.$cartContent).on("click", (event) => {
-            const itemId = $(event.currentTarget).data("cartItemid");
-            const string = $(event.currentTarget).data("confirmDelete");
+        $('.cart-remove', this.$cartContent).on('click', (event) => {
+            const itemId = $(event.currentTarget).data('cartItemid');
+            const string = $(event.currentTarget).data('confirmDelete');
             showAlertModal(string, {
-                icon: "warning",
+                icon: 'warning',
                 showCancelButton: true,
                 onConfirm: () => {
                     // remove item from cart
@@ -299,9 +337,9 @@ export default class Cart extends PageManager {
             event.preventDefault();
         });
 
-        $("[data-item-edit]", this.$cartContent).on("click", (event) => {
-            const itemId = $(event.currentTarget).data("itemEdit");
-            const productId = $(event.currentTarget).data("productId");
+        $('[data-item-edit]', this.$cartContent).on('click', (event) => {
+            const itemId = $(event.currentTarget).data('itemEdit');
+            const productId = $(event.currentTarget).data('productId');
             event.preventDefault();
             // edit item in cart
             this.cartEditOptions(itemId, productId);
@@ -309,81 +347,85 @@ export default class Cart extends PageManager {
     }
 
     bindPromoCodeEvents() {
-        const $couponContainer = $(".coupon-code");
-        const $couponForm = $(".coupon-form");
+        const $couponContainer = $('.coupon-code');
+        const $couponForm = $('.coupon-form');
         const $codeInput = $('[name="couponcode"]', $couponForm);
 
-        $(".coupon-code-add").on("click", (event) => {
+        $('.coupon-code-add').on('click', (event) => {
             event.preventDefault();
 
             $(event.currentTarget).hide();
             $couponContainer.show();
-            $(".coupon-code-cancel").show();
-            $codeInput.trigger("focus");
+            $('.coupon-code-cancel').show();
+            $codeInput.trigger('focus');
         });
 
-        $(".coupon-code-cancel").on("click", (event) => {
+        $('.coupon-code-cancel').on('click', (event) => {
             event.preventDefault();
 
             $couponContainer.hide();
-            $(".coupon-code-cancel").hide();
-            $(".coupon-code-add").show();
+            $('.coupon-code-cancel').hide();
+            $('.coupon-code-add').show();
         });
 
-        $couponForm.on("submit", (event) => {
+        $couponForm.on('submit', (event) => {
             const code = $codeInput.val();
 
             event.preventDefault();
 
             // Empty code
             if (!code) {
-                return showAlertModal($codeInput.data("error"));
+                return showAlertModal($codeInput.data('error'));
             }
 
             utils.api.cart.applyCode(code, (err, response) => {
-                if (response.data.status === "success") {
+                if (response.data.status === 'success') {
                     this.refreshContent();
                 } else {
-                    showAlertModal(response.data.errors.join("\n"));
+                    showAlertModal(response.data.errors.join('\n'));
                 }
             });
         });
     }
 
     bindGiftCertificateEvents() {
-        const $certContainer = $(".gift-certificate-code");
-        const $certForm = $(".cart-gift-certificate-form");
+        const $certContainer = $('.gift-certificate-code');
+        const $certForm = $('.cart-gift-certificate-form');
         const $certInput = $('[name="certcode"]', $certForm);
 
-        $(".gift-certificate-add").on("click", (event) => {
+        $('.gift-certificate-add').on('click', (event) => {
             event.preventDefault();
             $(event.currentTarget).toggle();
             $certContainer.toggle();
-            $(".gift-certificate-cancel").toggle();
+            $('.gift-certificate-cancel').toggle();
         });
 
-        $(".gift-certificate-cancel").on("click", (event) => {
+        $('.gift-certificate-cancel').on('click', (event) => {
             event.preventDefault();
             $certContainer.toggle();
-            $(".gift-certificate-add").toggle();
-            $(".gift-certificate-cancel").toggle();
+            $('.gift-certificate-add').toggle();
+            $('.gift-certificate-cancel').toggle();
         });
 
-        $certForm.on("submit", (event) => {
+        $certForm.on('submit', (event) => {
             const code = $certInput.val();
 
             event.preventDefault();
 
             if (!checkIsGiftCertValid(code)) {
-                const validationDictionary = createTranslationDictionary(this.context);
-                return showAlertModal(validationDictionary.invalid_gift_certificate);
+                const validationDictionary = createTranslationDictionary(
+                    this.context,
+                );
+                return showAlertModal(
+                    validationDictionary.invalid_gift_certificate,
+                );
             }
 
             utils.api.cart.applyGiftCertificate(code, (err, resp) => {
-                if (resp.data.status === "success") {
+                if (resp.data.status === 'success') {
                     this.refreshContent();
                 } else {
-                    showAlertModal(resp.data.errors.join("\n"));
+                    showAlertModal(resp.data.errors.join('\n'));
                 }
             });
         });
@@ -392,35 +434,41 @@ export default class Cart extends PageManager {
     bindGiftWrappingEvents() {
         const modal = defaultModal();
 
-        $("[data-item-giftwrap]").on("click", (event) => {
-            const itemId = $(event.currentTarget).data("itemGiftwrap");
+        $('[data-item-giftwrap]').on('click', (event) => {
+            const itemId = $(event.currentTarget).data('itemGiftwrap');
             const options = {
-                template: "cart/modals/gift-wrapping-form",
+                template: 'cart/modals/gift-wrapping-form',
             };
 
             event.preventDefault();
 
             modal.open();
 
-            utils.api.cart.getItemGiftWrappingOptions(itemId, options, (err, response) => {
-                modal.updateContent(response.content);
+            utils.api.cart.getItemGiftWrappingOptions(
+                itemId,
+                options,
+                (err, response) => {
+                    modal.updateContent(response.content);
 
-                this.bindGiftWrappingForm();
-            });
+                    this.bindGiftWrappingForm();
+                },
+            );
         });
     }
 
     bindGiftWrappingForm() {
-        $(".giftWrapping-select").on("change", (event) => {
+        $('.giftWrapping-select').on('change', (event) => {
             const $select = $(event.currentTarget);
             const id = $select.val();
-            const index = $select.data("index");
+            const index = $select.data('index');
 
             if (!id) {
                 return;
             }
 
-            const allowMessage = $select.find(`option[value=${id}]`).data("allowMessage");
+            const allowMessage = $select
+                .find(`option[value=${id}]`)
+                .data('allowMessage');
 
             $(`.giftWrapping-image-${index}`).hide();
             $(`#giftWrapping-image-${index}-${id}`).show();
@@ -432,14 +480,14 @@ export default class Cart extends PageManager {
             }
         });
 
-        $(".giftWrapping-select").trigger("change");
+        $('.giftWrapping-select').trigger('change');
 
         function toggleViews() {
             const value = $('input:radio[name ="giftwraptype"]:checked').val();
-            const $singleForm = $(".giftWrapping-single");
-            const $multiForm = $(".giftWrapping-multiple");
+            const $singleForm = $('.giftWrapping-single');
+            const $multiForm = $('.giftWrapping-multiple');
 
-            if (value === "same") {
+            if (value === 'same') {
                 $singleForm.show();
                 $multiForm.hide();
             } else {
@@ -448,7 +496,7 @@ export default class Cart extends PageManager {
             }
         }
 
-        $('[name="giftwraptype"]').on("click", toggleViews);
+        $('[name="giftwraptype"]').on('click', toggleViews);
 
         toggleViews();
     }
@@ -465,8 +513,8 @@ export default class Cart extends PageManager {
             province: this.context.shippingProvinceErrorMessage,
         };
         this.shippingEstimator = new ShippingEstimator(
-            $("[data-shipping-estimator]"),
-            shippingErrorMessages
+            $('[data-shipping-estimator]'),
+            shippingErrorMessages,
         );
     }
 }
