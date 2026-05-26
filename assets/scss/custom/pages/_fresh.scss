@@ -1060,6 +1060,8 @@ html {
 }
 
 .fresh-more__packs {
+    position: relative;
+    z-index: 9;
     list-style: none;
     padding: 0;
     margin: -36px -24px 8px;
@@ -1069,7 +1071,7 @@ html {
 
 .fresh-more__pack {
     flex: 0 0 30%;
-    margin: 0 -4%;
+    margin: 0 -5.5%;
 }
 
 .fresh-more__pack img {
@@ -1152,7 +1154,7 @@ html {
     .fresh-more__pack {
         flex: 0 0 auto;
         width: 140px;
-        margin: 0 -12px;
+        margin: 0 -26px;
     }
 
     .fresh-more__support {
