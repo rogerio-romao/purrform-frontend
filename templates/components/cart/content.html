@@ -1,7 +1,36 @@
-{{assignVar 'blu' 0}}
-{{assignVar "red" 0}}
-{{assignVar "green" 0}}
-{{assignVar "gold" 0}}
+{{!--
+  CART MINIMUM QUANTITY SYSTEM
+  ============================
+  Each product in BigCommerce admin can be tagged with a custom field named "CartRequirement".
+  Its value classifies the product into one of three buckets:
+
+    first_productLine  → "frozen" line  — minimum 10 units (non-breeder) / 20 units (breeder, customer_group_id = 2)
+    second_productLine → "pouch / box" line — minimum 4 units (both groups)
+    third_productLine  → trial pack — if ANY trial pack is in the cart, ALL minimums are bypassed
+
+  Products without a CartRequirement custom field are ignored by this logic.
+
+  Per-render, the template tallies:
+    productsWithMin10UnitsRequired — total quantity of first_productLine items in the cart
+    productsWithMin4UnitsRequired  — total quantity of second_productLine items in the cart
+    hasTrialPack                   — 1 if any third_productLine item is present, 0 otherwise
+
+  These feed into a decision tree (below the cart table) that writes a status digit into
+  <div id="cart-min-quantity-status"> (hidden via CSS). cart.js reads that digit as a string:
+    "0"  → no tracked items in cart, OR trial-pack exception applies → checkout ENABLED
+    "5"  → tracked items present but a minimum is not yet met       → checkout DISABLED + red banner shown
+    "10" → minimums are met                                         → checkout ENABLED
+
+  The two minimums (frozen and pouch) are independent OR-gates: meeting either one unlocks checkout.
+  Both must be unmet simultaneously to block checkout.
+
+  To add a new product line: assign it a new CartRequirement value (e.g. fourth_productLine),
+  add a new counter below, increment it in the per-item loop, and extend the decision tree.
+--}}
+{{assignVar 'productsWithMin10UnitsRequired' 0}}
+{{assignVar "productsWithMin4UnitsRequired" 0}}
+{{assignVar "hasTrialPack" 0}}
+{{assignVar "checkoutStatus" 0}}
 <table class="cart" data-cart-quantity="{{cart.quantity}}">
     <thead class="cart-header">
         <tr>
@@ -44,21 +73,19 @@
                     <p class="cart-item-mobile">X {{quantity}}</p>
                     <div  style="display: none;">
                         {{assignVar 'currentQuant' quantity}}
-                        <!-- Cycle through custom fields, increment value based on quantity-->
                         {{#each custom_fields}}
-                            
                             {{#if this.name '===' 'CartRequirement'}}
                                 {{#if this.value '===' 'third_productLine'}}
-                                    {{assignVar "green" 1}}
+                                    {{assignVar "hasTrialPack" 1}}
                                 {{/if}}
                                 {{#if this.value '===' 'first_productLine'}}
                                     {{#for 1 (getVar "currentQuant")}}
-                                        {{incrementVar 'blu'}}
+                                        {{incrementVar 'productsWithMin10UnitsRequired'}}
                                     {{/for}}
                                 {{/if}}
                                 {{#if this.value '===' 'second_productLine'}}
                                     {{#for 1 (getVar "currentQuant")}}
-                                        {{incrementVar 'red'}}
+                                        {{incrementVar 'productsWithMin4UnitsRequired'}}
                                     {{/for}}
                                 {{/if}}
                             {{/if}}
@@ -217,105 +244,59 @@
                 </td>
             </tr>
         {{/each}}
-        <div id="target-gold" {{#if customer_group_id '===' 2}}class="breeder"{{/if}}>
-            {{#if (getVar 'green') '===' 0}}
-                {{#if (getVar 'red') '>' 0}}
-                    {{#if (getVar 'red') '>=' 4}}
-                        {{#if customer_group_id '===' 2}}
-                            {{#if (getVar 'blu') '>=' 20}}
-                                {{assignVar "gold" 10}}
-                            {{else}}
-                                {{assignVar "gold" 10}}
-                            {{/if}}
-                        {{else}}
-                            {{#if (getVar 'blu') '>=' 10}}
-                                {{assignVar "gold" 10}}
-                            {{else}}
-                                {{assignVar "gold" 10}}
-                            {{/if}}
-                        {{/if}}
+        <div id="cart-min-quantity-status">
+            {{#if (getVar 'hasTrialPack') '===' 0}}
+                {{#if (getVar 'productsWithMin4UnitsRequired') '>' 0}}
+                    {{#if (getVar 'productsWithMin4UnitsRequired') '>=' 4}}
+                        {{assignVar "checkoutStatus" 10}}
                     {{else}}
                         {{#if customer_group_id '===' 2}}
-                            {{#if (getVar 'blu') '>=' 20}}
-                                {{assignVar "gold" 10}}
+                            {{#if (getVar 'productsWithMin10UnitsRequired') '>=' 20}}
+                                {{assignVar "checkoutStatus" 10}}
                             {{else}}
-                                {{assignVar "gold" 5}}
+                                {{assignVar "checkoutStatus" 5}}
                             {{/if}}
                         {{else}}
-                            {{#if (getVar 'blu') '>=' 10}}
-                                {{assignVar "gold" 10}}
+                            {{#if (getVar 'productsWithMin10UnitsRequired') '>=' 10}}
+                                {{assignVar "checkoutStatus" 10}}
                             {{else}}
-                                {{assignVar "gold" 5}}
+                                {{assignVar "checkoutStatus" 5}}
                             {{/if}}
                         {{/if}}
                     {{/if}}
                 {{else}}
                     {{#if customer_group_id '===' 2}}
-                        {{#if (getVar 'blu') '>=' 20}}
-                            {{assignVar "gold" 10}}
+                        {{#if (getVar 'productsWithMin10UnitsRequired') '>=' 20}}
+                            {{assignVar "checkoutStatus" 10}}
                         {{else}}
-                            {{#if (getVar 'blu') '>' 0}}
-                                {{assignVar "gold" 5}}
+                            {{#if (getVar 'productsWithMin10UnitsRequired') '>' 0}}
+                                {{assignVar "checkoutStatus" 5}}
                             {{else}}
-                                {{assignVar "gold" 0}}
+                                {{assignVar "checkoutStatus" 0}}
                             {{/if}}
                         {{/if}}
                     {{else}}
-                        {{#if (getVar 'blu') '>=' 10}}
-                            {{assignVar "gold" 10}}
+                        {{#if (getVar 'productsWithMin10UnitsRequired') '>=' 10}}
+                            {{assignVar "checkoutStatus" 10}}
                         {{else}}
-                            {{#if (getVar 'blu') '>' 0}}
-                                {{assignVar "gold" 5}}
+                            {{#if (getVar 'productsWithMin10UnitsRequired') '>' 0}}
+                                {{assignVar "checkoutStatus" 5}}
                             {{else}}
-                                {{assignVar "gold" 0}}
+                                {{assignVar "checkoutStatus" 0}}
                             {{/if}}
                         {{/if}}
                     {{/if}}
                 {{/if}}
             {{else}}
-                {{assignVar "gold" 0}}
+                {{assignVar "checkoutStatus" 0}}
             {{/if}}
-            {{getVar "gold"}}
+            {{getVar "checkoutStatus"}}
         </div>
-        {{#if (getVar 'blu') '>' 0}}
-            {{#if (getVar 'gold') '==' 5}}
-                {{#if customer_group_id '===' 2}}
-                    {{#if (getVar 'blu') '<' 20}}
-                        <div style="
-                        text-align: center;
-                        background: red;
-                        color: white;
-                        padding: 7px 20px;
-                        border-radius: 8px;
-                        ">Please note that we have a minimum order quantity of 20 frozen items. The only exception to this rule is the trial packs, which can be purchased on their own.
-                        </div> 
-                    {{/if}}
-                {{else}}
-                    {{#if (getVar 'blu') '<' 10}}
-                        <div style="
-                        text-align: center;
-                        background: red;
-                        color: white;
-                        padding: 7px 20px;
-                        border-radius: 8px;
-                        ">Please note that we have a minimum order quantity of 10 frozen items. The only exception to this rule is the trial packs, which can be purchased on their own.
-                        </div> 
-                    {{/if}}
-                {{/if}}
-            {{/if}}
-        {{/if}}
-        {{#if (getVar 'red') '>' 0}}
-            {{#if (getVar 'gold') '==' 5}}
-                {{#if (getVar 'red') '<' 4}}
-                    <div style="
-                    text-align: center;
-                    background: red;
-                    color: white;
-                    padding: 7px 20px;
-                    border-radius: 8px;
-                    ">Please note that we have a minimum order quantity of 4 pouch items. The only exception to this rule is the trial packs, which can be purchased on their own.
-                    </div> 
-                {{/if}}
+        {{#if (getVar 'checkoutStatus') '==' 5}}
+            {{#if customer_group_id '===' 2}}
+                <div class="inline-error">Please note that we have a minimum order quantity of 20 frozen items and 4 pouch/box items. The only exception to this rule is the trial packs, which can be purchased on their own.</div>
+            {{else}}
+                <div class="inline-error">Please note that we have a minimum order quantity of 10 frozen items and 4 pouch/box items. The only exception to this rule is the trial packs, which can be purchased on their own.</div>
             {{/if}}
         {{/if}}
 
