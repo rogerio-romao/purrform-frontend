@@ -1,0 +1,33 @@
+<div class="countdown-banner" data-countdown data-target="2026-06-01T00:00:00+01:00">
+  <span class="countdown-banner__headline">Something fresh is coming June 1st</span>
+  <span class="countdown-banner__timer">
+    <span class="countdown-banner__unit"><span data-cd-days>--</span><em>d</em></span>
+    <span class="countdown-banner__unit"><span data-cd-hours>--</span><em>h</em></span>
+    <span class="countdown-banner__unit"><span data-cd-minutes>--</span><em>m</em></span>
+    <span class="countdown-banner__unit"><span data-cd-seconds>--</span><em>s</em></span>
+  </span>
+  <a class="countdown-banner__cta" href="/fresh#trial">Get early access</a>
+</div>
+<script>
+  (function () {
+    var el = document.querySelector('[data-countdown]');
+    if (!el) return;
+    var target = new Date(el.getAttribute('data-target')).getTime();
+    var d = el.querySelector('[data-cd-days]');
+    var h = el.querySelector('[data-cd-hours]');
+    var m = el.querySelector('[data-cd-minutes]');
+    var s = el.querySelector('[data-cd-seconds]');
+    var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+    var tick = function () {
+      var diff = target - Date.now();
+      if (diff <= 0) { el.classList.add('is-hidden'); clearInterval(id); return; }
+      var sec = Math.floor(diff / 1000);
+      d.textContent = Math.floor(sec / 86400);
+      h.textContent = pad(Math.floor((sec % 86400) / 3600));
+      m.textContent = pad(Math.floor((sec % 3600) / 60));
+      s.textContent = pad(sec % 60);
+    };
+    tick();
+    var id = setInterval(tick, 1000);
+  })();
+</script>
