@@ -142,10 +142,10 @@ html {
    the dark-green mask ring that covers the gold border behind the badge. */
 .fresh-different__badge-wrap {
     position: absolute;
-    top: -28px;
+    top: -38px;
     left: 16px;
-    width: 96px;
-    height: 96px;
+    width: 128px;
+    height: 128px;
     border-radius: 50%;
     overflow: hidden;
     z-index: 2;
@@ -164,8 +164,8 @@ html {
     position: absolute;
     top: -33px;
     left: 9px;
-    width: 110px;
-    height: 110px;
+    width: 142px;
+    height: 142px;
     border-radius: 50%;
     background-color: $color-brand-primary;
     z-index: 1;
@@ -176,6 +176,7 @@ html {
     font-weight: 700;
     color: $color-white;
     margin-bottom: 0;
+    z-index: 4;
 }
 
 .fresh-different__card-body {
@@ -869,6 +870,11 @@ html {
 }
 
 @media (min-width: 1261px) {
+    .fresh-offer__cta {
+        font-size: 22px;
+        padding: 18px 28px;
+    }
+
     /* Section 7 — switch to static scattered layout */
 
     .fresh-inside {
