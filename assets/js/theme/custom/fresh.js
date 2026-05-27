@@ -2,10 +2,12 @@ import PageManager from '../page-manager';
 
 const MOBILE_MAX = 800;
 const AUTOPLAY_DELAY = 10000;
+const LIFESTYLE_AUTOPLAY_DELAY = 4000;
 
 export default class Fresh extends PageManager {
     onReady() {
         this.initDifferentCarousel();
+        this.initLifestyleCarousel();
         this.initBenefitsCarousel();
         this.initInsideSection();
     }
@@ -76,6 +78,98 @@ export default class Fresh extends PageManager {
 
         carousel.addEventListener('mouseenter', stopAutoplay);
         carousel.addEventListener('mouseleave', startAutoplay);
+
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(init, 150);
+        });
+
+        init();
+    }
+
+    initLifestyleCarousel() {
+        const carousel = document.querySelector('.fresh-lifestyle__carousel');
+        if (!carousel) return;
+
+        const track = carousel.querySelector('.fresh-lifestyle__cards');
+        const originalSlides = Array.from(track.querySelectorAll('.fresh-lifestyle__slide'));
+        const slideCount = originalSlides.length;
+        let currentIndex = 0;
+        let perView = 1;
+        let intervalId = null;
+        let resizeTimer = null;
+        let clonesAdded = false;
+
+        const getPerView = () => {
+            if (window.innerWidth > 1260) return 4;
+            if (window.innerWidth > 900)  return 3;
+            if (window.innerWidth > 600)  return 2;
+            return 1;
+        };
+
+        const slideWidth = () => 100 / perView;
+
+        const setTransition = (on) => {
+            track.style.transition = on ? 'transform 0.6s ease' : 'none';
+        };
+
+        const goTo = (index, animate = true) => {
+            currentIndex = ((index % (slideCount * 2)) + slideCount * 2) % (slideCount * 2);
+            setTransition(animate);
+            track.style.transform = `translateX(-${currentIndex * slideWidth()}%)`;
+        };
+
+        track.addEventListener('transitionend', () => {
+            if (currentIndex >= slideCount) {
+                goTo(currentIndex - slideCount, false);
+            }
+        });
+
+        const startAutoplay = () => {
+            clearInterval(intervalId);
+            intervalId = setInterval(() => {
+                goTo(currentIndex + 1);
+            }, LIFESTYLE_AUTOPLAY_DELAY);
+        };
+
+        const stopAutoplay = () => {
+            clearInterval(intervalId);
+            intervalId = null;
+        };
+
+        const ensureClones = () => {
+            if (clonesAdded) return;
+            originalSlides.forEach(s => track.appendChild(s.cloneNode(true)));
+            clonesAdded = true;
+        };
+
+        const init = () => {
+            perView = getPerView();
+            const allFitOnScreen = perView >= slideCount;
+
+            const allSlides = Array.from(track.querySelectorAll('.fresh-lifestyle__slide'));
+            allSlides.forEach(s => { s.style.flex = `0 0 ${slideWidth()}%`; });
+
+            if (allFitOnScreen) {
+                stopAutoplay();
+                currentIndex = 0;
+                setTransition(false);
+                track.style.transform = 'translateX(0)';
+                return;
+            }
+
+            ensureClones();
+            Array.from(track.querySelectorAll('.fresh-lifestyle__slide'))
+                .forEach(s => { s.style.flex = `0 0 ${slideWidth()}%`; });
+            currentIndex = currentIndex % slideCount;
+            goTo(currentIndex, false);
+            startAutoplay();
+        };
+
+        carousel.addEventListener('mouseenter', stopAutoplay);
+        carousel.addEventListener('mouseleave', () => {
+            if (getPerView() < slideCount) startAutoplay();
+        });
 
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
