@@ -74,6 +74,38 @@ html {
     line-height: 1.15;
 }
 
+/* ── 4b. LIFESTYLE IMAGES ────────────────────────────────── */
+
+.fresh-lifestyle {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    padding: 0;
+}
+
+.fresh-lifestyle__carousel {
+    overflow: hidden;
+}
+
+.fresh-lifestyle__cards {
+    display: flex;
+    flex-direction: row;
+    transition: transform 0.6s ease;
+    will-change: transform;
+}
+
+.fresh-lifestyle__slide {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    line-height: 0;
+}
+
+.fresh-lifestyle__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 /* ── 5. WHAT MAKES PURRFORM FRESH DIFFERENT ──────────────── */
 
 .fresh-different {
@@ -103,6 +135,7 @@ html {
 .fresh-different__carousel {
     overflow: hidden;
     padding-top: 48px;
+    margin-inline: 24px;
     margin-top: -48px;
 }
 
@@ -156,6 +189,19 @@ html {
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+/* For square/tight badges that have no built-in transparent padding */
+.fresh-different__badge-wrap--contain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .fresh-different__badge {
+        width: 90%;
+        height: 90%;
+        object-fit: contain;
+    }
 }
 
 /* Default ring — badges 2 & 3 (large circular PNGs) */
@@ -321,7 +367,7 @@ html {
     position: relative;
     background-color: #9aab94;
     background-image: url('../img/fresh/wavy-line.webp');
-    background-size: 50%;
+    background-size: 85%;
     background-repeat: repeat;
     padding: 56px 24px;
 }
@@ -564,47 +610,22 @@ html {
 .fresh-inside__plus {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
-    border: 2px solid $color-white;
-    background-color: transparent;
+    border: none;
+    background: url('../img/fresh/plus.png') center / contain no-repeat;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     flex-shrink: 0;
-    position: relative;
-    transition:
-        background-color $marketing-brand-transition,
-        box-shadow $marketing-brand-transition;
-    box-shadow: none;
     padding: 0;
-
-    &::before,
-    &::after {
-        content: '';
-        position: absolute;
-        background-color: $color-white;
-        border-radius: 2px;
-    }
-
-    &::before {
-        width: 14px;
-        height: 2px;
-    }
-
-    &::after {
-        width: 2px;
-        height: 14px;
-    }
+    transition:
+        opacity $marketing-brand-transition,
+        filter $marketing-brand-transition;
 
     &:hover {
-        background-color: $color-gold;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        opacity: 0.8;
+        filter: brightness(1.15);
     }
 
     &.is-active {
-        background-color: $color-brand-dark;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        opacity: 0.7;
     }
 }
 
