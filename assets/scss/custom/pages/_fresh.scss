@@ -171,47 +171,31 @@ html {
 }
 
 /* Badge pops out above the card top edge.
-   The wrap clips the badge to a circle; ::before on the card paints
-   the dark-green mask ring that covers the gold border behind the badge. */
+   ::before on the card paints a background-coloured disc behind the badge
+   to cut through the gold border, creating the "set into the card" effect. */
 .fresh-different__badge-wrap {
     position: absolute;
     top: -38px;
-    left: 16px;
-    width: 128px;
-    height: 128px;
-    border-radius: 50%;
-    overflow: hidden;
+    left: 20px;
+    width: 120px;
+    height: 120px;
     z-index: 2;
 }
 
 .fresh-different__badge {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 
-/* For square/tight badges that have no built-in transparent padding */
-.fresh-different__badge-wrap--contain {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .fresh-different__badge {
-        width: 90%;
-        height: 90%;
-        object-fit: contain;
-    }
-}
-
-/* Default ring — badges 2 & 3 (large circular PNGs) */
 .fresh-different__card::before {
     content: '';
     position: absolute;
-    top: -33px;
-    left: 9px;
-    width: 142px;
-    height: 142px;
+    top: -47px;
+    left: 11px;
+    width: 138px;
+    height: 138px;
     border-radius: 50%;
     background-color: $color-brand-primary;
     z-index: 1;
