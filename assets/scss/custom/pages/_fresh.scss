@@ -171,47 +171,31 @@ html {
 }
 
 /* Badge pops out above the card top edge.
-   The wrap clips the badge to a circle; ::before on the card paints
-   the dark-green mask ring that covers the gold border behind the badge. */
+   ::before on the card paints a background-coloured disc behind the badge
+   to cut through the gold border, creating the "set into the card" effect. */
 .fresh-different__badge-wrap {
     position: absolute;
     top: -38px;
-    left: 16px;
-    width: 128px;
-    height: 128px;
-    border-radius: 50%;
-    overflow: hidden;
+    left: 20px;
+    width: 120px;
+    height: 120px;
     z-index: 2;
 }
 
 .fresh-different__badge {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 
-/* For square/tight badges that have no built-in transparent padding */
-.fresh-different__badge-wrap--contain {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .fresh-different__badge {
-        width: 90%;
-        height: 90%;
-        object-fit: contain;
-    }
-}
-
-/* Default ring — badges 2 & 3 (large circular PNGs) */
 .fresh-different__card::before {
     content: '';
     position: absolute;
-    top: -33px;
-    left: 9px;
-    width: 142px;
-    height: 142px;
+    top: -47px;
+    left: 11px;
+    width: 138px;
+    height: 138px;
     border-radius: 50%;
     background-color: $color-brand-primary;
     z-index: 1;
@@ -1041,7 +1025,7 @@ html {
 }
 
 .fresh-more__inner {
-    max-width: 1600px;
+    max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
     text-align: left;
@@ -1155,7 +1139,7 @@ html {
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 0;
         margin-top: 16px;
         margin-bottom: 24px;
@@ -1163,15 +1147,15 @@ html {
 
     .fresh-more__tagline {
         flex-shrink: 0;
-        font-size: 20px;
-        padding: 18px 40px;
+        font-size: clamp(17px, calc(-11.27px + 2.761vw), 26px);
+        padding: clamp(14px, calc(-11.13px + 2.454vw), 22px) clamp(28px, calc(-135.34px + 15.951vw), 80px);
         margin-bottom: 0;
         position: relative;
         z-index: 1;
     }
 
     .fresh-more__packs {
-        margin: -8px 0;
+        margin: -8px clamp(-20px, calc(62.82px + -6.135vw), 0px) 0;
         max-width: none;
         flex-direction: row;
         flex: 0 0 auto;
@@ -1180,8 +1164,8 @@ html {
 
     .fresh-more__pack {
         flex: 0 0 auto;
-        width: 140px;
-        margin: 0 -26px;
+        width: clamp(140px, calc(-48.47px + 18.405vw), 200px);
+        margin: 0 clamp(-36px, calc(5.41px + -3.067vw), -26px);
     }
 
     .fresh-more__support {
