@@ -1025,7 +1025,7 @@ html {
 }
 
 .fresh-more__inner {
-    max-width: 1600px;
+    max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
     text-align: left;
@@ -1139,7 +1139,7 @@ html {
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 0;
         margin-top: 16px;
         margin-bottom: 24px;
@@ -1147,15 +1147,15 @@ html {
 
     .fresh-more__tagline {
         flex-shrink: 0;
-        font-size: 20px;
-        padding: 18px 40px;
+        font-size: clamp(17px, calc(-11.27px + 2.761vw), 26px);
+        padding: clamp(14px, calc(-11.13px + 2.454vw), 22px) clamp(28px, calc(-135.34px + 15.951vw), 80px);
         margin-bottom: 0;
         position: relative;
         z-index: 1;
     }
 
     .fresh-more__packs {
-        margin: -8px 0;
+        margin: -8px clamp(-20px, calc(62.82px + -6.135vw), 0px) 0;
         max-width: none;
         flex-direction: row;
         flex: 0 0 auto;
@@ -1164,8 +1164,8 @@ html {
 
     .fresh-more__pack {
         flex: 0 0 auto;
-        width: 140px;
-        margin: 0 -26px;
+        width: clamp(140px, calc(-48.47px + 18.405vw), 200px);
+        margin: 0 clamp(-36px, calc(5.41px + -3.067vw), -26px);
     }
 
     .fresh-more__support {
