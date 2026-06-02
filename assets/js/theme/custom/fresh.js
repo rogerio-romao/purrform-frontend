@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import PageManager from '../page-manager';
 
 const MOBILE_MAX = 800;
@@ -17,7 +18,9 @@ export default class Fresh extends PageManager {
         if (!carousel) return;
 
         const track = carousel.querySelector('.fresh-different__cards');
-        const originalSlides = Array.from(track.querySelectorAll('.fresh-different__slide'));
+        const originalSlides = Array.from(
+            track.querySelectorAll('.fresh-different__slide'),
+        );
         const slideCount = originalSlides.length;
         let currentIndex = 0;
         let perView = 1;
@@ -25,7 +28,7 @@ export default class Fresh extends PageManager {
         let resizeTimer = null;
 
         // Append clones so the loop can wrap seamlessly
-        originalSlides.forEach(s => track.appendChild(s.cloneNode(true)));
+        originalSlides.forEach((s) => track.appendChild(s.cloneNode(true)));
 
         const getPerView = () => {
             if (window.innerWidth > 1260) return 3;
@@ -41,7 +44,9 @@ export default class Fresh extends PageManager {
 
         const goTo = (index, animate = true) => {
             // Wrap into the clone range [0, slideCount*2) so translateX is always valid
-            currentIndex = ((index % (slideCount * 2)) + slideCount * 2) % (slideCount * 2);
+            currentIndex =
+                ((index % (slideCount * 2)) + slideCount * 2) %
+                (slideCount * 2);
             setTransition(animate);
             track.style.transform = `translateX(-${currentIndex * slideWidth()}%)`;
         };
@@ -67,10 +72,14 @@ export default class Fresh extends PageManager {
 
         const init = () => {
             perView = getPerView();
-            const allSlides = Array.from(track.querySelectorAll('.fresh-different__slide'));
-            allSlides.forEach(s => { s.style.flex = `0 0 ${slideWidth()}%`; });
+            const allSlides = Array.from(
+                track.querySelectorAll('.fresh-different__slide'),
+            );
+            allSlides.forEach((s) => {
+                s.style.flex = `0 0 ${slideWidth()}%`;
+            });
             // Clamp index into the real range on breakpoint change
-            currentIndex = currentIndex % slideCount;
+            currentIndex %= slideCount;
             goTo(currentIndex, false);
             clearInterval(intervalId);
             startAutoplay();
@@ -92,7 +101,9 @@ export default class Fresh extends PageManager {
         if (!carousel) return;
 
         const track = carousel.querySelector('.fresh-lifestyle__cards');
-        const originalSlides = Array.from(track.querySelectorAll('.fresh-lifestyle__slide'));
+        const originalSlides = Array.from(
+            track.querySelectorAll('.fresh-lifestyle__slide'),
+        );
         const slideCount = originalSlides.length;
         let currentIndex = 0;
         let perView = 1;
@@ -102,8 +113,8 @@ export default class Fresh extends PageManager {
 
         const getPerView = () => {
             if (window.innerWidth > 1260) return 4;
-            if (window.innerWidth > 900)  return 3;
-            if (window.innerWidth > 600)  return 2;
+            if (window.innerWidth > 900) return 3;
+            if (window.innerWidth > 600) return 2;
             return 1;
         };
 
@@ -114,7 +125,9 @@ export default class Fresh extends PageManager {
         };
 
         const goTo = (index, animate = true) => {
-            currentIndex = ((index % (slideCount * 2)) + slideCount * 2) % (slideCount * 2);
+            currentIndex =
+                ((index % (slideCount * 2)) + slideCount * 2) %
+                (slideCount * 2);
             setTransition(animate);
             track.style.transform = `translateX(-${currentIndex * slideWidth()}%)`;
         };
@@ -139,7 +152,7 @@ export default class Fresh extends PageManager {
 
         const ensureClones = () => {
             if (clonesAdded) return;
-            originalSlides.forEach(s => track.appendChild(s.cloneNode(true)));
+            originalSlides.forEach((s) => track.appendChild(s.cloneNode(true)));
             clonesAdded = true;
         };
 
@@ -147,8 +160,12 @@ export default class Fresh extends PageManager {
             perView = getPerView();
             const allFitOnScreen = perView >= slideCount;
 
-            const allSlides = Array.from(track.querySelectorAll('.fresh-lifestyle__slide'));
-            allSlides.forEach(s => { s.style.flex = `0 0 ${slideWidth()}%`; });
+            const allSlides = Array.from(
+                track.querySelectorAll('.fresh-lifestyle__slide'),
+            );
+            allSlides.forEach((s) => {
+                s.style.flex = `0 0 ${slideWidth()}%`;
+            });
 
             if (allFitOnScreen) {
                 stopAutoplay();
@@ -159,9 +176,12 @@ export default class Fresh extends PageManager {
             }
 
             ensureClones();
-            Array.from(track.querySelectorAll('.fresh-lifestyle__slide'))
-                .forEach(s => { s.style.flex = `0 0 ${slideWidth()}%`; });
-            currentIndex = currentIndex % slideCount;
+            Array.from(
+                track.querySelectorAll('.fresh-lifestyle__slide'),
+            ).forEach((s) => {
+                s.style.flex = `0 0 ${slideWidth()}%`;
+            });
+            currentIndex %= slideCount;
             goTo(currentIndex, false);
             startAutoplay();
         };
@@ -184,7 +204,9 @@ export default class Fresh extends PageManager {
         if (!wrap) return;
 
         const track = wrap.querySelector('.fresh-benefits__track');
-        const slides = Array.from(track.querySelectorAll('.fresh-benefits__slide'));
+        const slides = Array.from(
+            track.querySelectorAll('.fresh-benefits__slide'),
+        );
         const prevBtn = document.querySelector('.fresh-benefits__arrow--prev');
         const nextBtn = document.querySelector('.fresh-benefits__arrow--next');
         const slideCount = slides.length;
@@ -212,7 +234,9 @@ export default class Fresh extends PageManager {
 
         const init = () => {
             perView = getPerView();
-            slides.forEach(s => { s.style.flex = `0 0 ${100 / perView}%`; });
+            slides.forEach((s) => {
+                s.style.flex = `0 0 ${100 / perView}%`;
+            });
             goTo(Math.min(currentIndex, maxIndex()));
         };
 
@@ -232,26 +256,36 @@ export default class Fresh extends PageManager {
         const section = document.querySelector('.fresh-inside');
         if (!section) return;
 
-        const pluses = Array.from(section.querySelectorAll('.fresh-inside__plus'));
-        const cards = Array.from(section.querySelectorAll('.fresh-inside__card'));
+        const pluses = Array.from(
+            section.querySelectorAll('.fresh-inside__plus'),
+        );
+        const cards = Array.from(
+            section.querySelectorAll('.fresh-inside__card'),
+        );
         if (!pluses.length || !cards.length) return;
 
-        const closeButtons = Array.from(section.querySelectorAll('.fresh-inside__card-close'));
+        const closeButtons = Array.from(
+            section.querySelectorAll('.fresh-inside__card-close'),
+        );
         let transitioning = false;
 
         const showImmediate = (targetId) => {
-            cards.forEach(c => {
+            cards.forEach((c) => {
                 const isTarget = c.dataset.card === targetId;
                 c.classList.toggle('is-visible', isTarget);
                 c.classList.toggle('is-animating-in', isTarget);
                 c.classList.remove('is-animating-out');
             });
-            pluses.forEach(p => p.classList.toggle('is-active', p.dataset.target === targetId));
+            pluses.forEach((p) =>
+                p.classList.toggle('is-active', p.dataset.target === targetId),
+            );
         };
 
         const show = (targetId) => {
             if (transitioning) return;
-            const current = cards.find(c => c.classList.contains('is-visible'));
+            const current = cards.find((c) =>
+                c.classList.contains('is-visible'),
+            );
 
             if (!current || current.dataset.card === targetId) {
                 showImmediate(targetId);
@@ -261,33 +295,43 @@ export default class Fresh extends PageManager {
             transitioning = true;
             current.classList.add('is-animating-out');
 
-            current.addEventListener('transitionend', () => {
-                current.classList.remove('is-visible', 'is-animating-out');
-                showImmediate(targetId);
-                transitioning = false;
-            }, { once: true });
+            current.addEventListener(
+                'transitionend',
+                () => {
+                    current.classList.remove('is-visible', 'is-animating-out');
+                    showImmediate(targetId);
+                    transitioning = false;
+                },
+                { once: true },
+            );
         };
 
         const hide = () => {
             if (transitioning) return;
-            const current = cards.find(c => c.classList.contains('is-visible'));
+            const current = cards.find((c) =>
+                c.classList.contains('is-visible'),
+            );
             if (!current) return;
 
             transitioning = true;
             current.classList.add('is-animating-out');
 
-            current.addEventListener('transitionend', () => {
-                current.classList.remove('is-visible', 'is-animating-out');
-                pluses.forEach(p => p.classList.remove('is-active'));
-                transitioning = false;
-            }, { once: true });
+            current.addEventListener(
+                'transitionend',
+                () => {
+                    current.classList.remove('is-visible', 'is-animating-out');
+                    pluses.forEach((p) => p.classList.remove('is-active'));
+                    transitioning = false;
+                },
+                { once: true },
+            );
         };
 
-        pluses.forEach(p => {
+        pluses.forEach((p) => {
             p.addEventListener('click', () => show(p.dataset.target));
         });
 
-        closeButtons.forEach(btn => {
+        closeButtons.forEach((btn) => {
             btn.addEventListener('click', hide);
         });
 
