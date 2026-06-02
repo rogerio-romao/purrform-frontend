@@ -61,8 +61,7 @@ const customClasses = {
         import('./theme/custom/rawsome-catculator'),
     'pages/custom/page/dry-matter-basis-calculator': () =>
         import('./theme/custom/dry-matter-basis-calculator'),
-    'pages/custom/page/fresh': () =>
-        import('./theme/custom/fresh'),
+    'pages/custom/page/fresh-trial': () => import('./theme/custom/fresh-trial'),
 };
 
 /**
