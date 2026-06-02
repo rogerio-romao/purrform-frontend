@@ -1290,7 +1290,7 @@ html {
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: $color-gold;
+    color: $color-gold-light;
     margin: 0;
 }
 
@@ -1364,19 +1364,21 @@ html {
 .fresh-hero__cta {
     display: inline-block;
     align-self: flex-start;
-    background-color: $color-gold;
+    background-color: $color-gold-light;
     color: $marketing-brand-text;
     font-size: 15px;
     font-weight: 700;
     padding: 14px 28px;
     border-radius: 4px;
     text-decoration: none;
-    transition: opacity 0.2s ease;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease-in-out;
     margin-top: 8px;
 
     &:hover {
-        opacity: 0.88;
-        color: $marketing-brand-text;
+        background-color: $color-gold;
+        color: $marketing-brand-bg;
     }
 }
 
@@ -1421,7 +1423,9 @@ html {
     border-radius: 50%;
     padding: 16px;
     box-sizing: border-box;
-    box-shadow: 0 0 0 5px $color-white, 0 0 0 9px $color-gold;
+    box-shadow:
+        0 0 0 5px $color-white,
+        0 0 0 9px $color-gold;
 }
 
 .fresh-expect__title {
