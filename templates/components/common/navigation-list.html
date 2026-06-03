@@ -48,6 +48,9 @@
                                     <img src="{{getImage image}}" alt="{{name}}">
                                 {{/if}}
                                 {{name}}
+                                {{#if name '==' 'Fresh Deli'}}
+                                    <span style="color: red; font-weight: bold;">NEW</span>
+                                {{/if}}
                             </a>
                         </li>
                         {{/each}}

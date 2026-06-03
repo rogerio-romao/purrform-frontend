@@ -4,13 +4,50 @@ import PageManager from '../page-manager';
 const MOBILE_MAX = 800;
 const AUTOPLAY_DELAY = 10000;
 const LIFESTYLE_AUTOPLAY_DELAY = 4000;
+// BST (+01:00) — 16 June 2026 at midnight London time
+const LAUNCH_DATE = new Date('2026-06-16T08:30:00+01:00');
 
 export default class Fresh extends PageManager {
     onReady() {
+        this.initCountdown();
         this.initDifferentCarousel();
         this.initLifestyleCarousel();
         this.initBenefitsCarousel();
         this.initInsideSection();
+    }
+
+    initCountdown() {
+        const countdown = document.querySelector('.fresh-countdown');
+        if (!countdown) return;
+
+        const cta = document.querySelector('.fresh-hero__cta');
+
+        const pad = (n) => String(Math.floor(n)).padStart(2, '0');
+
+        const tick = () => {
+            const diff = LAUNCH_DATE - Date.now();
+
+            if (diff <= 0) {
+                clearInterval(intervalId);
+                countdown.hidden = true;
+                if (cta) cta.textContent = 'Launching now — shop Fresh';
+                return;
+            }
+
+            const totalSeconds = diff / 1000;
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = Math.floor(totalSeconds % 60);
+
+            countdown.querySelector('[data-unit="days"]').textContent = pad(days);
+            countdown.querySelector('[data-unit="hours"]').textContent = pad(hours);
+            countdown.querySelector('[data-unit="minutes"]').textContent = pad(minutes);
+            countdown.querySelector('[data-unit="seconds"]').textContent = pad(seconds);
+        };
+
+        tick();
+        const intervalId = setInterval(tick, 1000);
     }
 
     initDifferentCarousel() {

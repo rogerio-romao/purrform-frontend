@@ -1256,3 +1256,331 @@ html {
         font-size: 17px;
     }
 }
+
+/* ── TEASER PAGE ADDITIONS ──────────────────────────────────── */
+
+/* Hero teaser overlay — sits over the image inside .fresh-hero__image-wrap */
+.fresh-hero--teaser .fresh-hero__image-wrap {
+    position: relative;
+    height: 400px;
+}
+
+.fresh-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.55) 0%,
+        rgba(0, 0, 0, 0.35) 100%
+    );
+    pointer-events: none;
+}
+
+/* Teaser hero text block */
+.fresh-hero__text--teaser {
+    padding-top: 28px;
+    padding-bottom: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.fresh-hero__eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $color-gold-light;
+    margin: 0;
+}
+
+.fresh-hero__heading--teaser {
+    gap: 4px;
+}
+
+.fresh-hero__heading--teaser .fresh-hero__heading-light {
+    font-size: clamp(28px, 7vw, 52px);
+    font-weight: 400;
+}
+
+.fresh-hero__heading--teaser .fresh-hero__heading-bold {
+    font-size: clamp(28px, 7vw, 52px);
+    font-weight: 700;
+}
+
+.fresh-hero__sub {
+    font-size: clamp(15px, 2.5vw, 18px);
+    color: $color-white;
+    line-height: 1.6;
+    max-width: 560px;
+    margin: 0;
+}
+
+/* Countdown timer */
+.fresh-countdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.fresh-countdown__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 56px;
+    background-color: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 10px 8px 8px;
+}
+
+.fresh-countdown__value {
+    font-size: clamp(22px, 5vw, 36px);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.fresh-countdown__label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.fresh-countdown__sep {
+    font-size: clamp(20px, 4vw, 30px);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1;
+    margin-bottom: 18px;
+}
+
+/* Hero CTA button */
+.fresh-hero__cta {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: $color-gold-light;
+    color: $marketing-brand-text;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease-in-out;
+    margin-top: 8px;
+
+    &:hover {
+        background-color: $color-gold;
+        color: $marketing-brand-bg;
+    }
+}
+
+/* ── WHAT TO EXPECT (2. fresh-expect) ───────────────────────── */
+
+.fresh-expect {
+    background-color: $color-white;
+    padding: 56px 24px 64px;
+}
+
+.fresh-expect__inner {
+    max-width: 1100px;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.fresh-expect__heading {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 700;
+    color: $color-brand-dark;
+    margin-bottom: 40px;
+}
+
+.fresh-expect__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+}
+
+.fresh-expect__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.fresh-expect__icon {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    background-color: $color-brand-primary;
+    border-radius: 50%;
+    padding: 16px;
+    box-sizing: border-box;
+    box-shadow:
+        0 0 0 5px $color-white,
+        0 0 0 9px $color-gold;
+}
+
+.fresh-expect__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: $color-brand-dark;
+    margin-top: 1.2rem;
+}
+
+.fresh-expect__body {
+    font-size: 14px;
+    color: $color-brand-primary;
+    line-height: 1.5;
+    max-width: 280px;
+    margin: 0;
+}
+
+@media (min-width: 601px) {
+    .fresh-expect__grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+}
+
+@media (min-width: 801px) {
+    .fresh-expect {
+        padding: 72px 40px 80px;
+    }
+
+    .fresh-hero--teaser .fresh-hero__image-wrap {
+        height: 540px;
+    }
+
+    .fresh-countdown__unit {
+        min-width: 72px;
+        padding: 12px 10px;
+    }
+
+    .fresh-expect__icon {
+        width: 160px;
+        height: 160px;
+        padding: 24px;
+    }
+
+    .fresh-expect__title {
+        font-size: 20px;
+    }
+
+    .fresh-expect__body {
+        font-size: 15px;
+    }
+}
+
+/* ── EARLY-ACCESS CALLOUT (4. fresh-early-access) ────────────── */
+
+.fresh-early-access {
+    background-color: $color-brand-primary;
+    color: $color-white;
+    padding: 56px 24px 64px;
+    text-align: center;
+    border-bottom: 3px solid $color-gold-light;
+}
+
+.fresh-early-access__inner {
+    max-width: 720px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.fresh-early-access__eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $color-gold-light;
+    margin: 0;
+}
+
+.fresh-early-access__heading {
+    font-size: clamp(26px, 5vw, 42px);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.fresh-early-access__body {
+    font-size: clamp(15px, 2vw, 17px);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 600px;
+    margin: 0;
+}
+
+.fresh-early-access__form {
+    width: 100%;
+    max-width: 560px;
+    margin-top: 8px;
+}
+
+.fresh-early-access__placeholder-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.fresh-early-access__input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: $color-white;
+    color: $color-brand-dark;
+    box-sizing: border-box;
+
+    &::placeholder {
+        color: rgba($color-brand-primary, 0.7);
+    }
+
+    &:focus {
+        outline: 2px solid $color-gold;
+        outline-offset: 2px;
+    }
+}
+
+.fresh-early-access__submit {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-weight: 700;
+    background-color: $color-gold-light;
+    color: $color-brand-dark;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+@media (min-width: 480px) {
+    .fresh-early-access__placeholder-form {
+        flex-direction: row;
+    }
+
+    .fresh-early-access__submit {
+        width: auto;
+        flex-shrink: 0;
+    }
+}
+
+@media (min-width: 801px) {
+    .fresh-early-access {
+        padding: 80px 40px 88px;
+    }
+}
