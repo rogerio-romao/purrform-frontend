@@ -1431,14 +1431,14 @@ html {
 .fresh-expect__title {
     font-size: 18px;
     font-weight: 700;
-    color: $color-brand-primary;
-    margin: 0;
+    color: $color-brand-dark;
+    margin-top: 1.2rem;
 }
 
 .fresh-expect__body {
     font-size: 14px;
     color: $color-brand-primary;
-    line-height: 1.65;
+    line-height: 1.5;
     max-width: 280px;
     margin: 0;
 }
@@ -1566,11 +1566,6 @@ html {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: opacity 0.2s ease;
-
-    &:hover {
-        opacity: 0.88;
-    }
 }
 
 @media (min-width: 480px) {
