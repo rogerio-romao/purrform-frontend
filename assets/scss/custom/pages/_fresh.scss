@@ -1462,6 +1462,64 @@ html {
     }
 }
 
+/* ── TEASER HERO: mid-range fix (801–1020px) ────────────────── */
+
+/* At this range the overlay layout is active but the image height
+   is tight, so we scale down type and spacing to prevent overflow. */
+@media (min-width: 801px) and (max-width: 1020px) {
+    .fresh-hero--teaser .fresh-hero__image-wrap {
+        height: 420px;
+        min-height: 420px;
+    }
+
+    .fresh-hero--teaser .fresh-hero__image {
+        width: 100%;
+        height: 100%;
+        min-height: 420px;
+        object-fit: cover;
+        object-position: right center;
+    }
+
+    .fresh-hero__text--teaser {
+        gap: 10px;
+        padding-top: 10px;
+        padding-bottom: 16px;
+    }
+
+    .fresh-hero__heading--teaser .fresh-hero__heading-light,
+    .fresh-hero__heading--teaser .fresh-hero__heading-bold {
+        font-size: clamp(22px, 3.2vw, 30px);
+    }
+
+    .fresh-hero__sub {
+        font-size: 13px;
+    }
+
+    .fresh-countdown {
+        gap: 5px;
+    }
+
+    .fresh-countdown__unit {
+        min-width: 52px;
+        padding: 7px 6px;
+    }
+
+    .fresh-countdown__value {
+        font-size: 20px;
+    }
+
+    .fresh-countdown__sep {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    .fresh-hero__cta {
+        font-size: 13px;
+        padding: 10px 20px;
+        margin-top: 4px;
+    }
+}
+
 /* ── EARLY-ACCESS CALLOUT (4. fresh-early-access) ────────────── */
 
 .fresh-early-access {
