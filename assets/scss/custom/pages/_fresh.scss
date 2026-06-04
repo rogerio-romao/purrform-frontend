@@ -1259,23 +1259,6 @@ html {
 
 /* ── TEASER PAGE ADDITIONS ──────────────────────────────────── */
 
-/* Hero teaser overlay — sits over the image inside .fresh-hero__image-wrap */
-.fresh-hero--teaser .fresh-hero__image-wrap {
-    position: relative;
-    height: 400px;
-}
-
-.fresh-hero__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0.55) 0%,
-        rgba(0, 0, 0, 0.35) 100%
-    );
-    pointer-events: none;
-}
-
 /* Teaser hero text block */
 .fresh-hero__text--teaser {
     padding-top: 28px;
