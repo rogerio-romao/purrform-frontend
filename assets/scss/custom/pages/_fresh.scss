@@ -1259,6 +1259,12 @@ html {
 
 /* ── TEASER PAGE ADDITIONS ──────────────────────────────────── */
 
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* Teaser hero text block */
 .fresh-hero__text--teaser {
     padding-top: 28px;
