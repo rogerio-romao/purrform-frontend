@@ -1,5 +1,5 @@
 {
-    "name": "teaser embed",
+    "name": "homepage countdown",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
