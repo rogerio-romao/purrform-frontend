@@ -1,0 +1,84 @@
+.countdown-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 16px;
+  background: $color-gold;
+  color: $color-gray-darkest;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
+
+  &.is-hidden {
+    display: none;
+  }
+
+  &__headline {
+    white-space: nowrap;
+  }
+
+  &__timer {
+    display: flex;
+    gap: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__unit {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    font-weight: 700;
+    font-size: 0.95rem;
+
+    em {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 0.72rem;
+      color: $color-brand-dark;
+    }
+  }
+
+  &__cta {
+    display: inline-block;
+    padding: 5px 14px;
+    background: $color-brand-dark;
+    color: $color-white;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.18s ease;
+
+    &:hover {
+      background: $color-brand-primary;
+      color: $color-white;
+      text-decoration: none;
+    }
+  }
+
+  @media (max-width: $mobile) {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 12px;
+
+    &__headline {
+      width: 100%;
+      text-align: center;
+      white-space: normal;
+    }
+
+    &__timer {
+      flex: 1;
+      justify-content: center;
+    }
+
+    &__cta {
+      flex: 1;
+      text-align: center;
+    }
+  }
+}

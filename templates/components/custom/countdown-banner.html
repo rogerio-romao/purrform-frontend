@@ -1,0 +1,40 @@
+<div class="countdown-banner" data-countdown data-target="2026-06-16T09:00:00+01:00">
+  <span class="countdown-banner__headline">Something fresh is coming June 16th</span>
+  <span class="countdown-banner__timer">
+    <span class="countdown-banner__unit"><span data-cd-days>--</span><em>d</em></span>
+    <span class="countdown-banner__unit"><span data-cd-hours>--</span><em>h</em></span>
+    <span class="countdown-banner__unit"><span data-cd-minutes>--</span><em>m</em></span>
+    <span class="countdown-banner__unit"><span data-cd-seconds>--</span><em>s</em></span>
+  </span>
+  <a class="countdown-banner__cta" href="/fresh-teaser">Get early access</a>
+</div>
+<script>
+  {
+    const el = document.querySelector('[data-countdown]');
+    if (el) {
+      const target = new Date(el.getAttribute('data-target')).getTime();
+      const pad = (n) => String(n).padStart(2, '0');
+
+      const tick = () => {
+        const diff = target - Date.now();
+        if (diff <= 0) {
+          el.classList.add('is-hidden');
+          clearInterval(id);
+          return;
+        }
+        const sec = Math.floor(diff / 1000);
+        el.querySelector('[data-cd-days]').textContent = Math.floor(sec / 86400);
+        el.querySelector('[data-cd-hours]').textContent = pad(Math.floor((sec % 86400) / 3600));
+        el.querySelector('[data-cd-minutes]').textContent = pad(Math.floor((sec % 3600) / 60));
+        el.querySelector('[data-cd-seconds]').textContent = pad(sec % 60);
+      };
+
+      tick();
+      const id = setInterval(tick, 1000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) tick();
+      });
+    }
+  }
+</script>
