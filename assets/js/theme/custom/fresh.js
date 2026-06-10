@@ -5,7 +5,7 @@ const MOBILE_MAX = 800;
 const AUTOPLAY_DELAY = 10000;
 const LIFESTYLE_AUTOPLAY_DELAY = 4000;
 // BST (+01:00) — 16 June 2026 at midnight London time
-const LAUNCH_DATE = new Date('2026-06-16T08:30:00+01:00');
+const LAUNCH_DATE = new Date('2026-06-16T09:00:00+01:00');
 
 export default class Fresh extends PageManager {
     onReady() {
@@ -17,6 +17,7 @@ export default class Fresh extends PageManager {
     }
 
     initCountdown() {
+        let intervalId = null;
         const countdown = document.querySelector('.fresh-countdown');
         if (!countdown) return;
 
@@ -40,14 +41,18 @@ export default class Fresh extends PageManager {
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const seconds = Math.floor(totalSeconds % 60);
 
-            countdown.querySelector('[data-unit="days"]').textContent = pad(days);
-            countdown.querySelector('[data-unit="hours"]').textContent = pad(hours);
-            countdown.querySelector('[data-unit="minutes"]').textContent = pad(minutes);
-            countdown.querySelector('[data-unit="seconds"]').textContent = pad(seconds);
+            countdown.querySelector('[data-unit="days"]').textContent =
+                pad(days);
+            countdown.querySelector('[data-unit="hours"]').textContent =
+                pad(hours);
+            countdown.querySelector('[data-unit="minutes"]').textContent =
+                pad(minutes);
+            countdown.querySelector('[data-unit="seconds"]').textContent =
+                pad(seconds);
         };
 
         tick();
-        const intervalId = setInterval(tick, 1000);
+        intervalId = setInterval(tick, 1000);
     }
 
     initDifferentCarousel() {
