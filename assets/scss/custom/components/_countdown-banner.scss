@@ -4,11 +4,11 @@
   justify-content: center;
   gap: 16px;
   width: 100%;
-  min-height: 44px;
+  min-height: 52px;
   padding: 8px 16px;
-  background: $color-gold;
-  color: $color-gray-darkest;
-  font-size: 0.85rem;
+  background: #5fbf5f;
+  color: $color-white;
+  font-size: 0.95rem;
   font-weight: 500;
   line-height: 1.2;
 
@@ -31,19 +31,20 @@
     align-items: baseline;
     gap: 2px;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
 
     em {
       font-style: normal;
       font-weight: 400;
       font-size: 0.72rem;
-      color: $color-brand-dark;
+      color: $color-white;
+      opacity: 0.75;
     }
   }
 
   &__cta {
     display: inline-block;
-    padding: 5px 14px;
+    padding: 7px 18px;
     background: $color-brand-dark;
     color: $color-white;
     border-radius: 4px;
@@ -54,13 +55,13 @@
     transition: background 0.18s ease;
 
     &:hover {
-      background: $color-brand-primary;
+      background: $color-gray-darkest;
       color: $color-white;
       text-decoration: none;
     }
   }
 
-  @media (max-width: $mobile) {
+  @media (max-width: 600px) {
     flex-wrap: wrap;
     gap: 6px;
     padding: 8px 12px;
