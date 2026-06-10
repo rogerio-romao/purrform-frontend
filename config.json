@@ -1,5 +1,5 @@
 {
-    "name": "homepage countdown new colors",
+    "name": "gdpr msg on teaser",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
