@@ -2206,7 +2206,7 @@ html {
     list-style: none;
     font-size: 16px;
     font-weight: 700;
-    color: $color-brand-primary;
+    color: $color-brand-dark;
     padding: 18px 40px 18px 0;
     position: relative;
     transition: color $marketing-brand-transition;
@@ -2230,12 +2230,22 @@ html {
     }
 
     &:hover {
-        color: $color-brand-dark;
+        color: $color-brand-primary;
     }
 }
 
 details[open] .fresh-faq__question::after {
     content: '−';
+}
+
+.fresh-faq__answer-wrap {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+
+    .fresh-faq__item[open] & {
+        max-height: 600px;
+    }
 }
 
 .fresh-faq__answer {

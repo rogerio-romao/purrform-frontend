@@ -15,6 +15,7 @@ export default class Fresh extends PageManager {
         this.initBenefitsCarousel();
         this.initInsideSection();
         this.initReviewsCarousel();
+        this.initFaqAnimation();
     }
 
     initCountdown() {
@@ -430,5 +431,24 @@ export default class Fresh extends PageManager {
         });
 
         show(pluses[0].dataset.target);
+    }
+
+    initFaqAnimation() {
+        const items = document.querySelectorAll('.fresh-faq__item');
+        if (!items.length) return;
+
+        items.forEach((details) => {
+            const summary = details.querySelector('summary');
+            if (!summary) return;
+
+            summary.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (details.open) {
+                    details.removeAttribute('open');
+                } else {
+                    details.setAttribute('open', '');
+                }
+            });
+        });
     }
 }
