@@ -257,50 +257,47 @@
     </section>
 
     <!-- ══════════════════════════════════════════════════════
-         7. OFFER BOX — £50 OFF
+         7+8. OFFER + SIGN-UP (merged)
          ══════════════════════════════════════════════════════ -->
     <!-- ⏳ Q2: confirm £50 vs £10×5 framing before go-live -->
-    <section class="fresh-offer-box" aria-label="Get £50 Off">
-      <div class="fresh-offer-box__inner">
-        <h2 class="fresh-offer-box__heading">Get £50 Off When You Switch to Fresh</h2>
-        <p class="fresh-offer-box__sub">Make the move to fresh, species-appropriate nutrition and save on your first five orders.</p>
-        <div class="fresh-offer-box__card">
-          <h3 class="fresh-offer-box__card-heading">Save £10 on Each of Your First 5 Orders</h3>
-          <ul class="fresh-offer-box__list">
-            <li>✅ £10 off Order 1</li>
-            <li>✅ £10 off Order 2</li>
-            <li>✅ £10 off Order 3</li>
-            <li>✅ £10 off Order 4</li>
-            <li>✅ £10 off Order 5</li>
-          </ul>
-          <p class="fresh-offer-box__total">Total Saving: £50</p>
-        </div>
-        <p class="fresh-offer-box__body">We're so confident your cat will love Purrform Fresh that we're making it easier than ever to make the switch. Enjoy exclusive savings while discovering the benefits of fresh, minimally processed nutrition.</p>
-        <a class="fresh-hero__cta fresh-offer-box__cta" href="#signup">Claim My £50 Saving</a>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════════════
-         8. EMAIL SIGN-UP
-         ══════════════════════════════════════════════════════ -->
     <!-- TODO: replace klaviyo-form-RnWuhF with the new launch-specific Klaviyo form ID
          before go-live. The trial form is used as a placeholder only — it routes to the
          wrong list and flow. See .claude/fresh-launch-questions.md Q5. -->
-    <section class="fresh-signup" id="signup" aria-label="Sign up and save £50">
-      <div class="fresh-signup__inner">
-        <div class="fresh-signup__card">
-          <h2 class="fresh-signup__heading">Join The Fresh Community <span class="fresh-signup__heading-sub">&amp; Save £50</span></h2>
+    <section class="fresh-offer-signup" id="signup" aria-label="Get £50 Off and sign up">
+      <div class="fresh-offer-signup__inner">
+
+        <div class="fresh-offer-signup__offer">
+          <p class="fresh-offer-signup__eyebrow">🎉 Exclusive Launch Offer</p>
+          <h2 class="fresh-offer-signup__heading">Get £50 Off When You Switch to Fresh</h2>
+          <p class="fresh-offer-signup__sub">Save £10 on each of your first 5 orders. We're so confident your cat will love it.</p>
+          <div class="fresh-offer-signup__pills">
+            <span class="fresh-offer-signup__pill">£10 off order 1</span>
+            <span class="fresh-offer-signup__pill">£10 off order 2</span>
+            <span class="fresh-offer-signup__pill">£10 off order 3</span>
+            <span class="fresh-offer-signup__pill">£10 off order 4</span>
+            <span class="fresh-offer-signup__pill">£10 off order 5</span>
+          </div>
+          <p class="fresh-offer-signup__total">= £50 total saving</p>
+          <ul class="fresh-offer-signup__perks">
+            <li>Early access to new recipes and products</li>
+            <li>Exclusive Fresh offers</li>
+            <li>Nutrition tips for your cat</li>
+          </ul>
         </div>
-        <ul class="fresh-signup__benefits">
-          <li>Early access to new recipes and products</li>
-          <li>Launch updates delivered to your inbox</li>
-          <li>Exclusive Fresh offers</li>
-          <li>Nutrition tips for your cat</li>
-        </ul>
-        <div class="fresh-signup__form">
-          <div class="klaviyo-form-RnWuhF"></div>
+
+        <div class="fresh-offer-signup__form-wrap">
+          <div class="fresh-offer-signup__form">
+            <div class="klaviyo-form-RnWuhF"></div>
+            <form class="fresh-offer-signup__placeholder-form" aria-label="Sign up form">
+              <input class="fresh-early-access__input" type="text" placeholder="Your name" autocomplete="name">
+              <input class="fresh-early-access__input" type="text" placeholder="Your cat's name">
+              <input class="fresh-early-access__input" type="email" placeholder="Your email address" autocomplete="email">
+              <button class="fresh-early-access__submit" type="submit">Claim My £50 Saving</button>
+            </form>
+          </div>
+          <p class="fresh-offer-signup__disclaimer"><em>By submitting, you consent to receive newsletters, product updates, and special offers from Purrform via email. You can unsubscribe at any time.</em></p>
         </div>
-        <p class="fresh-early-access__disclaimer"><em>By submitting, you consent to receive newsletters, product updates, and special offers from Purrform via email. You can unsubscribe at any time.</em></p>
+
       </div>
     </section>
 

@@ -1742,12 +1742,6 @@ html {
 
     /* Section 4: What's Inside → brand green (same as trial page) */
 
-    /* Section 7: Offer Box → deep green (was brand-primary #687d6a — deepen to
-       dark green #546153 so it clearly separates from About's light green #9aab94) */
-    .fresh-offer-box {
-        background-color: $color-brand-dark;
-    }
-
     /* Section 9: FAQ → cream (retire the off-palette grey) */
     .fresh-faq {
         background-color: #f5f2eb;
@@ -2000,6 +1994,152 @@ html {
 
     .fresh-offer-box__list li {
         font-size: 16px;
+    }
+}
+
+/* ── 7+8. MERGED OFFER + SIGN-UP — launch page ────────────────── */
+
+.fresh-offer-signup {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $color-brand-dark;
+    padding: 56px 24px;
+}
+
+.fresh-offer-signup__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.fresh-offer-signup__offer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.fresh-offer-signup__eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: $color-gold-light;
+    margin: 0;
+}
+
+.fresh-offer-signup__heading {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.fresh-offer-signup__sub {
+    font-size: clamp(15px, 2vw, 17px);
+    color: rgba($color-white, 0.8);
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0;
+}
+
+.fresh-offer-signup__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.fresh-offer-signup__pill {
+    background-color: rgba($color-gold-light, 0.15);
+    border: 1px solid rgba($color-gold-light, 0.4);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: $color-gold-light;
+    white-space: nowrap;
+}
+
+.fresh-offer-signup__total {
+    font-size: 18px;
+    font-weight: 800;
+    color: $color-gold-light;
+    margin: 0;
+}
+
+.fresh-offer-signup__perks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-top: 1px solid rgba($color-white, 0.12);
+    padding-top: 16px;
+
+    li {
+        font-size: 14px;
+        color: rgba($color-white, 0.75);
+        padding-left: 18px;
+        position: relative;
+
+        &::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: $color-gold-light;
+            font-weight: 700;
+        }
+    }
+}
+
+.fresh-offer-signup__form-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.fresh-offer-signup__form {
+    width: 100%;
+
+    /* Hide placeholder when Klaviyo has injected its own form */
+    &:has(.klaviyo-form-RnWuhF [data-testid]) .fresh-offer-signup__placeholder-form {
+        display: none;
+    }
+}
+
+.fresh-offer-signup__placeholder-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.fresh-offer-signup__disclaimer {
+    font-size: 12px;
+    color: rgba($color-white, 0.45);
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (min-width: 801px) {
+    .fresh-offer-signup {
+        padding: 80px 40px;
+    }
+
+    .fresh-offer-signup__inner {
+        flex-direction: row;
+        align-items: flex-end;
+        gap: 64px;
+    }
+
+    .fresh-offer-signup__offer {
+        flex: 1 1 45%;
+    }
+
+    .fresh-offer-signup__form-wrap {
+        flex: 1 1 45%;
     }
 }
 
