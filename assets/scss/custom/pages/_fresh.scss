@@ -1742,9 +1742,9 @@ html {
 
     /* Section 4: What's Inside → brand green (same as trial page) */
 
-    /* Section 9: FAQ → cream (retire the off-palette grey) */
+    /* Section 9: FAQ → white */
     .fresh-faq {
-        background-color: #f5f2eb;
+        background-color: $color-white;
     }
 
     /* ── Benefit card title: gold accent bar replaces the emoji as the visual anchor ── */
@@ -1788,7 +1788,7 @@ html {
 .fresh-reviews {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background-color: $color-white;
+    background-color: #f5f2eb;
     padding: 56px 0;
 }
 
@@ -2175,7 +2175,7 @@ html {
 .fresh-faq {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background-color: #eaeaea;
+    background-color: $color-white;
     padding: 56px 24px;
 }
 
@@ -2286,7 +2286,7 @@ details[open] .fresh-faq__question::after {
 .fresh-terms {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background-color: $color-white;
+    background-color: #f5f2eb;
     padding: 8px 24px 32px;
     text-align: center;
 }
