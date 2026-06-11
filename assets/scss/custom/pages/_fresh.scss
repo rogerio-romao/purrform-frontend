@@ -2287,36 +2287,47 @@ details[open] .fresh-faq__question::after {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     background-color: $color-white;
-    padding: 32px 24px 40px;
-    border-top: 1px solid rgba($color-brand-primary, 0.1);
+    padding: 8px 24px 32px;
+    text-align: center;
 }
 
 .fresh-terms__inner {
-    max-width: 860px;
+    max-width: 760px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .fresh-terms__heading {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba($color-brand-dark, 0.5);
+    color: rgba($color-brand-dark, 0.6);
     margin-bottom: 10px;
 }
 
 .fresh-terms__list {
-    list-style: disc;
-    padding-left: 18px;
+    list-style: none;
+    padding: 0;
     margin: 0;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
 
     li {
         font-size: 12px;
-        line-height: 1.6;
-        color: rgba($color-brand-dark, 0.65);
+        line-height: 1.8;
+        color: rgba($color-brand-dark, 0.7);
+
+        &::after {
+            content: '·';
+            margin: 0 8px;
+            color: rgba($color-brand-dark, 0.35);
+        }
+
+        &:last-child::after {
+            display: none;
+        }
     }
 }
