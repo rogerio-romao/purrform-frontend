@@ -1644,3 +1644,610 @@ html {
         padding: 80px 40px 88px;
     }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   LAUNCH PAGE ADDITIONS
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 1. HERO — offer callout + trust list ─────────────────────── */
+
+/* .fresh-hero__sub already defined in the teaser block above; the launch page reuses it. */
+
+.fresh-hero__offer-callout {
+    margin-top: 20px;
+    background-color: rgba($color-white, 0.12);
+    border: 1px solid rgba($color-gold-light, 0.5);
+    border-radius: $marketing-brand-radius;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fresh-hero__offer-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: $color-gold-light;
+    margin: 0;
+}
+
+.fresh-hero__offer-headline {
+    font-size: clamp(17px, 3vw, 22px);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.fresh-hero__offer-sub {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba($color-white, 0.85);
+    margin: 0;
+}
+
+.fresh-hero__trust {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fresh-hero__trust-item {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba($color-white, 0.9);
+    letter-spacing: 0.02em;
+}
+
+@media (min-width: 801px) {
+    .fresh-hero__sub {
+        margin-top: 8px;
+    }
+
+    .fresh-hero__offer-callout {
+        max-width: 440px;
+        margin-top: 14px;
+    }
+
+    .fresh-hero__trust {
+        flex-flow: row wrap;
+        gap: 8px 20px;
+    }
+
+    .fresh-hero__trust-item {
+        font-size: 14px;
+    }
+
+}
+
+/* Launch page only — scoped to .fresh-page--launch so fresh-trial is unaffected */
+.fresh-page--launch {
+    @media (min-width: 801px) {
+        /* More hero text than trial — increase image height so the absolute
+           text panel has room for sub-line, offer callout, CTA + trust row */
+        .fresh-hero__image-wrap {
+            min-height: 680px;
+        }
+
+        .fresh-hero__image {
+            min-height: 680px;
+        }
+
+        /* Tighter heading gap to use vertical space efficiently */
+        .fresh-hero__heading {
+            gap: 10px;
+        }
+    }
+}
+
+/* ── 5. COMPARISON TABLE ──────────────────────────────────────── */
+
+.fresh-compare {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: #f5f2eb;
+    padding: 56px 24px;
+}
+
+.fresh-compare__inner {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fresh-compare__heading {
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 700;
+    color: $color-brand-primary;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.fresh-compare__intro {
+    font-size: 16px;
+    color: $color-brand-dark;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 32px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fresh-compare__scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: $marketing-brand-radius;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.fresh-compare__table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+    background-color: $color-white;
+    font-size: 14px;
+}
+
+.fresh-compare__th {
+    background-color: $color-brand-primary;
+    color: $color-white;
+    font-weight: 600;
+    font-size: 13px;
+    text-align: center;
+    padding: 14px 12px;
+    white-space: nowrap;
+
+    &.fresh-compare__th--brand {
+        text-align: left;
+        min-width: 100px;
+    }
+}
+
+.fresh-compare__row {
+    border-bottom: 1px solid rgba($color-brand-primary, 0.1);
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &.fresh-compare__row--purrform {
+        background-color: rgba($color-gold-light, 0.2);
+
+        .fresh-compare__td {
+            font-weight: 700;
+        }
+
+        .fresh-compare__td--brand {
+            color: $color-brand-primary;
+        }
+    }
+}
+
+.fresh-compare__td {
+    padding: 12px;
+    text-align: center;
+    color: $color-brand-dark;
+    vertical-align: middle;
+
+    &.fresh-compare__td--brand {
+        text-align: left;
+        font-weight: 600;
+        color: $color-brand-dark;
+    }
+
+    &.fresh-compare__td--yes {
+        color: $color-brand-primary;
+        font-weight: 600;
+    }
+
+    &.fresh-compare__td--no {
+        color: #c0392b;
+        font-weight: 600;
+    }
+}
+
+@media (min-width: 801px) {
+    .fresh-compare {
+        padding: 80px 40px;
+    }
+
+    .fresh-compare__table {
+        font-size: 15px;
+    }
+
+    .fresh-compare__th {
+        font-size: 14px;
+        padding: 16px;
+    }
+
+    .fresh-compare__td {
+        padding: 14px 16px;
+    }
+}
+
+/* ── 6. CUSTOMER REVIEWS CAROUSEL ────────────────────────────── */
+
+.fresh-reviews {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $color-white;
+    padding: 56px 0;
+}
+
+.fresh-reviews__inner {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fresh-reviews__heading {
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 700;
+    color: $color-brand-primary;
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 24px;
+}
+
+.fresh-reviews__carousel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+}
+
+.fresh-reviews__track-wrap {
+    flex: 1;
+    overflow: hidden;
+    padding: 16px 12px;
+    margin: -16px -12px;
+}
+
+.fresh-reviews__track {
+    display: flex;
+    transition: transform 0.4s ease;
+    will-change: transform;
+}
+
+.fresh-reviews__slide {
+    flex: 0 0 100%;
+    box-sizing: border-box;
+    padding: 0 8px;
+}
+
+.fresh-reviews__card {
+    background-color: $color-white;
+    border-radius: $marketing-brand-radius;
+    filter: drop-shadow(4px 6px 5px #2b302a3a);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.fresh-reviews__stars {
+    font-size: 20px;
+    color: $color-gold;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.fresh-reviews__quote {
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.65;
+    color: $color-brand-dark;
+    margin: 0;
+}
+
+.fresh-reviews__name {
+    font-size: 13px;
+    font-weight: 700;
+    color: $color-brand-primary;
+    margin: 0;
+}
+
+@media (min-width: 801px) {
+    .fresh-reviews {
+        padding: 80px 0;
+    }
+
+    .fresh-reviews__heading {
+        font-size: 28px;
+        padding: 0 56px;
+    }
+
+    .fresh-reviews__carousel {
+        padding: 0 40px;
+        gap: 16px;
+    }
+
+    .fresh-reviews__slide {
+        flex: 0 0 50%;
+    }
+}
+
+@media (min-width: 1261px) {
+    .fresh-reviews__slide {
+        flex: 0 0 33.333%;
+    }
+}
+
+/* ── 8. OFFER BOX — £50 OFF ───────────────────────────────────── */
+
+.fresh-offer-box {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $color-brand-primary;
+    padding: 56px 24px;
+}
+
+.fresh-offer-box__inner {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.fresh-offer-box__heading {
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.fresh-offer-box__sub {
+    font-size: clamp(15px, 2vw, 18px);
+    color: rgba($color-white, 0.85);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0;
+}
+
+.fresh-offer-box__card {
+    background-color: rgba($color-white, 0.1);
+    border: 1px solid rgba($color-gold-light, 0.4);
+    border-radius: $marketing-brand-radius;
+    padding: 28px 32px;
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+}
+
+.fresh-offer-box__card-heading {
+    font-size: 17px;
+    font-weight: 700;
+    color: $color-gold-light;
+    margin-bottom: 16px;
+}
+
+.fresh-offer-box__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+
+    li {
+        font-size: 15px;
+        color: $color-white;
+        font-weight: 500;
+    }
+}
+
+.fresh-offer-box__total {
+    font-size: 20px;
+    font-weight: 800;
+    color: $color-gold-light;
+    border-top: 1px solid rgba($color-gold-light, 0.3);
+    padding-top: 16px;
+    margin: 0;
+}
+
+.fresh-offer-box__body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba($color-white, 0.8);
+    max-width: 600px;
+    margin: 0;
+}
+
+.fresh-offer-box__cta {
+    align-self: center;
+}
+
+@media (min-width: 801px) {
+    .fresh-offer-box {
+        padding: 80px 40px;
+    }
+
+    .fresh-offer-box__card-heading {
+        font-size: 19px;
+    }
+
+    .fresh-offer-box__list li {
+        font-size: 16px;
+    }
+}
+
+/* ── 9. SIGNUP — launch additions ─────────────────────────────── */
+
+.fresh-signup__benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 28px;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    li {
+        font-size: 15px;
+        color: $color-brand-primary;
+        padding-left: 20px;
+        position: relative;
+
+        &::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: $color-gold;
+            font-weight: 700;
+        }
+    }
+}
+
+/* ── 10. FAQs ─────────────────────────────────────────────────── */
+
+.fresh-faq {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: #eaeaea;
+    padding: 56px 24px;
+}
+
+.fresh-faq__inner {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fresh-faq__heading {
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 700;
+    color: $color-brand-primary;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.fresh-faq__item {
+    border-bottom: 1px solid rgba($color-brand-primary, 0.2);
+
+    &:first-of-type {
+        border-top: 1px solid rgba($color-brand-primary, 0.2);
+    }
+}
+
+.fresh-faq__question {
+    cursor: pointer;
+    list-style: none;
+    font-size: 16px;
+    font-weight: 700;
+    color: $color-brand-primary;
+    padding: 18px 40px 18px 0;
+    position: relative;
+    transition: color $marketing-brand-transition;
+
+    &::-webkit-details-marker {
+        display: none;
+    }
+
+    /* + / − indicator */
+    &::after {
+        content: '+';
+        position: absolute;
+        right: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 22px;
+        font-weight: 400;
+        color: $color-gold;
+        line-height: 1;
+        transition: transform $marketing-brand-transition;
+    }
+
+    &:hover {
+        color: $color-brand-dark;
+    }
+}
+
+details[open] .fresh-faq__question::after {
+    content: '−';
+}
+
+.fresh-faq__answer {
+    font-size: 15px;
+    line-height: 1.7;
+    color: $color-brand-dark;
+    padding: 0 0 20px;
+    margin: 0;
+
+    a {
+        color: $color-brand-primary;
+        text-decoration: underline;
+
+        &:hover {
+            color: $color-gold;
+        }
+    }
+}
+
+@media (min-width: 801px) {
+    .fresh-faq {
+        padding: 80px 40px;
+    }
+
+    .fresh-faq__question {
+        font-size: 17px;
+        padding: 20px 44px 20px 0;
+    }
+
+    .fresh-faq__answer {
+        font-size: 16px;
+        padding-bottom: 24px;
+    }
+}
+
+/* ── 11. OFFER TERMS ──────────────────────────────────────────── */
+
+.fresh-terms {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $color-white;
+    padding: 32px 24px 40px;
+    border-top: 1px solid rgba($color-brand-primary, 0.1);
+}
+
+.fresh-terms__inner {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fresh-terms__heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba($color-brand-dark, 0.5);
+    margin-bottom: 10px;
+}
+
+.fresh-terms__list {
+    list-style: disc;
+    padding-left: 18px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    li {
+        font-size: 12px;
+        line-height: 1.6;
+        color: rgba($color-brand-dark, 0.65);
+    }
+}
