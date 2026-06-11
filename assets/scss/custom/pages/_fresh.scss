@@ -1307,7 +1307,7 @@ html {
     color: $color-white;
     line-height: 1.6;
     max-width: 560px;
-    margin: 12px 0 0;
+    margin: 0;
 }
 
 /* Countdown timer */
@@ -1368,7 +1368,7 @@ html {
     transition:
         color 0.2s ease,
         background-color 0.2s ease-in-out;
-    margin-top: 20px;
+    margin-top: 8px;
 
     &:hover {
         background-color: $color-gold;
@@ -1782,6 +1782,14 @@ html {
         }
     }
 
+    .fresh-hero__sub {
+        margin-top: 12px;
+    }
+
+    .fresh-hero__cta {
+        margin-top: 20px;
+    }
+
     @media (min-width: 801px) {
         .fresh-hero__image-wrap {
             min-height: 480px;
@@ -1791,9 +1799,8 @@ html {
             min-height: 480px;
         }
 
-        /* Heading lines sit tight — gap handled by line-height alone */
-        .fresh-hero__heading {
-            gap: 0;
+        .fresh-hero__text {
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.55) 60%, transparent);
         }
     }
 }
