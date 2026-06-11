@@ -1730,18 +1730,9 @@ html {
     /* ── Background rhythm: dark · cream · white · cream · white · light-green · deep-green · white · cream · white
        Teaser uses .fresh-expect on white — this override only applies on the launch page. */
 
-    /* Section 2: Why Switch → cream */
+    /* Section 2: Why Switch → white */
     .fresh-expect {
-        background-color: #f5f2eb;
-    }
-
-    /* The gold-ring icon uses a white halo (box-shadow 0 0 0 5px $color-white).
-       On cream the halo blends in — swap it for the cream colour so the gold ring
-       still pops cleanly. */
-    .fresh-expect__icon {
-        box-shadow:
-            0 0 0 5px #f5f2eb,
-            0 0 0 9px $color-gold;
+        background-color: $color-white;
     }
 
     /* Section 3: Benefits → white (unchanged, but ensure no seam artefact against cream #2) */
