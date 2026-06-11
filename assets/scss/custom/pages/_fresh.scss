@@ -1740,14 +1740,7 @@ html {
         background-color: #f5f2eb;
     }
 
-    /* Section 4: What's Inside → cream on mobile/tablet
-       The ≥1261px scattered-card layout already gets its own green panel via
-       .fresh-inside__layout; we use cream as the section background so it sits
-       below that green island rather than blending into it. */
-    .fresh-inside {
-        background-color: #f5f2eb;
-        border-top: 1px solid rgba($color-brand-primary, 0.08);
-    }
+    /* Section 4: What's Inside → brand green (same as trial page) */
 
     /* Section 7: Offer Box → deep green (was brand-primary #687d6a — deepen to
        dark green #546153 so it clearly separates from About's light green #9aab94) */
