@@ -57,7 +57,7 @@ html {
 .fresh-hero__heading {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 0;
     color: $color-white;
     margin-bottom: 0;
 }
@@ -1307,7 +1307,7 @@ html {
     color: $color-white;
     line-height: 1.6;
     max-width: 560px;
-    margin: 0;
+    margin: 12px 0 0;
 }
 
 /* Countdown timer */
@@ -1368,7 +1368,7 @@ html {
     transition:
         color 0.2s ease,
         background-color 0.2s ease-in-out;
-    margin-top: 8px;
+    margin-top: 20px;
 
     &:hover {
         background-color: $color-gold;
@@ -1655,13 +1655,14 @@ html {
 
 .fresh-hero__offer-callout {
     margin-top: 20px;
-    background-color: rgba($color-white, 0.12);
-    border: 1px solid rgba($color-gold-light, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba($color-gold-light, 0.4);
     border-radius: $marketing-brand-radius;
     padding: 16px 20px;
     display: flex;
     flex-direction: column;
     gap: 6px;
+    backdrop-filter: blur(4px);
 }
 
 .fresh-hero__offer-eyebrow {
@@ -1726,151 +1727,78 @@ html {
 
 /* Launch page only — scoped to .fresh-page--launch so fresh-trial is unaffected */
 .fresh-page--launch {
+    /* ── Background rhythm: dark · cream · white · cream · white · light-green · deep-green · white · cream · white
+       Teaser uses .fresh-expect on white — this override only applies on the launch page. */
+
+    /* Section 2: Why Switch → cream */
+    .fresh-expect {
+        background-color: #f5f2eb;
+    }
+
+    /* The gold-ring icon uses a white halo (box-shadow 0 0 0 5px $color-white).
+       On cream the halo blends in — swap it for the cream colour so the gold ring
+       still pops cleanly. */
+    .fresh-expect__icon {
+        box-shadow:
+            0 0 0 5px #f5f2eb,
+            0 0 0 9px $color-gold;
+    }
+
+    /* Section 3: Benefits → white (unchanged, but ensure no seam artefact against cream #2) */
+    .fresh-benefits {
+        border-top: 1px solid rgba($color-brand-primary, 0.08);
+    }
+
+    /* Section 4: What's Inside → cream on mobile/tablet
+       The ≥1261px scattered-card layout already gets its own green panel via
+       .fresh-inside__layout; we use cream as the section background so it sits
+       below that green island rather than blending into it. */
+    .fresh-inside {
+        background-color: #f5f2eb;
+        border-top: 1px solid rgba($color-brand-primary, 0.08);
+    }
+
+    /* Section 7: Offer Box → deep green (was brand-primary #687d6a — deepen to
+       dark green #546153 so it clearly separates from About's light green #9aab94) */
+    .fresh-offer-box {
+        background-color: $color-brand-dark;
+    }
+
+    /* Section 9: FAQ → cream (retire the off-palette grey) */
+    .fresh-faq {
+        background-color: #f5f2eb;
+    }
+
+    /* ── Benefit card title: gold accent bar replaces the emoji as the visual anchor ── */
+    .fresh-benefits__card-title {
+        &::before {
+            content: '';
+            display: block;
+            width: 28px;
+            height: 3px;
+            background-color: $color-gold;
+            border-radius: 2px;
+            margin-bottom: 10px;
+        }
+    }
+
     @media (min-width: 801px) {
-        /* More hero text than trial — increase image height so the absolute
-           text panel has room for sub-line, offer callout, CTA + trust row */
         .fresh-hero__image-wrap {
-            min-height: 680px;
+            min-height: 480px;
         }
 
         .fresh-hero__image {
-            min-height: 680px;
+            min-height: 480px;
         }
 
-        /* Tighter heading gap to use vertical space efficiently */
+        /* Heading lines sit tight — gap handled by line-height alone */
         .fresh-hero__heading {
-            gap: 10px;
+            gap: 0;
         }
     }
 }
 
-/* ── 5. COMPARISON TABLE ──────────────────────────────────────── */
-
-.fresh-compare {
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    background-color: #f5f2eb;
-    padding: 56px 24px;
-}
-
-.fresh-compare__inner {
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.fresh-compare__heading {
-    font-size: clamp(22px, 4vw, 30px);
-    font-weight: 700;
-    color: $color-brand-primary;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.fresh-compare__intro {
-    font-size: 16px;
-    color: $color-brand-dark;
-    line-height: 1.6;
-    text-align: center;
-    margin-bottom: 32px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.fresh-compare__scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: $marketing-brand-radius;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-
-.fresh-compare__table {
-    width: 100%;
-    min-width: 640px;
-    border-collapse: collapse;
-    background-color: $color-white;
-    font-size: 14px;
-}
-
-.fresh-compare__th {
-    background-color: $color-brand-primary;
-    color: $color-white;
-    font-weight: 600;
-    font-size: 13px;
-    text-align: center;
-    padding: 14px 12px;
-    white-space: nowrap;
-
-    &.fresh-compare__th--brand {
-        text-align: left;
-        min-width: 100px;
-    }
-}
-
-.fresh-compare__row {
-    border-bottom: 1px solid rgba($color-brand-primary, 0.1);
-
-    &:last-child {
-        border-bottom: none;
-    }
-
-    &.fresh-compare__row--purrform {
-        background-color: rgba($color-gold-light, 0.2);
-
-        .fresh-compare__td {
-            font-weight: 700;
-        }
-
-        .fresh-compare__td--brand {
-            color: $color-brand-primary;
-        }
-    }
-}
-
-.fresh-compare__td {
-    padding: 12px;
-    text-align: center;
-    color: $color-brand-dark;
-    vertical-align: middle;
-
-    &.fresh-compare__td--brand {
-        text-align: left;
-        font-weight: 600;
-        color: $color-brand-dark;
-    }
-
-    &.fresh-compare__td--yes {
-        color: $color-brand-primary;
-        font-weight: 600;
-    }
-
-    &.fresh-compare__td--no {
-        color: #c0392b;
-        font-weight: 600;
-    }
-}
-
-@media (min-width: 801px) {
-    .fresh-compare {
-        padding: 80px 40px;
-    }
-
-    .fresh-compare__table {
-        font-size: 15px;
-    }
-
-    .fresh-compare__th {
-        font-size: 14px;
-        padding: 16px;
-    }
-
-    .fresh-compare__td {
-        padding: 14px 16px;
-    }
-}
-
-/* ── 6. CUSTOMER REVIEWS CAROUSEL ────────────────────────────── */
+/* ── 5. CUSTOMER REVIEWS CAROUSEL ────────────────────────────── */
 
 .fresh-reviews {
     width: 100vw;
