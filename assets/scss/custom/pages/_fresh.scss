@@ -1735,9 +1735,9 @@ html {
         background-color: $color-white;
     }
 
-    /* Section 3: Benefits → white (unchanged, but ensure no seam artefact against cream #2) */
+    /* Section 3: Benefits → cream */
     .fresh-benefits {
-        border-top: 1px solid rgba($color-brand-primary, 0.08);
+        background-color: #f5f2eb;
     }
 
     /* Section 4: What's Inside → cream on mobile/tablet
