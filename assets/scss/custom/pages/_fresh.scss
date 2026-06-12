@@ -1722,7 +1722,6 @@ html {
     .fresh-hero__trust-item {
         font-size: 14px;
     }
-
 }
 
 /* Launch page only — scoped to .fresh-page--launch so fresh-trial is unaffected */
@@ -1768,6 +1767,11 @@ html {
         margin-top: 20px;
     }
 
+    /* Offer band hidden on mobile — in-hero callout handles it there */
+    .fresh-offer-band {
+        display: none;
+    }
+
     @media (min-width: 801px) {
         .fresh-hero__image-wrap {
             min-height: 480px;
@@ -1778,7 +1782,54 @@ html {
         }
 
         .fresh-hero__text {
-            background: linear-gradient(to right, rgba(0, 0, 0, 0.55) 60%, transparent);
+            background: linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0.55) 60%,
+                transparent
+            );
+        }
+
+        /* Move offer out of the image on desktop — hide in-hero callout, show the band */
+        .fresh-hero__offer-callout {
+            display: none;
+        }
+
+        .fresh-offer-band {
+            display: block;
+            background-color: #5fbf5f;
+            color: $color-white;
+            padding: 20px clamp(24px, 4vw, 56px) 24px;
+        }
+
+        .fresh-offer-band__inner {
+            max-width: 1920px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .fresh-offer-band__eyebrow {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: $color-gold-light;
+            margin: 0;
+        }
+
+        .fresh-offer-band__headline {
+            font-size: clamp(18px, 2.2vw, 22px);
+            font-weight: 700;
+            color: $color-white;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .fresh-offer-band__sub {
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba($color-white, 0.85);
+            margin: 0;
         }
     }
 }
@@ -2104,7 +2155,8 @@ html {
     width: 100%;
 
     /* Hide placeholder when Klaviyo has injected its own form */
-    &:has(.klaviyo-form-RnWuhF [data-testid]) .fresh-offer-signup__placeholder-form {
+    &:has(.klaviyo-form-RnWuhF [data-testid])
+        .fresh-offer-signup__placeholder-form {
         display: none;
     }
 }
@@ -2298,7 +2350,7 @@ details[open] .fresh-faq__question::after {
 }
 
 .fresh-terms__heading {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -2316,7 +2368,7 @@ details[open] .fresh-faq__question::after {
     gap: 0;
 
     li {
-        font-size: 12px;
+        font-size: 14px;
         line-height: 1.8;
         color: rgba($color-brand-dark, 0.7);
 
