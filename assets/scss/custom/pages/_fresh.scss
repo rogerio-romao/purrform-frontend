@@ -827,8 +827,8 @@ html {
         width: 50%;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        padding: 14px clamp(24px, 4vw, 56px) 30px;
+        justify-content: center;
+        padding: 40px clamp(24px, 4vw, 56px);
     }
 
     .fresh-hero__heading-light {
@@ -1796,7 +1796,7 @@ html {
 
         .fresh-offer-band {
             display: block;
-            background-color: #5fbf5f;
+            background-color: $color-brand-dark;
             color: $color-white;
             padding: 20px clamp(24px, 4vw, 56px) 24px;
         }
@@ -2350,7 +2350,7 @@ details[open] .fresh-faq__question::after {
 }
 
 .fresh-terms__heading {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -2368,7 +2368,7 @@ details[open] .fresh-faq__question::after {
     gap: 0;
 
     li {
-        font-size: 14px;
+        font-size: 13px;
         line-height: 1.8;
         color: rgba($color-brand-dark, 0.7);
 
