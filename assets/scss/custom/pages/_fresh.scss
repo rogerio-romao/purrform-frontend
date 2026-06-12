@@ -57,7 +57,7 @@ html {
 .fresh-hero__heading {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 0;
     color: $color-white;
     margin-bottom: 0;
 }
@@ -1642,5 +1642,744 @@ html {
 @media (min-width: 801px) {
     .fresh-early-access {
         padding: 80px 40px 88px;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   LAUNCH PAGE ADDITIONS
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 1. HERO — offer callout + trust list ─────────────────────── */
+
+/* .fresh-hero__sub already defined in the teaser block above; the launch page reuses it. */
+
+.fresh-hero__offer-callout {
+    margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba($color-gold-light, 0.4);
+    border-radius: $marketing-brand-radius;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    backdrop-filter: blur(4px);
+}
+
+.fresh-hero__offer-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: $color-gold-light;
+    margin: 0;
+}
+
+.fresh-hero__offer-headline {
+    font-size: clamp(17px, 3vw, 22px);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.fresh-hero__offer-sub {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba($color-white, 0.85);
+    margin: 0;
+}
+
+.fresh-hero__trust {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fresh-hero__trust-item {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba($color-white, 0.9);
+    letter-spacing: 0.02em;
+}
+
+@media (min-width: 801px) {
+    .fresh-hero__sub {
+        margin-top: 8px;
+    }
+
+    .fresh-hero__offer-callout {
+        max-width: 440px;
+        margin-top: 14px;
+    }
+
+    .fresh-hero__trust {
+        flex-flow: row wrap;
+        gap: 8px 20px;
+    }
+
+    .fresh-hero__trust-item {
+        font-size: 14px;
+    }
+}
+
+/* Launch page only — scoped to .fresh-page--launch so fresh-trial is unaffected */
+.fresh-page--launch {
+    /* ── Background rhythm: dark · cream · white · cream · white · light-green · deep-green · white · cream · white
+       Teaser uses .fresh-expect on white — this override only applies on the launch page. */
+
+    /* Section 2: Why Switch → white */
+    .fresh-expect {
+        background-color: $color-white;
+    }
+
+    /* Section 3: Benefits → cream */
+    .fresh-benefits {
+        background-color: #f5f2eb;
+    }
+
+    /* Section 4: What's Inside → brand green (same as trial page) */
+
+    /* Section 9: FAQ → white */
+    .fresh-faq {
+        background-color: $color-white;
+    }
+
+    /* ── Benefit card title: gold accent bar replaces the emoji as the visual anchor ── */
+    .fresh-benefits__card-title {
+        &::before {
+            content: '';
+            display: block;
+            width: 28px;
+            height: 3px;
+            background-color: $color-gold;
+            border-radius: 2px;
+            margin-bottom: 10px;
+        }
+    }
+
+    .fresh-hero__sub {
+        margin-top: 12px;
+    }
+
+    .fresh-hero__cta {
+        margin-top: 20px;
+    }
+
+    /* Offer band hidden on mobile — in-hero callout handles it there */
+    .fresh-offer-band {
+        display: none;
+    }
+
+    @media (min-width: 801px) {
+        .fresh-hero__image-wrap {
+            min-height: 480px;
+        }
+
+        .fresh-hero__image {
+            min-height: 480px;
+        }
+
+        .fresh-hero__text {
+            background: linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0.55) 60%,
+                transparent
+            );
+        }
+
+        /* Move offer out of the image on desktop — hide in-hero callout, show the band */
+        .fresh-hero__offer-callout {
+            display: none;
+        }
+
+        .fresh-offer-band {
+            display: block;
+            background-color: #5fbf5f;
+            color: $color-white;
+            padding: 20px clamp(24px, 4vw, 56px) 24px;
+        }
+
+        .fresh-offer-band__inner {
+            max-width: 1920px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .fresh-offer-band__eyebrow {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: $color-gold-light;
+            margin: 0;
+        }
+
+        .fresh-offer-band__headline {
+            font-size: clamp(18px, 2.2vw, 22px);
+            font-weight: 700;
+            color: $color-white;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .fresh-offer-band__sub {
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba($color-white, 0.85);
+            margin: 0;
+        }
+    }
+}
+
+/* ── 5. CUSTOMER REVIEWS CAROUSEL ────────────────────────────── */
+
+.fresh-reviews {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: #f5f2eb;
+    padding: 56px 0;
+}
+
+.fresh-reviews__inner {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fresh-reviews__heading {
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 700;
+    color: $color-brand-primary;
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 24px;
+}
+
+.fresh-reviews__carousel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+}
+
+.fresh-reviews__track-wrap {
+    flex: 1;
+    overflow: hidden;
+    padding: 16px 12px;
+    margin: -16px -12px;
+}
+
+.fresh-reviews__track {
+    display: flex;
+    transition: transform 0.4s ease;
+    will-change: transform;
+}
+
+.fresh-reviews__slide {
+    flex: 0 0 100%;
+    box-sizing: border-box;
+    padding: 0 8px;
+}
+
+.fresh-reviews__card {
+    background-color: $color-white;
+    border-radius: $marketing-brand-radius;
+    filter: drop-shadow(4px 6px 5px #2b302a3a);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.fresh-reviews__stars {
+    font-size: 20px;
+    color: $color-gold;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.fresh-reviews__quote {
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.65;
+    color: $color-brand-dark;
+    margin: 0;
+}
+
+.fresh-reviews__name {
+    font-size: 13px;
+    font-weight: 700;
+    color: $color-brand-primary;
+    margin: 0;
+}
+
+@media (min-width: 801px) {
+    .fresh-reviews {
+        padding: 80px 0;
+    }
+
+    .fresh-reviews__heading {
+        font-size: 28px;
+        padding: 0 56px;
+    }
+
+    .fresh-reviews__carousel {
+        padding: 0 40px;
+        gap: 16px;
+    }
+
+    .fresh-reviews__slide {
+        flex: 0 0 50%;
+    }
+}
+
+@media (min-width: 1261px) {
+    .fresh-reviews__slide {
+        flex: 0 0 33.333%;
+    }
+}
+
+/* ── 8. OFFER BOX — £50 OFF ───────────────────────────────────── */
+
+.fresh-offer-box {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $color-brand-primary;
+    padding: 56px 24px;
+}
+
+.fresh-offer-box__inner {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.fresh-offer-box__heading {
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.fresh-offer-box__sub {
+    font-size: clamp(15px, 2vw, 18px);
+    color: rgba($color-white, 0.85);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0;
+}
+
+.fresh-offer-box__card {
+    background-color: rgba($color-white, 0.1);
+    border: 1px solid rgba($color-gold-light, 0.4);
+    border-radius: $marketing-brand-radius;
+    padding: 28px 32px;
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+}
+
+.fresh-offer-box__card-heading {
+    font-size: 17px;
+    font-weight: 700;
+    color: $color-gold-light;
+    margin-bottom: 16px;
+}
+
+.fresh-offer-box__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+
+    li {
+        font-size: 15px;
+        color: $color-white;
+        font-weight: 500;
+    }
+}
+
+.fresh-offer-box__total {
+    font-size: 20px;
+    font-weight: 800;
+    color: $color-gold-light;
+    border-top: 1px solid rgba($color-gold-light, 0.3);
+    padding-top: 16px;
+    margin: 0;
+}
+
+.fresh-offer-box__body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba($color-white, 0.8);
+    max-width: 600px;
+    margin: 0;
+}
+
+.fresh-offer-box__cta {
+    align-self: center;
+}
+
+@media (min-width: 801px) {
+    .fresh-offer-box {
+        padding: 80px 40px;
+    }
+
+    .fresh-offer-box__card-heading {
+        font-size: 19px;
+    }
+
+    .fresh-offer-box__list li {
+        font-size: 16px;
+    }
+}
+
+/* ── 7+8. MERGED OFFER + SIGN-UP — launch page ────────────────── */
+
+.fresh-offer-signup {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $color-brand-dark;
+    padding: 56px 24px;
+}
+
+.fresh-offer-signup__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.fresh-offer-signup__offer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.fresh-offer-signup__eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: $color-gold-light;
+    margin: 0;
+}
+
+.fresh-offer-signup__heading {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700;
+    color: $color-white;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.fresh-offer-signup__sub {
+    font-size: clamp(15px, 2vw, 17px);
+    color: rgba($color-white, 0.8);
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0;
+}
+
+.fresh-offer-signup__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.fresh-offer-signup__pill {
+    background-color: rgba($color-gold-light, 0.15);
+    border: 1px solid rgba($color-gold-light, 0.4);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: $color-gold-light;
+    white-space: nowrap;
+}
+
+.fresh-offer-signup__total {
+    font-size: 18px;
+    font-weight: 800;
+    color: $color-gold-light;
+    margin: 0;
+}
+
+.fresh-offer-signup__perks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-top: 1px solid rgba($color-white, 0.12);
+    padding-top: 16px;
+
+    li {
+        font-size: 14px;
+        color: rgba($color-white, 0.75);
+        padding-left: 18px;
+        position: relative;
+
+        &::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: $color-gold-light;
+            font-weight: 700;
+        }
+    }
+}
+
+.fresh-offer-signup__form-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.fresh-offer-signup__form {
+    width: 100%;
+
+    /* Hide placeholder when Klaviyo has injected its own form */
+    &:has(.klaviyo-form-RnWuhF [data-testid])
+        .fresh-offer-signup__placeholder-form {
+        display: none;
+    }
+}
+
+.fresh-offer-signup__placeholder-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.fresh-offer-signup__disclaimer {
+    font-size: 12px;
+    color: rgba($color-white, 0.45);
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (min-width: 801px) {
+    .fresh-offer-signup {
+        padding: 80px 40px;
+    }
+
+    .fresh-offer-signup__inner {
+        flex-direction: row;
+        align-items: flex-end;
+        gap: 64px;
+    }
+
+    .fresh-offer-signup__offer {
+        flex: 1 1 45%;
+    }
+
+    .fresh-offer-signup__form-wrap {
+        flex: 1 1 45%;
+    }
+}
+
+/* ── 9. SIGNUP — launch additions ─────────────────────────────── */
+
+.fresh-signup__benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 28px;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    li {
+        font-size: 15px;
+        color: $color-brand-primary;
+        padding-left: 20px;
+        position: relative;
+
+        &::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: $color-gold;
+            font-weight: 700;
+        }
+    }
+}
+
+/* ── 10. FAQs ─────────────────────────────────────────────────── */
+
+.fresh-faq {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: $color-white;
+    padding: 56px 24px;
+}
+
+.fresh-faq__inner {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fresh-faq__heading {
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 700;
+    color: $color-brand-primary;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.fresh-faq__item {
+    border-bottom: 1px solid rgba($color-brand-primary, 0.2);
+
+    &:first-of-type {
+        border-top: 1px solid rgba($color-brand-primary, 0.2);
+    }
+}
+
+.fresh-faq__question {
+    cursor: pointer;
+    list-style: none;
+    font-size: 16px;
+    font-weight: 700;
+    color: $color-brand-dark;
+    padding: 18px 40px 18px 0;
+    position: relative;
+    transition: color $marketing-brand-transition;
+
+    &::-webkit-details-marker {
+        display: none;
+    }
+
+    /* + / − indicator */
+    &::after {
+        content: '+';
+        position: absolute;
+        right: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 22px;
+        font-weight: 400;
+        color: $color-gold;
+        line-height: 1;
+        transition: transform $marketing-brand-transition;
+    }
+
+    &:hover {
+        color: $color-brand-primary;
+    }
+}
+
+details[open] .fresh-faq__question::after {
+    content: '−';
+}
+
+.fresh-faq__answer-wrap {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+
+    .fresh-faq__item[open] & {
+        max-height: 600px;
+    }
+}
+
+.fresh-faq__answer {
+    font-size: 15px;
+    line-height: 1.7;
+    color: $color-brand-dark;
+    padding: 0 0 20px;
+    margin: 0;
+
+    a {
+        color: $color-brand-primary;
+        text-decoration: underline;
+
+        &:hover {
+            color: $color-gold;
+        }
+    }
+}
+
+@media (min-width: 801px) {
+    .fresh-faq {
+        padding: 80px 40px;
+    }
+
+    .fresh-faq__question {
+        font-size: 17px;
+        padding: 20px 44px 20px 0;
+    }
+
+    .fresh-faq__answer {
+        font-size: 16px;
+        padding-bottom: 24px;
+    }
+}
+
+/* ── 11. OFFER TERMS ──────────────────────────────────────────── */
+
+.fresh-terms {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background-color: #f5f2eb;
+    padding: 8px 24px 32px;
+    text-align: center;
+}
+
+.fresh-terms__inner {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fresh-terms__heading {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba($color-brand-dark, 0.6);
+    margin-bottom: 10px;
+}
+
+.fresh-terms__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+
+    li {
+        font-size: 14px;
+        line-height: 1.8;
+        color: rgba($color-brand-dark, 0.7);
+
+        &::after {
+            content: '·';
+            margin: 0 8px;
+            color: rgba($color-brand-dark, 0.35);
+        }
+
+        &:last-child::after {
+            display: none;
+        }
     }
 }
