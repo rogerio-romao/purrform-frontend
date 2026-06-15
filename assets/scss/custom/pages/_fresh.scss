@@ -1839,68 +1839,53 @@ html {
 .fresh-reviews {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    background-color: #f5f2eb;
+    background-color: $color-white;
     padding: 56px 0;
 }
 
 .fresh-reviews__inner {
-    max-width: 1600px;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
-}
-
-.fresh-reviews__heading {
-    font-size: clamp(22px, 4vw, 30px);
-    font-weight: 700;
-    color: $color-brand-primary;
-    text-align: center;
-    margin-bottom: 40px;
     padding: 0 24px;
 }
 
-.fresh-reviews__carousel {
+.fresh-reviews__trustpilot {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 0 16px;
+    gap: 12px;
+    margin-bottom: 24px;
 }
 
-.fresh-reviews__track-wrap {
-    flex: 1;
-    overflow: hidden;
-    padding: 16px 12px;
-    margin: -16px -12px;
+.fresh-reviews__trustpilot-logo {
+    height: 28px;
+    width: auto;
+    flex-shrink: 0;
 }
 
-.fresh-reviews__track {
+.fresh-reviews__trustpilot-text {
+    font-size: 15px;
+    color: $color-brand-dark;
+}
+
+.fresh-reviews__heading {
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 700;
+    color: $color-brand-dark;
+    margin-bottom: 32px;
+}
+
+.fresh-reviews__grid {
     display: flex;
-    transition: transform 0.4s ease;
-    will-change: transform;
-}
-
-.fresh-reviews__slide {
-    flex: 0 0 100%;
-    box-sizing: border-box;
-    padding: 0 8px;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .fresh-reviews__card {
-    background-color: $color-white;
-    border-radius: $marketing-brand-radius;
-    filter: drop-shadow(4px 6px 5px #2b302a3a);
-    padding: 28px 24px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    height: 100%;
-    box-sizing: border-box;
-}
-
-.fresh-reviews__stars {
-    font-size: 20px;
-    color: $color-gold;
-    margin: 0;
-    letter-spacing: 2px;
+    gap: 8px;
+    padding-left: 20px;
 }
 
 .fresh-reviews__quote {
@@ -1912,9 +1897,9 @@ html {
 }
 
 .fresh-reviews__name {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
-    color: $color-brand-primary;
+    color: $color-brand-dark;
     margin: 0;
 }
 
@@ -1924,23 +1909,7 @@ html {
     }
 
     .fresh-reviews__heading {
-        font-size: 28px;
-        padding: 0 56px;
-    }
-
-    .fresh-reviews__carousel {
-        padding: 0 40px;
-        gap: 16px;
-    }
-
-    .fresh-reviews__slide {
-        flex: 0 0 50%;
-    }
-}
-
-@media (min-width: 1261px) {
-    .fresh-reviews__slide {
-        flex: 0 0 33.333%;
+        font-size: 26px;
     }
 }
 
