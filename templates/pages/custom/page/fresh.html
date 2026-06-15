@@ -205,6 +205,11 @@
         <div class="fresh-reviews__trustpilot">
           <!-- Trustpilot widget — replace with official embed script once business unit is verified -->
           <svg class="fresh-reviews__trustpilot-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 24" aria-hidden="true" focusable="false">
+            <defs>
+              <clipPath id="tp-partial">
+                <rect x="108" y="0" width="17" height="24"/>
+              </clipPath>
+            </defs>
             <rect width="24" height="24" rx="2" fill="#00b67a"/>
             <polygon points="12,4 14.5,9.5 20.5,10.2 16.2,14.3 17.6,20.3 12,17.3 6.4,20.3 7.8,14.3 3.5,10.2 9.5,9.5" fill="#fff"/>
             <rect x="27" width="24" height="24" rx="2" fill="#00b67a"/>
@@ -214,7 +219,8 @@
             <rect x="81" width="24" height="24" rx="2" fill="#00b67a"/>
             <polygon points="93,4 95.5,9.5 101.5,10.2 97.2,14.3 98.6,20.3 93,17.3 87.4,20.3 88.8,14.3 84.5,10.2 90.5,9.5" fill="#fff"/>
             <rect x="108" width="24" height="24" rx="2" fill="#dde5e8"/>
-            <polygon points="120,4 122.5,9.5 128.5,10.2 124.2,14.3 125.6,20.3 120,17.3 114.4,20.3 115.8,14.3 111.5,10.2 117.5,9.5" fill="#00b67a"/>
+            <rect x="108" width="24" height="24" rx="2" fill="#00b67a" clip-path="url(#tp-partial)"/>
+            <polygon points="120,4 122.5,9.5 128.5,10.2 124.2,14.3 125.6,20.3 120,17.3 114.4,20.3 115.8,14.3 111.5,10.2 117.5,9.5" fill="#fff"/>
           </svg>
           <span class="fresh-reviews__trustpilot-text">Rated 4.7/5 by 300+ Purrform customers</span>
         </div>
