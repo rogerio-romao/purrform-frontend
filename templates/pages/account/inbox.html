@@ -75,6 +75,31 @@
             {{/unless}}
             {{/unless}}
             {{#if customer_group_name '===' 'Personal'}}
+            <div id="coupon-codes" class="reward-section">
+                <h2>Coupon codes</h2>
+                <p>Discount codes you've earned through our referral programs.</p>
+                <div id="coupon-codes-status"></div>
+                <div id="friend-coupons-block">
+                    <h5 class="coupon-group-title">Friend referral coupons</h5>
+                    <div id="friend-coupons-grid">
+                        <div class="previous-grid-title">Code</div>
+                        <div class="previous-grid-title">Date</div>
+                        <div class="previous-grid-title">Status</div>
+                    </div>
+                    <p class="coupon-empty">You have no friend referral coupons yet.</p>
+                </div>
+                <div id="breeder-coupons-block">
+                    <h5 class="coupon-group-title">Breeder referral coupons</h5>
+                    <div id="breeder-coupons-grid">
+                        <div class="previous-grid-title">Code</div>
+                        <div class="previous-grid-title">Date</div>
+                        <div class="previous-grid-title">Status</div>
+                    </div>
+                    <p class="coupon-empty">You have no breeder referral coupons yet.</p>
+                </div>
+            </div>
+            {{/if}}
+            {{#if customer_group_name '===' 'Personal'}}
             <div class="reward-section">
                 <h2>Birthday gift</h2>
                 <p>Register your cat to receive a 10% discount voucher when it's their birthday! The purrfect gift!</p>
@@ -556,6 +581,75 @@
                     'Error fetching previous friend referrals, please try again later.';
             });
     });
+</script>
+<script>
+    // Fetches coupon codes earned through friend and breeder referral programs
+    // TODO: switch base URL to https://purrform-apps-027e.onrender.com once backend is deployed to production
+    const couponJsContext = JSON.parse({{jsContext}});
+    const couponEmail = couponJsContext.customerEmail;
+    const couponStatusEl = document.querySelector('#coupon-codes-status');
+    const genericCouponError = 'Unable to load your coupon codes right now, please try again later.';
+
+    function hideCouponGroups() {
+        document.querySelectorAll('#friend-coupons-block, #breeder-coupons-block').forEach((el) => {
+            el.style.display = 'none';
+        });
+    }
+
+    fetch(`https://purrform-apps-027e.onrender.com/getCustomerReferralCoupons?email=${encodeURIComponent(couponEmail)}`)
+        .then(async (response) => {
+            if (!response.ok) {
+                hideCouponGroups();
+                couponStatusEl.textContent = genericCouponError;
+                return;
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (!data) return;
+
+            const friendCoupons = data.coupons.filter((c) => c.type === 'friend');
+            const breederCoupons = data.coupons.filter((c) => c.type === 'breeder');
+
+            function renderCouponGroup(coupons, gridId, blockId) {
+                const grid = document.querySelector(`#${gridId}`);
+                const block = document.querySelector(`#${blockId}`);
+                const emptyMsg = block.querySelector('.coupon-empty');
+
+                if (coupons.length === 0) return;
+
+                emptyMsg.style.display = 'none';
+                grid.style.display = 'grid';
+
+                coupons.forEach(({ coupon, createdAt, hasSpentCoupon }) => {
+                    const codeEl = document.createElement('div');
+                    codeEl.classList.add('previous-grid-item');
+                    codeEl.textContent = coupon;
+
+                    const dateEl = document.createElement('div');
+                    dateEl.classList.add('previous-grid-item');
+                    dateEl.textContent = createdAt;
+
+                    const statusEl = document.createElement('div');
+                    statusEl.classList.add('previous-grid-item');
+                    statusEl.textContent = hasSpentCoupon ? 'Used' : 'Valid';
+
+                    statusEl.style.color = hasSpentCoupon ? '#c0392b' : '#27ae60';
+                    statusEl.style.fontWeight = 'bold';
+
+                    grid.appendChild(codeEl);
+                    grid.appendChild(dateEl);
+                    grid.appendChild(statusEl);
+                });
+            }
+
+            renderCouponGroup(friendCoupons, 'friend-coupons-grid', 'friend-coupons-block');
+            renderCouponGroup(breederCoupons, 'breeder-coupons-grid', 'breeder-coupons-block');
+        })
+        .catch(() => {
+            hideCouponGroups();
+            couponStatusEl.textContent = genericCouponError;
+        });
 </script>
 {{/if}}
 <script>

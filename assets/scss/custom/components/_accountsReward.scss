@@ -133,7 +133,9 @@
     }
 
     #previous-grid,
-    #previous-friends-grid {
+    #previous-friends-grid,
+    #friend-coupons-grid,
+    #breeder-coupons-grid {
         border: 1px solid $color-gray-light;
         border-radius: 1rem;
         padding: 20px;
@@ -231,6 +233,28 @@
     &.success {
         background-color: #d4edda;
         color: #155724;
+    }
+}
+
+.coupon-group-title {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+.coupon-empty {
+    color: $color-gray-medium;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+}
+
+#coupon-codes-status {
+    @extend %inline-error;
+
+    margin-bottom: 0.5rem;
+
+    &:empty {
+        display: none;
     }
 }
 
