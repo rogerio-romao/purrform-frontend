@@ -142,7 +142,7 @@ export default class RawsomeCatculator extends PageManager {
             meals: null,
             total: null,
             kcal: null,
-            products: { tubs: [], pouches: [] },
+            products: { tubs: [], pouches: [], fresh: [] },
             productsLoaded: false,
         };
 
@@ -169,7 +169,7 @@ export default class RawsomeCatculator extends PageManager {
             meals: null,
             total: null,
             kcal: null,
-            products: { tubs: [], pouches: [] },
+            products: { tubs: [], pouches: [], fresh: [] },
             productsLoaded: false,
         };
         this._productsPromise = null;
@@ -183,9 +183,11 @@ export default class RawsomeCatculator extends PageManager {
         this._productsPromise = fetch(`${CALCULATOR_API}?age=${ageNum}`)
             .then((res) => res.json())
             .then((data) => {
+                console.log('Fetched products:', data);
                 this.state.products = {
                     tubs: data[`${cfg.productKey}_tubs`] ?? [],
                     pouches: data[`${cfg.productKey}_pouches`] ?? [],
+                    fresh: ageNum <= 2 ? [] : (data['fresh'] ?? []),
                 };
                 this.state.productsLoaded = true;
             })
@@ -299,7 +301,7 @@ export default class RawsomeCatculator extends PageManager {
             return;
         }
 
-        const { tubs, pouches } = this.state.products;
+        const { tubs, pouches, fresh } = this.state.products;
 
         const tubsSection = el(
             'section',
@@ -318,6 +320,18 @@ export default class RawsomeCatculator extends PageManager {
         container.appendChild(tubsSection);
         container.appendChild(el('hr', {}));
         container.appendChild(pouchesSection);
+
+        if (fresh && fresh.length > 0) {
+            const freshSection = el(
+                'section',
+                { className: 'product-section' },
+                el('h1', { className: 'product-section__title' }, 'Fresh'),
+                this._buildProductGrid(fresh),
+            );
+
+            container.appendChild(el('hr', {}));
+            container.appendChild(freshSection);
+        }
     }
 
     // ── Steps ────────────────────────────────────────────────────────
