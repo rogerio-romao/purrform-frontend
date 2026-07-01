@@ -1,0 +1,95 @@
+.purrform-simple-carousel {
+    width: 100%;
+    max-width: 2560px;
+    margin: 0 auto;
+
+    // Slick needs a known height while it initialises; once slick runs it
+    // adjusts to the image (adaptiveHeight: true), so this just prevents
+    // layout shift before init.
+    &:not(.slick-initialized) {
+        .purrform-simple-carousel__slide:not(:first-child) {
+            display: none;
+        }
+    }
+
+    &__slide {
+        width: 100%;
+        line-height: 0; // kills the gap under inline images
+    }
+
+    &__link {
+        display: block;
+        width: 100%;
+        line-height: 0;
+
+        &:hover,
+        &:focus {
+            opacity: 0.95;
+        }
+    }
+
+    &__img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    // ── Slick dots ────────────────────────────────────────────────────────────
+    .slick-dots {
+        bottom: 16px;
+        padding: 0;
+        background-color: transparent;
+
+        li {
+            padding: 0 5px;
+            height: 18px;
+            width: 18px;
+
+            button {
+                height: 12px;
+                width: 12px;
+                border: 1px solid #c7c7c7;
+                border-radius: 50%;
+                background-color: $color-white;
+
+                &::before,
+                &::after {
+                    display: none; // slick's default ::before content is a bullet; hide it
+                }
+            }
+
+            &.slick-active button {
+                background-color: #bd9b60;
+                border-color: #bd9b60;
+            }
+        }
+    }
+
+    // ── Slick arrows ─────────────────────────────────────────────────────────
+    .slick-arrow {
+        background-color: rgba(57, 57, 61, 0.7);
+        height: 40px;
+        width: 40px;
+        border-radius: 99px;
+        z-index: 10;
+
+        &::before {
+            // reset slick's default arrow glyph
+            content: '';
+            display: none;
+        }
+
+        // Custom chevron made of two pseudo-bars (matches existing carousel)
+        &::after {
+            content: '';
+        }
+    }
+
+    .slick-prev {
+        left: 16px;
+    }
+
+    .slick-next {
+        right: 16px;
+    }
+}
