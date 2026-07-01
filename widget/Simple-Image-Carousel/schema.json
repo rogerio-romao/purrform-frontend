@@ -1,0 +1,95 @@
+[
+  {
+    "type": "tab",
+    "label": "Settings",
+    "sections": [
+      {
+        "label": "Carousel",
+        "settings": [
+          {
+            "type": "range",
+            "id": "autoplaySpeed",
+            "label": "Slide change speed (ms)",
+            "default": 5000,
+            "typeMeta": {
+              "rangeValues": {
+                "min": 2000,
+                "max": 10000,
+                "step": 500,
+                "unit": "ms"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "array",
+    "id": "slides",
+    "label": "Slides",
+    "entryLabel": "Slide",
+    "defaultCount": 1,
+    "thumbnail": {
+      "valueKey": "desktopImage.src",
+      "type": "image"
+    },
+    "schema": [
+      {
+        "type": "tab",
+        "label": "Slide",
+        "sections": [
+          {
+            "label": "Images",
+            "settings": [
+              {
+                "type": "imageManager",
+                "id": "mobileImage",
+                "label": "Mobile Image (< 651px)",
+                "default": {
+                  "src": "",
+                  "type": "IMAGE_MANAGER"
+                }
+              },
+              {
+                "type": "imageManager",
+                "id": "tabletImage",
+                "label": "Tablet Image (651px – 1250px)",
+                "default": {
+                  "src": "",
+                  "type": "IMAGE_MANAGER"
+                }
+              },
+              {
+                "type": "imageManager",
+                "id": "desktopImage",
+                "label": "Desktop Image (≥ 1251px)",
+                "default": {
+                  "src": "",
+                  "type": "IMAGE_MANAGER"
+                }
+              }
+            ]
+          },
+          {
+            "label": "Link",
+            "settings": [
+              {
+                "type": "input",
+                "id": "linkUrl",
+                "label": "Link URL",
+                "default": "/"
+              },
+              {
+                "type": "input",
+                "id": "imageAlt",
+                "label": "Image Alt Text",
+                "default": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

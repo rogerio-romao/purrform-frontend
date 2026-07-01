@@ -1,0 +1,52 @@
+<div
+  class="purrform-simple-carousel"
+  id="purrform-simple-carousel-{{_.id}}"
+  data-slick='{
+    "dots": true,
+    "arrows": true,
+    "autoplay": true,
+    "autoplaySpeed": {{autoplaySpeed}},
+    "infinite": true,
+    "slidesToShow": 1,
+    "slidesToScroll": 1
+  }'
+>
+  {{#each slides}}
+    <div class="purrform-simple-carousel__slide">
+      <a
+        class="purrform-simple-carousel__link"
+        href="{{linkUrl}}"
+        aria-label="{{imageAlt}}"
+      >
+        <picture>
+          {{#if desktopImage.src}}
+            <source media="(min-width: 1251px)" srcset="{{desktopImage.src}}">
+          {{/if}}
+          {{#if tabletImage.src}}
+            <source media="(min-width: 651px)" srcset="{{tabletImage.src}}">
+          {{/if}}
+          <img
+            class="purrform-simple-carousel__img lazyload"
+            data-src="{{#if mobileImage.src}}{{mobileImage.src}}{{else if tabletImage.src}}{{tabletImage.src}}{{else}}{{desktopImage.src}}{{/if}}"
+            alt="{{imageAlt}}"
+          >
+        </picture>
+      </a>
+    </div>
+  {{/each}}
+</div>
+
+<script>
+  (function () {
+    // Slick is initialised globally by the theme on [data-slick] at page load.
+    // When this widget is injected live by Page Builder (after DOMContentLoaded),
+    // we re-init slick on just this instance so it activates immediately.
+    var el = document.getElementById('purrform-simple-carousel-{{_.id}}');
+    if (el && typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
+      var $el = jQuery(el);
+      if (!$el.hasClass('slick-initialized')) {
+        $el.slick();
+      }
+    }
+  })();
+</script>

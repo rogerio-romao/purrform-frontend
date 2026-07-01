@@ -1,0 +1,21 @@
+{
+  "autoplaySpeed": 5000,
+  "slides": [
+    {
+      "mobileImage": {
+        "src": "",
+        "type": "IMAGE_MANAGER"
+      },
+      "tabletImage": {
+        "src": "",
+        "type": "IMAGE_MANAGER"
+      },
+      "desktopImage": {
+        "src": "",
+        "type": "IMAGE_MANAGER"
+      },
+      "linkUrl": "/",
+      "imageAlt": ""
+    }
+  ]
+}
