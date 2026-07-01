@@ -1,3 +1,48 @@
+<style>
+  #purrform-simple-carousel-{{_.id}} {
+    width: 100vw;
+    max-width: 2560px;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+  }
+
+  #purrform-simple-carousel-{{_.id}} .slick-arrow {
+    background-color: #39393d;
+    height: 40px;
+    width: 40px;
+    border-radius: 99px;
+    z-index: 10;
+    top: 50%;
+  }
+
+  #purrform-simple-carousel-{{_.id}} .slick-arrow::before,
+  #purrform-simple-carousel-{{_.id}} .slick-arrow::after {
+    background-image: none;
+    content: '';
+    background-color: #fff;
+    height: 15px;
+    width: 4px;
+    display: block;
+    position: absolute;
+    border-radius: 3px;
+  }
+
+  #purrform-simple-carousel-{{_.id}} .slick-arrow::before { top: 7px; font-size: 0; }
+  #purrform-simple-carousel-{{_.id}} .slick-arrow::after  { top: 15px; }
+
+  #purrform-simple-carousel-{{_.id}} .slick-prev { left: 20px; }
+  #purrform-simple-carousel-{{_.id}} .slick-prev::before,
+  #purrform-simple-carousel-{{_.id}} .slick-prev::after  { left: 16px; }
+  #purrform-simple-carousel-{{_.id}} .slick-prev::before { transform: rotate(-130deg); }
+  #purrform-simple-carousel-{{_.id}} .slick-prev::after  { transform: rotate(-50deg); }
+
+  #purrform-simple-carousel-{{_.id}} .slick-next { right: 20px; }
+  #purrform-simple-carousel-{{_.id}} .slick-next::before,
+  #purrform-simple-carousel-{{_.id}} .slick-next::after  { left: 18px; }
+  #purrform-simple-carousel-{{_.id}} .slick-next::before { transform: rotate(130deg); }
+  #purrform-simple-carousel-{{_.id}} .slick-next::after  { transform: rotate(50deg); }
+</style>
+
 <div
   class="purrform-simple-carousel"
   id="purrform-simple-carousel-{{_.id}}"

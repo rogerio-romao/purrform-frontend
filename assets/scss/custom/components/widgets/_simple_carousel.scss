@@ -1,7 +1,9 @@
 .purrform-simple-carousel {
-    width: 100%;
+    // Break out of any Page Builder column padding to go full-width
+    width: 100vw;
     max-width: 2560px;
-    margin: 0 auto;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
 
     // Slick needs a known height while it initialises; once slick runs it
     // adjusts to the image (adaptiveHeight: true), so this just prevents
@@ -24,7 +26,7 @@
 
         &:hover,
         &:focus {
-            opacity: 0.95;
+            opacity: 1;
         }
     }
 
@@ -67,29 +69,65 @@
 
     // ── Slick arrows ─────────────────────────────────────────────────────────
     .slick-arrow {
-        background-color: rgba(57, 57, 61, 0.7);
+        background-color: #39393d;
         height: 40px;
         width: 40px;
         border-radius: 99px;
         z-index: 10;
+        top: 50%;
 
-        &::before {
-            // reset slick's default arrow glyph
+        &::before,
+        &::after {
+            background-image: none;
             content: '';
-            display: none;
+            background-color: #fff;
+            height: 15px;
+            width: 4px;
+            display: block;
+            position: absolute;
+            border-radius: 3px;
         }
 
-        // Custom chevron made of two pseudo-bars (matches existing carousel)
+        &::before {
+            top: 7px;
+        }
+
         &::after {
-            content: '';
+            top: 15px;
         }
     }
 
     .slick-prev {
-        left: 16px;
+        left: 20px;
+
+        &::before,
+        &::after {
+            left: 16px;
+        }
+
+        &::before {
+            transform: rotate(-130deg);
+        }
+
+        &::after {
+            transform: rotate(-50deg);
+        }
     }
 
     .slick-next {
-        right: 16px;
+        right: 20px;
+
+        &::before,
+        &::after {
+            left: 18px;
+        }
+
+        &::before {
+            transform: rotate(130deg);
+        }
+
+        &::after {
+            transform: rotate(50deg);
+        }
     }
 }
