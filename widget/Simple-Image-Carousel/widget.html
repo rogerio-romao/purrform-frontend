@@ -1,9 +1,10 @@
 <style>
   #purrform-simple-carousel-{{_.id}} {
     width: 100vw;
-    max-width: 2560px;
+    max-width: 2880px;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
+    margin-bottom: 0;
   }
 
   #purrform-simple-carousel-{{_.id}} .slick-arrow {
@@ -41,6 +42,10 @@
   #purrform-simple-carousel-{{_.id}} .slick-next::after  { left: 18px; }
   #purrform-simple-carousel-{{_.id}} .slick-next::before { transform: rotate(130deg); }
   #purrform-simple-carousel-{{_.id}} .slick-next::after  { transform: rotate(50deg); }
+
+  @media only screen and (max-width: 768px) {
+    #purrform-simple-carousel-{{_.id}} .slick-arrow { display: none !important; }
+  }
 </style>
 
 <div
@@ -65,10 +70,10 @@
       >
         <picture>
           {{#if desktopImage.src}}
-            <source media="(min-width: 1251px)" srcset="{{desktopImage.src}}">
+            <source media="(min-width: 1801px)" srcset="{{desktopImage.src}}">
           {{/if}}
           {{#if tabletImage.src}}
-            <source media="(min-width: 651px)" srcset="{{tabletImage.src}}">
+            <source media="(min-width: 769px)" srcset="{{tabletImage.src}}">
           {{/if}}
           <img
             class="purrform-simple-carousel__img lazyload"

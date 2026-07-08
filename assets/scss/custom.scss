@@ -823,29 +823,27 @@ p {
     }
 
     .js-product-slide {
-        padding: 5px 40px;
+        padding: 5px 10px;
         text-align: center;
         position: relative;
         justify-content: center;
         display: flex;
         align-items: center;
 
+        // keep the longest phrase on one line on very narrow phones
+        @media only screen and (max-width: 360px) {
+            padding: 5px 5px;
+            font-size: 13px;
+        }
+
         @include breakpoint('medium') {
-            text-align: left;
-            display: block;
+            padding: 5px 20px;
         }
 
         svg {
             width: 60px;
             height: 35px;
             margin-left: -10px;
-
-            @include breakpoint('medium') {
-                position: absolute;
-                left: -20px;
-                top: 0;
-                margin-left: 0;
-            }
         }
     }
 }
@@ -1041,24 +1039,40 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 0;
+    gap: 0.75rem 1.5rem;
+    padding: 16px 1rem;
     flex-wrap: wrap;
 
     h2 {
-        font-size: 32px;
+        font-size: 20px;
         text-align: center;
         width: 100%;
-        margin: 0 0 1rem;
+        margin: 0;
 
         @include breakpoint('medium') {
+            font-size: 32px;
             text-align: left;
             width: auto;
-            margin: 0;
         }
     }
 
+    a {
+        display: flex;
+        align-items: center;
+    }
+
     img {
-        margin: 0 3rem;
+        max-height: 40px;
+        width: auto;
+
+        @include breakpoint('medium') {
+            max-height: 60px;
+        }
+    }
+
+    @include breakpoint('medium') {
+        gap: 3rem;
+        padding: 28px 1rem;
     }
 }
 

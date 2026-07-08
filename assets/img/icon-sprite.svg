@@ -14,7 +14,7 @@
 
 
 <symbol id="usp-icon" width="69" height="68" viewBox="0 0 69 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_2844_16829)">
+<g>
 <rect x="20.8" y="3" width="28" height="28" rx="14" fill="#F3F2F2"/>
 <path d="M34.8 9.40002C30.5939 9.40002 27.2 12.794 27.2 17C27.2 21.2061 30.5939 24.6 34.8 24.6C39.0061 24.6 42.4 21.2061 42.4 17C42.4 12.794 39.0061 9.40002 34.8 9.40002ZM34.8 9.90673C38.7341 9.90673 41.8932 13.0659 41.8932 17C41.8932 20.9341 38.7341 24.0932 34.8 24.0932C30.8659 24.0932 27.7068 20.9341 27.7068 17C27.7068 13.0659 30.8659 9.90673 34.8 9.90673Z" fill="#546153"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M33.5018 9.65331V15.7016H27.485V16.2083H34.0082V9.65326H33.5015L33.5018 9.65331Z" fill="#546153"/>
@@ -23,38 +23,16 @@
 <path fill-rule="evenodd" clip-rule="evenodd" d="M35.5918 17.7918V24.3468H36.0985V18.2986H42.0835V17.7919L35.5918 17.7918Z" fill="#546153"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M30.4498 10.8351L30.092 11.1937L33.7549 14.8445V14.1288L30.4498 10.8351ZM39.1217 10.8312L35.845 14.0971V14.8126L39.4797 11.1901L39.1217 10.8312ZM28.9933 12.3235L28.6351 12.6817L31.9082 15.9549H32.6247L28.9933 12.3235ZM40.5779 12.3197L36.9429 15.9549H37.6595L40.9362 12.6779L40.5779 12.3197ZM31.8873 18.0449L28.6163 21.305L28.974 21.6637L32.6047 18.045L31.8873 18.0449ZM36.9627 18.0449L40.5491 21.6193L40.907 21.2606L37.68 18.0448L36.9627 18.0449ZM33.7547 19.1431L30.0728 22.8251L30.431 23.1833L33.7547 19.8597L33.7547 19.1431ZM35.8447 19.175V19.8917L39.0924 23.1393L39.4506 22.781L35.8447 19.175Z" fill="#546153"/>
 </g>
-<defs>
-<filter id="filter0_d_2844_16829" x="0.800003" y="0" width="68" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="17"/>
-<feGaussianBlur stdDeviation="10"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.02 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2844_16829"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2844_16829" result="shape"/>
-</filter>
-</defs>
 </symbol>
 <symbol id="usp-icon2" width="69" height="68" viewBox="0 0 69 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_2844_13643)">
+<g>
 <rect x="20.2" y="3" width="28" height="28" rx="14" fill="#F3F2F2"/>
 <path d="M36.5089 14.7183L27.8272 23.4" stroke="#546153" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M29.5635 21.6642C26.0908 15.8764 30.721 10.0886 40.5602 10.6674C41.139 20.5066 35.3512 25.1368 29.5635 21.6642Z" stroke="#546153" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
-<defs>
-<filter id="filter0_d_2844_13643" x="0.199951" y="0" width="68" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="17"/>
-<feGaussianBlur stdDeviation="10"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.02 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2844_13643"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2844_13643" result="shape"/>
-</filter>
-</defs>
 </symbol>
 <symbol id="usp-icon3" width="69" height="68" viewBox="0 0 69 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_2844_12857)">
+<g>
 <rect x="20.2" y="3" width="28" height="28" rx="14" fill="#F3F2F2"/>
 <path d="M34.2 21.3998L34.2 23.3998" stroke="#546153" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M31.0833 18.4166C31.5527 18.4166 31.9333 18.036 31.9333 17.5666C31.9333 17.0971 31.5527 16.7166 31.0833 16.7166C30.6138 16.7166 30.2333 17.0971 30.2333 17.5666C30.2333 18.036 30.6138 18.4166 31.0833 18.4166Z" fill="#546153"/>
@@ -66,37 +44,15 @@
 <path d="M36.4667 11.4052V13.8837" stroke="#546153" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M27.4 17.2831V11.2845C27.4 11.1724 27.4332 11.0629 27.4955 10.9697C27.5577 10.8765 27.6462 10.8039 27.7498 10.761C27.8533 10.7181 27.9673 10.7069 28.0772 10.7287C28.1871 10.7506 28.2881 10.8046 28.3673 10.8838L29.9215 12.438L29.9215 12.438C31.1656 11.5357 32.6631 11.0498 34.2 11.0498C35.7368 11.0498 37.2343 11.5357 38.4784 12.438L38.4784 12.438L40.0326 10.8838C40.1119 10.8046 40.2128 10.7506 40.3227 10.7287C40.4327 10.7069 40.5466 10.7181 40.6502 10.761C40.7537 10.8039 40.8422 10.8765 40.9045 10.9697C40.9667 11.0629 41 11.1724 41 11.2845V17.2831C41 20.7257 37.9555 23.5164 34.2 23.5164C30.4444 23.5164 27.4 20.7257 27.4 17.2831Z" stroke="#546153" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
-<defs>
-<filter id="filter0_d_2844_12857" x="0.199951" y="0" width="68" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="17"/>
-<feGaussianBlur stdDeviation="10"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.02 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2844_12857"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2844_12857" result="shape"/>
-</filter>
-</defs>
 </symbol>
 <symbol id="usp-icon4" width="70" height="68" viewBox="0 0 70 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_2844_9395)">
+<g>
 <rect x="20.8" y="3" width="28.4" height="28" rx="14" fill="#F3F2F2"/>
 <path d="M41.4 20.3903V13.6086C41.4 13.5111 41.374 13.4152 41.3248 13.331C41.2755 13.2467 41.2047 13.1771 41.1197 13.1293L35.0697 9.72615C34.9873 9.67984 34.8945 9.65552 34.8 9.65552C34.7056 9.65552 34.6127 9.67984 34.5304 9.72615L28.4804 13.1293C28.3953 13.1771 28.3245 13.2467 28.2752 13.331C28.226 13.4152 28.2 13.5111 28.2 13.6086V20.3903C28.2 20.4879 28.226 20.5837 28.2752 20.668C28.3245 20.7522 28.3953 20.8218 28.4804 20.8697L34.5304 24.2728C34.6127 24.3191 34.7056 24.3434 34.8 24.3434C34.8945 24.3434 34.9873 24.3191 35.0697 24.2728L41.1197 20.8697C41.2047 20.8218 41.2755 20.7522 41.3248 20.668C41.374 20.5837 41.4 20.4879 41.4 20.3903Z" stroke="#546153" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M38.1703 18.6852V15.1102L31.5 11.4313" stroke="#546153" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M41.248 13.3298L34.7891 16.9992L28.2 13.3291" stroke="#546153" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M34.8645 17L34.8 24.344" stroke="#546153" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
-<defs>
-<filter id="filter0_d_2844_9395" x="0.799988" y="0" width="68.4" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="17"/>
-<feGaussianBlur stdDeviation="10"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.02 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2844_9395"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2844_9395" result="shape"/>
-</filter>
-</defs>
 </symbol>
 <symbol  id="icon-logo-mastercard" width="59" height="41" viewBox="0 0 59 41" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="0.706787" y="1.28613" width="56.931" height="39" rx="3.5" fill="white" stroke="#F3F3F3"/>

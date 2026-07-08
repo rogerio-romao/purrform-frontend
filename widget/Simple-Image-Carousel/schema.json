@@ -45,7 +45,7 @@
               {
                 "type": "imageManager",
                 "id": "mobileImage",
-                "label": "Mobile Image (< 651px)",
+                "label": "Mobile Image (≤ 768px)",
                 "default": {
                   "src": "",
                   "type": "IMAGE_MANAGER"
@@ -54,7 +54,7 @@
               {
                 "type": "imageManager",
                 "id": "tabletImage",
-                "label": "Tablet Image (651px – 1250px)",
+                "label": "Tablet Image (769px – 1800px)",
                 "default": {
                   "src": "",
                   "type": "IMAGE_MANAGER"
@@ -63,7 +63,7 @@
               {
                 "type": "imageManager",
                 "id": "desktopImage",
-                "label": "Desktop Image (≥ 1251px)",
+                "label": "Desktop Image (≥ 1801px)",
                 "default": {
                   "src": "",
                   "type": "IMAGE_MANAGER"
