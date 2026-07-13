@@ -776,6 +776,29 @@
             catListDiv.appendChild(catListTitle);
             catListDiv.appendChild(document.createElement('br'));
 
+            function renderCatCoupon(cat) {
+                const couponRow = (label, color) => `
+                    <div class="cat-coupon" style="display: grid; grid-template-columns: 1fr auto; column-gap: 1rem;">
+                        <div class="previous-grid-item">${cat.coupon_code}</div>
+                        <div class="previous-grid-item" style="color: ${color}; font-weight: bold;">${label}</div>
+                    </div>
+                `;
+
+                switch (cat.coupon_status) {
+                    case 'valid':
+                        return couponRow('Valid', '#27ae60');
+                    case 'used':
+                        return couponRow('Used', '#c0392b');
+                    case 'unknown':
+                        return couponRow('Status unavailable at the moment', '#7f8c8d');
+                    case 'none':
+                    default:
+                        return `
+                    <div class="cat-detail" style="color: #7f8c8d;">Birthday coupon will appear here before ${cat.cat_name}'s next birthday.</div>
+                `;
+                }
+            }
+
             for (const registeredCat of registeredCatsData) {
                 const catDiv = document.createElement('div');
                 catDiv.classList.add('cat');
@@ -784,6 +807,7 @@
                     <div class="cat-detail">Breed: ${registeredCat.cat_breed}</div>
                     <div class="cat-detail">Sex: ${registeredCat.cat_gender}</div>
                     <div class="cat-detail">Birthday: ${registeredCat.cat_birthday}</div>
+                    ${renderCatCoupon(registeredCat)}
                     <button class="delete-cat-btn" onclick="deleteCat('${registeredCat.cat_name}') ">Remove</button>
                 `;
                 if (changeSlotAvailable) {
