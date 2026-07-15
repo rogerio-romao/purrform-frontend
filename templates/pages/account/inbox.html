@@ -776,6 +776,31 @@
             catListDiv.appendChild(catListTitle);
             catListDiv.appendChild(document.createElement('br'));
 
+            function renderCatCoupon(cat) {
+                const wrap = (inner) => `
+                    <div class="cat-coupon-group" style="margin-top: 1rem;">${inner}</div>
+                `;
+
+                const couponRows = (label, color) => wrap(`
+                    <div class="cat-detail">Coupon: ${cat.coupon_code}</div>
+                    <div class="cat-detail">Status: <span style="color: ${color}; font-weight: bold;">${label}</span></div>
+                `);
+
+                switch (cat.coupon_status) {
+                    case 'valid':
+                        return couponRows('Valid', '#27ae60');
+                    case 'used':
+                        return couponRows('Used', '#c0392b');
+                    case 'unknown':
+                        return couponRows('Error loading — try again later', 'inherit');
+                    case 'none':
+                    default:
+                        return wrap(`
+                    <div class="cat-detail">Birthday coupon info will appear here before ${cat.cat_name}'s next birthday.</div>
+                `);
+                }
+            }
+
             for (const registeredCat of registeredCatsData) {
                 const catDiv = document.createElement('div');
                 catDiv.classList.add('cat');
@@ -784,6 +809,8 @@
                     <div class="cat-detail">Breed: ${registeredCat.cat_breed}</div>
                     <div class="cat-detail">Sex: ${registeredCat.cat_gender}</div>
                     <div class="cat-detail">Birthday: ${registeredCat.cat_birthday}</div>
+                    ${renderCatCoupon(registeredCat)}
+                    <hr class="cat-divider" style="border: none; border-top: 1px solid #e0e0e0; margin: 1rem 0;" />
                     <button class="delete-cat-btn" onclick="deleteCat('${registeredCat.cat_name}') ">Remove</button>
                 `;
                 if (changeSlotAvailable) {
