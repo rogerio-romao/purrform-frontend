@@ -77,10 +77,11 @@
             {{#if customer_group_name '===' 'Personal'}}
             <div id="coupon-codes" class="reward-section">
                 <h2>Coupon codes</h2>
-                <p>Discount codes you've earned through our referral programs.</p>
+                <p>Discount codes you've earned through our referral programs or special offers.</p>
                 <div id="coupon-codes-status"></div>
                 <div id="friend-coupons-block">
                     <h5 class="coupon-group-title">Friend referral coupons</h5>
+                    <h6>15% off your order (excluding sanitisers)</h6>
                     <div id="friend-coupons-grid">
                         <div class="previous-grid-title">Code</div>
                         <div class="previous-grid-title">Date</div>
@@ -90,12 +91,22 @@
                 </div>
                 <div id="breeder-coupons-block">
                     <h5 class="coupon-group-title">Breeder referral coupons</h5>
+                    <h6>10% off 450g tubs</h6>
                     <div id="breeder-coupons-grid">
                         <div class="previous-grid-title">Code</div>
                         <div class="previous-grid-title">Date</div>
                         <div class="previous-grid-title">Status</div>
                     </div>
                     <p class="coupon-empty">You have no breeder referral coupons yet.</p>
+                </div>
+                <div id="marketing-coupons-block">
+                    <h5 class="coupon-group-title">Special offers</h5>
+                    <div id="marketing-coupons-grid">
+                        <div class="previous-grid-title">Offer</div>
+                        <div class="previous-grid-title">Code</div>
+                        <div class="previous-grid-title">Status</div>
+                    </div>
+                    <p class="coupon-empty">You have no special offers yet.</p>
                 </div>
             </div>
             {{/if}}
@@ -583,8 +594,8 @@
     });
 </script>
 <script>
-    // Fetches coupon codes earned through friend and breeder referral programs
-    // TODO: switch base URL to https://purrform-apps-027e.onrender.com once backend is deployed to production
+    // Fetches coupon codes earned through friend and breeder referral programs,
+    // plus marketing coupons assigned to the customer's Klaviyo profile
     const couponJsContext = JSON.parse({{jsContext}});
     const couponEmail = couponJsContext.customerEmail;
     const couponStatusEl = document.querySelector('#coupon-codes-status');
@@ -593,6 +604,47 @@
     function hideCouponGroups() {
         document.querySelectorAll('#friend-coupons-block, #breeder-coupons-block').forEach((el) => {
             el.style.display = 'none';
+        });
+    }
+
+    function renderCouponGroup(coupons, gridId, blockId, getRowCells) {
+        const grid = document.querySelector(`#${gridId}`);
+        const block = document.querySelector(`#${blockId}`);
+        const emptyMsg = block.querySelector('.coupon-empty');
+
+        if (coupons.length === 0) return;
+
+        emptyMsg.style.display = 'none';
+        grid.style.display = 'grid';
+
+        coupons.forEach((couponInfo) => {
+            // The details line, when present, carries the row separator instead
+            const hasDetails = Boolean(couponInfo.details);
+
+            getRowCells(couponInfo).forEach((cellText) => {
+                const cellEl = document.createElement('div');
+                cellEl.classList.add('previous-grid-item');
+                if (hasDetails) cellEl.classList.add('coupon-row-cell');
+                cellEl.textContent = cellText;
+                grid.appendChild(cellEl);
+            });
+
+            const statusEl = document.createElement('div');
+            statusEl.classList.add('previous-grid-item');
+            if (hasDetails) statusEl.classList.add('coupon-row-cell');
+            statusEl.textContent = couponInfo.hasSpentCoupon ? 'Used' : 'Valid';
+
+            statusEl.style.color = couponInfo.hasSpentCoupon ? '#c0392b' : '#27ae60';
+            statusEl.style.fontWeight = 'bold';
+
+            grid.appendChild(statusEl);
+
+            if (hasDetails) {
+                const detailsEl = document.createElement('div');
+                detailsEl.classList.add('previous-grid-item', 'coupon-details');
+                detailsEl.textContent = couponInfo.details;
+                grid.appendChild(detailsEl);
+            }
         });
     }
 
@@ -611,44 +663,27 @@
             const friendCoupons = data.coupons.filter((c) => c.type === 'friend');
             const breederCoupons = data.coupons.filter((c) => c.type === 'breeder');
 
-            function renderCouponGroup(coupons, gridId, blockId) {
-                const grid = document.querySelector(`#${gridId}`);
-                const block = document.querySelector(`#${blockId}`);
-                const emptyMsg = block.querySelector('.coupon-empty');
-
-                if (coupons.length === 0) return;
-
-                emptyMsg.style.display = 'none';
-                grid.style.display = 'grid';
-
-                coupons.forEach(({ coupon, createdAt, hasSpentCoupon }) => {
-                    const codeEl = document.createElement('div');
-                    codeEl.classList.add('previous-grid-item');
-                    codeEl.textContent = coupon;
-
-                    const dateEl = document.createElement('div');
-                    dateEl.classList.add('previous-grid-item');
-                    dateEl.textContent = createdAt;
-
-                    const statusEl = document.createElement('div');
-                    statusEl.classList.add('previous-grid-item');
-                    statusEl.textContent = hasSpentCoupon ? 'Used' : 'Valid';
-
-                    statusEl.style.color = hasSpentCoupon ? '#c0392b' : '#27ae60';
-                    statusEl.style.fontWeight = 'bold';
-
-                    grid.appendChild(codeEl);
-                    grid.appendChild(dateEl);
-                    grid.appendChild(statusEl);
-                });
-            }
-
-            renderCouponGroup(friendCoupons, 'friend-coupons-grid', 'friend-coupons-block');
-            renderCouponGroup(breederCoupons, 'breeder-coupons-grid', 'breeder-coupons-block');
+            renderCouponGroup(friendCoupons, 'friend-coupons-grid', 'friend-coupons-block', ({ coupon, createdAt }) => [coupon, createdAt]);
+            renderCouponGroup(breederCoupons, 'breeder-coupons-grid', 'breeder-coupons-block', ({ coupon, createdAt }) => [coupon, createdAt]);
         })
         .catch(() => {
             hideCouponGroups();
             couponStatusEl.textContent = genericCouponError;
+        });
+
+    // Marketing coupons fail independently so the referral coupon groups keep working
+    fetch(`https://purrform-apps-027e.onrender.com/getKlaviyoCoupons?email=${encodeURIComponent(couponEmail)}`)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`getKlaviyoCoupons responded with ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            renderCouponGroup(data.coupons, 'marketing-coupons-grid', 'marketing-coupons-block', ({ label, coupon }) => [label, coupon]);
+        })
+        .catch(() => {
+            document.querySelector('#marketing-coupons-block').style.display = 'none';
         });
 </script>
 {{/if}}

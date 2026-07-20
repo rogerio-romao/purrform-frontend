@@ -135,7 +135,8 @@
     #previous-grid,
     #previous-friends-grid,
     #friend-coupons-grid,
-    #breeder-coupons-grid {
+    #breeder-coupons-grid,
+    #marketing-coupons-grid {
         border: 1px solid $color-gray-light;
         border-radius: 1rem;
         padding: 20px;
@@ -170,6 +171,20 @@
         font-size: 0.8rem;
         padding: 0.75rem 0;
         border-bottom: 1px solid $color-gray-light;
+    }
+
+    // Cells of a row that is followed by a full-width details line: the
+    // details line closes the row, so these must not draw their own border
+    .previous-grid-item.coupon-row-cell {
+        border-bottom: 0;
+        padding-bottom: 0.25rem;
+    }
+
+    .previous-grid-item.coupon-details {
+        grid-column: 1 / -1;
+        padding-top: 0;
+        font-size: 0.75rem;
+        color: $color-gray-medium;
     }
 }
 
