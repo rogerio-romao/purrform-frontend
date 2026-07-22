@@ -228,3 +228,178 @@
         }
     }
 }
+
+// Mini-cart popover — editable quantity steppers and remove.
+// The item list is no longer capped at 4, so it scrolls within a fixed height.
+// This is a preview, so vertical space is kept tight throughout.
+#cart-preview-dropdown {
+    .previewCartList-scroll {
+        max-height: 60vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .previewCartItem {
+        // custom.scss puts a heavy dark rule under the last item, which doubles
+        // up against the separator above the View Cart button.
+        &:last-of-type {
+            border-bottom: 0;
+        }
+
+        &.is-updating {
+            opacity: 0.6;
+        }
+
+        // custom.scss pads every div inside a preview item by 1rem, which
+        // stacks up once the row gains an actions block. Reset only the nested
+        // wrappers; the cells below set their own padding.
+        .previewCartItem-actions,
+        .previewCartItem-increment {
+            padding: 0;
+        }
+
+        .previewCartItem-image,
+        .previewCartItem-content {
+            padding: 10px;
+            vertical-align: top;
+        }
+    }
+
+    .previewCartItem-brand,
+    .previewCartItem-name a,
+    .previewCartItem-price {
+        line-height: 1.25;
+    }
+
+    .previewCartItem-name {
+        margin: 0;
+
+        a {
+            font-size: 0.875rem;
+        }
+    }
+
+    .previewCartItem-price {
+        display: block;
+        font-size: 0.875rem;
+        margin-top: 0.125rem;
+    }
+
+    // Stepper and remove share one baseline-aligned row.
+    .previewCartItem-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 0.375rem;
+    }
+
+    // Deliberately not .form-increment: that global rule forces a 176px wide,
+    // 51.2px tall bordered pill, which is far too heavy for a preview row.
+    .previewCartItem-increment {
+        display: flex;
+        align-items: center;
+        gap: 0.125rem;
+    }
+
+    .minicart-qty-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        padding: 0;
+        border: 1px solid $color-grey-light;
+        border-radius: 50%;
+        background: none;
+        color: $color-text;
+        font-size: 1rem;
+        line-height: 1;
+        cursor: pointer;
+
+        &:hover:not([disabled]) {
+            border-color: $color-text;
+        }
+
+        &[disabled] {
+            cursor: not-allowed;
+            opacity: 0.35;
+        }
+    }
+
+    .minicart-item-qty {
+        width: 2rem;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: none;
+        color: $color-text;
+        font-size: 0.875rem;
+        line-height: 1.5rem;
+        text-align: center;
+        pointer-events: none;
+    }
+
+    .previewCartItem-remove {
+        display: flex;
+        align-items: center;
+        padding: 0;
+        border: none;
+        background: none;
+        color: $color-grey-medium;
+        cursor: pointer;
+
+        svg {
+            width: 0.875rem;
+            height: 0.875rem;
+        }
+
+        &:hover:not([disabled]) {
+            color: $color-error;
+        }
+
+        &[disabled] {
+            cursor: not-allowed;
+            opacity: 0.35;
+        }
+    }
+
+    .previewCartItem-error {
+        color: $color-error;
+        font-size: 0.75rem;
+        margin: 0.25rem 0 0;
+
+        &:empty {
+            display: none;
+        }
+    }
+
+    // Single separator between the item list and the View Cart button.
+    // custom.scss sets this row to flex/row-reverse, which left-aligns the
+    // sole remaining action; centre it instead.
+    .previewCartAction {
+        display: flex;
+        justify-content: center;
+        border-top: 1px solid $color-grey-light;
+    }
+
+    // The checkout button is commented out of the template, so View Cart is the
+    // only action and picks up the --sole modifier, which is
+    // grid-column(6, $center: true): a half-width floated column with gutter
+    // padding and auto side margins. The auto margins beat the parent's
+    // justify-content, centring the button inside that half-width column rather
+    // than the row — which reads as left-aligned. Undo the whole grid column.
+    .previewCartAction-viewCart,
+    .previewCartAction-viewCart--sole {
+        float: none;
+        width: auto;
+        margin: 0;
+        padding: 0;
+
+        a {
+            display: block;
+            width: auto;
+            text-align: center;
+            white-space: nowrap;
+        }
+    }
+}

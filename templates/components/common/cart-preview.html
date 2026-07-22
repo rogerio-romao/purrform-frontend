@@ -1,9 +1,10 @@
-<div class="previewCartWrapper">
+<div class="previewCartWrapper" data-cart-quantity="{{cart.quantity}}">
   <div class="previewCart">
     {{#if cart.items.length}}
+        <div class="previewCartList-scroll">
         <ul class="previewCartList">
-            {{#each (limit cart.items 4)}}
-                <li class="previewCartItem">
+            {{#each cart.items}}
+                <li class="previewCartItem" data-cart-itemid="{{id}}">
                     <div class="previewCartItem-image">
                         {{#if type '==' 'GiftCertificate'}}
                             <img
@@ -42,10 +43,67 @@
                                     {{> components/common/login-for-pricing}}
                                 {{/or}}
                             </span>
+
+                            <div class="previewCartItem-actions">
+                                {{#if can_modify}}
+                                    <div class="previewCartItem-increment">
+                                        <button class="minicart-qty-btn"
+                                                type="button"
+                                                data-minicart-update
+                                                data-cart-itemid="{{id}}"
+                                                data-action="dec"
+                                                {{#if quantity '<=' min_purchase_quantity}}disabled{{/if}}
+                                        >
+                                            <span class="is-srOnly">{{lang 'products.quantity_decrease' name=name}}</span>
+                                            -
+                                        </button>
+                                        <input class="minicart-item-qty"
+                                               type="tel"
+                                               value="{{quantity}}"
+                                               data-minicart-qty
+                                               data-cart-itemid="{{id}}"
+                                               data-quantity-min="{{min_purchase_quantity}}"
+                                               data-quantity-max="{{max_purchase_quantity}}"
+                                               data-quantity-min-error="{{lang 'products.quantity_min' quantity=min_purchase_quantity}}"
+                                               data-quantity-max-error="{{lang 'products.quantity_max' quantity=max_purchase_quantity}}"
+                                               aria-label="{{name}}"
+                                               aria-live="polite"
+                                               readonly>
+                                        <button class="minicart-qty-btn"
+                                                type="button"
+                                                data-minicart-update
+                                                data-cart-itemid="{{id}}"
+                                                data-action="inc"
+                                        >
+                                            <span class="is-srOnly">{{lang 'products.quantity_increase' name=name}}</span>
+                                            +
+                                        </button>
+                                    </div>
+                                {{/if}}
+
+                                {{#or can_modify (if type '==' 'GiftCertificate')}}
+                                    <button class="previewCartItem-remove minicart-remove"
+                                            type="button"
+                                            data-cart-itemid="{{id}}"
+                                            data-confirm-delete="{{lang 'cart.confirm_delete'}}"
+                                            aria-label="{{lang 'cart.remove_item' name=name}}"
+                                            title="{{lang 'cart.checkout.remove'}}"
+                                    >
+                                        <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                                            <path d="M16.3248 7.4682C16.3248 7.4682 15.7818 14.2032 15.4668 17.0402C15.3168 18.3952 14.4798 19.1892 13.1088 19.2142C10.4998 19.2612 7.88779 19.2642 5.27979 19.2092C3.96079 19.1822 3.13779 18.3782 2.99079 17.0472C2.67379 14.1852 2.13379 7.4682 2.13379 7.4682" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M17.708 4.23969H0.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M14.4406 4.23967C13.6556 4.23967 12.9796 3.68467 12.8256 2.91567L12.5826 1.69967C12.4326 1.13867 11.9246 0.750671 11.3456 0.750671H7.11258C6.53358 0.750671 6.02558 1.13867 5.87558 1.69967L5.63258 2.91567C5.47858 3.68467 4.80258 4.23967 4.01758 4.23967" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                {{/or}}
+                            </div>
+
+                            <p class="previewCartItem-error" data-minicart-error role="alert" aria-live="polite"></p>
                         </div>
                     </li>
                 {{/each}}
             </ul>
+            </div>
             <div class="previewCartAction">
                 {{#if cart.additional_checkout_buttons}}
                     <div data-cart-accelerated-checkout-buttons class="previewCart-acceleratedCheckoutButtons"></div>
