@@ -1437,6 +1437,26 @@ html {
     margin: 0;
 }
 
+.fresh-expect__cta {
+    display: inline-block;
+    margin-top: 40px;
+    background-color: $color-gold-light;
+    color: $marketing-brand-text;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease-in-out;
+
+    &:hover {
+        background-color: $color-gold;
+        color: $marketing-brand-bg;
+    }
+}
+
 @media (min-width: 601px) {
     .fresh-expect__grid {
         grid-template-columns: repeat(3, 1fr);
