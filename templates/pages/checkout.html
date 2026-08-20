@@ -92,72 +92,92 @@
     <script>
         window.__purrformCheckoutBlocked = false;
 
-        // Handles non-cumulative discounts
-        const couponsElSelector = 'a.redeemable-label';
-        ready(couponsElSelector, (couponsEl) => {
-            // if discount el is present, customer used loyalty points, hide coupons
-            const discountEl = document.querySelector(
-                'div[data-test="cart-discount"]'
+        // Loyalty points and coupons are non-cumulative. checkout-js renders the
+        // coupon and discount rows asynchronously and re-renders the summary on
+        // every cart change, so this MUST be re-evaluated continuously -- a
+        // one-shot check races the render and lets both discounts through.
+        function purrformSyncDiscountExclusivity() {
+            // BigCommerce renders the loyalty discount as "cart-manual-discount"
+            // on this store; older/other builds use "cart-discount". Match both.
+            const hasLoyaltyDiscount = !!document.querySelector(
+                '[data-test="cart-discount"], [data-test="cart-manual-discount"]'
             );
-            if (discountEl) {
-                couponsEl.style.display = 'none';
-            }
-
-            // if customer group is trade, hide coupons
-            if ('{{customer_group_name}}' === 'Trade' || '{{customer_group_name}}' === 'New Trader' || '{{customer_group_name}}' === 'Trade TNC') {
-                couponsEl.style.display = 'none';
-            }
-
-        })
-
-        const loyaltyElSelector = 'section.loyalty-points';
-        ready(loyaltyElSelector, (loyaltyEl) => {
-            const couponEl = document.querySelector(
+            const hasCoupon = !!document.querySelector(
                 'div[data-test="cart-coupon"]'
             );
 
-            if (couponEl) {
-                const label = document.querySelector('.loyaltyLabel');
-                const input = loyaltyEl.querySelector('input');
-                const button = loyaltyEl.querySelector('#loyaltyPointsBtn');
-                label.style.display = 'none';
-                input.style.display = 'none';
-                button.style.display = 'none';
+            // if customer group is trade, hide coupons
+            const isTradeGroup =
+                '{{customer_group_name}}' === 'Trade' ||
+                '{{customer_group_name}}' === 'New Trader' ||
+                '{{customer_group_name}}' === 'Trade TNC';
 
-                const removeCouponButton = couponEl.querySelector('a[data-test="cart-price-callback"]');
-                removeCouponButton.addEventListener('click', () => {
-                    label.style.display = 'block';
-                    input.style.display = 'block';
-                    button.style.display = 'block';
+            // coupon entry: hide when loyalty points are applied, or for trade.
+            // Hide the whole cart-section: it holds the label, the form and the
+            // applied-coupons list.
+            const hideCoupon = hasLoyaltyDiscount || isTradeGroup;
+
+            document
+                .querySelectorAll('a.redeemable-label')
+                .forEach((couponsEl) => {
+                    const section = couponsEl.closest('.cart-section');
+
+                    if (section) {
+                        section.style.display = hideCoupon ? 'none' : '';
+                        return;
+                    }
+
+                    // fallback: hide label and form wrapper individually.
+                    // NB: scoped to this anchor's siblings, not getElementById --
+                    // the desktop and mobile summaries reuse the same element ids.
+                    couponsEl.style.display = hideCoupon ? 'none' : '';
+
+                    const wrapper =
+                        couponsEl.parentNode &&
+                        couponsEl.parentNode.querySelector(
+                            '.coupon-form-wrapper'
+                        );
+
+                    if (wrapper) {
+                        wrapper.style.display = hideCoupon ? 'none' : '';
+                    }
                 });
-            }
 
-            // the standalone code above does not work on mobile, this is a fix for mobile
-            const checkForCouponInterval = setInterval(() => {
-                const couponEl = document.querySelector(
-                    'div[data-test="cart-coupon"]'
-                );
-
-                if (couponEl) {
-                    const label = document.querySelector('.loyaltyLabel');
-                    const input = loyaltyEl.querySelector('input');
+            // loyalty controls: hide AND disable when a coupon is applied
+            document
+                .querySelectorAll('section.loyalty-points')
+                .forEach((loyaltyEl) => {
+                    const label = loyaltyEl.querySelector('.loyaltyLabel');
+                    const input = loyaltyEl.querySelector('#points-input');
                     const button = loyaltyEl.querySelector('#loyaltyPointsBtn');
-                    label.style.display = 'none';
-                    input.style.display = 'none';
-                    button.style.display = 'none';
 
-                    const removeCouponButton = couponEl.querySelector('a[data-test="cart-price-callback"]');
-
-                    removeCouponButton.addEventListener('click', () => {
-                        label.style.display = 'block';
-                        input.style.display = 'block';
-                        button.style.display = 'block';
+                    [label, input, button].forEach((el) => {
+                        if (el) {
+                            el.style.display = hasCoupon ? 'none' : '';
+                        }
                     });
 
-                    clearInterval(checkForCouponInterval);
-                }
-            }, 100)
-        })
+                    // hiding alone is bypassable -- disable the controls too
+                    if (input) {
+                        input.disabled = hasCoupon;
+                    }
+                    if (button) {
+                        button.disabled = hasCoupon;
+                    }
+                });
+        }
+
+        // Re-run on every DOM mutation. checkout-js re-renders the summary on
+        // cart changes, and the mobile modal mounts its own copy of both widgets.
+        const purrformExclusivityObserver = new MutationObserver(
+            purrformSyncDiscountExclusivity
+        );
+        purrformExclusivityObserver.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+        });
+
+        purrformSyncDiscountExclusivity();
     </script>
 
     <script>
@@ -284,7 +304,7 @@
                         cancelButton.id = 'cancelLoyaltyPointsBtn';
                         cancelButton.className = 'btn btn-secondary';
                         cancelButton.style.display = document.querySelector(
-                            '[data-test="cart-discount"] [data-test="cart-price-value"]'
+                            '[data-test="cart-discount"] [data-test="cart-price-value"], [data-test="cart-manual-discount"] [data-test="cart-price-value"]'
                         )
                             ? 'block'
                             : 'none';
@@ -301,15 +321,32 @@
                         // Mount the entire loyalty points div to the parent element
                         elementToAppend.appendChild(pointsDiv);
 
-                        generateNewSummary(points);
+                        generateNewSummary(points, pointsInput);
 
-                        loyaltyPointsBtn.addEventListener('click', () => {
+                        // use the local `confirmButton` rather than the bare
+                        // `loyaltyPointsBtn` global: that only resolved via the
+                        // legacy id-to-global binding, which does not exist while
+                        // the widget is still detached from the document.
+                        confirmButton.addEventListener('click', () => {
+                            // non-cumulative: never apply points while a coupon
+                            // is on the order
+                            if (
+                                document.querySelector(
+                                    'div[data-test="cart-coupon"]'
+                                )
+                            ) {
+                                errorMessage.textContent =
+                                    'Loyalty points cannot be combined with a coupon code.';
+                                errorMessage.style.display = 'block';
+                                return;
+                            }
+
                             if (pointsInput.value === '') {
                                 return;
                             }
 
-                            loyaltyPointsBtn.setAttribute('disabled', 'true');
-                            loyaltyPointsBtn.textContent = 'Processing';
+                            confirmButton.setAttribute('disabled', 'true');
+                            confirmButton.textContent = 'Processing';
 
                             fetch(
                                 `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}&max_points=${points}`
@@ -320,16 +357,18 @@
                                         throw new Error('Failed to apply discount');
                                     }
 
-                                    loyaltyPointsBtn.removeAttribute('disabled');
+                                    confirmButton.removeAttribute('disabled');
                                     errorMessage.style.display = 'none';
                                     cancelButton.style.display = 'block';
                                     window.location.reload();
                                 })
                                 .catch((err) => {
                                     // do something here to let the user know the discount failed
-                                    loyaltyPointsBtn.removeAttribute('disabled');
-                                    loyaltyPointsBtn.textContent = 'Apply discount';
+                                    confirmButton.removeAttribute('disabled');
+                                    confirmButton.textContent = 'Apply discount';
                                     pointsInput.value = '';
+                                    errorMessage.textContent =
+                                        'There was an error applying the discount. Please try again later.';
                                     errorMessage.style.display = 'block';
                                 });
                         });
@@ -360,7 +399,12 @@
                     });
                 }
 
-                function generateNewSummary(currentUserPoints) {
+                // pointsInput is passed in by the caller: loyaltyInitialize runs
+                // once per summary (desktop and mobile) and each creates its own
+                // input with the same id, so a global getElementById lookup finds
+                // the wrong one -- or none at all when the mobile summary is not
+                // yet mounted, which threw on insertAdjacentHTML below.
+                function generateNewSummary(currentUserPoints, pointsInput) {
                     const masterContainer = document.createElement('div');
                     const masterText = document.createElement('p');
                     masterText.classList.add('loyalty-summary');
@@ -368,7 +412,7 @@
                     masterContainer.appendChild(masterText);
 
                     const discountEl = document.querySelector(
-                        '[data-test="cart-discount"] [data-test="cart-price-value"]'
+                        '[data-test="cart-discount"] [data-test="cart-price-value"], [data-test="cart-manual-discount"] [data-test="cart-price-value"]'
                     );
                     const subtotalEl = document.querySelector(
                         '[data-test="cart-subtotal"] [data-test="cart-price-value"]'
@@ -376,8 +420,6 @@
                     const couponDiscountEl = document.querySelector(
                         '[data-test="cart-coupon"] [data-test="cart-price-value"]'
                     );
-                    const pointsInput = document.getElementById('points-input');
-
                     let discountPriceValue = 0;
                     let discountLoyalPointValue = 0;
                     let earningPriceValue = 0;
@@ -468,7 +510,12 @@
 
                     masterContainer.appendChild(finalContainer);
                     // pointsDiv.insertAdjacentHTML('afterend', finalContainer.innerHTML);
-                    pointsInput.insertAdjacentHTML('afterend', masterContainer.outerHTML);
+                    if (pointsInput) {
+                        pointsInput.insertAdjacentHTML(
+                            'afterend',
+                            masterContainer.outerHTML
+                        );
+                    }
 
                     // fix for mobile not showing button
                     const parentSelectorMobile =
@@ -575,7 +622,7 @@
                         cancelButton.id = 'cancelLoyaltyPointsBtn';
                         cancelButton.className = 'btn btn-secondary';
                         cancelButton.style.display = document.querySelector(
-                            '[data-test="cart-discount"] [data-test="cart-price-value"]'
+                            '[data-test="cart-discount"] [data-test="cart-price-value"], [data-test="cart-manual-discount"] [data-test="cart-price-value"]'
                         )
                             ? 'block'
                             : 'none';
@@ -592,15 +639,32 @@
                         // Mount the entire loyalty points div to the parent element
                         elementToAppend.appendChild(pointsDiv);
 
-                        generateNewSummary(points);
+                        generateNewSummary(points, pointsInput);
 
-                        loyaltyPointsBtn.addEventListener('click', () => {
+                        // use the local `confirmButton` rather than the bare
+                        // `loyaltyPointsBtn` global: that only resolved via the
+                        // legacy id-to-global binding, which does not exist while
+                        // the widget is still detached from the document.
+                        confirmButton.addEventListener('click', () => {
+                            // non-cumulative: never apply points while a coupon
+                            // is on the order
+                            if (
+                                document.querySelector(
+                                    'div[data-test="cart-coupon"]'
+                                )
+                            ) {
+                                errorMessage.textContent =
+                                    'Loyalty points cannot be combined with a coupon code.';
+                                errorMessage.style.display = 'block';
+                                return;
+                            }
+
                             if (pointsInput.value === '') {
                                 return;
                             }
 
-                            loyaltyPointsBtn.setAttribute('disabled', 'true');
-                            loyaltyPointsBtn.textContent = 'Processing';
+                            confirmButton.setAttribute('disabled', 'true');
+                            confirmButton.textContent = 'Processing';
 
                             fetch(
                                 `https://purrform-apps-027e.onrender.com/applyDiscountToCheckout?checkoutId={{cart_id}}&loyaltyPointsUsed=${pointsInput.value}&max_points=${points}`
@@ -611,16 +675,18 @@
                                         throw new Error('Failed to apply discount');
                                     }
 
-                                    loyaltyPointsBtn.removeAttribute('disabled');
+                                    confirmButton.removeAttribute('disabled');
                                     errorMessage.style.display = 'none';
                                     cancelButton.style.display = 'block';
                                     window.location.reload();
                                 })
                                 .catch((err) => {
                                     // do something here to let the user know the discount failed
-                                    loyaltyPointsBtn.removeAttribute('disabled');
-                                    loyaltyPointsBtn.textContent = 'Apply discount';
+                                    confirmButton.removeAttribute('disabled');
+                                    confirmButton.textContent = 'Apply discount';
                                     pointsInput.value = '';
+                                    errorMessage.textContent =
+                                        'There was an error applying the discount. Please try again later.';
                                     errorMessage.style.display = 'block';
                                 });
                         });
@@ -651,7 +717,12 @@
                     });
                 }
 
-                function generateNewSummary(currentUserPoints) {
+                // pointsInput is passed in by the caller: loyaltyInitialize runs
+                // once per summary (desktop and mobile) and each creates its own
+                // input with the same id, so a global getElementById lookup finds
+                // the wrong one -- or none at all when the mobile summary is not
+                // yet mounted, which threw on insertAdjacentHTML below.
+                function generateNewSummary(currentUserPoints, pointsInput) {
                     const masterContainer = document.createElement('div');
                     const masterText = document.createElement('p');
                     masterText.classList.add('loyalty-summary');
@@ -659,7 +730,7 @@
                     masterContainer.appendChild(masterText);
 
                     const discountEl = document.querySelector(
-                        '[data-test="cart-discount"] [data-test="cart-price-value"]'
+                        '[data-test="cart-discount"] [data-test="cart-price-value"], [data-test="cart-manual-discount"] [data-test="cart-price-value"]'
                     );
                     const subtotalEl = document.querySelector(
                         '[data-test="cart-subtotal"] [data-test="cart-price-value"]'
@@ -667,8 +738,6 @@
                     const couponDiscountEl = document.querySelector(
                         '[data-test="cart-coupon"] [data-test="cart-price-value"]'
                     );
-                    const pointsInput = document.getElementById('points-input');
-
                     let discountPriceValue = 0;
                     let discountLoyalPointValue = 0;
                     let earningPriceValue = 0;
@@ -759,7 +828,12 @@
 
                     masterContainer.appendChild(finalContainer);
                     // pointsDiv.insertAdjacentHTML('afterend', finalContainer.innerHTML);
-                    pointsInput.insertAdjacentHTML('afterend', masterContainer.outerHTML);
+                    if (pointsInput) {
+                        pointsInput.insertAdjacentHTML(
+                            'afterend',
+                            masterContainer.outerHTML
+                        );
+                    }
 
                     // fix for mobile not showing button
                     const parentSelectorMobile =
