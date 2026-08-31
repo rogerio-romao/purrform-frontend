@@ -79,15 +79,6 @@
                 <h2>Coupon codes</h2>
                 <p>Discount codes you've earned through our referral programs or special offers.</p>
                 <div id="coupon-codes-status"></div>
-                <div id="friend-coupons-block">
-                    <h5 class="coupon-group-title">Friend referral coupons</h5>
-                    <div id="friend-coupons-grid">
-                        <div class="previous-grid-title">Code</div>
-                        <div class="previous-grid-title">Date</div>
-                        <div class="previous-grid-title">Status</div>
-                    </div>
-                    <p class="coupon-empty">You have no friend referral coupons yet.</p>
-                </div>
                 <div id="breeder-coupons-block">
                     <h5 class="coupon-group-title">Breeder referral coupons</h5>
                     <div id="breeder-coupons-grid">
@@ -191,59 +182,7 @@
                     <div class="list-of-cats"> </div>
                 </div>
             </div>
-            {{/if}} {{#if customer_group_name '===' 'Personal'}}
-            <div id="friend-referral" class="reward-section">
-                <h2>Refer a friend</h2>
-                <p
-                    >Refer a friend and they will receive a 15% discount. When they place their first order, you will receive a 15% discount.</p
-                >
-                <form id="friend-referral-form">
-                    <label class="form-label" for="reward-friend-refer-email"
-                        >Email Address</label
-                    >
-                    <input type="email" id="reward-friend-refer-email" />
-                    <div class="gdpr-field">
-                        <input
-                            type="checkbox"
-                            id="referral-gdpr-checkbox"
-                            class="gdpr-checkbox"
-                        />
-                        <label
-                            for="referral-gdpr-checkbox"
-                            class="gdpr-message"
-                            >I would like to receive newsletters, product updates, and special offers from Purrform via email.<br />By checking this box, you consent to our processing of your data in accordance with our <a href="/privacy-policy/" target="_blank">Privacy Policy</a>. You can withdraw your consent at any time by clicking the unsubscribe link in any email.</label
-                        >
-                    </div>
-                    <p id="friendError"></p>
-                    <button class="button button--primary" type="submit"
-                        >Submit</button
-                    >
-                </form>
-                <button id="previous-friends-btn" class="button button--primary"
-                    >See previous referrals</button
-                >
-                <div id="previous-friends-container">
-                    <div id="previous-friends-length"></div>
-                    <div id="previous-friends-grid">
-                        <div
-                            id="previous-friends-grid-title-email"
-                            class="previous-grid-title"
-                            >Email</div
-                        >
-                        <div
-                            id="previous-friends-grid-title-date"
-                            class="previous-grid-title"
-                            >Date</div
-                        >
-                        <div
-                            id="previous-friends-grid-title-purchased"
-                            class="previous-grid-title"
-                            >Purchased</div
-                        >
-                    </div>
-                </div>
-            </div>
-            {{/if}} {{#if customer_group_name '===' 'Breeder'}}
+            {{/if}}  {{#if customer_group_name '===' 'Breeder'}}
             <div id="breeder-referral" class="reward-section">
                 <h2>Breeder referral</h2>
                 <p
@@ -447,152 +386,10 @@
     });
 </script>
 {{/if}} {{#if customer_group_name '===' 'Personal'}}
+
+
 <script>
-    // Friend referral
-    const friendJsContext = JSON.parse({{jsContext}});
-    const friendReferralForm = document.querySelector('#friend-referral-form')
-    const friendReferralInput = document.querySelector('#reward-friend-refer-email')
-    const customerEmail = friendJsContext.customerEmail
-    const customerName = friendJsContext.customerName
-    const friendErrorMsg = document.querySelector('#friendError')
-    // errorMsg.textContent = "";
-    friendReferralForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        e.submitter.classList.add('disabled')
-
-        const referralConsent = document.querySelector('#referral-gdpr-checkbox').checked;
-
-        if (friendReferralInput.value.trim() === "") {
-            friendErrorMsg.textContent = "Error: Field is empty";
-            setTimeout(function() {
-                e.submitter.classList.remove('disabled')
-            }, 750);
-            return;
-        }
-
-        if (!referralConsent) {
-            friendErrorMsg.textContent = "Please confirm you agree to receive marketing emails to submit a referral.";
-            setTimeout(function() {
-                e.submitter.classList.remove('disabled')
-            }, 750);
-            return;
-        }
-
-        const encodedCustomerName = encodeURIComponent(customerName);
-        const encodedCustomerEmail = encodeURIComponent(customerEmail);
-        const encodedFriendEmail = encodeURIComponent(friendReferralInput.value);
-
-        fetch(`https://purrform-apps-027e.onrender.com/friendReferralForm?friendEmail=${encodedFriendEmail}&customerEmail=${encodedCustomerEmail}&customerName=${encodedCustomerName}`, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        .then(async (response) => {
-            if (!response.ok) {
-                const message = await response.text()
-                friendErrorMsg.classList.remove('success');
-                friendErrorMsg.textContent = message
-            } else {
-                friendErrorMsg.classList.add('success');
-                friendErrorMsg.textContent = "Referral successful";
-                friendReferralInput.value = "";
-            }
-            setTimeout(function() {
-                e.submitter.classList.remove('disabled')
-            }, 750);
-        })
-        .catch(err => {
-            friendErrorMsg.classList.remove('success');
-            friendErrorMsg.textContent = err.message
-            setTimeout(function() {
-                e.submitter.classList.remove('disabled')
-            }, 750);
-        })
-    })
-</script>
-<script>
-    // fetches previous friend referrals
-    const seePreviousFriendsBtn = document.querySelector(
-        '#previous-friends-btn'
-    );
-    const previousFriendsLength = document.querySelector(
-        '#previous-friends-length'
-    );
-
-    seePreviousFriendsBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        fetch(
-            `https://purrform-apps-027e.onrender.com/getFriendsPreviousReferrals?customerEmail=${customerEmail}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-            .then((response) => {
-                if (!response.ok) {
-                    previousFriendsLength.textContent =
-                        'Error fetching previous referrals, please try again later.';
-                } else {
-                    response.json().then((data) => {
-                        const purchasedCount = data.filter(
-                            (item) => item.has_purchased
-                        ).length;
-                        previousFriendsLength.innerHTML = `You have referred <strong>${data.length}</strong> customers. <strong>${purchasedCount}</strong> ${purchasedCount === 1 ? 'has' : 'have'} purchased.`;
-                        const previousGrid = document.querySelector(
-                            '#previous-friends-grid'
-                        );
-                        if (data.length > 0) {
-                            // remove previous grid items (for refreshing)
-                            const gridItems = document.querySelectorAll(
-                                '.previous-grid-item'
-                            );
-                            gridItems.forEach((item) => {
-                                item.remove();
-                            });
-                            previousGrid.style.display = 'grid';
-                        }
-
-                        const sortedData = data.sort((a, b) => a.has_purchased ? -1 : 1);
-
-                        sortedData.forEach(({ friend_email, has_purchased, created_at }) => {
-                            const email = document.createElement('div');
-                            email.classList.add('previous-grid-item');
-                            email.textContent = friend_email;
-
-                            const createdAt = document.createElement('div');
-                            createdAt.classList.add('previous-grid-item');
-                            createdAt.textContent = created_at;
-
-                            const purchased = document.createElement('div');
-                            purchased.classList.add('previous-grid-item');
-                            purchased.textContent = has_purchased
-                                ? 'Yes'
-                                : 'No';
-
-                            if (has_purchased) {
-                                email.style.backgroundColor = 'rgba(0, 255, 0, 0.15)';
-                                createdAt.style.backgroundColor = 'rgba(0, 255, 0, 0.15)';
-                                purchased.style.backgroundColor = 'rgba(0, 255, 0, 0.15)';
-                            }
-
-                            previousGrid.appendChild(email);
-                            previousGrid.appendChild(createdAt);
-                            previousGrid.appendChild(purchased);
-                        });
-                    });
-                }
-            })
-            .catch((err) => {
-                previousFriendsLength.textContent =
-                    'Error fetching previous friend referrals, please try again later.';
-            });
-    });
-</script>
-<script>
-    // Fetches coupon codes earned through friend and breeder referral programs,
+    // Fetches coupon codes earned through breeder referral programs,
     // plus marketing coupons assigned to the customer's Klaviyo profile
     const couponJsContext = JSON.parse({{jsContext}});
     const couponEmail = couponJsContext.customerEmail;
@@ -658,10 +455,8 @@
         .then((data) => {
             if (!data) return;
 
-            const friendCoupons = data.coupons.filter((c) => c.type === 'friend');
             const breederCoupons = data.coupons.filter((c) => c.type === 'breeder');
 
-            renderCouponGroup(friendCoupons, 'friend-coupons-grid', 'friend-coupons-block', ({ coupon, createdAt }) => [coupon, createdAt]);
             renderCouponGroup(breederCoupons, 'breeder-coupons-grid', 'breeder-coupons-block', ({ coupon, createdAt }) => [coupon, createdAt]);
         })
         .catch(() => {
