@@ -182,10 +182,33 @@ export default class Auth extends PageManager {
             return;
         }
         event.preventDefault();
+        this.revealHiddenAddressFields();
         setTimeout(() => {
             const earliestError = $('span.form-inlineMessage:first').prev('input');
             earliestError.focus();
         }, 900);
+    }
+
+    /**
+     * The Fetchify postcode lookup hides the address fields until an address is found
+     * or "Enter Address Manually" is clicked. If the form is submitted before that,
+     * reveal them so their validation errors are visible.
+     */
+    revealHiddenAddressFields() {
+        const $hiddenAddressFields = $(`${this.formCreateSelector} .account_cp_address_class:hidden`);
+
+        if (!$hiddenAddressFields.length) {
+            return;
+        }
+
+        const $revealLink = $('#account_cc_reveal_label');
+
+        if ($revealLink.length) {
+            // Let Fetchify toggle its own state (shows fields, hides the link)
+            $revealLink.trigger('click');
+        } else {
+            $hiddenAddressFields.show();
+        }
     }
 
     /**
