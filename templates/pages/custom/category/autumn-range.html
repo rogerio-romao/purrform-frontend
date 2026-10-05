@@ -1,0 +1,41 @@
+---
+category:
+    shop_by_price: false
+    products:
+        limit: 100
+---
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+<div class="category-description">
+    <div class="col8">
+        {{#unless theme_settings.hide_category_page_heading }}
+        <h1 class="page-heading">{{category.name}}</h1>
+        {{{region name="category_below_header"}}} {{/unless}}
+        {{#if category.description}}
+        <div id="cat-description-box" class="">
+            {{{category.description}}}
+        </div>
+        {{/if}}
+    </div>
+</div>
+
+<div class="page">
+    <div class="page-content page-content--age-groups" id="product-listing-container">
+        {{> components/category/age-group-listing}}
+        {{{region name="category_below_content"}}}
+    </div>
+</div>
+
+{{/partial}}
+{{> layout/base}}
