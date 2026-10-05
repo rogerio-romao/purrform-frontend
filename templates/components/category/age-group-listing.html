@@ -1,0 +1,25 @@
+{{!--
+    Splits category.products into one grid per age group.
+    A product is placed in every group whose top-level category it belongs to
+    (matched by exact name in the card's `category` array), so it can appear
+    in more than one grid. Products in none of the groups are not shown.
+    Empty groups are hidden via CSS (.age-group:not(:has(li.product))).
+--}}
+{{inject 'noCompareMessage' (lang 'compare.no_compare')}}
+
+{{#if category.products}}
+    <div {{#if settings.data_tag_enabled}} data-list-name="Category: {{category.name}}" {{/if}}>
+        {{> components/category/age-group-grid title="Weaning" slug="weaning" match="Weaning" products=category.products}}
+        {{> components/category/age-group-grid title="Kitten" slug="kitten" match="Kitten" products=category.products}}
+        {{> components/category/age-group-grid title="Adult" slug="adult" match="Adult" products=category.products}}
+        {{> components/category/age-group-grid title="Senior" slug="senior" match="Senior" products=category.products}}
+    </div>
+{{else}}
+    <p data-no-products-notification
+       role="alert"
+       aria-live="assertive"
+       tabindex="-1"
+    >
+        {{lang 'categories.no_products'}}
+    </p>
+{{/if}}

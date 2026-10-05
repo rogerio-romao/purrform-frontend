@@ -1,0 +1,13 @@
+<section class="age-group" data-age-group="{{slug}}">
+    <h2 class="page-heading age-group-heading">{{title}}</h2>
+    <ul class="productGrid">
+        {{#each products}}
+            {{#contains category ../match}}
+            <li class="product">
+                {{#if price.sale_price_with_tax}} <span class="sale-banner">Sale</span> {{/if}}
+                {{> components/products/card settings=@root.settings show_compare=@root.category.show_compare show_rating=@root.settings.show_product_rating theme_settings=@root.theme_settings customer=@root.customer event="list" position=(add @index 1)}}
+            </li>
+            {{/contains}}
+        {{/each}}
+    </ul>
+</section>
