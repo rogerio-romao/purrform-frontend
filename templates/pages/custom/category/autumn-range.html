@@ -17,10 +17,20 @@ category:
 
 {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
 
-<div class="category-description">
+{{#if category.image}}
+    {{> components/common/responsive-img
+        image=category.image
+        fallback_size="1280w"
+        lazyload="disabled"
+        class="category-header-image category-header-image--banner"
+    }}
+{{/if}}
+
+<div class="category-description category-description--age-groups">
     <div class="col8">
         {{#unless theme_settings.hide_category_page_heading }}
-        <h1 class="page-heading">{{category.name}}</h1>
+        {{!-- The banner already shows the title, so keep the h1 for SEO/screen readers only --}}
+        <h1 class="page-heading{{#if category.image}} is-srOnly{{/if}}">{{category.name}}</h1>
         {{{region name="category_below_header"}}} {{/unless}}
         {{#if category.description}}
         <div id="cat-description-box" class="">

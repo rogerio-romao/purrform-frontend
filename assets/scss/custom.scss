@@ -1287,20 +1287,6 @@ p {
         text-align: left;
     }
 
-    #cat-description-box {
-        overflow: hidden;
-
-        p {
-            height: 45px;
-        }
-
-        &.open {
-            p {
-                height: fit-content;
-            }
-        }
-    }
-
     #category-toggle {
         cursor: pointer;
         margin-top: 1.5rem;

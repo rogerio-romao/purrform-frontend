@@ -4,10 +4,31 @@
     (matched by exact name in the card's `category` array), so it can appear
     in more than one grid. Products in none of the groups are not shown.
     Empty groups are hidden via CSS (.age-group:not(:has(li.product))).
+    The "Show" checkboxes toggle each grid with CSS :has() only - see _autumn-range.scss.
 --}}
 {{inject 'noCompareMessage' (lang 'compare.no_compare')}}
 
 {{#if category.products}}
+    <fieldset class="age-group-filter">
+        <legend class="age-group-filter-legend">Show</legend>
+        <div class="age-group-filter-option" data-age-filter="weaning">
+            <input type="checkbox" class="form-checkbox" id="age-filter-weaning" checked>
+            <label class="form-label" for="age-filter-weaning">Weaning</label>
+        </div>
+        <div class="age-group-filter-option" data-age-filter="kitten">
+            <input type="checkbox" class="form-checkbox" id="age-filter-kitten" checked>
+            <label class="form-label" for="age-filter-kitten">Kitten</label>
+        </div>
+        <div class="age-group-filter-option" data-age-filter="adult">
+            <input type="checkbox" class="form-checkbox" id="age-filter-adult" checked>
+            <label class="form-label" for="age-filter-adult">Adult</label>
+        </div>
+        <div class="age-group-filter-option" data-age-filter="senior">
+            <input type="checkbox" class="form-checkbox" id="age-filter-senior" checked>
+            <label class="form-label" for="age-filter-senior">Senior</label>
+        </div>
+    </fieldset>
+
     <div {{#if settings.data_tag_enabled}} data-list-name="Category: {{category.name}}" {{/if}}>
         {{> components/category/age-group-grid title="Weaning" slug="weaning" match="Weaning" products=category.products}}
         {{> components/category/age-group-grid title="Kitten" slug="kitten" match="Kitten" products=category.products}}
