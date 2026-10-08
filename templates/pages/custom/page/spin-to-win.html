@@ -1,0 +1,20 @@
+{{#partial "page"}}
+
+<!-- Klaviyo spin-to-win is a popup form (can't be embedded inline), so open it via custom trigger on load.
+     The button is a fallback for customers who close the popup. -->
+<div class="spin-to-win container">
+    <h1 class="spin-to-win__heading">Spin to win</h1>
+    <p class="spin-to-win__body">Try your luck for a chance to win a prize.</p>
+    <button type="button" id="spin-to-win-open" class="button button--primary">Spin the wheel</button>
+</div>
+
+<script>
+    window._klOnsite = window._klOnsite || [];
+    window._klOnsite.push(['openForm', 'Wwpetq']);
+    document.getElementById('spin-to-win-open').addEventListener('click', function () {
+        window._klOnsite.push(['openForm', 'Wwpetq']);
+    });
+</script>
+
+{{/partial}}
+{{> layout/base}}
