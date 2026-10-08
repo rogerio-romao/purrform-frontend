@@ -1,16 +1,129 @@
 /* Spin to Win page (templates/pages/custom/page/spin-to-win.html) */
 
-// Landing content with the button that opens the Klaviyo popup; keep footer pushed down so the page doesn't look empty
+$spin-to-win-orange: #e8892b;
+
+// Full-bleed hero; image is portrait, so on wide screens it crops top and bottom.
+// Anchor the crop above centre so the text lands on the wall and the cat + pumpkins stay in view.
 .spin-to-win {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    aspect-ratio: 1080 / 1255;
+    min-height: 720px;
+    max-height: 1500px;
+    overflow: hidden;
+}
+
+.spin-to-win__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+}
+
+.spin-to-win__content {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 50vh;
-    padding: 3rem 1rem;
+    padding: clamp(40px, 7vw, 100px) 1rem 0;
     text-align: center;
+    color: $marketing-brand-text;
+}
+
+.spin-to-win__heading {
+    position: relative;
+    display: inline-block;
+    margin: 0 0 1.25rem;
+    color: inherit;
+    font-size: clamp(40px, 8vw, 96px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+}
+
+// Orange "sparkle" marks either side of the heading: middle line is the background, angled lines are pseudo-elements
+.spin-to-win__burst {
+    position: absolute;
+    top: 50%;
+    width: 0.6em;
+    height: 0.8em;
+    background: linear-gradient($spin-to-win-orange, $spin-to-win-orange) right center / 70% 5px no-repeat;
+    transform: translateY(-50%);
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        right: 10%;
+        width: 60%;
+        height: 5px;
+        border-radius: 3px;
+        background: $spin-to-win-orange;
+    }
+
+    &::before {
+        top: 10%;
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        bottom: 10%;
+        transform: rotate(-45deg);
+    }
+}
+
+.spin-to-win__burst--left {
+    right: 100%;
+    margin-right: 0.15em;
+}
+
+.spin-to-win__burst--right {
+    left: 100%;
+    margin-left: 0.15em;
+    transform: translateY(-50%) scaleX(-1);
 }
 
 .spin-to-win__body {
-    margin-bottom: 1.5rem;
+    margin: 0 0 1.75rem;
+    color: inherit;
+    font-size: clamp(18px, 2.4vw, 30px);
+    line-height: 1.3;
+}
+
+.spin-to-win__cta {
+    background-color: $color-brand-dark;
+    color: $color-white;
+    border: 0;
+    border-radius: 999px;
+    font-size: clamp(15px, 1.4vw, 18px);
+    font-weight: 700;
+    padding: 16px 36px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    transition:
+        background-color 0.2s ease-in-out,
+        transform 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+        background-color: $color-brand-primary;
+        transform: translateY(-2px);
+    }
+}
+
+@media (max-width: $mobile) {
+    .spin-to-win__burst {
+        display: none;
+    }
+
+    .spin-to-win__body {
+        margin-bottom: 1.25rem;
+    }
+
+    .spin-to-win__cta {
+        padding: 13px 28px;
+    }
 }

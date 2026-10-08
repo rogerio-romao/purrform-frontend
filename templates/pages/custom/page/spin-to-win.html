@@ -1,11 +1,18 @@
 {{#partial "page"}}
 
 <!-- Klaviyo spin-to-win is a popup form (can't be embedded inline), so the button opens it via custom trigger. -->
-<div class="spin-to-win container">
-    <h1 class="spin-to-win__heading">Spin to win</h1>
-    <p class="spin-to-win__body">Try your luck for a chance to win a prize.</p>
-    <button type="button" id="spin-to-win-open" class="button button--primary">Spin the wheel</button>
-</div>
+<section class="spin-to-win" aria-label="Spin to win">
+    <img class="spin-to-win__bg" src="{{cdn 'img/spin-to-win/halloween.jpg'}}" alt="" fetchpriority="high">
+    <div class="spin-to-win__content">
+        <h1 class="spin-to-win__heading">
+            <span class="spin-to-win__burst spin-to-win__burst--left" aria-hidden="true"></span>
+            Spin to Win<br>this Halloween
+            <span class="spin-to-win__burst spin-to-win__burst--right" aria-hidden="true"></span>
+        </h1>
+        <p class="spin-to-win__body">Give the wheel a spin and unlock a Halloween treat.</p>
+        <button type="button" id="spin-to-win-open" class="spin-to-win__cta">Spin the wheel</button>
+    </div>
+</section>
 
 <script>
     window._klOnsite = window._klOnsite || [];
