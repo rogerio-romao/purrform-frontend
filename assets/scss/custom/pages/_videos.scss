@@ -182,7 +182,7 @@
 
 .videos-player {
     width: calc(100vw - 32px);
-    max-width: min(960px, calc(177.78vh - 171px));
+    max-width: #{'min(960px, calc(177.78vh - 171px))'};
     padding: 0;
     overflow: hidden;
     border: 0;
