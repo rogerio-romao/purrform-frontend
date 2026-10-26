@@ -64,6 +64,7 @@ const customClasses = {
     'pages/custom/page/fresh-trial': () => import('./theme/custom/fresh'),
     'pages/custom/page/fresh-teaser': () => import('./theme/custom/fresh'),
     'pages/custom/page/fresh': () => import('./theme/custom/fresh'),
+    'pages/custom/page/videos': () => import('./theme/custom/videos'),
 };
 
 /**

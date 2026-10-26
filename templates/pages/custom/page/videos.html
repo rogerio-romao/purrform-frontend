@@ -1,0 +1,23 @@
+{{#partial "page"}}
+
+<!-- Video list is fetched client-side from purrform-apps (assets/js/theme/custom/videos.js). -->
+<section class="videos-page" aria-labelledby="videos-heading">
+    <header class="videos-page__header">
+        <h1 class="videos-page__heading" id="videos-heading">{{page.title}}</h1>
+        <p class="videos-page__intro">Interesting and educational videos about cat health, feeding and general well-being.</p>
+    </header>
+
+    <p class="videos-page__status" id="videos-status" role="status">Loading videos…</p>
+    <ul class="videos-grid" id="videos-grid" hidden></ul>
+
+    <dialog class="videos-player" id="videos-player" closedby="any" aria-labelledby="videos-player-title">
+        <div class="videos-player__head">
+            <h2 class="videos-player__title" id="videos-player-title"></h2>
+            <button type="button" class="videos-player__close" aria-label="Close video">&times;</button>
+        </div>
+        <div class="videos-player__frame"></div>
+    </dialog>
+</section>
+
+{{/partial}}
+{{> layout/base}}
