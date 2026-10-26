@@ -23,27 +23,39 @@ export const PURRFORM_API_URL =
 
 /** @typedef {Video[]} VideosResponse */
 
+const VIDEOS_REQUEST_TIMEOUT_MS = 30_000;
+
 /**
  * GET /videos — already sorted newest first by the backend.
  * Errors come back as plain text, so read the body as text before throwing.
  * @returns {Promise<VideosResponse>}
  */
 export function fetchVideos() {
-    return fetch(`${PURRFORM_API_URL}/videos`).then((response) => {
-        if (!response.ok) {
-            return response.text().then((text) => {
-                throw new Error(
-                    text || `Error fetching videos (${response.status})`,
-                );
-            });
-        }
-        return response.json();
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(
+        () => controller.abort(),
+        VIDEOS_REQUEST_TIMEOUT_MS,
+    );
+
+    return fetch(`${PURRFORM_API_URL}/videos`, { signal: controller.signal })
+        .then((response) => {
+            if (!response.ok) {
+                return response.text().then((text) => {
+                    throw new Error(
+                        text || `Error fetching videos (${response.status})`,
+                    );
+                });
+            }
+            return response.json();
+        })
+        .finally(() => clearTimeout(timeoutId));
 }
 
 /** @param {Video} video */
 export function getVideoTitle(video) {
-    return video.title ?? video.youtube_title ?? 'Untitled video';
+    return (
+        video.title?.trim() || video.youtube_title?.trim() || 'Untitled video'
+    );
 }
 
 /** @param {string} youtubeId */
