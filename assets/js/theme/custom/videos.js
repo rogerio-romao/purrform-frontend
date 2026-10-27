@@ -121,10 +121,10 @@ export default class Videos extends PageManager {
                     'span',
                     { className: 'video-card__body' },
                     el('span', { className: 'video-card__title' }, getVideoTitle(video)),
-                    meta.childNodes.length ? meta : null,
                     video.description
                         ? el('span', { className: 'video-card__description' }, video.description)
                         : null,
+                    meta.childNodes.length ? meta : null,
                 ),
             ),
         );
