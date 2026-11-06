@@ -895,8 +895,35 @@
         // This  handles 'datepicker' in 'shipping'
         const shippingSelector = '#checkout-shipping-options';
         ready(shippingSelector, (shippingOptionsElement) => {
+            addFestiveNotice(shippingOptionsElement);
             createCalendar(shippingOptionsElement);
         });
+
+        // Festive period notice shown above the shipping method selector
+        function addFestiveNotice(parent) {
+            // Stop showing the notice once the festive period has ended (end of 1 Jan 2027)
+            const festiveNoticeEnd = new Date(2027, 0, 2);
+            if (new Date() >= festiveNoticeEnd) {
+                return;
+            }
+
+            if (document.getElementById('festive-shipping-notice')) {
+                return;
+            }
+
+            const noticeHTML = `
+        <div id="festive-shipping-notice" class="credit-balance-message">
+            Please note that, during the festive period from 23 November 2026 to 1 January 2027, our Saturday and pre-12 services will be temporarily unavailable.
+        </div>
+    `;
+
+            const legend = parent.querySelector('legend');
+            if (legend) {
+                legend.insertAdjacentHTML('afterend', noticeHTML);
+            } else {
+                parent.insertAdjacentHTML('afterbegin', noticeHTML);
+            }
+        }
 
         // Attach the datepicker to the shipping options
         function createCalendar(parent) {
@@ -1477,6 +1504,11 @@
             font-size: 14px;
             margin-top: 1rem;
             text-align: center;
+        }
+
+        #festive-shipping-notice {
+            margin-top: 0;
+            margin-bottom: 1rem;
         }
 
         .optimizedCheckout-cart-modal .optimizedCheckout-orderSummary-cartSection {
