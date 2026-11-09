@@ -1540,50 +1540,58 @@
             window.__purrformRefreshDeliveryDateSummary = refreshDeliveryDateSummary;
             refreshDeliveryDateSummary();
 
+            let isPlaceOrderInFlight = false;
             fakeButton.addEventListener('click', async () => {
-                const unavailableDates = await fetchUnavailableDates();
+                if (isPlaceOrderInFlight) return;
+                isPlaceOrderInFlight = true;
 
-                let savedMessage;
                 try {
-                    savedMessage = await getCheckoutCustomerMessage();
-                } catch (error) {
-                    console.error('Error:', error);
-                    showWarning(
-                        'Something went wrong. Check if you have set a delivery date in the Shipping section above and try again.'
-                    );
-                    return;
-                }
+                    const unavailableDates = await fetchUnavailableDates();
 
-                // A delivery date was confirmed in this visit but the checkout
-                // holds something else - restore the customer's latest choice
-                if (latestCustomerMessage && savedMessage !== latestCustomerMessage) {
+                    let savedMessage;
                     try {
-                        await putCustomerMessage(latestCustomerMessage);
-                        savedMessage = latestCustomerMessage;
+                        savedMessage = await getCheckoutCustomerMessage();
                     } catch (error) {
-                        console.error('Error restoring delivery message:', error);
+                        console.error('Error:', error);
+                        showWarning(
+                            'Something went wrong. Check if you have set a delivery date in the Shipping section above and try again.'
+                        );
+                        return;
                     }
+
+                    // A delivery date was confirmed in this visit but the checkout
+                    // holds something else - restore the customer's latest choice
+                    if (latestCustomerMessage && savedMessage !== latestCustomerMessage) {
+                        try {
+                            await putCustomerMessage(latestCustomerMessage);
+                            savedMessage = latestCustomerMessage;
+                        } catch (error) {
+                            console.error('Error restoring delivery message:', error);
+                        }
+                    }
+
+                    const selectedDate = parseDeliveryDate(savedMessage);
+                    const status = getDeliveryDateStatus(selectedDate, unavailableDates);
+
+                    if (status === 'missing') {
+                        showWarning(
+                            'Cannot find delivery date. Please edit your Shipping details above and select a delivery date.'
+                        );
+                        return;
+                    }
+
+                    if (status === 'unavailable') {
+                        showWarning(
+                            'The selected delivery date is not available. Please click the Edit button on the Shipping section above and then pick an available date on the delivery date calendar.'
+                        );
+                        return;
+                    }
+
+                    renderDeliveryDateSummary(selectedDate, status);
+                    paymentContinueButton.click();
+                } finally {
+                    isPlaceOrderInFlight = false;
                 }
-
-                const selectedDate = parseDeliveryDate(savedMessage);
-                const status = getDeliveryDateStatus(selectedDate, unavailableDates);
-
-                if (status === 'missing') {
-                    showWarning(
-                        'Cannot find delivery date. Please edit your Shipping details above and select a delivery date.'
-                    );
-                    return;
-                }
-
-                if (status === 'unavailable') {
-                    showWarning(
-                        'The selected delivery date is not available. Please click the Edit button on the Shipping section above and then pick an available date on the delivery date calendar.'
-                    );
-                    return;
-                }
-
-                renderDeliveryDateSummary(selectedDate, status);
-                paymentContinueButton.click();
             });
         });
     </script>
