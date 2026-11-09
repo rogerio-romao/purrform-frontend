@@ -1076,14 +1076,23 @@
                 return [isEnabledDay, '', `Slots available: ${slotsForThisDay}`]; // enabled boolean, css class, tooltip
             }
 
+            // Lets the Continue button re-check the chosen date against the
+            // currently selected shipping method (Saturday vs weekday)
+            window.__purrformIsDeliveryDateSelectable = (date) =>
+                disableDates(date)[0];
+
             $('#datepicker').datepicker({
                 beforeShowDay: disableDates,
-                onClose: function () {
-                    const datepicker = document.querySelector('#datepicker');
-                    const deliveryDate = datepicker.value;
-                    if (deliveryDate) {
-                        sessionStorage.setItem('deliveryDate', deliveryDate);
+                // The input itself is the single source of truth for the
+                // selected date - it is read directly when Continue is clicked
+                onSelect: function () {
+                    const datepickerErrorElement =
+                        document.getElementById('datepicker_err');
+                    if (datepickerErrorElement) {
+                        datepickerErrorElement.style.display = 'none';
                     }
+                    // save straight away - the customer may never click our Continue
+                    saveDeliveryMessage();
                 },
                 defaultDate: '+1D',
                 minDate: '+1D',
@@ -1099,87 +1108,263 @@
 
         // ------------------------------------------------------//
         // handle proceed button
+        const DELIVERY_DATE_FORMAT = 'd MM, yy'; // Ex: 9 December, 2026
+        const checkoutApiUrl = `/api/storefront/checkouts/{{cart_id}}`;
+        // The most recent message the customer confirmed - used to make sure
+        // nothing (e.g. BC's own shipping submit) overwrites it with an old one
+        let latestCustomerMessage = null;
+
+        function wait(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+
+        // Parses "9 December, 2026 | Will be in" into a Date (or null)
+        function parseDeliveryDate(text) {
+            if (!text) return null;
+            const [datePart] = text.split(' | ');
+            try {
+                return $.datepicker.parseDate(
+                    DELIVERY_DATE_FORMAT,
+                    datePart.trim()
+                );
+            } catch (error) {
+                return null;
+            }
+        }
+
+        // BC's checkout is a React app: setting input.value directly does not
+        // update its form state, so BC would later submit the OLD message.
+        // Use the native setter + an input event so React picks the change up.
+        function setReactInputValue(input, value) {
+            if (!input) return;
+            const prototype =
+                input instanceof HTMLTextAreaElement
+                    ? HTMLTextAreaElement.prototype
+                    : HTMLInputElement.prototype;
+            const valueSetter = Object.getOwnPropertyDescriptor(
+                prototype,
+                'value'
+            ).set;
+            valueSetter.call(input, value);
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        function putCustomerMessage(message) {
+            return fetch(checkoutApiUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    customerMessage: message,
+                }),
+            }).then((response) => {
+                if (!response.ok) {
+                    throw new Error('PUT request failed');
+                }
+            });
+        }
+
+        function getCheckoutCustomerMessage() {
+            return fetch(checkoutApiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('GET request failed');
+                    }
+                    return response.json();
+                })
+                .then((data) => data.customerMessage || '');
+        }
+
+        // After BC's own shipping submit has run, double check the checkout
+        // still holds the latest message, and restore it if it was overwritten
+        async function ensureCustomerMessageSaved(expectedMessage) {
+            for (let attempt = 0; attempt < 2; attempt++) {
+                await wait(2500);
+                // the customer has since picked something else - stop
+                if (latestCustomerMessage !== expectedMessage) return;
+                try {
+                    const savedMessage = await getCheckoutCustomerMessage();
+                    if (savedMessage === expectedMessage) return;
+                    console.warn(
+                        'Delivery message was overwritten, restoring it:',
+                        savedMessage,
+                        '->',
+                        expectedMessage
+                    );
+                    await putCustomerMessage(expectedMessage);
+                    if (typeof window.__purrformRefreshDeliveryDateSummary === 'function') {
+                        window.__purrformRefreshDeliveryDateSummary();
+                    }
+                } catch (error) {
+                    console.error('Error verifying delivery message:', error);
+                }
+            }
+        }
+
+        function showDateError(message) {
+            const datepickerErrorElement =
+                document.getElementById('datepicker_err');
+            if (!datepickerErrorElement) return;
+            datepickerErrorElement.textContent = message;
+            datepickerErrorElement.style.display = 'block';
+        }
+
+        // Builds "<date> | <instructions>" from what the customer can see on
+        // the page. Returns null if there is no valid date selected.
+        function buildDeliveryMessage({ showErrors }) {
+            const datepickerInput = document.getElementById('datepicker');
+            const deliveryDate = datepickerInput
+                ? datepickerInput.value.trim()
+                : '';
+
+            if (!deliveryDate) {
+                if (showErrors) {
+                    showDateError(
+                        'Please select a delivery date before proceeding.'
+                    );
+                }
+                return null;
+            }
+
+            // Make sure the date is still valid for the selected shipping method
+            const parsedDate = parseDeliveryDate(deliveryDate);
+            const isSelectable =
+                parsedDate &&
+                (typeof window.__purrformIsDeliveryDateSelectable !== 'function' ||
+                    window.__purrformIsDeliveryDateSelectable(parsedDate));
+            if (!isSelectable) {
+                if (showErrors) {
+                    datepickerInput.value = '';
+                    showDateError(
+                        'The selected delivery date is not available for the chosen shipping method. Please select another date.'
+                    );
+                }
+                return null;
+            }
+
+            const selectElement = document.querySelector('#delivery_inst_tag');
+            const selectedValue = selectElement ? selectElement.value : '';
+            const textarea = document.getElementById('delivery_user_text');
+            const userInstructions = textarea ? textarea.value.trim() : '';
+            const deliveryInstructions =
+                selectedValue === 'user_instruction' &&
+                    userInstructions.length > 0
+                    ? userInstructions
+                    : 'Will be in';
+
+            return `${deliveryDate} | ${deliveryInstructions}`;
+        }
+
+        // send the message to the middleware server to store in supabase as a backup if BC fails to store it
+        function storeBackupMessage(message) {
+            fetch(
+                `https://purrform-apps-027e.onrender.com/storeCustomerMessage?checkoutId={{cart_id}}&message=${encodeURIComponent(message)}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to store customer message');
+                    }
+                })
+                .catch((error) => {
+                    console.error(
+                        'Error storing customer message in supabase:',
+                        error
+                    );
+                });
+        }
+
+        // Saves run one after another, and any save that has been superseded
+        // by a newer one is skipped - so the last write is always the latest choice
+        let saveQueue = Promise.resolve();
+        let saveRequestId = 0;
+
+        // Saves the delivery message to the checkout straight away. Called when
+        // a date is picked, when instructions change, and on Continue - because
+        // customers can reach the payment step WITHOUT clicking our Continue
+        // (e.g. via Billing's Edit button), so we can't wait for it.
+        function saveDeliveryMessage({ showErrors = false } = {}) {
+            const message = buildDeliveryMessage({ showErrors });
+            if (!message) return Promise.resolve(null);
+
+            if (showErrors) {
+                const datepickerErrorElement =
+                    document.getElementById('datepicker_err');
+                if (datepickerErrorElement) {
+                    datepickerErrorElement.style.display = 'none';
+                }
+            }
+
+            latestCustomerMessage = message;
+            const requestId = ++saveRequestId;
+
+            const savePromise = saveQueue.then(async () => {
+                // a newer save is queued - let that one write instead
+                if (requestId !== saveRequestId) return message;
+                await putCustomerMessage(message);
+                storeBackupMessage(message);
+                return message;
+            });
+
+            // keep the queue going even if this save fails
+            saveQueue = savePromise.catch(() => {});
+
+            return savePromise.catch((error) => {
+                console.error('Error saving delivery message:', error);
+                if (showErrors) {
+                    showDateError(
+                        'Sorry, we could not save your delivery date. Please try again.'
+                    );
+                }
+                return null;
+            });
+        }
+
         const proceedButtonSelector = '#proceedButton';
         ready(proceedButtonSelector, (proceedButton) => {
-            proceedButton.addEventListener('click', function (e) {
+            let isSubmitting = false;
+
+            proceedButton.addEventListener('click', async function (e) {
                 e.preventDefault();
-                const deliveryDate = sessionStorage.getItem('deliveryDate');
-                const customerMessage = sessionStorage.getItem('customerMessage');
+                if (isSubmitting) return;
+
+                isSubmitting = true;
+                const fullInstructions = await saveDeliveryMessage({
+                    showErrors: true,
+                });
+                if (!fullInstructions) {
+                    isSubmitting = false;
+                    return;
+                }
+
                 const realContinueButton = document.querySelector(
                     '#checkout-shipping-continue'
                 );
-
-                const datepickerErrorElement =
-                    document.getElementById('datepicker_err');
-
-                if (!deliveryDate) {
-                    datepickerErrorElement.textContent =
-                        'Please select a delivery date before proceeding.';
-                    datepickerErrorElement.style.display = 'block';
-                    return;
-                }
-                // Proceed with the form submission
-                datepickerErrorElement.style.display = 'none';
-
-                const selectElement = document.querySelector('#delivery_inst_tag');
-                const selectedValue = selectElement.value;
-                const deliveryInstructions =
-                    selectedValue === 'user_instruction' &&
-                        customerMessage.length > 0
-                        ? customerMessage
-                        : 'Will be in';
-
-                const fullInstructions = `${deliveryDate} | ${deliveryInstructions}`;
-
-                // send the message to the middleware server to store in supabase as a backup if BC fails to store it
-                fetch(
-                    `https://purrform-apps-027e.onrender.com/storeCustomerMessage?checkoutId={{cart_id}}&message=${fullInstructions}`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                )
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error('Failed to store customer message');
-                        }
-                    })
-                    .catch((error) => {
-                        console.error(
-                            'Error storing customer message in supabase:',
-                            error
-                        );
-                    });
-
                 const realCommentsInput = document.querySelector(
                     'input[name="orderComment"]'
                 );
 
-                // Update the customer message with the delivery instructions
-                fetch(`/api/storefront/checkouts/{{cart_id}}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        customerMessage: fullInstructions,
-                    }),
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error('PUT request failed');
-                        }
-                        sessionStorage.removeItem('deliveryDate');
-                        sessionStorage.removeItem('customerMessage');
-                        realCommentsInput.value = fullInstructions;
-                        realContinueButton.click();
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                        realCommentsInput.value = fullInstructions;
-                    });
+                // Keep BC's own form state in sync, so its shipping submit
+                // sends the NEW message rather than the previously saved one
+                setReactInputValue(realCommentsInput, fullInstructions);
+                // give React a moment to process the change before submitting
+                await wait(100);
+                isSubmitting = false;
+                realContinueButton.click();
+
+                ensureCustomerMessageSaved(fullInstructions);
             });
         });
 
@@ -1227,12 +1412,16 @@
                     wordLimit.style.display = 'none';
                     textarea.style.display = 'none';
                 }
+                // keep the saved message up to date (only saves if a date is picked)
+                saveDeliveryMessage();
             });
 
+            let instructionsSaveTimer = null;
             textarea.addEventListener('input', function () {
                 wordLimit.textContent = `(${50 - textarea.value.length} characters)`;
-                const deliveryInstructions = textarea.value;
-                sessionStorage.setItem('customerMessage', deliveryInstructions);
+                // wait until the customer pauses typing before saving
+                clearTimeout(instructionsSaveTimer);
+                instructionsSaveTimer = setTimeout(saveDeliveryMessage, 600);
             });
         });
 
@@ -1244,11 +1433,13 @@
                 paymentContinueButton.style.display = 'none';
                 return;
             }
-            if (document.getElementById('fakeButton')) {
-                document.getElementById('fakeButton').remove();
-            }
+            ['fakeButton', 'delivery-date-summary', 'delivery-date-warning'].forEach((id) => {
+                const existing = document.getElementById(id);
+                if (existing) existing.remove();
+            });
             const fakeButton = document.createElement('div');
             const missingWarn = document.createElement('p');
+            const deliveryDateSummary = document.createElement('p');
             const parent = document.querySelector(
                 '.checkout-step--payment .checkout-form .form-actions'
             );
@@ -1261,69 +1452,146 @@
             fakeButton.id = 'fakeButton';
             fakeButton.style.display = 'block';
 
+            // Shows the customer the delivery date that is actually saved
+            deliveryDateSummary.id = 'delivery-date-summary';
+            // (style.display rather than the hidden attribute - theme CSS overrides [hidden])
+            deliveryDateSummary.style.display = 'none';
+
             // Generate warning text
+            missingWarn.id = 'delivery-date-warning';
             missingWarn.classList.add('warning');
             missingWarn.textContent =
                 "Cannot find delivery date. Please edit your Shipping details above and select a delivery date.";
             missingWarn.style.display = 'none';
 
             // Append the button to the body of the HTML document
+            parent.appendChild(deliveryDateSummary);
             parent.appendChild(missingWarn);
             parent.appendChild(fakeButton);
 
-            fakeButton.addEventListener('click', async () => {
-                const disabledDates = await fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
+            function fetchUnavailableDates() {
+                return fetch('https://purrform-apps-027e.onrender.com/deliveryDates')
                     .then((response) => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
                         }
                         return response.json();
                     })
-                    .then((data) => {
-                        return data.unavailableDates;
-                    })
+                    .then((data) => data.unavailableDates || [])
                     .catch((error) => {
                         console.error('Error calling delivery dates middleware endpoint:', error);
+                        return [];
                     });
+            }
 
-                fetch(`/api/storefront/checkouts/{{cart_id}}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error('GET request failed');
-                        }
-                        return response.json(); // Parse the JSON response
-                    })
-                    .then((data) => {
-                        const deliveryInstructions = data.customerMessage;
-                        const [selectedDate] = deliveryInstructions.split(' | ')
-                        const maybeDate = new Date(selectedDate) // Ex: 3 April, 2025
-                        const adjustForDaylightDate = new Date(maybeDate.getTime() + 3 * 60 * 60 * 1000);
-                        const formattedDate = adjustForDaylightDate.toISOString().split('T')[0]; // Format the date for comparison
+            // 'missing' | 'unavailable' | 'ok'
+            function getDeliveryDateStatus(date, unavailableDates) {
+                if (!date) return 'missing';
+                const formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+                const todayFormatted = $.datepicker.formatDate('yy-mm-dd', new Date());
+                const isInThePast = formattedDate <= todayFormatted;
+                return isInThePast || unavailableDates.includes(formattedDate)
+                    ? 'unavailable'
+                    : 'ok';
+            }
 
-                        if (disabledDates.includes(formattedDate)) {
-                            missingWarn.textContent = 'The selected delivery date is not available. Please click the Edit button on the Shipping section above and then pick an available date on the delivery date calendar.';
-                            missingWarn.style.display = 'block';
-                            return;
-                        }
+            // Normal (non-red) message shown as soon as the payment step loads
+            function renderDeliveryDateSummary(date, status) {
+                missingWarn.style.display = 'none';
+                const prettyDate = date
+                    ? $.datepicker.formatDate('DD d MM yy', date)
+                    : '';
 
-                        if (deliveryInstructions?.trim()) {
-                            paymentContinueButton.click();
-                        } else {
-                            missingWarn.style.display = 'block';
-                        }
+                if (status === 'missing') {
+                    deliveryDateSummary.textContent =
+                        "You haven't selected a delivery date yet. Please click the Edit button on the Shipping section above and choose a delivery date.";
+                } else if (status === 'unavailable') {
+                    deliveryDateSummary.innerHTML = `Your selected delivery date (<strong>${prettyDate}</strong>) is no longer available. Please click the Edit button on the Shipping section above and choose another delivery date.`;
+                } else {
+                    deliveryDateSummary.innerHTML = `Your delivery date: <strong>${prettyDate}</strong>`;
+                }
+                deliveryDateSummary.style.display = 'block';
+            }
 
-                    })
-                    .catch((error) => {
+            // Red warning shown when Place Order is clicked without a valid date.
+            // It replaces the normal message so it stands out more.
+            function showWarning(message) {
+                deliveryDateSummary.style.display = 'none';
+                missingWarn.textContent = message;
+                missingWarn.style.display = 'block';
+            }
+
+            // Load and display the saved delivery date as soon as the payment step shows
+            async function refreshDeliveryDateSummary() {
+                try {
+                    const [savedMessage, unavailableDates] = await Promise.all([
+                        getCheckoutCustomerMessage(),
+                        fetchUnavailableDates(),
+                    ]);
+                    const date = parseDeliveryDate(savedMessage);
+                    renderDeliveryDateSummary(
+                        date,
+                        getDeliveryDateStatus(date, unavailableDates)
+                    );
+                } catch (error) {
+                    console.error('Error loading delivery date:', error);
+                }
+            }
+            window.__purrformRefreshDeliveryDateSummary = refreshDeliveryDateSummary;
+            refreshDeliveryDateSummary();
+
+            let isPlaceOrderInFlight = false;
+            fakeButton.addEventListener('click', async () => {
+                if (isPlaceOrderInFlight) return;
+                isPlaceOrderInFlight = true;
+
+                try {
+                    const unavailableDates = await fetchUnavailableDates();
+
+                    let savedMessage;
+                    try {
+                        savedMessage = await getCheckoutCustomerMessage();
+                    } catch (error) {
                         console.error('Error:', error);
-                        missingWarn.textContent =
-                            'Something went wrong. Check if you have set a delivery date in the Shipping section above and try again.';
-                        missingWarn.style.display = 'block';
-                    });
+                        showWarning(
+                            'Something went wrong. Check if you have set a delivery date in the Shipping section above and try again.'
+                        );
+                        return;
+                    }
+
+                    // A delivery date was confirmed in this visit but the checkout
+                    // holds something else - restore the customer's latest choice
+                    if (latestCustomerMessage && savedMessage !== latestCustomerMessage) {
+                        try {
+                            await putCustomerMessage(latestCustomerMessage);
+                            savedMessage = latestCustomerMessage;
+                        } catch (error) {
+                            console.error('Error restoring delivery message:', error);
+                        }
+                    }
+
+                    const selectedDate = parseDeliveryDate(savedMessage);
+                    const status = getDeliveryDateStatus(selectedDate, unavailableDates);
+
+                    if (status === 'missing') {
+                        showWarning(
+                            'Cannot find delivery date. Please edit your Shipping details above and select a delivery date.'
+                        );
+                        return;
+                    }
+
+                    if (status === 'unavailable') {
+                        showWarning(
+                            'The selected delivery date is not available. Please click the Edit button on the Shipping section above and then pick an available date on the delivery date calendar.'
+                        );
+                        return;
+                    }
+
+                    renderDeliveryDateSummary(selectedDate, status);
+                    paymentContinueButton.click();
+                } finally {
+                    isPlaceOrderInFlight = false;
+                }
             });
         });
     </script>
@@ -1607,6 +1875,12 @@
         input[name='orderComment'],
         #checkout-payment-continue {
             display: none;
+        }
+
+        #delivery-date-summary {
+            color: #687d6a;
+            font-size: 16px;
+            margin-bottom: 1rem;
         }
 
         .warning {
