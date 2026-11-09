@@ -1,5 +1,5 @@
 {
-    "name": "delivery date bugs",
+    "name": "double loyalty",
     "version": "6.10.0",
     "template_engine": "handlebars_v4",
     "meta": {
