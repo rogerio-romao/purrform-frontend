@@ -297,6 +297,10 @@
                 // inside checkout-js, which does not reload the page, so the
                 // server-rendered customer and group would be stale.
                 const LOYALTY_GROUPS = ['Personal', 'Breeder'];
+                // Coupon codes that double the loyalty points earned (matched
+                // case-insensitively). Display only: the purrform-apps backend
+                // awards the points and must apply the same multiplier.
+                const DOUBLE_POINTS_COUPON_CODES = ['VIPXMAS'];
                 // Whether we believe a customer is signed in. Seeded from the
                 // customer object, not the group name (guests still get a
                 // default customer_group_name); cleared on sign-out.
@@ -472,7 +476,7 @@
                         pointsInput.id = 'points-input';
                         pointsInput.min = 0;
                         pointsInput.max = points;
-                        pointsInput.placeholder = 'How many?';
+                        pointsInput.placeholder = 'How many points to redeem?';
                         pointsDiv.appendChild(pointsInput);
 
                         pointsInput.addEventListener('input', () => {
@@ -633,8 +637,35 @@
                         '[data-test="cart-coupon"] [data-test="cart-price-value"]'
                     );
 
+                    // applied coupon codes (several coupons can be applied).
+                    // This store's checkout-js renders the code inside the
+                    // label -- "Coupon discount (VIPXMAS)" -- while newer
+                    // versions use a separate cart-price-code element, so
+                    // prefer that and fall back to the label's brackets.
+                    const couponCodes = Array.from(
+                        document.querySelectorAll('[data-test="cart-coupon"]')
+                    )
+                        .map((row) => {
+                            const codeEl = row.querySelector('[data-test="cart-price-code"]');
+                            if (codeEl) {
+                                return codeEl.textContent;
+                            }
+                            const labelEl = row.querySelector('.cart-priceItem-label');
+                            const match =
+                                labelEl && labelEl.textContent.match(/\(([^()]+)\)\s*$/);
+                            return match ? match[1] : '';
+                        })
+                        .map((code) => code.trim().toUpperCase())
+                        .filter(Boolean);
+                    const doublePointsCode = DOUBLE_POINTS_COUPON_CODES.find((code) =>
+                        couponCodes.includes(code)
+                    );
+
+                    // codes are part of the key: swapping coupons with the same
+                    // discount amount must still re-render
                     const totalsKey = [discountEl, subtotalEl, couponDiscountEl]
                         .map((el) => (el ? el.textContent : ''))
+                        .concat(couponCodes)
                         .join('|');
                     if (section.dataset.totalsKey === totalsKey) {
                         return;
@@ -654,6 +685,13 @@
                     masterText.classList.add('loyalty-summary');
                     masterText.textContent = 'Loyalty Points Summary';
                     masterContainer.appendChild(masterText);
+
+                    if (doublePointsCode) {
+                        const bonusNote = document.createElement('p');
+                        bonusNote.classList.add('loyalty-bonus');
+                        bonusNote.textContent = `★ ${doublePointsCode}: 2x points on this order`;
+                        masterContainer.appendChild(bonusNote);
+                    }
 
                     let discountPriceValue = 0;
                     let discountLoyalPointValue = 0;
@@ -706,6 +744,9 @@
                         }
 
                         earningLoyalPointValue = Math.floor(earningPriceValue / 2);
+                        if (doublePointsCode) {
+                            earningLoyalPointValue *= 2;
+                        }
 
                         if (earningLoyalPointValue < 0) {
                             earningLoyalPointValue = 0;
@@ -1777,6 +1818,16 @@
 
         .loyalty-summary {
             margin: 10px 0;
+        }
+
+        .loyalty-bonus {
+            margin: 0 0 0.5rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background-color: rgba(104, 125, 106, 0.12);
+            color: #687d6a;
+            font-size: 13px;
+            font-weight: bold;
         }
 
         .cart-resultItem {
