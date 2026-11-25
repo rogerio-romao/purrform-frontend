@@ -297,10 +297,14 @@
                 // inside checkout-js, which does not reload the page, so the
                 // server-rendered customer and group would be stale.
                 const LOYALTY_GROUPS = ['Personal', 'Breeder'];
-                // Coupon codes that double the loyalty points earned (matched
-                // case-insensitively). Display only: the purrform-apps backend
-                // awards the points and must apply the same multiplier.
-                const DOUBLE_POINTS_COUPON_CODES = ['VIPXMAS'];
+                // Coupon-code loyalty promotions, keyed by code in UPPERCASE
+                // (matched case-insensitively). Display only: the purrform-apps
+                // backend awards the points and must apply the same rules.
+                //   multiplier: normal points earned x value
+                //   bonus:      normal points earned + value (flat)
+                const LOYALTY_PROMOS = {
+                    VIPXMAS26: { type: 'bonus', value: 500, note: '+500 bonus points on this order' },
+                };
                 // Whether we believe a customer is signed in. Seeded from the
                 // customer object, not the group name (guests still get a
                 // default customer_group_name); cleared on sign-out.
@@ -657,10 +661,10 @@
                         })
                         .map((code) => code.trim().toUpperCase())
                         .filter(Boolean);
-                    const doublePointsCode = DOUBLE_POINTS_COUPON_CODES.find((code) =>
-                        couponCodes.includes(code)
-                    );
-
+                    // promotions triggered by the applied coupons
+                    const activePromos = couponCodes
+                        .filter((code) => LOYALTY_PROMOS[code])
+                        .map((code) => ({ code, ...LOYALTY_PROMOS[code] }));
                     // codes are part of the key: swapping coupons with the same
                     // discount amount must still re-render
                     const totalsKey = [discountEl, subtotalEl, couponDiscountEl]
@@ -686,12 +690,12 @@
                     masterText.textContent = 'Loyalty Points Summary';
                     masterContainer.appendChild(masterText);
 
-                    if (doublePointsCode) {
+                    activePromos.forEach((promo) => {
                         const bonusNote = document.createElement('p');
                         bonusNote.classList.add('loyalty-bonus');
-                        bonusNote.textContent = `★ ${doublePointsCode}: 2x points on this order`;
+                        bonusNote.textContent = `★ ${promo.code}: ${promo.note}`;
                         masterContainer.appendChild(bonusNote);
-                    }
+                    });
 
                     let discountPriceValue = 0;
                     let discountLoyalPointValue = 0;
@@ -743,17 +747,25 @@
                             );
                         }
 
-                        earningLoyalPointValue = Math.floor(earningPriceValue / 2);
-                        if (doublePointsCode) {
-                            earningLoyalPointValue *= 2;
-                        }
+                        earningLoyalPointValue = Math.max(
+                            0,
+                            Math.floor(earningPriceValue / 2)
+                        );
+                        // multipliers first, then flat bonuses on top, so a
+                        // bonus is never multiplied
+                        activePromos
+                            .filter((promo) => promo.type === 'multiplier')
+                            .forEach((promo) => {
+                                earningLoyalPointValue *= promo.value;
+                            });
+                        activePromos
+                            .filter((promo) => promo.type === 'bonus')
+                            .forEach((promo) => {
+                                earningLoyalPointValue += promo.value;
+                            });
 
-                        if (earningLoyalPointValue < 0) {
-                            earningLoyalPointValue = 0;
-                            earningValue.textContent = `0`;
-                        } else {
-                            earningValue.textContent = `+${earningLoyalPointValue}`;
-                        }
+                        earningValue.textContent =
+                            earningLoyalPointValue > 0 ? `+${earningLoyalPointValue}` : '0';
 
                         earningContainer.appendChild(earningDescription);
                         earningContainer.appendChild(earningValue);
