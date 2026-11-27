@@ -1,0 +1,150 @@
+{{!-- Temporary Black Friday banner (Nov 2026). Remove after BFCM. --}}
+<aside class="bf-banner" aria-label="Black Friday sale">
+    <div class="bf-banner__inner">
+        <div class="bf-banner__heading">
+            <span class="bf-banner__eyebrow">Black Friday</span>
+            <span class="bf-banner__title">Sale is Live</span>
+        </div>
+        <div class="bf-banner__offer">
+            <span class="bf-banner__spend">Spend £100</span>
+            <span class="bf-banner__divider" aria-hidden="true"></span>
+            <span class="bf-banner__save">Save 10%</span>
+        </div>
+        <div class="bf-banner__code">
+            Code: <strong>BFCM10</strong>
+        </div>
+    </div>
+</aside>
+<script>
+    // Promo ends at the end of 30 Nov (UK time is GMT in winter, so midnight UTC).
+    if (Date.now() >= Date.parse('2026-12-01T00:00:00Z')) {
+        var bfBanner = document.querySelector('.bf-banner');
+        if (bfBanner) bfBanner.remove();
+    }
+</script>
+
+<style>
+    .bf-banner {
+        --bf-green: #687e6b;
+        --bf-cream: #efe9c9;
+        width: 100%;
+        background-color: var(--bf-green);
+        color: var(--bf-cream);
+        font-family: 'Filson Pro', sans-serif;
+        padding: 1rem 1.25rem;
+    }
+
+    .bf-banner__inner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .bf-banner__heading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1;
+    }
+
+    .bf-banner__eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+    }
+
+    .bf-banner__eyebrow::before,
+    .bf-banner__eyebrow::after {
+        content: "";
+        width: 1.25rem;
+        height: 1px;
+        background-color: currentColor;
+    }
+
+    .bf-banner__title {
+        margin-top: 0.3rem;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-style: italic;
+        font-weight: 700;
+        font-size: 2rem;
+    }
+
+    .bf-banner__offer {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 999px;
+        background-color: var(--bf-cream);
+        color: var(--bf-green);
+        white-space: nowrap;
+    }
+
+    .bf-banner__spend {
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
+    .bf-banner__divider {
+        width: 1px;
+        align-self: stretch;
+        background-color: var(--bf-green);
+        opacity: 0.6;
+    }
+
+    .bf-banner__save {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    .bf-banner__code {
+        padding: 0.45rem 1.25rem;
+        border: 1.5px solid var(--bf-cream);
+        border-radius: 999px;
+        font-size: 1.05rem;
+        white-space: nowrap;
+    }
+
+    .bf-banner__code strong {
+        font-weight: 700;
+        letter-spacing: 0.03em;
+    }
+
+    @media only screen and (max-width: 800px) {
+        .bf-banner {
+            padding: 0.85rem 1rem;
+        }
+
+        .bf-banner__inner {
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .bf-banner__title {
+            font-size: 1.6rem;
+        }
+
+        .bf-banner__offer {
+            padding: 0.4rem 1.1rem;
+            gap: 0.7rem;
+        }
+
+        .bf-banner__spend,
+        .bf-banner__code {
+            font-size: 0.95rem;
+        }
+
+        .bf-banner__save {
+            font-size: 1.25rem;
+        }
+    }
+</style>

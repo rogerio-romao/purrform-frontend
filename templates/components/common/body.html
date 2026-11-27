@@ -1,4 +1,5 @@
 <main class="body" id="main-content" role="main" data-currency-code="{{currency_selector.active_currency_code}}">
+    {{> components/common/black-friday-banner}}
     {{#block "hero"}} {{/block}}
 
     {{#or (if page_type "==" "default") (if page_type "==" "product")}} 
